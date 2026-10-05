@@ -1,0 +1,75 @@
+# Data Engineering & Analytics by FK: Meridian Bank end-to-end project
+
+A production-shaped teaching/reference platform for a fictional multi-country bank (**Meridian Bank**,
+520 branches, 5 currencies, retail banking plus credit cards). Built with Postgres →
+Python → Snowflake → dbt → Airflow, with ML decisioning, a governed plain-English app,
+platform-as-code, and a performance lab where things are made slow on purpose and then
+fixed with measured before/after numbers.
+
+It is designed to be built and defended the way an architect would, not just run:
+every hard-to-reverse choice has a written decision record, and every number in the
+design doc can be recomputed.
+
+Public source for students: <https://github.com/fkhambaty/DataEngineeringAndAnalyticsByFK>
+
+**Start here:**
+1. [`00_architecture/DESIGN_DOC.md`](00_architecture/DESIGN_DOC.md): requirements, SLOs, capacity and cost math, data classification, failure modes.
+2. [`00_architecture/ARCHITECTURE_PROCESS.md`](00_architecture/ARCHITECTURE_PROCESS.md): requirements-to-operations design sequence and standard artifacts.
+3. `COURSE_GUIDE.html` (open in a browser): every step explained, with the episode plan and interview questions taught in the relevant module.
+4. [`00_architecture/OPERATIONS_RUNBOOK.md`](00_architecture/OPERATIONS_RUNBOOK.md) and [`00_architecture/DR_RUNBOOK.md`](00_architecture/DR_RUNBOOK.md): incident and recovery procedures.
+
+## Folder map (follow in this order)
+
+| Folder | What it is | Run with |
+|---|---|---|
+| `00_architecture/` | Design doc, the architecture process (which diagram at which step), and Architecture Decision Records | read first |
+| `01_source_postgres/` | OLTP schema (3NF), SQL seed scripts (520 branches, 200k customers, 5M+ transactions, cards), CDC triggers, DML simulator procedures | `psql` |
+| `02_ingestion_python/` | Micro-batch extractor Postgres → Parquet → Snowflake stage → `COPY INTO` raw (watermark driven), activity simulator, reconciliation with pandas | `python3` |
+| `03_snowflake/` | Account bootstrap, RBAC, raw/control tables, operations and cost views, Time Travel/clone DR exercise, row access + tag-based masking | Snowsight |
+| `04_dbt_meridian_dw/` | dbt: sources + freshness, staging, SCD2, Kimball marts, three public contracts, incremental/unit proofs, exposures, governance hooks | `dbt build` |
+| `05_airflow/` | Astro/Airflow: pooled 5-minute hot path, daily reference batch, decisioning, freshness watchdog, bounded replay | `astro dev start` |
+| `06_performance_lab/` | Deliberately slow scenarios + fixes + measurement queries (Postgres and Snowflake) | `psql` / Snowsight |
+| `07_data_modelling/` | Bus matrix, ERD and star schema sources (Mermaid) | any Mermaid renderer |
+| `.github/workflows/` | Active offline checks and Snowflake slim-CI workflows; `08_ci_cd/` documents their design | GitHub |
+| `09_decisioning_python/` | Card decision, propensity and fraud models trained from gold features; AUC gate; writes `MERIDIAN_RAW.ML` | `python3` |
+| `10_semantic_app/` | Snowflake semantic view + Streamlit/Cortex Analyst app. Login is a Snowflake user; row policies limit the answer | Snowsight, or `streamlit run` |
+| `11_platform_terraform/` | The same roles, warehouses, resource monitor and databases as `03_snowflake/01–02`, as Terraform | `terraform plan` |
+| `tests/` | pytest for the Python logic that must hold without a warehouse | `pytest` |
+
+## Quick start (local)
+
+```bash
+# 0. Python deps
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt pytest
+pytest -q tests                                     # no warehouse needed
+
+# 1. Postgres (Docker) + schema + seed
+docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d
+export PGPASSWORD=meridian
+psql -h localhost -U meridian -d postgres -f 01_source_postgres/00_create_database.sql
+for f in 01_ddl_core_schema 02_seed_reference_data 03_seed_bulk_data 07_ddl_cards 04_cdc_triggers 05_dml_simulator_functions 08_seed_cards 09_card_simulator; do
+  psql -h localhost -U meridian -d meridian_core -v ON_ERROR_STOP=1 -f 01_source_postgres/$f.sql
+done
+
+# 2. Snowflake platform: EITHER run 03_snowflake/01..03 in Snowsight as ACCOUNTADMIN,
+#    OR `terraform apply` in 11_platform_terraform, then run the remaining applicable
+#    03_snowflake scripts in numeric order (governance, search, operations, clone, DR).
+
+# 3. First full load, then keep it streaming
+cp .env.example .env   # fill in credentials
+python3 02_ingestion_python/pg_to_snowflake.py            # initial load (watermark = 1900-01-01)
+python3 02_ingestion_python/simulate_activity.py           # terminal 1: generates OLTP activity forever
+python3 02_ingestion_python/pg_to_snowflake.py --loop 300  # terminal 2: micro-batch every 5 min
+
+# 4. dbt (marts), then governance, then models, then scored marts
+cd 04_dbt_meridian_dw && dbt deps && dbt build --target prod
+#    Snowsight, ACCOUNTADMIN: 03_snowflake/06_row_level_security.sql
+dbt run-operation apply_governance_all --target prod
+cd .. && python3 09_decisioning_python/train_and_score.py
+cd 04_dbt_meridian_dw && dbt build -s stg_ml__model_scores+ --target prod
+```
+
+Everything above is explained, with the "why", in `COURSE_GUIDE.html`.
+Offline checks are executable without credentials. Snowflake-connected SQL, dbt builds,
+policies, clone recovery and the app must be run and evidenced in your own account.
