@@ -59,6 +59,12 @@ The main path uses `ON_ERROR=ABORT_STATEMENT`: no partial batch and no watermark
 
 ## Incident: reconciliation fails
 
+Reconciliation is not freshness or a dbt test. Freshness checks arrival time; dbt tests
+check rules inside the warehouse. Reconciliation compares source and warehouse truth
+after the two-minute fair cutoff, by UTC date plus currency or branch. A run passes only
+when every group has exact row-count equality and the absolute POSTED-amount difference
+is below one cent.
+
 1. Query the latest `RECONCILIATION_RUNS.details`.
 2. Separate today's expected pipeline lag from an old mismatch.
 3. Compare raw/staging/fact counts for the failing date and group.

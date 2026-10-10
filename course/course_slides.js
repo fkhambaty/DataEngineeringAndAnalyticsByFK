@@ -50,6 +50,18 @@ const EP = [
      ["Shelf","Snowflake MARTS","Facts and dimensions people query. Gold."],
      ["Front desk","Streamlit + Cortex Analyst","Turns an English question into SQL"],
      ["Alarm clock","Airflow","Runs the courier and the kitchen on a timer"]])},
+  {wide:true, h:"Technology, language, working surface, output",
+   say:"A tool is not a language, and an IDE is not a file format. This is the map we will use for the whole series.",
+   art: tbl(["Technology","What we type","Where we work","What it produces"],[
+     ["PostgreSQL","SQL and PL/pgSQL","DBeaver; Docker runs the server","operational bank rows"],
+     ["Python","Python","Cursor and Terminal","Parquet files and control records"],
+     ["Snowflake","SQL","Snowsight","raw tables, policies and queries"],
+     ["dbt","SQL, Jinja and YAML","Cursor; dbt CLI in Terminal","tested facts, dimensions and docs"],
+     ["Airflow","Python","Cursor; Airflow UI","scheduled runs, retries and alerts"],
+     ["Streamlit","Python","Cursor or Streamlit in Snowflake","the governed app"],
+     ["Terraform","HCL","Cursor; Terraform CLI","roles, warehouses and cost guardrails"],
+     ["GitHub Actions","YAML","GitHub","automatic checks on every change"]]) +
+     note("Parquet is a file format. Docker is a runtime. Cursor is a VS Code-compatible editor. None is a programming language.")},
   {wide:true, h:"Where each piece physically runs",
    say:"Three places: my laptop, Docker containers on my laptop, and Snowflake in the cloud. Most confusion comes from forgetting which one you are in.",
    art: `<div class="where3">
@@ -353,6 +365,63 @@ Run all. It switches to MERIDIAN_LOADER itself.`,
    ["Which key does Snowflake hold?","The public key. The private key never leaves the laptop or the Airflow container."]]}
  ]},
 
+// ================================================================ PYTHON FOUNDATIONS
+{id:"py0", code:"P0", mins:"35 min", color:"#a16207", title:"Python foundations for this pipeline",
+ slides:[
+  {h:"Browser practice is not the project runtime",
+   say:"Use a browser editor to learn one idea. Use local Python 3.12 for Meridian because it must reach Docker Postgres, local files and Snowflake.",
+   art: pair("Programiz / Python Tutor","No installation. Good for print, if, loops and watching values change.",
+            "Cursor + Terminal + .venv","The real project. Libraries, files, Docker databases, private keys and command-line flags.")},
+  {k:"code", h:"Values, print, types and casting", file:"02_ingestion_python/00_python_foundations/01_values_and_decisions.py",
+   lines:[
+    [`source_rows_text = "100000"`,"Quotes make this text, exactly as an environment variable arrives"],
+    [`source_rows = int(source_rows_text)`,"Cast the text to a number before doing arithmetic"],
+    [`difference_ratio = abs(difference) / source_rows`,"Calculate how far the two systems disagree"],
+    [`print("Reconciliation:", status)`,"Show the result to a person and to the task log"]]},
+  {k:"code", h:"if decides; for and while repeat", file:"01_values_and_decisions.py + 02_loops_and_functions.py",
+   lines:[
+    [`if difference == 0: ... elif difference_ratio <= tolerance: ... else: ...`,"Exactly one branch runs"],
+    [`for table in tables_to_load(...):`,"Do the same work once for every selected table"],
+    [`while run_number <= 3:`,"Repeat while a condition stays true; the real loader uses this for --loop"],
+    [`run_number += 1`,"Change the value, or a bounded while loop never ends"]]},
+  {k:"code", h:"Functions make one job nameable", file:"02_loops_and_functions.py",
+   lines:[
+    [`def tables_to_load(all_tables, hot_only):`,"Inputs enter through the parentheses"],
+    [`return [name for name in all_tables if ...]`,"return sends one answer back"],
+    [`def main() -> None:`,"main is the readable starting point for the script"],
+    [`if __name__ == "__main__": main()`,"Run main only when this file is executed, not when it is imported"]]},
+  {h:"Collections and libraries",
+   say:"A list is an ordered set of things. A dictionary maps a key to a value. An import borrows code from Python, this project or an installed library.",
+   art: tbl(["Shape","Meridian example","Meaning"],[
+     ["list","files = [part_1, part_2]","many Parquet files in order"],
+     ["dictionary","settings = {'table': 'transactions'}","named values looked up by key"],
+     ["standard library","from pathlib import Path","ships with Python"],
+     ["third-party library","import pandas as pd","installed by pip from requirements.txt"],
+     ["local module","from config import PG, SF","our own project file"]])},
+  {k:"code", h:"Paths, arguments and exceptions", file:"03_collections_paths_libraries.py",
+   lines:[
+    [`project_root = Path(__file__).resolve().parents[2]`,"Find the project from the file, not from a fragile typed path"],
+    [`parser.add_argument("--limit", type=int, default=3)`,"Turn a terminal flag into a typed value"],
+    [`try: ... except (KeyError, TypeError) as exc:`,"Name expected failures and explain them"],
+    [`finally: print(...)`,"Cleanup runs whether the work passed or failed"]]},
+  {h:"The four data libraries, in one sentence each",
+   say:"You do not need to memorise their APIs. Know the job each toolbox performs.",
+   art: tbl(["Library","Job in Meridian"],[
+     ["psycopg2","opens Postgres and streams source rows"],
+     ["pandas","holds rows as a DataFrame and compares aggregates"],
+     ["pyarrow","gives the DataFrame types and writes compressed Parquet"],
+     ["snowflake-connector","logs in, uploads files, runs COPY and reads control tables"]])},
+  {k:"do", h:"Run the bridge before the extractor", where:"Terminal · project root",
+   cmd:`source .venv/bin/activate
+python 02_ingestion_python/00_python_foundations/01_values_and_decisions.py
+python 02_ingestion_python/00_python_foundations/02_loops_and_functions.py
+python 02_ingestion_python/00_python_foundations/03_collections_paths_libraries.py --limit 2
+python 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py || true`,
+   happened:["The first three scripts finish successfully.","The fourth deliberately finds two missing rows and exits 1; || true keeps this teaching command moving.","Now read config.py, then follow main() in pg_to_snowflake.py."],
+   see:"FAILED is expected in the final example; it proves a mismatch becomes a machine-readable failure.",
+   trap:"Browser editors cannot reach your local Postgres or Snowflake. Move to the local virtual environment before Module 4."}
+ ]},
+
 // ================================================================ E4
 {id:"e4", code:"E4", mins:"40 min", color:"#1e4b7a", title:"Python carries only what changed",
  slides:[
@@ -525,7 +594,7 @@ time dbt build --target prod
 cd ${ROOT}
 python 02_ingestion_python/reconcile_with_pandas.py --days 7`,
    happened:["Builds everything into the real STAGING, INTERMEDIATE, MARTS schemas.","Reconcile counts payments per day and currency in Postgres and in fct_transactions, and compares."],
-   see:"PASS=196 ERROR=0. Reconcile reports no differences except the last few minutes.",
+   see:"PASS=196 ERROR=0. Reconcile reports zero mismatched groups after applying the same two-minute cutoff to both systems.",
    trap:"A governance warning is expected until E11. Reconcile runs from the project folder, not from 04_dbt_meridian_dw."},
   {k:"quiz", h:"Check yourself", qs:[
    ["Why does fct_transactions keep customer_id as well as customer_key?","customer_id is for reconciliation and the row policy. customer_key is for the historical join."],
@@ -635,6 +704,15 @@ Trigger meridian_daily_batch once.`,
      ["Reconciliation by day and currency","daily DAG, written to CONTROL.RECONCILIATION_RUNS"],
      ["Freshness under 15 minutes","report_pipeline_health in the 5-minute DAG"],
      ["Credits per warehouse and query tag","03_snowflake/08_cost_attribution.sql"]])},
+  {wide:true, h:"Reconciliation asks both systems the same question",
+   say:"A dbt test can prove a fact has unique keys. Only a cross-system check can prove the source rows and amounts survived the journey.",
+   art: tbl(["Step","Postgres","Snowflake","Why"],[
+     ["Same cutoff","updated_at no newer than 2 minutes ago","completed warehouse data","do not call expected pipeline lag a loss"],
+     ["Same grain","UTC date + currency or branch","date + currency or branch","compare like with like"],
+     ["Same measures","row count + POSTED local amount","row count + POSTED local amount","keys alone do not prove money"],
+     ["Outer merge","source-only groups stay visible","warehouse-only groups stay visible","an inner join would hide the worst failure"],
+     ["Gate","0 mismatched groups","amount difference under one cent","record PASSED/FAILED; exit 0/1"]]) +
+     note("Freshness = when did data arrive? Test = does one warehouse table obey a rule? Reconciliation = did the journey change business truth?")},
   {h:"CI builds only what changed",
    say:"On a pull request, CI compares my code with the production manifest and builds only changed models and what depends on them.",
    art: flow([["PR opened","GitHub Actions","meridian-dbt-ci.yml","#166534"],["Compare","state:modified+","with the saved prod manifest","#166534"],["Build","changed models","in a CI schema","#166534"]]) +

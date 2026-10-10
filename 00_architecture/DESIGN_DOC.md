@@ -47,7 +47,7 @@ person must see only what they are entitled to see.
 | Freshness of hot facts | ≤ 15 min, p95 | `dbt source freshness`, run every 15 min by `meridian_source_freshness` | Fraud and branch ops act on stale data |
 | Freshness of dims and aggregates | Available by 06:00 local | Daily DAG SLA | Morning branch huddle uses yesterday-minus-one |
 | Correctness | 0 failing `error` tests in prod | `dbt build` gate | Run stops; consumers keep yesterday's good data |
-| Reconciliation | Source vs warehouse counts within 0.1% per table per day | `reconcile_with_pandas.py` | Incident; nobody publishes numbers |
+| Reconciliation | 0 mismatched date/currency or date/branch groups after the 2-minute fair cutoff; posted amount difference < $0.01 | `reconcile_with_pandas.py` | Incident; nobody publishes numbers |
 | Access | Deny by default; every read auditable | Row access policies, `ACCESS_HISTORY` | Regulatory breach |
 | Recovery point (RPO) | ≤ 1 day for marts, ≤ 1 batch for raw | Raw is append-only + Time Travel 7 days | Rebuild marts from raw |
 | Recovery time (RTO) | ≤ 4 h for marts | Full `dbt build` measured on WH_TRANSFORM_M | |

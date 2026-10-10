@@ -325,7 +325,7 @@ flowchart LR
   </div>
   <div class="analogy">Airflow is a foreman with a clipboard. "Four drivers, go. When all four are back, cook. When cooking is done, check the temperature. If anyone fails, retry twice, then shout."</div>
   <div class="trap">The daily DAG sat "running" for 17 minutes doing nothing. Its tasks asked for pool <code>meridian_postgres</code>, which didn't exist, so the scheduler logged "non-existent pool" forever. Fix: create the pool (<code>astro dev object import</code>). Lesson: "running" doesn't mean working. Read the scheduler log.</div>
-  <div class="trap">Reconcile failed on the oldest day only: Postgres 484 rows, Snowflake 1,107. Postgres used "the last 7×24 hours" and Snowflake used "7 whole dates", so the first day was only partly counted on one side. Fix: compare the same whole UTC dates on both sides. Lesson: a reconciliation is only as good as its window definition.</div>
+  <div class="trap">Reconcile failed on the oldest day only: Postgres 484 rows, Snowflake 1,107. Postgres used "the last 7×24 hours" and Snowflake used "7 whole dates", so the first day was only partly counted on one side. Fix: create one cutoff in Python, pass the same cutoff to both systems, and compare the same whole UTC dates. Lesson: a reconciliation is only as good as its window definition.</div>
 </section>
 
 <!-- ================================================================ 6 -->

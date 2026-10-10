@@ -27,7 +27,7 @@ The lessons, decks, and dry run are in this repository. The same pipeline as cod
 | `course/` | Episode list, animated decks, written guide, dry run | open `course/index.html` |
 | `00_architecture/` | Design doc, the architecture process (which diagram at which step), and Architecture Decision Records | read first |
 | `01_source_postgres/` | OLTP schema (3NF), SQL seed scripts (520 branches, 200k customers, 5M+ transactions, cards), CDC triggers, DML simulator procedures | `psql` |
-| `02_ingestion_python/` | Micro-batch extractor Postgres → Parquet → Snowflake stage → `COPY INTO` raw (watermark driven), activity simulator, reconciliation with pandas | `python3` |
+| `02_ingestion_python/` | Beginner foundations in `00_python_foundations/`, then micro-batch Postgres → Parquet → Snowflake ingestion, simulation, and source-to-warehouse reconciliation with pandas | `python3` |
 | `03_snowflake/` | Account bootstrap, RBAC, raw/control tables, operations and cost views, Time Travel/clone DR exercise, row access + tag-based masking | Snowsight |
 | `04_dbt_meridian_dw/` | dbt: sources + freshness, staging, SCD2, Kimball marts, three public contracts, incremental/unit proofs, exposures, governance hooks | `dbt build` |
 | `05_airflow/` | Astro/Airflow: pooled 5-minute hot path, daily reference batch, decisioning, freshness watchdog, bounded replay | `astro dev start` |
@@ -45,6 +45,13 @@ The lessons, decks, and dry run are in this repository. The same pipeline as cod
 # 0. Python deps
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt pytest
+
+# New to Python? Run the four small lessons first.
+python3 02_ingestion_python/00_python_foundations/01_values_and_decisions.py
+python3 02_ingestion_python/00_python_foundations/02_loops_and_functions.py
+python3 02_ingestion_python/00_python_foundations/03_collections_paths_libraries.py
+# The final lesson deliberately exits 1 because it demonstrates a failed reconciliation.
+python3 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py || true
 pytest -q tests                                     # no warehouse needed
 
 # 1. Postgres (Docker). Then execute the SQL in DBeaver, not in the terminal.

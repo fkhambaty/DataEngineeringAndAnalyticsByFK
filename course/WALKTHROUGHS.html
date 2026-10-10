@@ -20,7 +20,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 .orb.a{width:520px;height:520px;background:#1f8a9b;left:-140px;top:-160px;animation:drift 22s ease-in-out infinite alternate}
 .orb.b{width:600px;height:600px;background:#5b4bb5;right:-200px;bottom:-240px;animation:drift 26s ease-in-out infinite alternate-reverse}
 @keyframes drift{to{transform:translate(120px,80px) scale(1.12)}}
-.grid-bg{position:absolute;inset:0;pointer-events:none;opacity:.45;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 78%)}
+.grid-bg{position:absolute;inset:0;pointer-events:none;opacity:.45;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 78%);mask-image:radial-gradient(ellipse at center,#000 30%,transparent 78%)}
 #fx{position:absolute;inset:0;pointer-events:none}
 #home,#slides{position:absolute;inset:0;z-index:1}
 .slide{position:absolute;inset:0;padding:72px 100px 64px;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateX(64px);filter:blur(6px);transition:opacity .7s var(--ease),transform .85s var(--ease),filter .7s var(--ease),visibility 0s .85s}
@@ -52,6 +52,14 @@ h2{font-size:52px;line-height:1.05;letter-spacing:-.03em;margin:0 0 8px;font-wei
 #notes{position:fixed;left:0;right:0;bottom:0;max-height:32vh;overflow:auto;padding:16px 26px;background:rgba(10,14,22,.94);border-top:1px solid var(--line);display:none;z-index:20;white-space:pre-wrap;font-size:18px;line-height:1.5}
 body.show-notes #notes{display:block}
 body.clean #progress,body.clean #count,body.clean #brand{opacity:0}
+#portrait{display:none}
+@media (max-width:700px) and (orientation:portrait){
+  #portrait{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:42px;
+    background:radial-gradient(500px 360px at 50% 25%,#22304a 0%,transparent 68%),linear-gradient(160deg,#182032,#151b28 60%,#211d38)}
+  #portrait .phone{width:58px;height:94px;border:3px solid var(--teal);border-radius:12px;box-shadow:0 0 28px rgba(45,212,191,.3);transform:rotate(90deg);margin-bottom:42px}
+  #portrait h2{width:100%;max-width:260px;font-size:30px;line-height:1.08;margin:0 0 14px;white-space:normal}
+  #portrait p{width:100%;max-width:260px;color:var(--mute);font-size:17px;line-height:1.55;margin:0}
+}
 
 /* home */
 #home{padding:64px 80px;display:flex;flex-direction:column}
@@ -166,11 +174,14 @@ body.clean #progress,body.clean #count,body.clean #brand{opacity:0}
 .handoff em{font-style:normal;letter-spacing:.18em;font-size:13px;font-weight:800;color:var(--amber)}
 .handoff h3{margin:4px 0;font-size:32px}
 .handoff code{font-family:var(--mono);font-size:18px;color:var(--teal)}
+.handoff .handwhere{font-size:18px;margin-top:6px}
 #help{position:fixed;right:16px;top:14px;font-size:13px;color:var(--faint);background:rgba(10,14,22,.75);border:1px solid var(--line);border-radius:10px;padding:10px 14px;line-height:1.7;opacity:0;z-index:20}
+#help a{color:var(--teal)}
 body.show-help #help{opacity:1}
 </style>
 </head>
 <body>
+<div id="portrait"><div class="phone" aria-hidden="true"></div><h2>Turn your phone sideways</h2><p>This is a 16:9 presentation. Landscape keeps every word large, aligned and easy to read.</p></div>
 <div id="stage">
   <div class="orb a"></div><div class="orb b"></div><div class="grid-bg"></div>
   <canvas id="fx" width="1600" height="900"></canvas>
@@ -181,7 +192,7 @@ body.show-help #help{opacity:1}
   <div id="progress"></div>
 </div>
 <div id="notes"></div>
-<div id="help">→ next · ← back · Esc episodes · F fullscreen · N notes · C hide chrome · H help<br><a href="index.html" style="color:var(--teal)">Episode list</a></div>
+<div id="help">→ next · ← back · Esc episodes · F fullscreen · N notes · C hide chrome · H help<br><a href="index.html">Episode list</a></div>
 <script>
 const LOGO = {
   pg:'<img src="course_assets/logos/postgresql.svg" alt="">',
@@ -196,7 +207,7 @@ const LOGO = {
 };
 const pill = (t, hot) => `<div class="pill${hot ? " hot" : ""}">${t}</div>`;
 const beat = (n, t, d) => `<div class="beat card f"><div class="n">${n}</div><div><b>${t}</b><p>${d}</p></div></div>`;
-const hand = (logo, where, title, cmd) => `<div class="card handoff f"><div class="tile">${logo}</div><div><em>NOW WE OPEN</em><h3>${title}</h3><code>${cmd}</code><p class="lead" style="font-size:18px;margin-top:6px">${where}</p></div></div>`;
+const hand = (logo, where, title, cmd) => `<div class="card handoff f"><div class="tile">${logo}</div><div><em>NOW WE OPEN</em><h3>${title}</h3><code>${cmd}</code><p class="lead handwhere">${where}</p></div></div>`;
 
 const EP = [
 {id:"e0", code:"E0", color:"#2dd4bf", title:"The problem, then the picture", mins:"45 min",
@@ -214,6 +225,20 @@ const EP = [
      ${beat(4,"Kitchen · dbt","Silver cleans and joins. Gold becomes facts and dimensions.")}
      ${beat(5,"Front desk · Streamlit + Cortex","English becomes SQL; Snowflake decides which rows return.")}
      ${beat(6,"Alarm clock · Airflow","Runs the same commands on time, retries and alerts.")}
+   </div>`},
+  {notes:"Read each card as technology, language, screen, output. SQL and Python are languages; DBeaver, Cursor and Snowsight are places where we work; Parquet is a file.",
+   html:`<div class="kicker">The stack without the jargon</div><h2>What we type, <span class="grad">where we type it</span>, what comes out</h2>
+   <div class="lights">
+     ${[
+       ["PostgreSQL","SQL · DBeaver","bank rows"],
+       ["Python","Python · Cursor + Terminal","Parquet files"],
+       ["Snowflake","SQL · Snowsight","raw and governed tables"],
+       ["dbt","SQL + Jinja · Cursor","tested facts and dimensions"],
+       ["Airflow","Python · Cursor + Airflow UI","scheduled runs and alerts"],
+       ["Streamlit","Python · Cursor / Snowflake","a governed data app"],
+       ["Terraform","HCL · Cursor + Terminal","roles and warehouses"],
+       ["GitHub Actions","YAML · GitHub","automatic checks"]
+     ].map((x,i)=>`<div class="card lightcard"><i class="dot" style="animation-delay:-${i*.3}s"></i><div><b>${x[0]}</b><p class="lead" style="font-size:15px;margin:.2em 0">${x[1]}</p><span class="pill">${x[2]}</span></div></div>`).join("")}
    </div>`},
   {notes:"The technical slides now define grain, physical locations and the design we rejected. This is where the detailed course begins.",
    html:`<div class="kicker">Then the technical lesson</div><h2>First, learn to say <span class="grad">what one row means</span></h2>
@@ -302,6 +327,26 @@ const EP = [
    html:`<div class="kicker">Then the demo</div><h2>Script 01, as <span class="grad">ACCOUNTADMIN</span></h2>
    ${hand(LOGO.sf,"Snowsight · then 02_databases and 03_stages","Snowsight","03_snowflake/01_account_setup_rbac.sql")}`}
 ]},
+{id:"py0", code:"P0", color:"#facc15", title:"Python foundations for this pipeline", mins:"35 min",
+ slides:[
+  {notes:"Browser Python is a sandbox for learning syntax. The real project is local because it must reach Docker Postgres, files and Snowflake.",
+   html:`<div class="kicker in">Python foundations · before CDC</div><h2 class="in">Practise in a browser. <span class="grad">Build locally.</span></h2>
+   <div class="scene"><div class="rooms">
+     <div class="card room"><div class="tile">${LOGO.py}</div><h3>Browser warm-up</h3><p>Programiz runs tiny examples. Python Tutor shows one line at a time. No setup, no secrets.</p><div class="badge on">SYNTAX ONLY</div></div>
+     <div class="card room"><div class="tile">${LOGO.py}</div><h3>Local Python 3.12</h3><p>Cursor writes the file. Terminal runs it. The virtual environment holds this project's libraries.</p><div class="badge on">REAL PROJECT</div></div>
+   </div></div>`},
+  {notes:"Tie every beginner construct to code students will soon meet; do not teach syntax in isolation.",
+   html:`<div class="kicker">The minimum language</div><h2>Ten ideas before the <span class="grad">400-line extractor</span></h2><div class="beats focus">
+     ${beat(1,"Values and decisions","print · variables · types · int/float · if/elif/else")}
+     ${beat(2,"Repeat and reuse","for · while · functions · return · main")}
+     ${beat(3,"Keep small collections","lists · dictionaries · rows · settings")}
+     ${beat(4,"Borrow a toolbox","imports · pip · pandas · pyarrow · connectors")}
+     ${beat(5,"Fail without losing your place","try/except/finally · Path · CLI arguments")}
+   </div>`},
+  {notes:"Run the four tiny files before opening config.py. The fourth is reconciliation: compare the same business totals on both sides and fail when they differ.",
+   html:`<div class="kicker">Then the practice</div><h2>Four small files, <span class="grad">then Meridian</span></h2>
+   ${hand(LOGO.py,"Cursor + Terminal · no database required","02_ingestion_python/00_python_foundations","values → loops → paths → mini reconciliation")}`}
+ ]},
 {id:"e4", code:"E4", color:"#60a5fa", title:"Python carries only what changed", mins:"40 min",
  slides:[
   {notes:"'Snowflake cannot reach Postgres on my laptop. Python can.' Watch the bookmark. Rows to its left are already copied. Rows to its right are this run.",
@@ -407,6 +452,13 @@ const EP = [
    <div class="scene"><div class="lights">
      ${[["Tests","Every key, every relationship, every run"],["Reconcile","Warehouse totals against the bank, by day"],["Freshness","Behind by more than 15 minutes and the run fails"],["Completeness","Every bronze key is in staging. Nightly, not every 5 minutes"],["CI","A pull request builds only what changed"],["Cost","Which warehouse, which query, which credits"]].map((x,i)=>`<div class="card lightcard"><i class="dot" style="animation-delay:-${i*0.4}s"></i><div><b>${x[0]}</b><p class="lead" style="font-size:16px">${x[1]}</p></div></div>`).join("")}
    </div></div>`},
+  {notes:"Reconciliation is a balance scale across systems. Both queries use the same complete dates and grouping. The outer join is important: an inner join would hide a group missing entirely from one side.",
+   html:`<div class="kicker">Reconciliation</div><h2>Ask both systems the <span class="grad">same business question</span></h2><div class="beats focus">
+     ${beat(1,"Postgres source truth","Count all rows and sum POSTED amount by UTC date and currency or branch. Ignore the newest two minutes.")}
+     ${beat(2,"Snowflake warehouse truth","Ask fct_transactions at exactly the same grain.")}
+     ${beat(3,"Outer join the answers","A missing group remains visible; row_diff and amount_diff explain the gap.")}
+     ${beat(4,"Persist and fail","Write RECONCILIATION_RUNS. Zero mismatched groups passes; any mismatch exits 1 and becomes an incident.")}
+   </div>`},
   {notes:"Open the runbook on camera and read one incident: a table that stopped moving.",
    html:`<div class="kicker">What we will open</div><h2>When it breaks <span class="grad">at 2 a.m.</span></h2><div class="beats focus">
      ${beat(1,"The runbook","What to check, what bad looks like, what to do. One incident, out loud.")}
