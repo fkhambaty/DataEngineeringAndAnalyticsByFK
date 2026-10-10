@@ -5,11 +5,13 @@ Astro CLI is the fastest way to run a clean Airflow 3 locally with Docker:
 ```bash
 brew install astro                      # https://www.astronomer.io/docs/astro/cli/install-cli
 cd 05_airflow
-astro dev init                          # creates Dockerfile, requirements.txt, dags/, include/ (keep ours)
+mkdir -p .astro
+test -f .astro/config.yaml || printf 'project:\n    name: meridian\n' > .astro/config.yaml
 cp ../.env .env                         # Postgres + Snowflake credentials -> Airflow containers
 mkdir -p include && cp -R ../04_dbt_meridian_dw include/dbt && cp -R ../02_ingestion_python include/ingestion && cp -R ../09_decisioning_python include/decisioning
-cp airflow_settings.yaml.example airflow_settings.yaml  # creates the four-slot ingestion pool
-astro dev start                         # http://localhost:8080  (admin / admin)
+cp airflow_settings.yaml.example airflow_settings.yaml
+astro dev start
+astro dev object import                 # creates the four-slot ingestion pool
 ```
 
 Postgres runs on the host, so inside the containers `PG_HOST=host.docker.internal`.

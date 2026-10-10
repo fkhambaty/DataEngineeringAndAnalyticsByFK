@@ -123,16 +123,77 @@
   .ok{color:var(--green);font-weight:700}
   .bad{color:var(--red);font-weight:700}
   footer{margin-top:80px;color:var(--muted);font-size:.85em;border-top:1px solid var(--line);padding-top:18px}
+
+  /* tabs: course guide | dry run */
+  .tabbar{position:sticky;top:0;z-index:20;margin-left:var(--sidebar);display:flex;gap:6px;padding:12px 56px;background:rgba(246,247,251,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .tabbar a{padding:8px 16px;border-radius:999px;font-weight:700;font-size:.9em;color:var(--muted);border:1px solid transparent}
+  .tabbar a:hover{text-decoration:none;background:var(--surface);border-color:var(--line)}
+  .tabbar a.on{background:var(--accent);color:#fff}
+  @media (max-width:980px){.tabbar{margin-left:0;padding:10px 18px}}
+  .sidebar .navset[hidden]{display:none}
+  section,h3[id]{scroll-margin-top:70px}
+  .sidebar #dr-nav a{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .sidebar nav a .dr-pct{flex:none;font-size:.78em;color:var(--muted);font-variant-numeric:tabular-nums}
+  @media (max-width:600px){.dr-kv{grid-template-columns:1fr}.dr-kv dd{margin-bottom:8px}}
+  .sidebar nav a.active .dr-pct{color:#fff}
+  a.filelink{color:var(--accent);font-weight:700;border-bottom:1px dashed var(--accent);text-decoration:none}
+  a.filelink:hover{border-bottom-style:solid;text-decoration:none}
+  pre a.filelink, code a.filelink{font-weight:700}
+
+  /* dry run view */
+  #dryrun{margin-left:var(--sidebar);padding:32px 56px 120px;max-width:1120px}
+  @media (max-width:980px){#dryrun{margin-left:0;padding:20px 18px}}
+  .dr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:18px 0}
+  .dr-card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);color:var(--ink);transition:transform .12s,border-color .12s}
+  .dr-card:hover{text-decoration:none;transform:translateY(-2px);border-color:var(--accent)}
+  .dr-card .code{font-size:.74em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .dr-card .ttl{font-weight:800;margin:4px 0 6px;line-height:1.3}
+  .dr-card .meta{font-size:.8em;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+  .dr-card .gapcount{color:var(--red);font-weight:700}
+  .bar{height:6px;border-radius:999px;background:#e9ecf5;overflow:hidden;margin-top:10px}
+  .bar i{display:block;height:100%;background:var(--green);width:0;transition:width .2s}
+  .dr-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+  .dr-head .bar{width:220px;height:8px}
+  .dr-kv{display:grid;grid-template-columns:150px 1fr;gap:6px 16px;font-size:.95em;margin:14px 0}
+  .dr-kv dt{font-weight:700;color:#2b3445}
+  .dr-kv dd{margin:0}
+  .dr-steps{list-style:none;padding:0;margin:18px 0;counter-reset:d}
+  .dr-step{counter-increment:d;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:12px 0;padding:14px 16px 14px 60px;position:relative}
+  .dr-step.done{border-color:#b7e2c4;background:#f7fcf8}
+  .dr-step .tick{position:absolute;left:16px;top:14px;width:28px;height:28px;border-radius:8px;border:2px solid #c6cbe0;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff}
+  .dr-step .tick::after{content:counter(d);color:var(--muted);font-size:.8em}
+  .dr-step.done .tick{background:var(--green);border-color:var(--green)}
+  .dr-step.done .tick::after{content:"✓";color:#fff;font-size:.95em}
+  .dr-step h4{margin:2px 0 4px;font-size:1.02em}
+  .dr-step .where{display:inline-block;font-size:.74em;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-bottom:4px}
+  .dr-step .lbl{display:block;font-size:.72em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px}
+  .dr-step pre{margin:4px 0 0;position:relative}
+  .dr-step .copy{position:absolute;top:8px;right:8px;font:inherit;font-size:.75em;font-weight:700;padding:3px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--muted)}
+  .dr-step .see{border-left:3px solid var(--green);padding:4px 10px;background:var(--green-soft);border-radius:0 8px 8px 0}
+  .dr-step .gap{border-left:3px solid var(--red);padding:6px 10px;background:var(--red-soft);border-radius:0 8px 8px 0;margin-top:10px}
+  .dr-step .gap b{color:var(--red)}
+  .dr-nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+  .dr-nav a{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-weight:700}
+  .dr-notes{width:100%;min-height:110px;font:inherit;font-size:.92em;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;resize:vertical}
+  .dr-tools{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+  .dr-tools button{font:inherit;font-size:.85em;font-weight:700;padding:6px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0;font-size:.85em}
+  .flow span{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-weight:700}
+  .flow em{color:#9aa3b5;font-style:normal;font-weight:800}
 </style>
 </head>
 <body>
 
 <aside class="sidebar">
   <div class="brand">Data Engineering &amp; Analytics<br>by FK<small>Meridian Bank · end-to-end course guide</small></div>
-  <nav id="nav">
+  <nav id="dr-nav" class="navset" hidden></nav>
+  <nav id="nav" class="navset">
     <div class="grp">Start</div>
+    <a href="index.html">Episode list</a>
     <a href="#intro">0 · How to use this guide</a>
     <a href="#episodes">Episode plan (≈8 h)</a>
+    <a href="DRY_RUN_MAP.html">Dry run map</a>
+    <a href="HOW_IT_WORKS.html">How it works</a>
     <a href="#business">The business problem</a>
     <a href="#architecture">Architecture &amp; why each tool</a>
     <a href="#m0">0 · Architecture process</a>
@@ -156,6 +217,13 @@
     <a href="#appendix">Appendix &amp; cheat sheet</a>
   </nav>
 </aside>
+
+<div class="tabbar" role="tablist">
+  <a href="#intro" id="tab-course" role="tab">Course guide</a>
+  <a href="#dryrun" id="tab-dryrun" role="tab">Dry run · test the build</a>
+</div>
+
+<div id="dryrun" hidden></div>
 
 <main>
 
@@ -209,7 +277,7 @@
 <section id="episodes">
   <span class="eyebrow">Recording plan</span>
   <h2>Episode plan — fourteen episodes, about nine hours</h2>
-  <p>Logical order, not tool order. Students must understand the <i>problem</i> and the <i>target model</i> before they see a single Snowflake screen; otherwise every later decision looks arbitrary.</p>
+  <p>Logical order, not tool order. Students must understand the <i>problem</i> and the <i>target model</i> before they see a single Snowflake screen; otherwise every later decision looks arbitrary. The end-to-end test, with only the steps that build the project and check it works, is <a href="DRY_RUN_MAP.html">DRY_RUN_MAP.html</a>.</p>
   <div class="timeline">
     <div><b>E0</b>45 min<br>Requirements, then architecture</div>
     <div><b>E1</b>50 min<br>Source + SQL</div>
@@ -495,14 +563,14 @@ flowchart TD
   <table>
     <tr><th>Tool</th><th>Install</th><th>Used for</th></tr>
     <tr><td>Docker Desktop</td><td>docker.com</td><td>Postgres 16 container (<code>01_source_postgres/docker-compose.postgres.yml</code>) and Airflow via Astro</td></tr>
-    <tr><td>psql</td><td><code>brew install libpq</code> (or full Postgres)</td><td>Running the seed/DML scripts; <code>\watch</code> for the simulator; <code>EXPLAIN</code></td></tr>
+    <tr><td>DBeaver</td><td>dbeaver.io</td><td>Execute every Postgres SQL file. Open the file, connect, and use <b>Execute SQL Script</b></td></tr>
     <tr><td>Python 3.12 + venv</td><td>python.org / brew</td><td><code>requirements.txt</code>: pandas, pyarrow, psycopg2, snowflake-connector, dbt-snowflake</td></tr>
     <tr><td>Snowflake account</td><td>signup.snowflake.com → <b>Enterprise</b>, AWS, nearest region</td><td>30 days / $400 credits. Enterprise is required for SOS, MVs, multi-cluster (perf lab 07, 09)</td></tr>
     <tr><td>VS Code</td><td>+ extensions: <b>dbt Power User</b>, <b>Snowflake</b> (official), <b>SQLTools + PostgreSQL driver</b>, <b>Python</b>, <b>Mermaid Preview</b>, <b>Rainbow CSV</b></td><td>One window for everything; dbt Power User gives lineage + "run model" buttons on camera</td></tr>
     <tr><td>Astro CLI</td><td><code>brew install astro</code></td><td>Airflow 3 locally in one command (M6)</td></tr>
     <tr><td>Terraform ≥ 1.6</td><td><code>brew install terraform</code></td><td>Platform objects as code (M12). <code>terraform validate</code> needs no account; <code>plan</code> does.</td></tr>
     <tr><td>Git + GitHub</td><td>—</td><td>Repo, PRs for the slim-CI demo (M8)</td></tr>
-    <tr><td>Optional: DBeaver</td><td>dbeaver.io</td><td>ER diagram auto-generated from Postgres — great visual for E1</td></tr>
+    <tr><td>DBeaver ER diagram</td><td>Right-click schema <code>core</code> → View Diagram</td><td>The picture of the source tables for Episode 1</td></tr>
     <tr><td>Optional: OBS Studio, Excalidraw</td><td>—</td><td>Recording; hand-drawn diagrams (bus matrix, SCD timeline)</td></tr>
   </table>
 
@@ -516,7 +584,7 @@ flowchart TD
 
   <h3>Repository layout</h3>
 <pre><code>DataEngineeringAndAnalyticsByFK/
-├── COURSE_GUIDE.html              ← this file
+├── course/                        ← index, animated decks, written guide, dry run
 ├── README.md · requirements.txt · .env.example · .gitignore
 ├── 00_architecture/               process, design, diagrams, 10 ADRs, operations + DR runbooks
 ├── 01_source_postgres/            DDL, seeds (pure SQL), CDC triggers, DML simulator, SQL lessons, docker-compose
@@ -535,16 +603,16 @@ flowchart TD
 
   <h3>Run order checklist (also in README.md)</h3>
   <ol class="steps">
-    <li><b>Postgres up + schema + seed</b> — <code>docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d</code>, then run <code>00</code>, <code>01</code>, <code>02</code>, <code>03</code>, <code>07_ddl_cards</code>, <code>04_cdc_triggers</code>, <code>05</code>, <code>08_seed_cards</code>, <code>09_card_simulator</code> with psql (<code>-v ON_ERROR_STOP=1</code>). Seed sizes: <code>-v customers=200000 -v txn_millions=5</code>. Card history: <code>-v applications=12000 -v auths_per_card=15</code>.</li>
+    <li><b>Postgres up + schema + seed</b> — start the container, connect DBeaver to <code>localhost:5432</code> as <code>meridian</code> / <code>meridian</code>. Execute <code>01_source_postgres/00_create_database.sql</code> while the database is <code>postgres</code>. Switch the connection to <code>meridian_core</code>, then execute, in order: <code>01_ddl_core_schema.sql</code>, <code>02_seed_reference_data.sql</code>, <code>03_seed_bulk_data.sql</code>, <code>07_ddl_cards.sql</code>, <code>04_cdc_triggers.sql</code>, <code>05_dml_simulator_functions.sql</code>, <code>08_seed_cards.sql</code>, <code>09_card_simulator.sql</code>. Use <b>Execute SQL Script</b> on each file and wait until it finishes.</li>
     <li><b>Snowflake bootstrap</b> — run <code>03_snowflake/01</code> as ACCOUNTADMIN, <code>02</code> as SYSADMIN, <code>03</code> as MERIDIAN_LOADER. Register the RSA public key for both service users.</li>
-    <li><b>.env</b> — copy <code>.env.example</code>, fill account, user, key path.</li>
-    <li><b>Initial load</b> — <code>python 02_ingestion_python/pg_to_snowflake.py</code>. Watermarks start at 1900-01-01 so this is a full load (~25 Parquet files for 5M transactions). Check <code>MERIDIAN_RAW.CONTROL.V_PIPELINE_HEALTH</code>.</li>
-    <li><b>Keep it alive</b> — terminal A: <code>python simulate_activity.py</code>; terminal B: <code>python pg_to_snowflake.py --loop 300</code>.</li>
-    <li><b>dbt</b> — <code>cd 04_dbt_meridian_dw &amp;&amp; cp profiles.yml.example profiles.yml &amp;&amp; dbt deps &amp;&amp; dbt build --target dev</code>. Dev builds only the last 30 days of transactions (<code>dev_days_of_history</code>). Then <code>dbt snapshot</code>, then <code>dbt build --target prod</code> for the full history.</li>
-    <li><b>Airflow</b> — <code>cd 05_airflow &amp;&amp; astro dev init &amp;&amp; astro dev start</code> (see its README for the include/ copies). Unpause the DAGs; stop the manual loop from step 5.</li>
+    <li><b>.env</b> — account <code>SJVOGGD-MQ92888</code>, loader user <code>MERIDIAN_LOADER_SVC</code>, key path <code>/Users/fakhruddinkhambaty/.ssh/meridian_rsa_key.p8</code>. The Snowsight login <code>DRIVEONE</code> stays out of this file.</li>
+    <li><b>Initial load</b> — from <code>/Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK</code>, with <code>.venv</code> active and <code>.env</code> loaded: <code>python 02_ingestion_python/pg_to_snowflake.py</code>. Watermarks start at 1900-01-01 so this is a full load (~25 Parquet files for 5M transactions). Check <code>MERIDIAN_RAW.CONTROL.V_PIPELINE_HEALTH</code>.</li>
+    <li><b>Keep it alive</b> — same project folder. Terminal A: <code>python 02_ingestion_python/simulate_activity.py</code>; terminal B: <code>python 02_ingestion_python/pg_to_snowflake.py --loop 300</code>.</li>
+    <li><b>dbt</b> — <code>cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/04_dbt_meridian_dw</code>, then <code>dbt deps</code> and <code>dbt build --target dev</code>. Dev builds only the last 30 days. Then <code>dbt build --target prod</code> for the full history. <code>dbt_project.yml</code> is in that folder, not in the project root.</li>
+    <li><b>Airflow</b> — <code>cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/05_airflow &amp;&amp; astro dev start</code>. Unpause the DAGs.</li>
     <li><b>Performance lab</b> — <code>06_performance_lab/00_measure.sql</code> first; build the 100M-row table from <code>02</code> before recording E8.</li>
-    <li><b>Governance</b> — after the first <code>dbt build --target prod</code>: run <code>03_snowflake/06_row_level_security.sql</code> as ACCOUNTADMIN, set the four demo passwords in Snowsight, then <code>dbt run-operation apply_governance_all --target prod</code>.</li>
-    <li><b>Models</b> — <code>python 09_decisioning_python/train_and_score.py</code>, then <code>dbt build -s stg_ml__model_scores+ --target prod</code> (Airflow does this weekly).</li>
+    <li><b>Governance</b> — after the production build: run <code>/Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/03_snowflake/06_row_level_security.sql</code> as ACCOUNTADMIN, then from <code>04_dbt_meridian_dw</code> run <code>dbt run-operation apply_governance_all --target prod</code>.</li>
+    <li><b>Models</b> — from the project folder, <code>python 09_decisioning_python/train_and_score.py</code>, then from <code>04_dbt_meridian_dw</code>, <code>dbt build -s stg_ml__model_scores+ --target prod</code>.</li>
   </ol>
 </section>
 
@@ -659,14 +727,15 @@ erDiagram
     <li><b>520 branches</b> from a <code>VALUES</code> plan (country, count, cities) <code>CROSS JOIN LATERAL generate_series</code>; branch codes like <code>IN-MUM-0001</code>; types by modulo (every 7th is PREMIUM).</li>
     <li><b>FX random walk</b>: <code>start_rate * exp(SUM(log_return) OVER (PARTITION BY currency ORDER BY date))</code> — a window function producing 18 months of believable rates, weekdays only.</li>
     <li><b>Accounts encode their owner</b> in the business key (<code>AC</code> + 9-digit customer id + seq) so the PRIMARY holder is recoverable with <code>substring()</code> — a trick that avoids a fragile row-order dependency.</li>
-    <li><b>Transactions in 500k batches</b> inside a <code>DO</code> block with <code>RAISE NOTICE</code> progress; psql variables passed into the block via <code>set_config</code> because psql does not interpolate inside <code>$$</code>.</li>
+    <li><b>Transactions in 500k batches</b> inside a <code>DO</code> block with <code>RAISE NOTICE</code> progress. The script sets <code>meridian.txn_millions</code> to <code>5</code> with <code>set_config</code>, and the block reads it with <code>current_setting</code>.</li>
     <li><b>Balances</b> computed once at the end from POSTED rows (a hash aggregate, no index needed).</li>
   </ul>
   <div class="callout pitfall"><b class="tag">Pitfall worth 2 minutes on camera</b><br>
     <code>CROSS JOIN LATERAL (SELECT random())</code> that references no outer column is legally evaluated <b>once</b> by the planner — every row gets the same "random" value. The seed puts <code>random()</code> in a per-row SELECT list (<code>base</code> CTE) instead. Show the wrong version returning one account for 500k rows; it is the kind of bug that produces plausible-looking garbage.
   </div>
-  <div class="codehead"><span>psql</span><span>sizes are variables</span></div>
-<pre><code>psql -h localhost -U meridian -d meridian_core -v ON_ERROR_STOP=1 -v customers=200000 -v txn_millions=5 -f 03_seed_bulk_data.sql
+  <div class="codehead"><span>DBeaver</span><span>execute the whole file</span></div>
+<pre><code>Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/03_seed_bulk_data.sql
+Execute SQL Script, connected to meridian_core
 -- NOTICE: 500000 / 5000000 transactions inserted (…)
 -- customers 200000 | accounts 300000 | account_holders ~330000 | transactions 5000000 | loan_applications 60000</code></pre>
 
@@ -692,9 +761,9 @@ erDiagram
     <tr><td><code>sim_fx_tick</code></td><td>INSERT today's rate / 5% restate yesterday</td><td>updates on a "static" reference table; forward fill</td></tr>
     <tr><td><code>sim_hard_deletes</code></td><td>DELETE a PENDING txn</td><td>delete propagation through the delete log → dbt post-hook</td></tr>
   </table>
-  <div class="codehead"><span>psql — the whole simulator in one line</span></div>
+  <div class="codehead"><span>DBeaver — execute this query</span></div>
 <pre><code>SELECT * FROM core.sim_tick(500);
-\watch 5                              -- Ctrl+C to stop
+-- Run it again for another tick.
 -- step               | rows_affected
 -- post_transactions  |           440
 -- settle_pending     |         18916   ← first tick settles all seeded PENDING rows older than 2 min
@@ -703,7 +772,7 @@ erDiagram
   <p>Verified output above is from a real run. The Python wrapper <code>simulate_activity.py --txn 2000 --every 2</code> pushes ~1,000 transactions/second for the stress demo; <code>--burst 50000</code> creates a spike for the late-data lesson.</p>
 
   <h3 id="m1-sql">1.5 SQL lessons on live data (<code>06_sql_lessons.sql</code>)</h3>
-  <p>Twelve blocks, each "concept → the interview question it answers". Run them one at a time, read the output aloud, then show the follow-up.</p>
+  <p>Twelve blocks, each "concept → the interview question it answers". In DBeaver, open <code>01_source_postgres/06_sql_lessons.sql</code>, select one block, execute it, read the output aloud, then do the next block.</p>
   <table>
     <tr><th>#</th><th>Concept</th><th>Query</th><th>Interview angle</th></tr>
     <tr><td>L01</td><td>LEFT JOIN + filter in ON vs WHERE</td><td>branches with zero transactions this month</td><td>"Why did my LEFT JOIN turn into an INNER JOIN?"</td></tr>
@@ -1168,7 +1237,11 @@ select * from {{ ref('stg_postgres__customers') }}</code></pre>
   <p><b>Unit tests</b> (dbt 1.8+) are different in kind: data tests check the data that arrived, unit tests check the <i>logic</i> against rows you wrote by hand, before any real data exists. Three are in the project: FX weekend forward-fill, transaction PENDING→POSTED dedupe, and fraud rules. The raw required-key sentinel warns on structural drift; contracts on <code>dim_branch</code>, <code>dim_customer</code>, and <code>fct_transactions</code> protect stable public interfaces.</p>
 
   <h3 id="m5-run">5.9 Running it</h3>
-<pre><code>dbt deps
+<pre><code>cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK
+source .venv/bin/activate
+set -a; source .env; set +a
+cd 04_dbt_meridian_dw
+dbt deps
 dbt build --target dev                          # 30 days of history, dbt_fk_* schemas
 dbt snapshot --target prod                      # once; then daily via Airflow
 dbt build --target prod                         # full history, MARTS schemas
@@ -1178,7 +1251,7 @@ dbt source freshness
 dbt docs generate &amp;&amp; dbt docs serve             # lineage graph, column docs, exposures
 dbt run-operation print_pipeline_health
 dbt build -s fct_transactions+ --full-refresh --target prod   # perf lab 08 run 1 (the trap)</code></pre>
-  <div class="callout camera"><b class="tag">On camera</b><br>Open the docs lineage graph and click <code>fct_transactions</code>; show "+" selection highlighting. Then open <code>DQ_FAILURES</code> after deliberately breaking a relationship (insert a transaction for a customer id that does not exist via psql, wait one micro-batch) and watch the test write a failures table. Fix it, rebuild, show it empty.</div>
+  <div class="callout camera"><b class="tag">On camera</b><br>Open the docs lineage graph and click <code>fct_transactions</code>; show "+" selection highlighting. Then open <code>DQ_FAILURES</code> after deliberately breaking a relationship (execute an insert in DBeaver for a customer id that does not exist, wait one micro-batch) and watch the test write a failures table. Fix it, rebuild, show it empty.</div>
 </section>
 
 <!-- ============================================================ MODULE 6 -->
@@ -1208,8 +1281,7 @@ dbt build -s fct_transactions+ --full-refresh --target prod   # perf lab 08 run 
   </ul>
 
   <h3>6.3 Running it</h3>
-<pre><code>cd 05_airflow
-astro dev init          # once; keep our Dockerfile, requirements.txt, dags/
+<pre><code>cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/05_airflow
 cp -r ../02_ingestion_python   include/ingestion
 cp -r ../04_dbt_meridian_dw    include/dbt
 cp -r ../09_decisioning_python include/decisioning
@@ -1693,24 +1765,28 @@ terraform apply</code></pre>
   <h2>Cheat sheet, run order, troubleshooting, glossary</h2>
 
   <h3>A. Commands you will type on camera</h3>
-<pre><code># Postgres
-docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d
-psql -h localhost -U meridian -d meridian_core -v ON_ERROR_STOP=1 -f 01_source_postgres/01_ddl_core_schema.sql
-psql ... -v customers=200000 -v txn_millions=5 -f 01_source_postgres/03_seed_bulk_data.sql
-psql ... -c "SELECT * FROM core.sim_tick(500);"        # or \watch 5 inside psql
+<pre><code># Project folder. Start here before any relative command.
+cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK
+source .venv/bin/activate
+set -a; source .env; set +a
 
-# Ingestion
+# Postgres container, then execute the SQL files in DBeaver (Execute SQL Script)
+docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d
+
+# Ingestion, still in the project folder
 python 02_ingestion_python/pg_to_snowflake.py [--tables core.transactions] [--loop 300] [-v]
 python 02_ingestion_python/simulate_activity.py --txn 500 --every 5 [--burst 50000]
 python 02_ingestion_python/reconcile_with_pandas.py
 
-# dbt (from 04_dbt_meridian_dw)
-dbt deps · dbt build --target dev · dbt snapshot · dbt build --selector microbatch · dbt build --selector daily
-dbt source freshness · dbt test --store-failures · dbt docs generate &amp;&amp; dbt docs serve
-dbt build --select state:modified+ --defer --state ./prod_manifest --target ci
+# dbt. dbt_project.yml is in this folder, not the project root.
+cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/04_dbt_meridian_dw
+dbt deps
+dbt build --target dev
+dbt build --target prod
 
-# Airflow (from 05_airflow)
-astro dev start · astro dev logs -f · astro dev stop
+# Airflow
+cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/05_airflow
+astro dev start
 
 # Snowflake measurement
 ALTER SESSION SET USE_CACHED_RESULT = FALSE;  ALTER SESSION SET QUERY_TAG = 'perflab_xx_before';
@@ -1736,7 +1812,7 @@ SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY_BY_SESSION()) WHERE query_t
     <tr><th>Symptom</th><th>Likely cause → fix</th></tr>
     <tr><td><code>round(double precision, integer) does not exist</code></td><td>Postgres <code>random()</code> is double; cast to numeric before <code>round</code>. Already fixed in the seeds; you will meet it in your own additions.</td></tr>
     <tr><td>Every generated row has the same "random" value</td><td>Uncorrelated LATERAL evaluated once; put <code>random()</code> in the row's SELECT list.</td></tr>
-    <tr><td>psql variable not substituted inside a DO block</td><td>psql does not interpolate inside <code>$$</code>; pass via <code>set_config</code>/<code>current_setting</code>.</td></tr>
+    <tr><td>The seed size inside a <code>DO</code> block does not change</td><td>A dollar-quoted block cannot see a number typed outside it. <code>03_seed_bulk_data.sql</code> stores the size with <code>set_config</code> and reads it with <code>current_setting</code>.</td></tr>
     <tr><td>Extractor: watermark never moves / re-reads the same rows</td><td>Trigger not installed (<code>04_cdc_triggers.sql</code>) or rows updated inside a long transaction; check <code>LOAD_LOG.status</code>.</td></tr>
     <tr><td>COPY: "Number of columns in file (…) does not match"</td><td>You used a plain COPY instead of the transformational <code>SELECT $1 …</code> form; or wrong file format.</td></tr>
     <tr><td>Decimal columns arrive as strings</td><td><code>USE_LOGICAL_TYPE = TRUE</code> missing on the file format.</td></tr>
@@ -1816,6 +1892,599 @@ SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY_BY_SESSION()) WHERE query_t
       });
     }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
     targets.forEach(t => io.observe(t));
+  })();
+</script>
+<script>
+  // Dry run: one checklist per episode. Ticks and notes stay in this browser (localStorage).
+  const DRY_RUN = [
+  {
+    id: "start", code: "Start", title: "Before you start: machine and accounts", mins: 60,
+    goal: "The tools, the Snowflake trial, and the key pair the robots will use.",
+    needs: "Nothing.",
+    ready: "You can log in to Snowsight, and both key files exist in ~/.ssh.",
+    steps: [
+      { t: "Check every tool answers", where: "Terminal",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\ndocker --version\npython3 --version\ndbt --version\nastro version",
+        see: "Each prints a version. Docker Desktop must be running (whale icon in the menu bar)." },
+      { t: "Make a clean Python environment", where: "Terminal · repo root",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\npython3 -m venv .venv && source .venv/bin/activate\npip install -r requirements.txt",
+        see: "The install finishes with no error." },
+      { t: "Create the Snowflake trial", where: "Browser · signup.snowflake.com",
+        cmd: "Edition: Enterprise\nCloud:   AWS\nRegion:  the closest one (ap-south-1, Mumbai)",
+        see: "You can log in to Snowsight. This trial's account identifier is SJVOGGD-MQ92888. The Snowsight login name is DRIVEONE." },
+      { t: "Make one key pair for the three robot users", where: "Terminal",
+        why: "The loader, dbt, and the scoring job sign each Snowflake login with the private key. Snowflake checks that signature against the public key you attach in E3.",
+        cmd: 'mkdir -p /Users/fakhruddinkhambaty/.ssh\nopenssl genrsa 2048 | openssl pkcs8 -topk8 -inform PEM -out /Users/fakhruddinkhambaty/.ssh/meridian_rsa_key.p8 -nocrypt\nopenssl rsa -in /Users/fakhruddinkhambaty/.ssh/meridian_rsa_key.p8 -pubout -out /Users/fakhruddinkhambaty/.ssh/meridian_rsa_key.pub',
+        see: "`~/.ssh/meridian_rsa_key.p8` and `~/.ssh/meridian_rsa_key.pub` both exist. If they already exist from earlier today, do not generate a second pair.",
+        gap: "Never commit the .p8 file. `.gitignore` already blocks `*.p8`." }
+    ]
+  },
+  {
+    id: "e1", code: "E1", title: "The source system: Postgres, seeds and real SQL", mins: 50,
+    goal: "A fake bank database running in Docker, filled with 5 million transactions, and \"alive\" thanks to the simulator.",
+    needs: "Start.",
+    ready: "The row counts match, and sim_tick returns one row per step.",
+    steps: [
+      { t: "Start Postgres", where: "Terminal · repo root",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\ndocker compose -f 01_source_postgres/docker-compose.postgres.yml up -d\ndocker ps --filter name=meridian_postgres",
+        see: "A container called `meridian_postgres` with status Up, on port 5432. To start completely fresh later: `docker compose -f 01_source_postgres/docker-compose.postgres.yml down -v` (the `-v` deletes all Postgres data)." },
+      { t: "Create the database", where: "DBeaver · connection database postgres",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/00_create_database.sql\nTurn on Auto-commit.\nExecute SQL Script.",
+        see: "Database meridian_core exists. If Postgres says it already exists, continue." },
+      { t: "Point DBeaver at the new database", where: "DBeaver · connection settings",
+        cmd: "Edit the connection. Set Database to meridian_core. Test, then reconnect.",
+        see: "The SQL editor is connected to meridian_core." },
+      { t: "Create the tables", where: "DBeaver · meridian_core",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/01_ddl_core_schema.sql\nExecute SQL Script.",
+        see: "Schemas ref, core and cdc, and their tables." },
+      { t: "Load reference data", where: "DBeaver · meridian_core",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/02_seed_reference_data.sql\nExecute SQL Script.",
+        see: "520 branches, employees, currencies and FX rates." },
+      { t: "Load customers and 5 million transactions (pre-record this)", where: "DBeaver · meridian_core",
+        why: "This is the slow part. Execute it before the episode and cut to the result.",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/03_seed_bulk_data.sql\nExecute SQL Script and wait until it finishes.",
+        see: "Progress notices every 500,000 transactions, then the script completes. Write down how long it took." },
+      { t: "Create the card tables", where: "DBeaver · meridian_core",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/07_ddl_cards.sql\nExecute SQL Script.",
+        see: "Card, merchant and offer tables exist." },
+      { t: "Install the change-capture triggers", where: "DBeaver · meridian_core",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/04_cdc_triggers.sql\nExecute SQL Script.",
+        see: "No error. Card tables are included because this file runs after 07." },
+      { t: "Install the simulator", where: "DBeaver · meridian_core",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/05_dml_simulator_functions.sql\nExecute SQL Script.",
+        see: "Function core.sim_tick exists." },
+      { t: "Load card history", where: "DBeaver · meridian_core",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/08_seed_cards.sql\nExecute SQL Script.",
+        see: "Applications, cards and authorizations are loaded." },
+      { t: "Install the card simulator", where: "DBeaver · meridian_core",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/01_source_postgres/09_card_simulator.sql\nExecute SQL Script.",
+        see: "No error." },
+      { t: "Check the row counts", where: "DBeaver · meridian_core",
+        cmd: "SELECT (SELECT count(*) FROM core.branches) branches,\n       (SELECT count(*) FROM core.customers) customers,\n       (SELECT count(*) FROM core.accounts) accounts,\n       (SELECT count(*) FROM core.transactions) txns,\n       (SELECT count(*) FROM core.loan_applications) loans;",
+        see: "branches 520 · customers 200000 · accounts about 300000 · txns 5000000 · loans 60000." },
+      { t: "Make the bank alive once", where: "DBeaver · meridian_core",
+        cmd: "SELECT * FROM core.sim_tick(500);",
+        see: "One row per step: post_transactions, settle_pending, customer_changes, hard_deletes, and the card steps." }
+    ]
+  },
+  {
+    id: "e3", code: "E3", title: "Snowflake from zero", mins: 40,
+    goal: "Roles, warehouses, robot users, and the landing tables the loader will write.",
+    needs: "Start (trial account and key).",
+    ready: "Scripts 01–03 ran, and RSA_PUBLIC_KEY_FP has a value on all three robot users.",
+    steps: [
+      { t: "Give your own login the Meridian roles", where: "03_snowflake/01_account_setup_rbac.sql · near the end",
+        why: "Script 03 starts with `USE ROLE MERIDIAN_LOADER`. Your Snowsight user only gets that role if you un-comment this line.",
+        cmd: "GRANT ROLE MERIDIAN_LOADER, MERIDIAN_TRANSFORMER, MERIDIAN_ANALYST, MERIDIAN_ML, MERIDIAN_APP TO USER DRIVEONE;",
+        see: "DRIVEONE can use the Meridian roles in Snowsight.",
+        gap: "This line is commented out in the file. Skip it and script 03 stops at its first line." },
+      { t: "Run script 01 as ACCOUNTADMIN", where: "Snowsight worksheet · Run All",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/03_snowflake/01_account_setup_rbac.sql\nPaste it into a Snowsight worksheet and run all of it as ACCOUNTADMIN.",
+        see: "SHOW ROLES lists 9 MERIDIAN_ roles. SHOW WAREHOUSES lists 4 WH_ warehouses." },
+      { t: "Put the public key on all three robot users", where: "Snowsight · ACCOUNTADMIN",
+        why: "Paste the one line from the .pub file. The sample text MIIBIjANBg… in the SQL file is not a key, and Snowflake rejects it.",
+        cmd: "grep -v \"PUBLIC KEY\" /Users/fakhruddinkhambaty/.ssh/meridian_rsa_key.pub | tr -d '\\n'\n\nALTER USER MERIDIAN_LOADER_SVC SET RSA_PUBLIC_KEY = '<that one line>';\nALTER USER MERIDIAN_DBT_SVC    SET RSA_PUBLIC_KEY = '<that one line>';\nALTER USER MERIDIAN_ML_SVC     SET RSA_PUBLIC_KEY = '<that one line>';\nDESC USER MERIDIAN_LOADER_SVC;\nDESC USER MERIDIAN_DBT_SVC;\nDESC USER MERIDIAN_ML_SVC;",
+        see: "`RSA_PUBLIC_KEY_FP` has a value for each user." },
+      { t: "Run script 02 (it switches to SYSADMIN itself)", where: "Snowsight",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/03_snowflake/02_databases_schemas_grants.sql\nPaste it into a Snowsight worksheet and run all of it.\nSHOW DATABASES LIKE 'MERIDIAN%';",
+        see: "MERIDIAN_RAW and MERIDIAN_ANALYTICS." },
+      { t: "Run script 03 (it switches to MERIDIAN_LOADER)", where: "Snowsight",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/03_snowflake/03_stages_raw_tables_control.sql\nPaste it into a Snowsight worksheet and run all of it as MERIDIAN_LOADER.\nSHOW TABLES IN SCHEMA MERIDIAN_RAW.POSTGRES_CORE;",
+        see: "11 tables in POSTGRES_CORE, 8 in POSTGRES_REF, 1 in POSTGRES_CDC, plus the control tables and stages." }
+    ]
+  },
+  {
+    id: "e4", code: "E4", title: "Moving the data: CDC with Python", mins: 40,
+    goal: "Python reads only what changed in Postgres, writes Parquet files, and loads them into Snowflake every few minutes.",
+    needs: "E1 (Postgres seeded) and E3 (scripts 01–03, keys).",
+    ready: "The full load finished, and the Postgres transaction count equals the raw Snowflake count.",
+    steps: [
+      { t: "Check the .env configuration file", where: "Cursor · repo root · .env (not Terminal)",
+        why: "These NAME=value lines are settings that Python reads from a file. They are not commands to execute. The file has already been created on this Mac.",
+        cmd: "Open this file in Cursor:\n/Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/.env\n\nCheck that its Snowflake section contains:\nSNOWFLAKE_ACCOUNT=SJVOGGD-MQ92888\nSNOWFLAKE_USER=MERIDIAN_LOADER_SVC\nSNOWFLAKE_PRIVATE_KEY_PATH=/Users/fakhruddinkhambaty/.ssh/meridian_rsa_key.p8\nSNOWFLAKE_ROLE=MERIDIAN_LOADER\nSNOWFLAKE_WAREHOUSE=WH_INGEST_XS\nSNOWFLAKE_RAW_DATABASE=MERIDIAN_RAW\nSNOWFLAKE_DBT_USER=MERIDIAN_DBT_SVC\nSNOWFLAKE_ML_USER=MERIDIAN_ML_SVC",
+        see: "The .env file exists with those values. Do not paste them into Terminal or Snowsight. Continue to the next step.",
+        gap: "The leading dot makes `.env` a hidden file. In Cursor, press Cmd+P and type `.env` if it is not visible in the file list. Never commit this file." },
+      { t: "Smoke test with one tiny table", where: "Terminal · project folder",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\npython 02_ingestion_python/pg_to_snowflake.py --tables ref.currencies -v",
+        see: "Five currency rows loaded, no traceback. If it fails here, it is the account name, key or role, not the code." },
+      { t: "Full first load (pre-record the long part)", where: "Terminal · project folder",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\ntime python 02_ingestion_python/pg_to_snowflake.py",
+        see: "All 20 tables loaded. About 25 Parquet files for transactions. Note the time." },
+      { t: "Check the pipeline health", where: "Snowsight",
+        cmd: "SELECT * FROM MERIDIAN_RAW.CONTROL.V_PIPELINE_HEALTH;\nSELECT status, COUNT(*) FROM MERIDIAN_RAW.CONTROL.LOAD_LOG GROUP BY 1;",
+        see: "Only SUCCESS or NO_CHANGES. Small lag numbers." },
+      { t: "Compare counts across the two systems", where: "Snowsight + Terminal",
+        cmd: "SELECT COUNT(*) FROM MERIDIAN_RAW.POSTGRES_CORE.TRANSACTIONS;\n-- Then in DBeaver, connected to meridian_core, execute:\nSELECT count(*) FROM core.transactions;",
+        see: "Equal right after the full load." }
+    ]
+  },
+  {
+    id: "e5", code: "E5", title: "dbt I: sources, staging, snapshots", mins: 45,
+    goal: "dbt connects and builds the project against the last 30 days.",
+    needs: "E4.",
+    ready: "dbt debug passes for dev and prod, and the dev build ends with ERROR=0.",
+    steps: [
+      { t: "Give dbt the passwords (every new terminal)", where: "Terminal · 04_dbt_meridian_dw",
+        why: "Python reads `.env` by itself. dbt does not. It only reads the shell's environment.",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\ncd 04_dbt_meridian_dw\ncp -n profiles.yml.example profiles.yml",
+        see: "No output. `echo $SNOWFLAKE_ACCOUNT` prints SJVOGGD-MQ92888.",
+        gap: "Forget this and dbt says the SNOWFLAKE_ACCOUNT variable is not set. Easy to forget after a break between takes." },
+      { t: "Test both connections", where: "Terminal · 04_dbt_meridian_dw",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\ncd 04_dbt_meridian_dw\ndbt debug --target dev\ndbt debug --target prod",
+        see: "`All checks passed!` twice." },
+      { t: "Install packages", where: "Terminal · 04_dbt_meridian_dw",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\ncd 04_dbt_meridian_dw\ndbt deps",
+        see: "dbt_utils and dbt_expectations installed." },
+      { t: "Dev build (last 30 days only)", where: "Terminal · 04_dbt_meridian_dw",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\ncd 04_dbt_meridian_dw\ntime dbt build --target dev",
+        see: "Ends with ERROR=0. Warnings are allowed. New schemas named DBT_FK_STAGING, DBT_FK_MARTS and so on." }
+    ]
+  },
+  {
+    id: "e6", code: "E6", title: "dbt II: dimensions, facts, tests, docs", mins: 50,
+    goal: "The full star schema in production, then a check that Postgres and the fact table agree.",
+    needs: "E5.",
+    ready: "The production build has ERROR=0, and reconciliation reports no differences.",
+    steps: [
+      { t: "Full production build (pre-record)", where: "Terminal · 04_dbt_meridian_dw (env loaded)",
+        why: "dbt only runs inside the folder that contains dbt_project.yml. From the project root it looks in the wrong place.",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\ncd 04_dbt_meridian_dw\ntime dbt build --target prod",
+        see: "ERROR=0. Tables appear in MERIDIAN_ANALYTICS.MARTS.",
+        gap: "A warning that governance is declared but script 06 has not run is expected until E11." },
+      { t: "Check Postgres against the fact table", where: "Terminal · project folder, not 04_dbt_meridian_dw",
+        why: "This script sits next to the dbt folder. From inside 04_dbt_meridian_dw the path 02_ingestion_python does not exist.",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\npython 02_ingestion_python/reconcile_with_pandas.py --days 7",
+        see: "No differences, apart from rows that arrived in the last few minutes." }
+    ]
+  },
+  {
+    id: "e7", code: "E7", title: "Orchestration with Airflow", mins: 30,
+    goal: "Airflow runs the 5-minute load and the daily build once each.",
+    needs: "E6, and `dbt deps` already run.",
+    ready: "meridian_microbatch_ingest is green once, and meridian_daily_batch is green once.",
+    steps: [
+      { t: "Copy the code, profile and key into include/", where: "Terminal · 05_airflow",
+        why: "The containers cannot see your Mac's folders or ~/.ssh. Everything they need must be copied in.",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/05_airflow\nmkdir -p include/keys\ncp -R ../04_dbt_meridian_dw include/dbt\ncp -R ../02_ingestion_python include/ingestion\ncp -R ../09_decisioning_python include/decisioning\ncp /Users/fakhruddinkhambaty/.ssh/meridian_rsa_key.p8 include/keys/\ncp ../.env .env\nsed -i '' -e 's#^PG_HOST=.*#PG_HOST=host.docker.internal#' -e 's#^SNOWFLAKE_PRIVATE_KEY_PATH=.*#SNOWFLAKE_PRIVATE_KEY_PATH=/usr/local/airflow/include/keys/meridian_rsa_key.p8#' .env\ncp airflow_settings.yaml.example airflow_settings.yaml\ngrep -E '^(PG_HOST|SNOWFLAKE_PRIVATE_KEY_PATH)=' .env",
+        see: "`include/dbt/profiles.yml` exists, and the last command prints PG_HOST=host.docker.internal and the /usr/local/airflow key path.",
+        gap: "Copy only after E5's profiles.yml and `dbt deps`. The sed line rewrites only the Airflow copy of .env: inside a container, localhost and ~/.ssh are wrong. Your main .env is not touched." },
+      { t: "Start Airflow", where: "Terminal · 05_airflow",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/05_airflow\nmkdir -p .astro\ntest -f .astro/config.yaml || printf 'project:\\n    name: meridian\\n' > .astro/config.yaml\nastro dev start\nastro dev object import",
+        see: "The CLI prints an Airflow UI URL. Open that URL. The object import creates the four-slot meridian_postgres pool. Five meridian_ DAGs, no import errors." },
+      { t: "Run one micro-batch", where: "Airflow",
+        cmd: "Unpause meridian_microbatch_ingest",
+        see: "One run is green: extract, dbt_build_hot_path, assert_pipeline_health." },
+      { t: "Run the daily DAG once", where: "Airflow",
+        cmd: "Trigger meridian_daily_batch manually",
+        see: "All green." }
+    ]
+  },
+  {
+    id: "e10", code: "E10", title: "Cards: scores and offers", mins: 20,
+    goal: "The scoring job writes a succeeded run, and the offer list contains model scores.",
+    needs: "E6, and the key on MERIDIAN_ML_SVC (E3).",
+    ready: "MODEL_RUNS shows SUCCEEDED, and FCT_NEXT_BEST_OFFER has MODEL rows.",
+    steps: [
+      { t: "Train and publish the scores", where: "Terminal · repo root, then 04_dbt_meridian_dw",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\npython 09_decisioning_python/train_and_score.py\ncd 04_dbt_meridian_dw\ndbt build -s stg_ml__model_scores+ --target prod",
+        see: "MERIDIAN_RAW.ML.MODEL_RUNS shows SUCCEEDED rows, and the dbt build ends with ERROR=0.",
+        gap: "If it fails to log in: SNOWFLAKE_ML_USER must be in .env and the key must be on MERIDIAN_ML_SVC. Load the .env into the shell before the dbt command: `set -a; source ../.env; set +a`." },
+      { t: "Check the offer list", where: "Snowsight",
+        cmd: "SELECT score_source, COUNT(*) FROM MERIDIAN_ANALYTICS.MARTS.FCT_NEXT_BEST_OFFER GROUP BY 1;",
+        see: "A MODEL row with a count greater than zero." }
+    ]
+  },
+  {
+    id: "e11", code: "E11", title: "Ask the warehouse in English", mins: 25,
+    goal: "A person types a question and gets an answer from the gold tables.",
+    needs: "E6.",
+    ready: "One suggested question in the app returns a table, and the SQL expander shows the query.",
+    steps: [
+      { t: "Run the governance script", where: "Snowsight · ACCOUNTADMIN",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/03_snowflake/06_row_level_security.sql\nPaste it into a Snowsight worksheet and run all of it as ACCOUNTADMIN.",
+        see: "The last SELECT maps the four users to branch IN-MUM-0001 and one real customer." },
+      { t: "Attach the rules to the tables", where: "Terminal · 04_dbt_meridian_dw (env loaded)",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\ncd 04_dbt_meridian_dw\ndbt run-operation apply_governance_all --target prod",
+        see: "Completes with no error." },
+      { t: "Create the semantic view", where: "Snowsight · MERIDIAN_TRANSFORMER",
+        cmd: "Open /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/10_semantic_app/01_semantic_view.sql\nPaste it into a Snowsight worksheet and run all of it as MERIDIAN_TRANSFORMER.",
+        see: "SV_MERIDIAN_BANK created." },
+      { t: "Let the demo users call Cortex Analyst", where: "Snowsight · ACCOUNTADMIN",
+        cmd: "USE ROLE ACCOUNTADMIN;\nGRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_CEO;\nGRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_BRANCH_MANAGER;\nGRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_STAFF;\nGRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_CUSTOMER;",
+        see: "Four GRANT statements succeed." },
+      { t: "Give MERIDIAN_CEO a password", where: "Snowsight · ACCOUNTADMIN",
+        why: "The app signs in as a Snowflake user. The governance script creates MERIDIAN_CEO with no password.",
+        cmd: "USE ROLE ACCOUNTADMIN;\nALTER USER MERIDIAN_CEO SET PASSWORD = 'choose-a-password' MUST_CHANGE_PASSWORD = FALSE;",
+        see: "Replace choose-a-password with a password you will type into the app. The statement succeeds.",
+        gap: "Do not commit that password. MUST_CHANGE_PASSWORD = FALSE so the app login is not rejected on the first try." },
+      { t: "Ask one question in the app", where: "Terminal · project root, then the browser",
+        cmd: "cd /Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK\nsource .venv/bin/activate\nset -a; source .env; set +a\npython -c \"import streamlit\" || pip install 'streamlit>=1.39'\nstreamlit run 10_semantic_app/streamlit_app.py",
+        see: "The browser opens. Account is already filled from .env (SJVOGGD-MQ92888). Username MERIDIAN_CEO, and the password you just set. Click “How many suspected fraudulent card authorizations did the rules flag?” A count comes back, and the SQL expander shows the query.",
+        gap: "If the answer says Cortex Analyst is not enabled in this region, the account cannot chat. The same four questions are in 04_dbt_meridian_dw/analyses/card_questions.sql. A trial in a Cortex region is what makes this screen answer." }
+    ]
+  }
+  ];
+
+  (function () {
+    const STORE = "meridian-dryrun-v2";
+    const state = JSON.parse(localStorage.getItem(STORE) || '{"done":{},"notes":{}}');
+    const save = () => localStorage.setItem(STORE, JSON.stringify(state));
+    const view = document.getElementById("dryrun");
+    const main = document.querySelector("main");
+    const courseNav = document.getElementById("nav");
+    const drNav = document.getElementById("dr-nav");
+
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    const FILES = `
+.env.example
+.github/workflows/meridian-checks.yml
+.github/workflows/meridian-dbt-ci.yml
+.gitignore
+00_architecture/ARCHITECTURE_PROCESS.md
+00_architecture/DESIGN_DOC.md
+00_architecture/DR_RUNBOOK.md
+00_architecture/OPERATIONS_RUNBOOK.md
+00_architecture/adr/0001-watermark-cdc-before-log-based.md
+00_architecture/adr/0002-append-only-variant-raw.md
+00_architecture/adr/0003-kimball-for-the-presentation-layer.md
+00_architecture/adr/0004-dbt-plus-airflow.md
+00_architecture/adr/0005-model-scores-land-in-the-warehouse.md
+00_architecture/adr/0006-row-access-by-user-entitlements-owned-by-security.md
+00_architecture/adr/0007-open-table-formats-deferred.md
+00_architecture/adr/0008-one-owner-per-object-type.md
+00_architecture/adr/0009-omni-search-is-a-serving-index.md
+00_architecture/adr/0010-contracts-at-public-boundaries.md
+00_architecture/adr/README.md
+00_architecture/diagrams/01_context.mmd
+00_architecture/diagrams/02_container.mmd
+00_architecture/diagrams/03_conceptual.mmd
+00_architecture/diagrams/04_data_flow.mmd
+01_source_postgres/00_create_database.sql
+01_source_postgres/01_ddl_core_schema.sql
+01_source_postgres/02_seed_reference_data.sql
+01_source_postgres/03_seed_bulk_data.sql
+01_source_postgres/04_cdc_triggers.sql
+01_source_postgres/05_dml_simulator_functions.sql
+01_source_postgres/06_sql_lessons.sql
+01_source_postgres/07_ddl_cards.sql
+01_source_postgres/08_seed_cards.sql
+01_source_postgres/09_card_simulator.sql
+01_source_postgres/docker-compose.postgres.yml
+02_ingestion_python/config.py
+02_ingestion_python/dbt_artifact.py
+02_ingestion_python/pg_to_snowflake.py
+02_ingestion_python/reconcile_with_pandas.py
+02_ingestion_python/simulate_activity.py
+03_snowflake/01_account_setup_rbac.sql
+03_snowflake/02_databases_schemas_grants.sql
+03_snowflake/03_stages_raw_tables_control.sql
+03_snowflake/04_streams_tasks_dynamic_tables_demo.sql
+03_snowflake/05_time_travel_clone_demo.sql
+03_snowflake/06_row_level_security.sql
+03_snowflake/07_omni_search.sql
+03_snowflake/08_cost_attribution.sql
+03_snowflake/09_zero_copy_dev_environment.sql
+03_snowflake/10_dr_exercises.sql
+04_dbt_meridian_dw/analyses/card_questions.sql
+04_dbt_meridian_dw/analyses/kpi_queries.sql
+04_dbt_meridian_dw/dbt_project.yml
+04_dbt_meridian_dw/macros/card_policy.sql
+04_dbt_meridian_dw/macros/generate_schema_name.sql
+04_dbt_meridian_dw/macros/governance.sql
+04_dbt_meridian_dw/macros/helpers.sql
+04_dbt_meridian_dw/models/intermediate/_intermediate__models.yml
+04_dbt_meridian_dw/models/intermediate/_intermediate__unit_tests.yml
+04_dbt_meridian_dw/models/intermediate/int_account_primary_holder.sql
+04_dbt_meridian_dw/models/intermediate/int_fx_rates_daily_filled.sql
+04_dbt_meridian_dw/models/intermediate/int_transactions_with_fx.sql
+04_dbt_meridian_dw/models/marts/cards/_cards__models.yml
+04_dbt_meridian_dw/models/marts/cards/_cards__unit_tests.yml
+04_dbt_meridian_dw/models/marts/cards/dim_card.sql
+04_dbt_meridian_dw/models/marts/cards/dim_customer_current.sql
+04_dbt_meridian_dw/models/marts/cards/dim_merchant.sql
+04_dbt_meridian_dw/models/marts/cards/dim_offer.sql
+04_dbt_meridian_dw/models/marts/cards/dim_sale_event.sql
+04_dbt_meridian_dw/models/marts/cards/fct_card_applications.sql
+04_dbt_meridian_dw/models/marts/cards/fct_card_authorizations.sql
+04_dbt_meridian_dw/models/marts/cards/fct_card_fraud_alerts.sql
+04_dbt_meridian_dw/models/marts/cards/fct_next_best_offer.sql
+04_dbt_meridian_dw/models/marts/cards/ml_customer_features.sql
+04_dbt_meridian_dw/models/marts/core/_core__models.yml
+04_dbt_meridian_dw/models/marts/core/bridge_account_customer.sql
+04_dbt_meridian_dw/models/marts/core/dim_account.sql
+04_dbt_meridian_dw/models/marts/core/dim_branch.sql
+04_dbt_meridian_dw/models/marts/core/dim_channel.sql
+04_dbt_meridian_dw/models/marts/core/dim_currency.sql
+04_dbt_meridian_dw/models/marts/core/dim_customer.sql
+04_dbt_meridian_dw/models/marts/core/dim_date.sql
+04_dbt_meridian_dw/models/marts/core/dim_employee.sql
+04_dbt_meridian_dw/models/marts/core/dim_product.sql
+04_dbt_meridian_dw/models/marts/core/dim_transaction_type.sql
+04_dbt_meridian_dw/models/marts/core/fct_fx_rates_daily.sql
+04_dbt_meridian_dw/models/marts/core/fct_loan_applications.sql
+04_dbt_meridian_dw/models/marts/core/fct_monthly_account_balance.sql
+04_dbt_meridian_dw/models/marts/core/fct_transactions.sql
+04_dbt_meridian_dw/models/marts/finance/_finance__models.yml
+04_dbt_meridian_dw/models/marts/finance/agg_branch_daily_performance.sql
+04_dbt_meridian_dw/models/marts/governance/ent_customer_branch.sql
+04_dbt_meridian_dw/models/marts/serving/_serving__models.yml
+04_dbt_meridian_dw/models/marts/serving/omni_search.sql
+04_dbt_meridian_dw/models/staging/ml/_ml__sources.yml
+04_dbt_meridian_dw/models/staging/ml/stg_ml__model_scores.sql
+04_dbt_meridian_dw/models/staging/postgres/_postgres__models.yml
+04_dbt_meridian_dw/models/staging/postgres/_postgres__sources.yml
+04_dbt_meridian_dw/models/staging/postgres/_postgres__unit_tests.yml
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__account_holders.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__accounts.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__branches.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__card_applications.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__card_authorizations.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__channels.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__countries.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__credit_cards.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__currencies.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__customer_features.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__customers.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__deleted_records.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__employees.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__fx_rates.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__loan_applications.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__merchants.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__offer_catalog.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__products.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__sale_events.sql
+04_dbt_meridian_dw/models/staging/postgres/stg_postgres__transactions.sql
+04_dbt_meridian_dw/package-lock.yml
+04_dbt_meridian_dw/packages.yml
+04_dbt_meridian_dw/profiles.yml.example
+04_dbt_meridian_dw/seeds/seeds.yml
+04_dbt_meridian_dw/seeds/transaction_type_mapping.csv
+04_dbt_meridian_dw/selectors.yml
+04_dbt_meridian_dw/snapshots/snap_accounts.sql
+04_dbt_meridian_dw/snapshots/snap_branches.sql
+04_dbt_meridian_dw/snapshots/snap_customers.sql
+04_dbt_meridian_dw/tests/assert_fct_transactions_reconciles_to_staging.sql
+04_dbt_meridian_dw/tests/assert_fraud_rules_catch_injected_patterns.sql
+04_dbt_meridian_dw/tests/assert_offers_skip_recent_fraud.sql
+04_dbt_meridian_dw/tests/assert_posted_transactions_have_fx.sql
+04_dbt_meridian_dw/tests/assert_raw_transactions_required_keys.sql
+04_dbt_meridian_dw/tests/assert_scd2_no_overlapping_versions.sql
+05_airflow/Dockerfile
+05_airflow/README.md
+05_airflow/airflow_settings.yaml.example
+05_airflow/dags/_common.py
+05_airflow/dags/meridian_bounded_replay.py
+05_airflow/dags/meridian_card_decisioning.py
+05_airflow/dags/meridian_daily_batch.py
+05_airflow/dags/meridian_microbatch_ingest.py
+05_airflow/dags/meridian_source_freshness.py
+05_airflow/requirements.txt
+06_performance_lab/00_measure.sql
+06_performance_lab/01_postgres_missing_index.sql
+06_performance_lab/02_snowflake_pruning_clustering.sql
+06_performance_lab/03_spilling_and_warehouse_size.sql
+06_performance_lab/04_join_explosion_scd2.sql
+06_performance_lab/05_caching_layers.sql
+06_performance_lab/06_predicate_antipatterns.sql
+06_performance_lab/07_search_optimization_and_mv.sql
+06_performance_lab/08_dbt_incremental_vs_full_refresh.md
+06_performance_lab/09_warehouse_sizing_and_concurrency.sql
+06_performance_lab/README.md
+07_data_modelling/BUS_MATRIX.md
+07_data_modelling/erd_oltp.mmd
+07_data_modelling/star_schema.mmd
+08_ci_cd/github_workflows_checks.yml
+08_ci_cd/github_workflows_dbt_ci.yml
+09_decisioning_python/train_and_score.py
+10_semantic_app/01_semantic_view.sql
+10_semantic_app/README.md
+10_semantic_app/streamlit_app.py
+11_platform_terraform/main.tf
+11_platform_terraform/variables.tf
+README.md
+requirements.txt
+tests/conftest.py
+tests/test_extractor.py
+tests/test_training.py
+`.trim().split("\n");
+    const DIRS = ["00_architecture","00_architecture/adr","00_architecture/diagrams","01_source_postgres","02_ingestion_python","03_snowflake","04_dbt_meridian_dw","05_airflow","05_airflow/dags","05_airflow/include","06_performance_lab","07_data_modelling","08_ci_cd","09_decisioning_python","10_semantic_app","11_platform_terraform","tests",".github/workflows"];
+    FILES.push(".env", "04_dbt_meridian_dw/profiles.yml");
+    const CANDIDATE = /(?<![A-Za-z0-9_./-])((?:0\d|1[01])_[A-Za-z0-9_.-]+(?:\/[A-Za-z0-9_.*$-]+)*|\.env(?:\.example)?|profiles\.yml(?:\.example)?|[A-Za-z0-9_.-]+\.(?:sql|py|md|ya?ml|mmd|tf|html|txt|csv|example))/g;
+
+    function resolveFile(token) {
+      let t = token.replace(/\/+$/, "");
+      if (/[$*]/.test(t)) t = t.replace(/\/[^/]*[$*][^/]*$/, "").replace(/\/+$/, "");
+      if (!t) return null;
+      if (FILES.includes(t) || DIRS.includes(t)) return t;
+      const nextOk = ch => ch === "/" || ch === "_" || ch === "." || ch === "-";
+      const prefixed = FILES.filter(f => f.startsWith(t) && nextOk(f.charAt(t.length)));
+      if (prefixed.length === 1) return prefixed[0];
+      const base = t.split("/").pop();
+      const byBase = FILES.filter(f => f === base || f.endsWith("/" + base));
+      if (byBase.length === 1) return byBase[0];
+      if (!t.includes("/")) {
+        const byStart = FILES.filter(f => {
+          const name = f.split("/").pop();
+          return name.startsWith(base) && nextOk(name.charAt(base.length));
+        });
+        if (byStart.length === 1) return byStart[0];
+      }
+      return null;
+    }
+
+    function fileHref(rel) {
+      // This page lives in course/, so the project root is the parent folder.
+      let root = location.protocol === "file:"
+        ? decodeURIComponent(location.pathname.replace(/\/[^/]*$/, ""))
+        : "/Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK/course";
+      if (root.endsWith("/course")) root = root.slice(0, -"/course".length);
+      return "cursor://file" + root + "/" + rel.replace(/^\.\//, "");
+    }
+
+    function linkify(raw) {
+      const text = String(raw);
+      let out = "", last = 0, m;
+      CANDIDATE.lastIndex = 0;
+      while ((m = CANDIDATE.exec(text))) {
+        const token = m[0].replace(/[.,;:)]+$/, "");
+        const rel = resolveFile(token);
+        out += esc(text.slice(last, m.index));
+        if (rel) {
+          out += '<a class="filelink" href="' + esc(fileHref(rel)) + '" title="Open ' + esc(rel) + '">' + esc(token) + "</a>";
+          out += esc(m[0].slice(token.length));
+        } else {
+          out += esc(m[0]);
+        }
+        last = m.index + m[0].length;
+      }
+      return out + esc(text.slice(last));
+    }
+
+    function linkifyElement(root) {
+      const nodes = [];
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        if (node.parentElement.closest("a, script, style, textarea, button, .mermaid")) continue;
+        CANDIDATE.lastIndex = 0;
+        if (CANDIDATE.test(node.textContent)) nodes.push(node);
+      }
+      nodes.forEach(node => {
+        const html = linkify(node.textContent);
+        if (html === esc(node.textContent)) return;
+        const span = document.createElement("span");
+        span.innerHTML = html;
+        node.parentNode.replaceChild(span, node);
+      });
+    }
+
+    const fmt = s => linkify(s).replace(/`([^`]*)`/g, "<code>$1</code>");
+    const key = (ep, i) => ep.id + ":" + i;
+    const progress = ep => {
+      const done = ep.steps.filter((_, i) => state.done[key(ep, i)]).length;
+      return {done, total: ep.steps.length, pct: Math.round(100 * done / ep.steps.length)};
+    };
+    const gaps = ep => ep.steps.filter(s => s.gap).length;
+
+    function renderNav(activeId) {
+      drNav.innerHTML = '<div class="grp">Dry run</div><a href="#dryrun"' + (activeId ? "" : ' class="active"') + '>All episodes</a>' +
+        DRY_RUN.map(ep => '<a href="#dryrun/' + ep.id + '"' + (ep.id === activeId ? ' class="active"' : "") + '>' +
+          esc(ep.code) + " · " + esc(ep.title.split(":")[0]) + '<span class="dr-pct">' + progress(ep).pct + '%</span></a>').join("");
+    }
+
+    function renderIndex() {
+      const all = DRY_RUN.reduce((a, ep) => { const p = progress(ep); return {done: a.done + p.done, total: a.total + p.total}; }, {done: 0, total: 0});
+      const totalGaps = DRY_RUN.reduce((n, ep) => n + gaps(ep), 0);
+      view.innerHTML =
+        '<span class="eyebrow">Dry run · before you record</span>' +
+        '<h1>Build the whole thing once, off camera</h1>' +
+        '<p class="lead">This list only builds the project and checks that it works. Tick a step when it succeeds. Underlined file names open that file in Cursor. The same order is drawn in <a href="DRY_RUN_MAP.html">DRY_RUN_MAP.html</a>.</p>' +
+        '<div class="flow"><span>Postgres</span><em>→</em><span>Snowflake</span><em>→</em><span>Python load</span><em>→</em><span>dbt</span><em>→</em><span>Airflow</span><em>→</em><span>Scores</span><em>→</em><span>Row access</span></div>' +
+        (totalGaps ? '<div class="callout pitfall"><b class="tag">Red notes are real traps on this path</b><br>' + totalGaps + ' steps can fail for a reason that is easy to miss. Read the red note before you run that step.</div>' : '') +
+        '<div class="dr-head"><div><b>Overall</b> · ' + all.done + ' of ' + all.total + ' steps ticked</div><div class="bar"><i style="width:' + Math.round(100 * all.done / all.total) + '%"></i></div></div>' +
+        '<div class="dr-grid">' + DRY_RUN.map(ep => {
+          const p = progress(ep), g = gaps(ep);
+          return '<a class="dr-card" href="#dryrun/' + ep.id + '"><div class="code">' + esc(ep.code) + ' · ' + ep.mins + ' min</div>' +
+            '<div class="ttl">' + esc(ep.title) + '</div>' +
+            '<div class="meta"><span>' + p.done + ' / ' + p.total + ' steps</span>' + (g ? '<span class="gapcount">' + g + ' trap' + (g > 1 ? "s" : "") + '</span>' : "<span></span>") + '</div>' +
+            '<div class="bar"><i style="width:' + p.pct + '%"></i></div></a>';
+        }).join("") + '</div>' +
+        '<div class="dr-tools"><button type="button" id="dr-reset-all">Clear all ticks and notes</button></div>';
+      document.getElementById("dr-reset-all").onclick = () => {
+        if (!confirm("Clear every tick and note in the dry run?")) return;
+        state.done = {}; state.notes = {}; save(); route();
+      };
+    }
+
+    function renderEpisode(ep) {
+      const idx = DRY_RUN.indexOf(ep), prev = DRY_RUN[idx - 1], next = DRY_RUN[idx + 1], p = progress(ep);
+      view.innerHTML =
+        '<span class="eyebrow"><a href="#dryrun">Dry run</a> · ' + esc(ep.code) + ' · ' + ep.mins + ' min on camera</span>' +
+        '<div class="dr-head"><h1 style="margin:0">' + esc(ep.title) + '</h1><div><div class="muted" style="font-size:.85em" id="dr-count">' + p.done + ' of ' + p.total + ' done</div><div class="bar"><i id="dr-bar" style="width:' + p.pct + '%"></i></div></div></div>' +
+        '<dl class="dr-kv"><dt>What it is</dt><dd>' + fmt(ep.goal) + '</dd><dt>Needs first</dt><dd>' + fmt(ep.needs) + '</dd><dt>Ready to record when</dt><dd>' + fmt(ep.ready) + '</dd></dl>' +
+        '<ol class="dr-steps">' + ep.steps.map((s, i) => {
+          const done = !!state.done[key(ep, i)];
+          return '<li class="dr-step' + (done ? " done" : "") + '" data-i="' + i + '">' +
+            '<button type="button" class="tick" aria-pressed="' + done + '" aria-label="Mark step done"></button>' +
+            '<span class="where">' + linkify(s.where) + '</span><h4>' + fmt(s.t) + '</h4>' +
+            (s.why ? '<p class="muted" style="margin:4px 0">' + fmt(s.why) + '</p>' : "") +
+            (s.cmd ? '<span class="lbl">Do this</span><pre><button type="button" class="copy">Copy</button><code>' + linkify(s.cmd) + '</code></pre>' : "") +
+            (s.see ? '<span class="lbl">You should see</span><div class="see">' + fmt(s.see) + '</div>' : "") +
+            (s.gap ? '<div class="gap"><b>Trap:</b> ' + fmt(s.gap) + '</div>' : "") +
+            '</li>';
+        }).join("") + '</ol>' +
+        '<h3>Problems I found in this episode</h3>' +
+        '<textarea class="dr-notes" id="dr-notes" placeholder="Write anything that broke, how long things took, what to fix before recording.">' + esc(state.notes[ep.id] || "") + '</textarea>' +
+        '<div class="dr-nav">' + (prev ? '<a href="#dryrun/' + prev.id + '">← ' + esc(prev.code) + '</a>' : "<span></span>") +
+        (next ? '<a href="#dryrun/' + next.id + '">' + esc(next.code) + ' →</a>' : '<a href="#dryrun">All episodes</a>') + '</div>';
+
+      view.querySelectorAll(".dr-step").forEach(li => {
+        const i = +li.dataset.i;
+        li.querySelector(".tick").onclick = e => {
+          const k = key(ep, i);
+          state.done[k] = !state.done[k];
+          if (!state.done[k]) delete state.done[k];
+          save();
+          li.classList.toggle("done", !!state.done[k]);
+          e.currentTarget.setAttribute("aria-pressed", String(!!state.done[k]));
+          const q = progress(ep);
+          document.getElementById("dr-count").textContent = q.done + " of " + q.total + " done";
+          document.getElementById("dr-bar").style.width = q.pct + "%";
+          renderNav(ep.id);
+        };
+        const copy = li.querySelector(".copy");
+        if (copy) copy.onclick = () => {
+          navigator.clipboard.writeText(ep.steps[i].cmd).then(() => {
+            copy.textContent = "Copied";
+            setTimeout(() => { copy.textContent = "Copy"; }, 1200);
+          });
+        };
+      });
+      document.getElementById("dr-notes").oninput = e => { state.notes[ep.id] = e.target.value; save(); };
+    }
+
+    function route() {
+      const hash = location.hash.slice(1);
+      const inDryRun = hash === "dryrun" || hash.startsWith("dryrun/");
+      view.hidden = !inDryRun;
+      main.hidden = inDryRun;
+      courseNav.hidden = inDryRun;
+      drNav.hidden = !inDryRun;
+      document.getElementById("tab-dryrun").classList.toggle("on", inDryRun);
+      document.getElementById("tab-course").classList.toggle("on", !inDryRun);
+      if (!inDryRun) {
+        if (hash) document.getElementById(hash)?.scrollIntoView({behavior: "instant"});
+        return;
+      }
+      const ep = DRY_RUN.find(e => "dryrun/" + e.id === hash);
+      if (ep) renderEpisode(ep); else renderIndex();
+      renderNav(ep ? ep.id : null);
+      window.scrollTo({top: 0, behavior: "instant"});
+    }
+
+    linkifyElement(main);
+    window.addEventListener("hashchange", route);
+    route();
   })();
 </script>
 <script type="module">

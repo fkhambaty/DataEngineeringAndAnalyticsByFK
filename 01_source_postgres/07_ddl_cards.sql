@@ -14,7 +14,7 @@
 --    fraud_label is a synthetic ground truth for measuring detection. It is not a
 --    feature, and a real bank would not have it at authorization time.
 -- =====================================================================================
-\set ON_ERROR_STOP on
+-- Execute the whole script in DBeaver, connected to meridian_core.
 
 -- ------------------------------------------------------------------ products already allow CREDIT_CARD
 -- Extra card products are inserted by 08_seed_cards.sql

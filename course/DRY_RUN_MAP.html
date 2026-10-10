@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian dry run — visual map</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --ink:#1b2130; --muted:#5b6475; --line:#e5e8f0; --card:#fff;
+    --pg:#336791; --sf:#29B5E8; --py:#3776AB; --dbt:#FF694A; --af:#017CEE;
+    --gh:#24292f; --pen:#7c3aed; --amber:#d97706;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{padding:28px 40px 8px}
+  header p{margin:6px 0 0;color:var(--muted);max-width:820px}
+  h1{margin:0;font-size:32px;letter-spacing:-.03em}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2f54eb}
+  .board{padding:8px 32px 48px}
+  .lane{display:grid;grid-template-columns:210px 1fr;gap:18px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:12px 0}
+  .who{display:flex;gap:12px;align-items:center}
+  .mark{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:none;color:#fff}
+  .who b{display:block;font-size:15px}
+  .who span{color:var(--muted);font-size:13px}
+  ol{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:4px 0 0}
+  li{background:#f3f5f9;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:14px;display:flex;align-items:center;gap:8px}
+  li em{font-style:normal;font-weight:700;color:#2f54eb;font-size:12px}
+  .pg{background:var(--pg)} .sf{background:var(--sf)} .py{background:var(--py)}
+  .dbt{background:var(--dbt)} .af{background:var(--af)} .gh{background:var(--gh)}
+  .pen{background:var(--pen)} .amber{background:var(--amber)}
+  svg{width:30px;height:30px;display:block}
+  @media (max-width:800px){.lane{grid-template-columns:1fr}header, .board{padding-left:16px;padding-right:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Dry run · does the project work</div>
+  <h1>Build it once, then check it</h1>
+  <p>Each row is one part of the running project. Read the chips left to right. Demos, labs, and the recording rehearsal are not on this page. <a href="index.html">Back to the episode list</a>.</p>
+</header>
+<main class="board">
+
+  <section class="lane" id="start">
+    <div class="who"><div class="mark gh" aria-hidden="true"><svg viewBox="0 0 32 32"><path fill="#fff" d="M8 6h6v4H10v4h4v4h-4v8H8V6zm10 0h6v4h-4v2h4v10h-6V6z"/></svg></div><div><b>Start</b><span>Machine and account</span></div></div>
+    <ol>
+      <li><em>1</em> Tools answer</li>
+      <li><em>2</em> Python environment</li>
+      <li><em>3</em> Snowflake trial, Enterprise</li>
+      <li><em>4</em> One key pair for three robot users</li>
+    </ol>
+  </section>
+
+  <section class="lane" id="e1">
+    <div class="who"><div class="mark pg" aria-hidden="true"><svg viewBox="0 0 32 32"><ellipse cx="16" cy="8" rx="9" ry="4" fill="none" stroke="#fff" stroke-width="2"/><path d="M7 8v8c0 2.2 4 4 9 4s9-1.8 9-4V8" fill="none" stroke="#fff" stroke-width="2"/><path d="M7 16v8c0 2.2 4 4 9 4s9-1.8 9-4v-8" fill="none" stroke="#fff" stroke-width="2"/></svg></div><div><b>E1</b><span>Postgres · DBeaver</span></div></div>
+    <ol>
+      <li><em>1</em> Start Postgres</li>
+      <li><em>2</em> Create database meridian_core</li>
+      <li><em>3</em> Point DBeaver at meridian_core</li>
+      <li><em>4</em> Create tables</li>
+      <li><em>5</em> Seed branches, FX, employees</li>
+      <li><em>6</em> Seed 200k customers and 5M transactions</li>
+      <li><em>7</em> Create card tables</li>
+      <li><em>8</em> Install CDC triggers</li>
+      <li><em>9</em> Install the simulator</li>
+      <li><em>10</em> Seed card history</li>
+      <li><em>11</em> Install the card simulator</li>
+      <li><em>12</em> Check the row counts</li>
+      <li><em>13</em> Simulator returns a tick</li>
+    </ol>
+  </section>
+
+  <section class="lane" id="e3">
+    <div class="who"><div class="mark sf" aria-hidden="true"><svg viewBox="0 0 32 32"><path fill="#fff" d="M16 3l2.2 6.2L24 8l-4 4.6L22 19l-6-3.2L10 19l2-6.4L8 8l5.8 1.2z"/><path fill="#fff" d="M16 14l1.4 4 4.2-.8-2.6 3 1.3 4.2L16 22l-4.3 2.4 1.3-4.2-2.6-3 4.2.8z"/></svg></div><div><b>E3</b><span>Snowflake from zero</span></div></div>
+    <ol>
+      <li><em>1</em> Grant your login the Meridian roles</li>
+      <li><em>2</em> Roles and warehouses</li>
+      <li><em>3</em> Public key on three service users</li>
+      <li><em>4</em> Databases and grants</li>
+      <li><em>5</em> Raw VARIANT tables and stages</li>
+    </ol>
+  </section>
+
+  <section class="lane" id="e4">
+    <div class="who"><div class="mark py" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="13" cy="13" r="7" fill="none" stroke="#fff" stroke-width="2"/><circle cx="19" cy="19" r="7" fill="none" stroke="#FFE873" stroke-width="2"/></svg></div><div><b>E4</b><span>Python moves the changes</span></div></div>
+    <ol>
+      <li><em>1</em> Fill in .env</li>
+      <li><em>2</em> Load one tiny table</li>
+      <li><em>3</em> Full first load</li>
+      <li><em>4</em> Pipeline health</li>
+      <li><em>5</em> Counts match on both sides</li>
+    </ol>
+  </section>
+
+  <section class="lane" id="e5">
+    <div class="who"><div class="mark dbt" aria-hidden="true"><svg viewBox="0 0 32 32"><path fill="#fff" d="M8 24L16 6l8 18h-4l-4-9-4 9z"/></svg></div><div><b>E5</b><span>dbt · staging and history</span></div></div>
+    <ol>
+      <li><em>1</em> dbt connects</li>
+      <li><em>2</em> Dev build, last 30 days</li>
+    </ol>
+  </section>
+
+  <section class="lane" id="e6">
+    <div class="who"><div class="mark dbt" aria-hidden="true"><svg viewBox="0 0 32 32"><path fill="#fff" d="M6 22h20v3H6zm2-6h5v4H8zm7 0h5v4h-5zm7-8h5v12h-5z"/></svg></div><div><b>E6</b><span>dbt · the star schema</span></div></div>
+    <ol>
+      <li><em>1</em> Production build</li>
+      <li><em>2</em> Postgres and the fact table agree</li>
+    </ol>
+  </section>
+
+  <section class="lane" id="e7">
+    <div class="who"><div class="mark af" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="3" fill="#fff"/><path d="M16 5v5M16 22v5M5 16h5M22 16h5M8 8l3.5 3.5M20.5 20.5L24 24M24 8l-3.5 3.5M11.5 20.5L8 24" stroke="#fff" stroke-width="2" fill="none"/></svg></div><div><b>E7</b><span>Airflow takes the clock</span></div></div>
+    <ol>
+      <li><em>1</em> Copy code, profile, and key</li>
+      <li><em>2</em> Point Airflow at Postgres and the key</li>
+      <li><em>3</em> Start Airflow</li>
+      <li><em>4</em> One micro-batch run</li>
+      <li><em>5</em> Daily batch once</li>
+    </ol>
+  </section>
+
+  <section class="lane" id="e10">
+    <div class="who"><div class="mark amber" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="5" y="8" width="22" height="16" rx="2" fill="none" stroke="#fff" stroke-width="2"/><path d="M5 13h22" stroke="#fff" stroke-width="2"/></svg></div><div><b>E10</b><span>Cards, fraud, offers</span></div></div>
+    <ol>
+      <li><em>1</em> Train and publish scores</li>
+      <li><em>2</em> Offer list has model scores</li>
+    </ol>
+  </section>
+
+  <section class="lane" id="e11">
+    <div class="who"><div class="mark sf" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="12" cy="12" r="4" fill="#fff"/><circle cx="22" cy="12" r="4" fill="none" stroke="#fff" stroke-width="2"/><path d="M6 24c1-4 4-6 6-6s5 2 6 6M18 24c1-3 3-5 5-5 2 0 4 2 5 5" fill="none" stroke="#fff" stroke-width="2"/></svg></div><div><b>E11</b><span>Ask in English</span></div></div>
+    <ol>
+      <li><em>1</em> Row access policies</li>
+      <li><em>2</em> Attach the policies</li>
+      <li><em>3</em> Semantic view</li>
+      <li><em>4</em> Cortex permission for the demo users</li>
+      <li><em>5</em> Password for MERIDIAN_CEO</li>
+      <li><em>6</em> Ask one question in the app</li>
+    </ol>
+  </section>
+
+</main>
+</body>
+</html>

@@ -1,8 +1,8 @@
 -- =====================================================================================
 --  SQL LESSONS on the live OLTP data (Episode 1, second half)
---  Each block = one concept + the interview question it answers. Run them one at a time.
+--  Each block = one concept + the interview question it answers.
+--  In DBeaver, select one block and execute it. Then read the result before the next block.
 -- =====================================================================================
-\timing on
 
 -- L01  JOIN types: why LEFT JOIN + WHERE on the right table silently becomes an INNER JOIN
 --      Q: "Find branches with zero transactions this month."

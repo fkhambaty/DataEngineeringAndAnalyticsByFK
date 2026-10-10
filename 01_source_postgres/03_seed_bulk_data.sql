@@ -1,24 +1,10 @@
 -- =====================================================================================
 --  Seed: bulk operational data (customers, accounts, holders, transactions, loans)
 --
---  Sizes are psql variables so you can scale up for the performance lab:
---    psql -d meridian_core -v customers=200000 -v txn_millions=5 -f 03_seed_bulk_data.sql
---  Defaults: 200k customers, ~300k accounts, 5M transactions over about three years, 60k loan apps.
---  5M transactions takes ~2-4 minutes on a laptop Postgres. 20M for the lab is fine too.
+--  Course size, written in the SQL below: 200000 customers and 5 million transactions.
+--  For a larger performance-lab load, change both numbers together before executing.
+--  5 million transactions takes a few minutes. Execute the whole script in DBeaver.
 -- =====================================================================================
-\set ON_ERROR_STOP on
-\timing on
-
-\if :{?customers}
-\else
-  \set customers 200000
-\endif
-\if :{?txn_millions}
-\else
-  \set txn_millions 5
-\endif
-
-\echo Seeding :customers customers and :txn_millions million transactions
 
 -- ------------------------------------------------------------------ customers
 TRUNCATE core.customers, core.accounts, core.account_holders, core.transactions, core.loan_applications
@@ -38,7 +24,7 @@ gen AS (
   SELECT g AS n,
          1 + floor(random() * (SELECT count(*) FROM core.branches))::int AS home_branch_id,
          random() AS r1, random() AS r2, random() AS r3, random() AS r4
-  FROM generate_series(1, :customers) AS g
+  FROM generate_series(1, 200000) AS g
 )
 INSERT INTO core.customers (customer_number, first_name, last_name, date_of_birth, gender, email, phone,
                             kyc_status, segment, risk_rating, home_branch_id, country_code, city,
@@ -119,8 +105,8 @@ ON CONFLICT DO NOTHING;
 
 -- ------------------------------------------------------------------ transactions (batched, N million)
 -- Batching keeps WAL and memory in check and lets the lesson print progress.
--- psql does not substitute :variables inside $$ bodies, so pass the size via a session setting.
-SELECT set_config('meridian.txn_millions', :'txn_millions', false);
+-- The DO block reads this session setting. 5 means 5 million transactions.
+SELECT set_config('meridian.txn_millions', '5', false);
 
 DO $$
 DECLARE

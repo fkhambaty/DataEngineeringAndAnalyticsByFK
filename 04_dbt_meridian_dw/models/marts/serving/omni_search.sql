@@ -1,3 +1,4 @@
+-- depends_on: {{ ref('stg_postgres__deleted_records') }}
 {{
     config(
         materialized='incremental',

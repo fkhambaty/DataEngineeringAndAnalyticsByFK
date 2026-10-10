@@ -3,8 +3,7 @@
 --  Pure SQL (generate_series + arrays) -> also a lesson in set-based data generation.
 --  Idempotent: safe to re-run (ON CONFLICT DO NOTHING / TRUNCATE where appropriate).
 -- =====================================================================================
-\set ON_ERROR_STOP on
-\timing on
+-- Execute the whole script in DBeaver, connected to meridian_core.
 
 BEGIN;
 

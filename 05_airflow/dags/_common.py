@@ -8,8 +8,6 @@ exception to the "no fallback imports" rule).
 from __future__ import annotations
 
 import os
-import json
-import logging
 from datetime import datetime, timedelta, timezone
 
 try:
@@ -17,6 +15,8 @@ try:
 except ImportError:  # pragma: no cover - Airflow 2 fallback
     from airflow.decorators import dag, task  # type: ignore[no-redef]
     from airflow.models.param import Param  # type: ignore[no-redef]
+
+from meridian_alerts import send_alert
 
 DBT_PROJECT_DIR = os.getenv("DBT_PROJECT_DIR", "/usr/local/airflow/include/dbt")
 INGEST_DIR = os.getenv("INGEST_DIR", "/usr/local/airflow/include/ingestion")
@@ -28,7 +28,7 @@ START_DATE = datetime(2026, 1, 1, tzinfo=timezone.utc)
 
 
 def log_failure(context: dict) -> None:
-    """Structured callback: Airflow logs can be routed to Slack/PagerDuty without DAG changes."""
+    """Runs once a task has used up its retries: one JSON log line, plus Slack when a webhook is set."""
     task_instance = context.get("task_instance")
     payload = {
         "event": "meridian_task_failed",
@@ -39,7 +39,7 @@ def log_failure(context: dict) -> None:
         "log_url": getattr(task_instance, "log_url", None),
         "exception": str(context.get("exception", ""))[:1000],
     }
-    logging.getLogger("meridian.alert").error("%s", json.dumps(payload, default=str))
+    send_alert(payload)
 
 
 DEFAULT_ARGS = {

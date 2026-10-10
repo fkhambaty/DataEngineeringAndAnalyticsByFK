@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian — episode list</title>
+<style>
+:root{--bg:#121826;--card:#1c2636;--line:#33415c;--ink:#eef3fb;--muted:#a7b4c9;--teal:#2dd4bf}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 480px at 0 0,#1c3d4d,transparent 55%),var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:36px 22px 80px}
+.kicker{color:var(--teal);font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+h1{font-size:44px;letter-spacing:-.04em;margin:8px 0 10px}
+.lead{color:var(--muted);font-size:18px;line-height:1.5;max-width:720px}
+.files{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 8px}
+.files a{color:var(--ink);text-decoration:none;border:1px solid var(--line);background:#243044;border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px}
+.ep{display:grid;grid-template-columns:64px 1fr;gap:8px 16px;padding:16px 0;border-top:1px solid var(--line)}
+.n{font-size:22px;font-weight:800;color:var(--c,#2dd4bf)}
+.ep b{font-size:18px;display:block}
+.ep .why{color:var(--muted);font-size:14px;margin-top:3px}
+.acts{grid-column:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.acts a{text-decoration:none;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}
+.present{background:linear-gradient(135deg,#7dd3fc,#2dd4bf);color:#082028}
+.read{background:#243044;color:var(--ink);border:1px solid var(--line)}
+.dry{background:#3a2e14;color:#fbbf24;border:1px solid #6b5420}
+.slides{background:transparent;color:#93c5fd;border:1px solid #334155}
+.none{color:#73829a;font-size:13px;align-self:center}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="kicker">Record in this order</div>
+  <h1>Three doors on every video.</h1>
+  <p class="lead">Present opens the animated deck. Written lesson opens the long guide, at the section for that video, including the code. Dry run opens the checklist for building the project. This page does not replace those files.</p>
+  <div class="files">
+    <a href="INTRO_DECK.html">Opening deck</a>
+    <a href="WALKTHROUGHS.html">All walkthroughs</a>
+    <a href="COURSE_GUIDE.html">Code slides</a>
+    <a href="COURSE_GUIDE_TEXT.html">Written guide</a>
+    <a href="DRY_RUN_MAP.html">Dry run</a>
+  </div>
+
+  <article class="ep" style="--c:#2dd4bf">
+    <div class="n">01</div>
+    <div><b>The project and the bank</b><div class="why">Name the series and the tools, then the business case.</div>
+      <div class="acts"><a class="present" href="INTRO_DECK.html">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#business">Written lesson</a><span class="none">No dry run. Nothing is installed yet.</span></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#a78bfa">
+    <div class="n">02</div>
+    <div><b>Architecture, and why each tool sits there</b><div class="why">The picture, the medallion, then the written decision and the alternatives.</div>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e0-0">Present the picture</a><a class="present" href="WALKTHROUGHS.html#med-0">Present medallion</a><a class="read" href="COURSE_GUIDE_TEXT.html#architecture">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e0-0">Code slides</a><span class="none">No dry run.</span></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#38bdf8">
+    <div class="n">03</div>
+    <div><b>Install every tool</b><div class="why">Docker, DBeaver, Python, the Snowflake trial, the key. No project data yet.</div>
+      <div class="acts"><span class="none">No animated deck for install.</span><a class="read" href="COURSE_GUIDE_TEXT.html#setup">Written lesson</a><a class="dry" href="DRY_RUN_MAP.html#start">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#5b9bd5">
+    <div class="n">04</div>
+    <div><b>Build the source database</b><div class="why">Start PostgreSQL, then the SQL files in DBeaver, in order.</div>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e1-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m1">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e1-0">Code slides</a><a class="dry" href="DRY_RUN_MAP.html#e1">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#c4b5fd">
+    <div class="n">05</div>
+    <div><b>Draw the warehouse before building it</b><div class="why">Grain, history, fan-out, the rate on the day. Snowflake stays closed.</div>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e2-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m2">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e2-0">Code slides</a><span class="none">No dry run. This video is the drawing.</span></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#22d3ee">
+    <div class="n">06</div>
+    <div><b>Create the Snowflake rooms</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e3-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m3">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e3-0">Code slides</a><a class="dry" href="DRY_RUN_MAP.html#e3">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#60a5fa">
+    <div class="n">07</div>
+    <div><b>Python carries only what changed</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e4-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m4">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e4-0">Code slides</a><a class="dry" href="DRY_RUN_MAP.html#e4">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#ff7a5c">
+    <div class="n">08</div>
+    <div><b>dbt cleans the inbox</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e5-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m5">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e5-0">Code slides</a><a class="dry" href="DRY_RUN_MAP.html#e5">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#fb7185">
+    <div class="n">09</div>
+    <div><b>Build the star, then reconcile</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e6-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m5">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e6-0">Code slides</a><a class="dry" href="DRY_RUN_MAP.html#e6">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#38bdf8">
+    <div class="n">10</div>
+    <div><b>Airflow rings the bell</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e7-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m6">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e7-0">Code slides</a><a class="dry" href="DRY_RUN_MAP.html#e7">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#fbbf24">
+    <div class="n">11</div>
+    <div><b>Break it, measure, fix, measure</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e8-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m7">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e8-0">Code slides</a><span class="none">Not on the dry run. This is the lab.</span></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#4ade80">
+    <div class="n">12</div>
+    <div><b>Quality, CI, cost, and the runbook</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e9-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m8">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e9-0">Code slides</a><span class="none">Not on the dry run.</span></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#fbbf24">
+    <div class="n">13</div>
+    <div><b>Score a card, then make an offer</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e10-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m10">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e10-0">Code slides</a><a class="dry" href="DRY_RUN_MAP.html#e10">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#a78bfa">
+    <div class="n">14</div>
+    <div><b>Ask in English</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e11-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m11">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e11-0">Code slides</a><a class="dry" href="DRY_RUN_MAP.html#e11">Dry run</a></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#a8a29e">
+    <div class="n">15</div>
+    <div><b>The rules survive a rebuild</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e12-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#m12">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e12-0">Code slides</a><span class="none">Not on the dry run.</span></div>
+    </div>
+  </article>
+
+  <article class="ep" style="--c:#4ade80">
+    <div class="n">16</div>
+    <div><b>Say it in two minutes</b>
+      <div class="acts"><a class="present" href="WALKTHROUGHS.html#e13-0">Present</a><a class="read" href="COURSE_GUIDE_TEXT.html#career">Written lesson</a><a class="slides" href="COURSE_GUIDE.html#e13-0">Code slides</a><span class="none">No dry run.</span></div>
+    </div>
+  </article>
+</main>
+</body>
+</html>

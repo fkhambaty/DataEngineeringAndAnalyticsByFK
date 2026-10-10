@@ -1,3 +1,4 @@
+-- depends_on: {{ ref('stg_postgres__deleted_records') }}
 {{
     config(
         materialized='incremental',
@@ -92,8 +93,8 @@ final as (
         -- lineage
         t.updated_at                                  as source_updated_at,
         t._extracted_at,
-        current_timestamp()                           as inserted_at,
-        current_timestamp()                           as dbt_updated_at
+        current_timestamp()::timestamp_ntz           as inserted_at,
+        current_timestamp()::timestamp_ntz           as dbt_updated_at
     from txns t
     left join dim_account  da  on da.account_id  = t.account_id          and {{ scd2_match('t.transaction_ts', 'da') }}
     left join dim_customer dc  on dc.customer_id = t.primary_customer_id and {{ scd2_match('t.transaction_ts', 'dc') }}

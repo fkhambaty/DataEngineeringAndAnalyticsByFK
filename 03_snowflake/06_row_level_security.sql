@@ -35,27 +35,72 @@ CREATE TABLE IF NOT EXISTS MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER (
 
 -- ------------------------------------------------------------------ row access policies
 -- IF NOT EXISTS on purpose. A policy attached to tables cannot be replaced, and dropping
--- it would expose every row until it is re-attached. To change the rule in place:
---   ALTER ROW ACCESS POLICY MERIDIAN_ANALYTICS.GOVERNANCE.RAP_CUSTOMER_SCOPE SET BODY -> <new expression>;
--- Subqueries in a policy run with the policy owner's privileges, so personas never need
--- SELECT on APP_USER or ENT_CUSTOMER_BRANCH. CURRENT_USER(), not CURRENT_ROLE(): inside a
--- Streamlit app the role is the app owner's for every viewer; the user is the viewer.
+-- it would expose every row until it is re-attached. The ALTER below updates the body
+-- of a policy that is already attached.
+--
+-- A policy body cannot contain a JOIN. Branch managers are matched with a scalar lookup
+-- of their branch, then an EXISTS against ENT_CUSTOMER_BRANCH. Subqueries run with the
+-- policy owner's privileges, so personas never need SELECT on those tables.
+-- CURRENT_USER(), not CURRENT_ROLE(): inside a Streamlit app the role is the app
+-- owner's for every viewer; the user is the viewer.
 CREATE ROW ACCESS POLICY IF NOT EXISTS MERIDIAN_ANALYTICS.GOVERNANCE.RAP_CUSTOMER_SCOPE
 AS (p_customer_id NUMBER) RETURNS BOOLEAN ->
     CASE
-        WHEN EXISTS (SELECT 1 FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u WHERE u.snowflake_user = CURRENT_USER())
-        THEN EXISTS (
-            SELECT 1
-            FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
-            LEFT JOIN MERIDIAN_ANALYTICS.MARTS.ENT_CUSTOMER_BRANCH b
-                   ON b.customer_id = p_customer_id
+        WHEN EXISTS (
+            SELECT 1 FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
+            WHERE u.snowflake_user = CURRENT_USER() AND u.persona = 'CEO'
+        ) THEN TRUE
+        WHEN EXISTS (
+            SELECT 1 FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
             WHERE u.snowflake_user = CURRENT_USER()
-              AND (
-                    u.persona = 'CEO'
-                 OR (u.persona = 'CUSTOMER' AND u.customer_id = p_customer_id)
-                 OR (u.persona IN ('BRANCH_MANAGER', 'STAFF') AND b.branch_id = u.branch_id)
+              AND u.persona = 'CUSTOMER'
+              AND u.customer_id = p_customer_id
+        ) THEN TRUE
+        WHEN EXISTS (
+            SELECT 1 FROM MERIDIAN_ANALYTICS.MARTS.ENT_CUSTOMER_BRANCH b
+            WHERE b.customer_id = p_customer_id
+              AND b.branch_id = (
+                  SELECT MIN(u.branch_id)
+                  FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
+                  WHERE u.snowflake_user = CURRENT_USER()
+                    AND u.persona IN ('BRANCH_MANAGER', 'STAFF')
               )
-        )
+        ) THEN TRUE
+        WHEN EXISTS (
+            SELECT 1 FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
+            WHERE u.snowflake_user = CURRENT_USER()
+        ) THEN FALSE
+        ELSE IS_ROLE_IN_SESSION('MERIDIAN_TRANSFORMER')
+          OR IS_ROLE_IN_SESSION('MERIDIAN_ANALYST')
+          OR IS_ROLE_IN_SESSION('MERIDIAN_ML')
+    END;
+
+ALTER ROW ACCESS POLICY MERIDIAN_ANALYTICS.GOVERNANCE.RAP_CUSTOMER_SCOPE SET BODY ->
+    CASE
+        WHEN EXISTS (
+            SELECT 1 FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
+            WHERE u.snowflake_user = CURRENT_USER() AND u.persona = 'CEO'
+        ) THEN TRUE
+        WHEN EXISTS (
+            SELECT 1 FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
+            WHERE u.snowflake_user = CURRENT_USER()
+              AND u.persona = 'CUSTOMER'
+              AND u.customer_id = p_customer_id
+        ) THEN TRUE
+        WHEN EXISTS (
+            SELECT 1 FROM MERIDIAN_ANALYTICS.MARTS.ENT_CUSTOMER_BRANCH b
+            WHERE b.customer_id = p_customer_id
+              AND b.branch_id = (
+                  SELECT MIN(u.branch_id)
+                  FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
+                  WHERE u.snowflake_user = CURRENT_USER()
+                    AND u.persona IN ('BRANCH_MANAGER', 'STAFF')
+              )
+        ) THEN TRUE
+        WHEN EXISTS (
+            SELECT 1 FROM MERIDIAN_ANALYTICS.GOVERNANCE.APP_USER u
+            WHERE u.snowflake_user = CURRENT_USER()
+        ) THEN FALSE
         ELSE IS_ROLE_IN_SESSION('MERIDIAN_TRANSFORMER')
           OR IS_ROLE_IN_SESSION('MERIDIAN_ANALYST')
           OR IS_ROLE_IN_SESSION('MERIDIAN_ML')
@@ -160,8 +205,13 @@ GRANT SELECT ON VIEW MERIDIAN_ANALYTICS.GOVERNANCE.V_MY_SCOPE TO ROLE MERIDIAN_B
 GRANT SELECT ON VIEW MERIDIAN_ANALYTICS.GOVERNANCE.V_MY_SCOPE TO ROLE MERIDIAN_STAFF;
 GRANT SELECT ON VIEW MERIDIAN_ANALYTICS.GOVERNANCE.V_MY_SCOPE TO ROLE MERIDIAN_CUSTOMER;
 
--- Cortex Analyst (if this account's region has it).
+-- Cortex Analyst (if this account's region has it). The laptop app calls it as the
+-- person who signed in, so each persona role needs this grant, not only the app owner.
 GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_APP;
+GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_CEO;
+GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_BRANCH_MANAGER;
+GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_STAFF;
+GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE MERIDIAN_CUSTOMER;
 
 -- ------------------------------------------------------------------ four demo logins
 -- Human users. Passwords are set by you in Snowsight (Admin -> Users & Roles -> user ->

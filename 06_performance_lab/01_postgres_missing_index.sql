@@ -6,7 +6,7 @@
 --  With no index on updated_at Postgres reads the WHOLE table every 5 minutes.
 --  On 5M rows that is ~1-3 s; on 20M rows 10+ s of pure I/O, 288 times a day, for ~2k rows.
 -- =====================================================================================
-\timing on
+-- Execute each statement in DBeaver, connected to meridian_core.
 
 -- Make sure the planner statistics are fresh so the comparison is fair
 ANALYZE core.transactions;

@@ -11,6 +11,8 @@ unit_tests:
       macros:
         is_incremental: false
     given:
+      - input: ref('stg_postgres__deleted_records')
+        rows: []
       - input: source('postgres_core', 'transactions')
         format: dict
         rows:

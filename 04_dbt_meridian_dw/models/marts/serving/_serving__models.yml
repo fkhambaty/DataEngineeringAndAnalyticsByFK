@@ -34,7 +34,7 @@ models:
           - not_null
           - dbt_utils.expression_is_true:
               arguments:
-                expression: "search_text = upper(search_text) and position('@' in search_text) = 0"
+                expression: "= upper(search_text) and position('@' in search_text) = 0"
       - name: customer_id
         description: Entitlement key. Every row has one, so the row access policy can decide.
         data_tests: [not_null]

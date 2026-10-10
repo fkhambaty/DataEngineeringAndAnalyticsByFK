@@ -18,6 +18,9 @@
 --    * no index on core.transactions(updated_at)             -> extraction does a seq scan
 --    * no index on core.transactions(account_id, transaction_ts) -> statement queries crawl
 -- =====================================================================================
+-- Execute the whole script in DBeaver, connected to meridian_core.
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE SCHEMA IF NOT EXISTS ref;
 CREATE SCHEMA IF NOT EXISTS core;

@@ -12,16 +12,19 @@ design doc can be recomputed.
 
 Public source for students: <https://github.com/fkhambaty/DataEngineeringAndAnalyticsByFK>
 
+The lessons, decks, and dry run are in this repository. The same pipeline as code only, ready to clone and run, is <https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK>.
+
 **Start here:**
 1. [`00_architecture/DESIGN_DOC.md`](00_architecture/DESIGN_DOC.md): requirements, SLOs, capacity and cost math, data classification, failure modes.
 2. [`00_architecture/ARCHITECTURE_PROCESS.md`](00_architecture/ARCHITECTURE_PROCESS.md): requirements-to-operations design sequence and standard artifacts.
-3. `COURSE_GUIDE.html` (open in a browser): every step explained, with the episode plan and interview questions taught in the relevant module.
+3. [`course/index.html`](course/index.html) (open in a browser): the episode list. Each video links to the animated presentation, the written code lesson, and the dry run where one exists.
 4. [`00_architecture/OPERATIONS_RUNBOOK.md`](00_architecture/OPERATIONS_RUNBOOK.md) and [`00_architecture/DR_RUNBOOK.md`](00_architecture/DR_RUNBOOK.md): incident and recovery procedures.
 
 ## Folder map (follow in this order)
 
 | Folder | What it is | Run with |
 |---|---|---|
+| `course/` | Episode list, animated decks, written guide, dry run | open `course/index.html` |
 | `00_architecture/` | Design doc, the architecture process (which diagram at which step), and Architecture Decision Records | read first |
 | `01_source_postgres/` | OLTP schema (3NF), SQL seed scripts (520 branches, 200k customers, 5M+ transactions, cards), CDC triggers, DML simulator procedures | `psql` |
 | `02_ingestion_python/` | Micro-batch extractor Postgres → Parquet → Snowflake stage → `COPY INTO` raw (watermark driven), activity simulator, reconciliation with pandas | `python3` |
@@ -44,13 +47,13 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt pytest
 pytest -q tests                                     # no warehouse needed
 
-# 1. Postgres (Docker) + schema + seed
+# 1. Postgres (Docker). Then execute the SQL in DBeaver, not in the terminal.
 docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d
-export PGPASSWORD=meridian
-psql -h localhost -U meridian -d postgres -f 01_source_postgres/00_create_database.sql
-for f in 01_ddl_core_schema 02_seed_reference_data 03_seed_bulk_data 07_ddl_cards 04_cdc_triggers 05_dml_simulator_functions 08_seed_cards 09_card_simulator; do
-  psql -h localhost -U meridian -d meridian_core -v ON_ERROR_STOP=1 -f 01_source_postgres/$f.sql
-done
+#    Connection: localhost:5432, user meridian, password meridian, database postgres
+#    Execute 01_source_postgres/00_create_database.sql
+#    Change the connection database to meridian_core, then execute in order:
+#    01_ddl_core_schema, 02_seed_reference_data, 03_seed_bulk_data, 07_ddl_cards,
+#    04_cdc_triggers, 05_dml_simulator_functions, 08_seed_cards, 09_card_simulator
 
 # 2. Snowflake platform: EITHER run 03_snowflake/01..03 in Snowsight as ACCOUNTADMIN,
 #    OR `terraform apply` in 11_platform_terraform, then run the remaining applicable
@@ -70,6 +73,6 @@ cd .. && python3 09_decisioning_python/train_and_score.py
 cd 04_dbt_meridian_dw && dbt build -s stg_ml__model_scores+ --target prod
 ```
 
-Everything above is explained, with the "why", in `COURSE_GUIDE.html`.
+Everything above is explained, with the "why", in `course/COURSE_GUIDE_TEXT.html`. The animated openings are `course/INTRO_DECK.html` and `course/WALKTHROUGHS.html`. The build checklist is `course/DRY_RUN_MAP.html`.
 Offline checks are executable without credentials. Snowflake-connected SQL, dbt builds,
 policies, clone recovery and the app must be run and evidenced in your own account.

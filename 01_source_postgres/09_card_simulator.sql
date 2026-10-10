@@ -2,7 +2,7 @@
 --  Live card activity. Run after 05_dml_simulator_functions.sql.
 --  Replaces core.sim_tick so one tick also moves applications, plastic and spend.
 -- =====================================================================================
-\set ON_ERROR_STOP on
+-- Execute the whole script in DBeaver, connected to meridian_core.
 
 CREATE OR REPLACE FUNCTION core.sim_card_applications(p_count int DEFAULT 8) RETURNS int
 LANGUAGE plpgsql AS $$

@@ -9,7 +9,7 @@
 --  Production alternative (talk about it in the video): logical replication / Debezium reading
 --  the WAL. wal_level=logical is already enabled in docker-compose; see bottom of this file.
 -- =====================================================================================
-\set ON_ERROR_STOP on
+-- Execute the whole script in DBeaver, connected to meridian_core.
 
 CREATE OR REPLACE FUNCTION cdc.set_updated_at() RETURNS trigger
 LANGUAGE plpgsql AS $$

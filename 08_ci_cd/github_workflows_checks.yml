@@ -7,6 +7,7 @@
 #   * a broken ref(), bad YAML, a contract with a missing column          -> dbt parse
 #   * SQL style drift                                                     -> sqlfluff
 #   * an invalid platform change                                          -> terraform validate
+#   * a committed credential, or a dependency with a known CVE           -> gitleaks, pip-audit
 # The slower dbt_ci.yml (warehouse, slim build) only runs after this is green.
 name: checks
 
@@ -45,6 +46,26 @@ jobs:
       - run: dbt parse --no-partial-parse --warn-error
       - name: Lint SQL (style only; the templater renders Jinja without a connection)
         run: sqlfluff lint models/intermediate/int_account_primary_holder.sql --dialect snowflake --templater jinja
+
+  # Two questions no other job asks: did anyone commit a credential, and does any library we
+  # install have a published vulnerability? fetch-depth 0 matters: a key deleted in a later
+  # commit is still in the history, and anyone who clones the repo can read it.
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Secret scan of the full git history (keys, tokens, passwords, webhook URLs)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pip-audit
+      - name: Known-vulnerability audit (PyPI advisory database) of both requirement files
+        run: pip-audit -r requirements.txt -r 05_airflow/requirements.txt
 
   terraform:
     runs-on: ubuntu-latest

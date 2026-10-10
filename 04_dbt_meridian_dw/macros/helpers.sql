@@ -1,10 +1,11 @@
 {# ------------------------------------------------------------------------------------
    limit_in_dev(column)
    In dev, only build the last N days of a big table. Same SQL, 10x cheaper iterations.
+   Unit tests keep the dates in their fixtures, so this filter does not apply there.
    Usage:  where 1=1 {{ limit_in_dev('transaction_ts') }}
 ------------------------------------------------------------------------------------ #}
 {% macro limit_in_dev(ts_column) -%}
-    {%- if target.name != 'prod' -%}
+    {%- if target.name != 'prod' and model.resource_type != 'unit_test' -%}
         and {{ ts_column }} >= dateadd('day', -{{ var('dev_days_of_history') }}, current_timestamp())
     {%- endif -%}
 {%- endmacro %}

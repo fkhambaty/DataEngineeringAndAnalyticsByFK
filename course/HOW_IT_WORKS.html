@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian — how every part works</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  :root{
+    --bg:#f6f7fb; --ink:#1b2130; --muted:#5b6475; --line:#e5e8f0; --card:#fff;
+    --pg:#336791; --sf:#29B5E8; --py:#3776AB; --dbt:#FF694A; --af:#017CEE; --ai:#7c3aed; --amber:#d97706;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  header{padding:32px 40px 8px;max-width:1100px;margin:auto}
+  h1{margin:0;font-size:34px;letter-spacing:-.03em}
+  h2{font-size:24px;letter-spacing:-.02em;margin:0 0 6px}
+  h3{font-size:17px;margin:22px 0 6px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2f54eb}
+  .lead{color:var(--muted);max-width:860px}
+  main{max-width:1100px;margin:auto;padding:8px 40px 80px}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+  nav.toc a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--ink);text-decoration:none}
+  section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 28px;margin:18px 0}
+  .tag{display:inline-block;color:#fff;font-weight:700;font-size:12px;border-radius:8px;padding:3px 9px;margin-right:8px;vertical-align:middle}
+  .pg{background:var(--pg)} .py{background:var(--py)} .sf{background:var(--sf)} .dbt{background:var(--dbt)} .af{background:var(--af)} .ai{background:var(--ai)} .amber{background:var(--amber)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:12px}
+  .box{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fbfcfe}
+  .box b{display:block;margin-bottom:4px}
+  .analogy{border-left:4px solid var(--amber);background:#fff8ec;padding:10px 14px;border-radius:8px;margin:12px 0}
+  .say{border-left:4px solid #2f54eb;background:#f0f4ff;padding:10px 14px;border-radius:8px;margin:12px 0}
+  .say::before{content:"Say this on camera — ";font-weight:700}
+  .trap{border-left:4px solid #dc2626;background:#fef2f2;padding:10px 14px;border-radius:8px;margin:12px 0}
+  .trap::before{content:"What broke today, and the lesson — ";font-weight:700}
+  pre{background:#0f172a;color:#e2e8f0;border-radius:12px;padding:14px 16px;overflow:auto;font-size:13px;line-height:1.5}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+  p code, li code, td code{background:#eef1f7;padding:1px 5px;border-radius:5px}
+  .file{font-size:12px;color:var(--muted);margin:-4px 0 4px}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+  th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f3f5f9}
+  .mermaid{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:12px 0;text-align:center}
+  details{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fbfcfe}
+  summary{cursor:pointer;font-weight:600}
+
+  /* ---------- animated journey ---------- */
+  .journey{position:relative;height:190px;margin:18px 0 6px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .stop{position:absolute;top:24px;width:15%;text-align:center;font-size:12px;color:var(--muted)}
+  .stop i{display:grid;place-items:center;margin:0 auto 6px;width:56px;height:56px;border-radius:16px;color:#fff;font-style:normal;font-weight:800;font-size:13px}
+  .stop:nth-child(1){left:1%} .stop:nth-child(2){left:17.5%} .stop:nth-child(3){left:34%}
+  .stop:nth-child(4){left:50.5%} .stop:nth-child(5){left:67%} .stop:nth-child(6){left:83.5%}
+  .rail{position:absolute;left:8%;right:8%;top:52px;height:3px;background:repeating-linear-gradient(90deg,#cbd2e1 0 8px,transparent 8px 14px)}
+  .packet{position:absolute;top:40px;left:6%;width:26px;height:26px;border-radius:8px;background:#facc15;box-shadow:0 0 0 4px #fde68a;animation:travel 14s linear infinite}
+  @keyframes travel{0%{left:6%}14%{left:6%}28%{left:23%}42%{left:39.5%}56%{left:56%}70%{left:72.5%}84%{left:89%}100%{left:89%}}
+  .caption{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-weight:600;font-size:14px}
+  .caption span{position:absolute;left:0;right:0;opacity:0;animation:cap 14s linear infinite}
+  .caption span:nth-child(1){animation-delay:0s} .caption span:nth-child(2){animation-delay:2.33s}
+  .caption span:nth-child(3){animation-delay:4.66s} .caption span:nth-child(4){animation-delay:7s}
+  .caption span:nth-child(5){animation-delay:9.33s} .caption span:nth-child(6){animation-delay:11.66s}
+  @keyframes cap{0%,1%{opacity:0}3%,15%{opacity:1}17%,100%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.packet,.caption span{animation:none}.caption span:first-child{opacity:1}}
+  @media (max-width:800px){main,header{padding-left:16px;padding-right:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Meridian Bank · teach it, don't just run it</div>
+  <h1>How every part of the machine works</h1>
+  <p class="lead">Follow one card payment from the moment a customer pays to the moment the CEO asks about it in English. Each section names the real file, shows the few lines that matter, gives an everyday comparison, and gives you a sentence to say on camera. The red boxes are the bugs you hit during the dry run. They make the best teaching moments.</p>
+  <nav class="toc">
+    <a href="#journey">0 · One payment's journey</a><a href="#pg">1 · Postgres</a><a href="#py">2 · Python loader</a>
+    <a href="#raw">3 · Snowflake raw</a><a href="#dbt">4 · dbt</a><a href="#af">5 · Airflow</a>
+    <a href="#gov">6 · Who sees what</a><a href="#ai">7 · Ask in English</a><a href="#quiz">8 · Test yourself</a>
+  </nav>
+</header>
+<main>
+
+<!-- ================================================================ 0 -->
+<section id="journey">
+  <span class="eyebrow">Section 0</span>
+  <h2>One payment's journey, in 14 seconds</h2>
+  <p>The yellow square is one transaction: <i>customer 4821 pays ₹2,400 at Amazon</i>. Watch it move.</p>
+  <div class="journey" aria-label="Animated journey of one transaction">
+    <div class="stop"><i class="pg">PG</i>Postgres<br>the bank's app</div>
+    <div class="stop"><i class="py">PY</i>Python<br>the courier</div>
+    <div class="stop"><i class="sf">RAW</i>Snowflake raw<br>the inbox</div>
+    <div class="stop"><i class="dbt">dbt</i>dbt<br>the kitchen</div>
+    <div class="stop"><i class="sf">GOLD</i>Marts<br>the shop shelf</div>
+    <div class="stop"><i class="ai">AI</i>English app<br>the shop assistant</div>
+    <div class="rail"></div><div class="packet"></div>
+    <div class="caption">
+      <span>1. The bank app inserts the row. A trigger stamps updated_at.</span>
+      <span>2. Every 5 minutes Python asks: "what changed since my bookmark?"</span>
+      <span>3. The row lands as JSON in an append-only raw table. Nothing is ever edited.</span>
+      <span>4. dbt keeps the newest version, converts INR to USD, finds the customer.</span>
+      <span>5. It becomes one row in fct_transactions, the gold fact table.</span>
+      <span>6. "How much did we spend on Amazon?" Cortex writes SQL; the row policy filters it.</span>
+    </div>
+  </div>
+  <div class="analogy"><b>The everyday picture.</b> A restaurant. Postgres is the till where orders are taken. Python is the delivery driver who brings new receipts to head office every 5 minutes. Snowflake raw is the inbox where receipts pile up, never thrown away. dbt is the accountant who sorts, cleans and totals them. The marts are the finished reports. Airflow is the alarm clock that tells the driver and the accountant when to work. The English app is a receptionist who reads the reports for you, but only shows you the pages you're allowed to see.</div>
+  <div class="mermaid">
+flowchart LR
+  subgraph Laptop["Your Mac (Docker)"]
+    PG[("Postgres 16\nmeridian_core")]
+    SIM["simulate_activity.py\nsim_tick()"] -->|inserts, updates, deletes| PG
+    AF["Airflow\n(Astro, 5 containers)"]
+    APP["Streamlit app\nlocalhost:8501"]
+  end
+  subgraph SF["Snowflake (cloud)"]
+    RAW[("MERIDIAN_RAW\nVARIANT, append-only")]
+    CTRL[("CONTROL\nWATERMARKS, LOAD_LOG")]
+    STG["STAGING / INTERMEDIATE\n(views + 1 incremental)"]
+    MART[("MARTS\nfacts + dimensions")]
+    GOV["GOVERNANCE\nrow policies, masks"]
+    SV["SV_MERIDIAN_BANK\nsemantic view"]
+    CX["Cortex Analyst"]
+  end
+  PG -->|"pg_to_snowflake.py\nParquet -> PUT -> COPY"| RAW
+  AF -. every 5 min .-> PG
+  AF -. runs dbt .-> STG
+  RAW --> STG --> MART
+  GOV -. filters .-> MART
+  MART --> SV --> CX
+  APP -->|question| CX
+  CX -->|SQL| APP
+  APP -->|runs SQL as the logged-in user| MART
+  </div>
+</section>
+
+<!-- ================================================================ 1 -->
+<section id="pg">
+  <span class="tag pg">1</span><h2 style="display:inline">Postgres — the bank's live system</h2>
+  <p>Postgres plays the bank's core system: customers, accounts, transactions, cards. It runs in Docker as <code>meridian_postgres</code> on port 5432. It is the <b>source</b>: we only read from it, never write analytics back into it.</p>
+  <div class="grid">
+    <div class="box"><b>Schemas</b><code>ref</code> (currencies, FX, products, merchants), <code>core</code> (customers, accounts, transactions, cards), <code>cdc</code> (the delete log).</div>
+    <div class="box"><b>Seed data</b>200k customers and 5M transactions so performance is real, not toy.</div>
+    <div class="box"><b>Simulator</b><code>sim_tick()</code> posts 500 transactions, settles some, reverses some, and hard-deletes one row, so every CDC case happens.</div>
+  </div>
+  <h3>The two triggers that make change capture possible</h3>
+  <p class="file">01_source_postgres/04_cdc_triggers.sql</p>
+<pre><code>-- 1. Every UPDATE bumps updated_at. Apps forget; the trigger doesn't.
+NEW.updated_at := clock_timestamp();     -- not now(): now() is frozen for the whole transaction
+
+-- 2. Every DELETE leaves a note, because a deleted row can't be "selected" later.
+INSERT INTO cdc.deleted_records (schema_name, table_name, pk_value, deleted_at)
+VALUES (TG_TABLE_SCHEMA, TG_TABLE_NAME, v_pk, clock_timestamp());</code></pre>
+  <div class="mermaid">
+sequenceDiagram
+  participant App as Bank app / simulator
+  participant T as transactions table
+  participant Trg as triggers
+  participant D as cdc.deleted_records
+  App->>T: INSERT txn 101 (PENDING)
+  Trg-->>T: updated_at = 10:00:00
+  App->>T: UPDATE txn 101 -> POSTED
+  Trg-->>T: updated_at = 10:04:00
+  App->>T: DELETE txn 77
+  Trg->>D: (core, transactions, 77, 10:05)
+  </div>
+  <div class="analogy">The <code>updated_at</code> column is a "last touched" sticker on every file in a cabinet. The delete log is a sign-out sheet: when a file is shredded, someone writes its number on the sheet, so head office finds out.</div>
+  <div class="say">We read changes by timestamp, so the source has to promise two things: every change moves the timestamp, and every delete is written down. These two triggers are that promise.</div>
+  <div class="trap">The Postgres count kept climbing. The simulator is a <code>while True</code> loop, 500 rows every 5 seconds, until you press Ctrl+C. A live source never stands still, so you compare counts as of a point in time, never "right now".</div>
+</section>
+
+<!-- ================================================================ 2 -->
+<section id="py">
+  <span class="tag py">2</span><h2 style="display:inline">Python — the courier (extract and load)</h2>
+  <p><b>Why Python and not dbt?</b> dbt can only transform data already inside Snowflake. It cannot reach your laptop's Postgres. Moving bytes from one system to another is <i>extract and load</i>. That is Python's job here, and in companies it's often Fivetran, Airbyte or Debezium.</p>
+  <p class="file">02_ingestion_python/pg_to_snowflake.py — five steps per table</p>
+  <div class="mermaid">
+flowchart TD
+  A["1. Read bookmark\nSELECT last_watermark FROM CONTROL.WATERMARKS"] --> B["2. Pick a safe window\nlow = bookmark\nhigh = now - 10 s lag"]
+  B --> C["3. Extract\nSELECT * WHERE updated_at > low AND updated_at <= high\n(server-side cursor, 200k rows per chunk)"]
+  C --> D["4. Write Parquet files\n/tmp/meridian_ingest/*.parquet"]
+  D --> E["5a. PUT files to Snowflake stage\n5b. COPY INTO raw table (VARIANT)"]
+  E --> F{"COPY succeeded?"}
+  F -->|yes| G["Move bookmark to the max updated_at actually seen\nwrite LOAD_LOG row = SUCCESS"]
+  F -->|no| H["Bookmark NOT moved\nLOAD_LOG = FAILED\nnext run retries the same window"]
+  </div>
+  <h3>The idea in one picture: the watermark</h3>
+<pre><code>time  ──────────────────────────────────────────────────────────►
+       already loaded       │  this run's window     │ lag │ now
+       ████████████████████ │ ░░░░░░░░░░░░░░░░░░░░░░ │ 10s │
+                         bookmark                  high</code></pre>
+  <div class="grid">
+    <div class="box"><b>Why a 10-second lag?</b>A transaction that started at 09:59:59 might commit after we read. Stopping 10 s short of now gives slow commits time to land, so we don't skip them.</div>
+    <div class="box"><b>Why move to "max seen", not "high"?</b>If a quiet table had no rows, we keep the old bookmark. A row that arrives late with an older timestamp can still be caught.</div>
+    <div class="box"><b>Why Parquet?</b>Typed (a decimal stays a decimal), compressed, and Snowflake loads it in parallel. CSV loses types and breaks on commas.</div>
+    <div class="box"><b>Why idempotent?</b>If anything fails, the bookmark doesn't move. Running again produces the same result. Raw might get a duplicate copy, and dbt removes it later.</div>
+  </div>
+  <h3>The load itself</h3>
+<pre><code>PUT file:///tmp/meridian_ingest/transactions_&lt;batch&gt;_*.parquet @stage AUTO_COMPRESS=FALSE PARALLEL=8
+
+COPY INTO MERIDIAN_RAW.POSTGRES_CORE.TRANSACTIONS (record, _extracted_at, _batch_id, _source_file)
+FROM (SELECT $1, '&lt;extracted_at&gt;', '&lt;batch&gt;', METADATA$FILENAME FROM @stage)
+ON_ERROR = ABORT_STATEMENT     -- never load half a batch
+PURGE = TRUE                   -- delete the files once loaded</code></pre>
+  <div class="analogy">The watermark is a bookmark in a novel that is still being written. Each visit you read from the bookmark to the last <i>finished</i> page (not the one the author is typing), then move the bookmark to the last page you actually read.</div>
+  <div class="say">The loader is boring on purpose. It reads what changed since its bookmark, ships it as Parquet, and only moves the bookmark after Snowflake confirms the load. If it crashes, rerunning it is safe.</div>
+  <div class="trap"><code>zsh: command not found: python</code>. On a Mac there's no <code>python</code> until the project's <code>.venv</code> is activated, and scripts must be run from the project folder. The environment is part of the system, so it must be part of the instructions.</div>
+</section>
+
+<!-- ================================================================ 3 -->
+<section id="raw">
+  <span class="tag sf">3</span><h2 style="display:inline">Snowflake raw — the inbox that never forgets</h2>
+  <p>Each Postgres table has a twin in <code>MERIDIAN_RAW</code> with just four columns:</p>
+  <table>
+    <tr><th>Column</th><th>What it holds</th><th>Why</th></tr>
+    <tr><td><code>record</code> (VARIANT)</td><td>the whole Postgres row as JSON</td><td>A new column in Postgres never breaks the load</td></tr>
+    <tr><td><code>_extracted_at</code></td><td>when the loader picked it up</td><td>dbt reads only rows newer than its last run</td></tr>
+    <tr><td><code>_batch_id</code></td><td>which run loaded it</td><td>Trace any row back to one LOAD_LOG entry</td></tr>
+    <tr><td><code>_source_file</code></td><td>the Parquet file name</td><td>Audit and debugging</td></tr>
+  </table>
+  <div class="mermaid">
+flowchart LR
+  subgraph Postgres["Postgres: current state"]
+    P1["txn 101 · POSTED"]
+  end
+  subgraph Raw["Snowflake raw: every version"]
+    R1["txn 101 · PENDING · batch A"]
+    R2["txn 101 · POSTED · batch B"]
+    R3["txn 77 · deleted in Postgres, still here"]
+  end
+  P1 -. loaded twice .-> R1 & R2
+  </div>
+  <div class="analogy">Raw is a photocopy of every version of every receipt. If the till changes a receipt, you get a second photocopy. Shredding the original doesn't shred the copies.</div>
+  <div class="say">Raw is append-only. It's our evidence. If dbt has a bug, we fix it and rebuild from raw. We never have to go back to the bank's live system.</div>
+  <div class="trap">Snowflake raw had <i>more</i> rows (5,310,771) than Postgres (5,309,358). That is correct, not a bug. Raw counts every version, plus rows later deleted. Only after dbt deduplicates does the count match Postgres.</div>
+  <div class="trap">A view failed with <code>unexpected 'rows'</code>. <code>ROWS</code> is a reserved word in Snowflake, so <code>AS rows</code> became <code>AS rows_loaded</code>. Lesson: name columns for what they mean.</div>
+</section>
+
+<!-- ================================================================ 4 -->
+<section id="dbt">
+  <span class="tag dbt">4</span><h2 style="display:inline">dbt — the kitchen (transform inside Snowflake)</h2>
+  <p>dbt is SQL files plus a compiler. Each <code>.sql</code> file is one table or view. <code>{{ ref('x') }}</code> tells dbt "this depends on x", so dbt knows the build order and draws the lineage graph. dbt itself moves no data. It sends SQL to Snowflake, and Snowflake does the work.</p>
+  <div class="mermaid">
+flowchart LR
+  subgraph Bronze["Bronze = RAW"]
+    r[(raw VARIANT\n22 sources)]
+  end
+  subgraph Silver["Silver = STAGING + INTERMEDIATE"]
+    s["21 staging models\nparse JSON, rename, dedupe"]
+    snap["3 snapshots\nSCD2 history"]
+    i["3 intermediate\nFX per day, primary holder"]
+  end
+  subgraph Gold["Gold = MARTS"]
+    d["dimensions\ndim_customer, dim_account, dim_branch..."]
+    f["facts\nfct_transactions, fct_card_authorizations..."]
+    x["serving\nomni_search, ml_customer_features, offers"]
+  end
+  r --> s --> i --> f
+  s --> snap --> d --> f
+  f --> x
+  </div>
+  <p>The folders use Kimball names (<code>staging</code>, <code>marts</code>) rather than bronze/silver/gold because the gold layer is a star schema (ADR 0003). It's the same idea under a different label.</p>
+
+  <h3>4.1 Staging: keep the newest version</h3>
+  <p class="file">models/staging/postgres/stg_postgres__transactions.sql</p>
+<pre><code>select record:transaction_id::number as transaction_id,
+       record:status::string         as status,
+       record:updated_at::timestamp_ntz as updated_at, ...
+from {{ source('postgres_core', 'transactions') }}
+qualify row_number() over (partition by transaction_id
+                           order by updated_at desc, _extracted_at desc) = 1</code></pre>
+  <div class="analogy">Ten photocopies of receipt 101. Line them up by "last touched", keep the top one, bin the rest.</div>
+  <p>This exact rule is proved by a <b>unit test</b>: fake input of PENDING then POSTED, expected output of one POSTED row.</p>
+
+  <h3>4.2 Incremental: only the new rows</h3>
+<pre><code>{% if is_incremental() %}
+where _extracted_at > (select max(_extracted_at) - lookback from {{ this }})
+{% endif %}
+-- then MERGE on transaction_id: update if it exists, insert if new</code></pre>
+  <div class="mermaid">
+flowchart LR
+  A["First run\n(table doesn't exist)"] -->|"CREATE TABLE AS\nall 5.3M rows"| T[(stg_postgres__transactions)]
+  B["Every 5 minutes"] -->|"only rows with _extracted_at\nnewer than last time\nMERGE on transaction_id"| T
+  C["Post-hook\napply_hard_deletes"] -->|"DELETE ids found in\nstg_postgres__deleted_records"| T
+  </div>
+  <div class="say">A MERGE can update and insert, but it can never delete a row it doesn't see. That's why deletes need a separate step that reads the Postgres delete log.</div>
+
+  <h3>4.3 SCD Type 2: history of a customer</h3>
+  <table>
+    <tr><th>customer_key</th><th>customer_id</th><th>segment</th><th>valid_from</th><th>valid_to</th><th>is_current</th></tr>
+    <tr><td>a1…</td><td>4821</td><td>MASS</td><td>1900-01-01</td><td>2026-08-12</td><td>false</td></tr>
+    <tr><td>b7…</td><td>4821</td><td>AFFLUENT</td><td>2026-08-12</td><td>9999-12-31</td><td>true</td></tr>
+  </table>
+  <p>The fact joins on <code>valid_from &lt;= transaction_ts &lt; valid_to</code>, so a March payment stays MASS even after the August upgrade. Leave that condition out and every version matches, which doubles the rows (a "fan-out"). The test <code>assert_fct_transactions_reconciles_to_staging</code> catches it.</p>
+
+  <h3>4.4 Tests and contracts — the safety net</h3>
+  <div class="grid">
+    <div class="box"><b>137 data tests</b><code>unique</code>, <code>not_null</code>, relationships (every fact key exists in its dimension), accepted values.</div>
+    <div class="box"><b>3 unit tests</b>Fake input, expected output. They prove logic without real data.</div>
+    <div class="box"><b>Contracts</b>On public models the column names and types are fixed. A change fails the build before downstream breaks.</div>
+    <div class="box"><b>Singular tests</b>Business rules in SQL: fact matches staging, fraud rules catch injected bursts, no offer to a recent fraud victim.</div>
+  </div>
+
+  <h3>4.5 Dev vs prod</h3>
+  <p><code>--target dev</code> builds into <code>DBT_FK_*</code> schemas with only the last 30 days of data, which is cheap and safe. <code>--target prod</code> builds the real <code>MERIDIAN_ANALYTICS.MARTS</code>. That's why reconcile failed before the prod build: the table it reads didn't exist yet.</p>
+
+  <div class="trap">The unit test returned nothing. <code>limit_in_dev</code> added a 30-day filter, and the fixture was dated 2026-09-01, more than 30 days earlier. Fix: never apply the dev filter inside unit tests. Lesson: helper macros apply to tests too.</div>
+  <div class="trap">"dbt was unable to infer all dependencies". The delete hook called <code>ref()</code> only on incremental runs, so dbt never saw the dependency when it parsed the project. Fix: <code>-- depends_on: {{ ref('stg_postgres__deleted_records') }}</code> at the top of the model.</div>
+  <div class="trap">Contract failure: <code>TIMESTAMP_LTZ</code> vs <code>TIMESTAMP_NTZ</code>. <code>current_timestamp()</code> returns a timestamp with time zone. The contract promised one without, so it was cast with <code>::timestamp_ntz</code>. This is exactly the drift contracts exist to catch.</div>
+</section>
+
+<!-- ================================================================ 5 -->
+<section id="af">
+  <span class="tag af">5</span><h2 style="display:inline">Airflow — the alarm clock and the foreman</h2>
+  <p>Airflow transforms nothing. It decides <i>when</i> each step runs, in <i>what order</i>, how many at once, what to retry, and who to alert. Every task is a shell command you already ran by hand.</p>
+  <div class="mermaid">
+flowchart LR
+  subgraph M["meridian_microbatch_ingest · every 5 min"]
+    direction LR
+    e1["extract_load\ntransactions"] & e2["extract_load\naccounts"] & e3["extract_load\ncard_authorizations"] & e4["extract_load\ndeleted_records"] --> b["dbt build\n--selector microbatch"] --> h["assert_pipeline_health\n(fail if > 15 min stale)"]
+  end
+  subgraph D["meridian_daily_batch · 02:00 UTC"]
+    direction LR
+    x["extract_daily\n17 slow tables"] --> s["dbt snapshot\n(SCD2)"] --> bd["dbt build\n(everything)"] --> rc["reconcile\nPostgres vs Snowflake"] --> dc["dbt docs"] --> mf["save prod manifest"]
+  end
+  </div>
+  <div class="grid">
+    <div class="box"><b>Pool <code>meridian_postgres</code> = 4 slots</b>At most 4 extracts hit Postgres at once, so the bank's app isn't starved.</div>
+    <div class="box"><b><code>max_active_runs=1</code></b>A slow run never overlaps the next one. Two loaders racing on one bookmark would corrupt it.</div>
+    <div class="box"><b><code>catchup=False</code></b>The bookmark already knows where we are. Replaying old 5-minute slots is meaningless.</div>
+    <div class="box"><b>Two cadences</b>Hot tables every 5 minutes. SCD2 snapshots daily, because running them every 5 minutes would create pointless versions.</div>
+  </div>
+  <div class="analogy">Airflow is a foreman with a clipboard. "Four drivers, go. When all four are back, cook. When cooking is done, check the temperature. If anyone fails, retry twice, then shout."</div>
+  <div class="trap">The daily DAG sat "running" for 17 minutes doing nothing. Its tasks asked for pool <code>meridian_postgres</code>, which didn't exist, so the scheduler logged "non-existent pool" forever. Fix: create the pool (<code>astro dev object import</code>). Lesson: "running" doesn't mean working. Read the scheduler log.</div>
+  <div class="trap">Reconcile failed on the oldest day only: Postgres 484 rows, Snowflake 1,107. Postgres used "the last 7×24 hours" and Snowflake used "7 whole dates", so the first day was only partly counted on one side. Fix: compare the same whole UTC dates on both sides. Lesson: a reconciliation is only as good as its window definition.</div>
+</section>
+
+<!-- ================================================================ 6 -->
+<section id="gov">
+  <span class="tag amber">6</span><h2 style="display:inline">Governance — same question, different rows</h2>
+  <p>A <b>row access policy</b> is a function Snowflake attaches to a table. Every query, from any tool (worksheet, app, BI), passes each row through it. If the result is FALSE, the row doesn't exist for that user.</p>
+  <div class="mermaid">
+flowchart TD
+  Q["SELECT count(*) FROM fct_card_authorizations"] --> P{"RAP_CUSTOMER_SCOPE(customer_id)\nwho is CURRENT_USER()?"}
+  P -->|MERIDIAN_CEO| A["every row"]
+  P -->|MERIDIAN_BM_MUMBAI| B["customers whose home branch is Mumbai"]
+  P -->|MERIDIAN_STAFF_MUMBAI| C["same rows as manager,\nemail/phone masked '***'"]
+  P -->|MERIDIAN_CUSTOMER| E["only their own rows"]
+  P -->|anyone else| F["nothing"]
+  </div>
+  <p style="font-size:13px;color:var(--muted)">Run the query as each user and write your real counts here. The order should be: CEO, then manager and staff (equal), then customer.</p>
+  <div class="grid">
+    <div class="box"><b>Security owns the rules</b><code>03_snowflake/06_row_level_security.sql</code> creates the policies and the <code>APP_USER</code> table (user → persona, branch, customer).</div>
+    <div class="box"><b>dbt only attaches them</b>Each model declares its policy in <code>meta.governance</code>. A post-hook re-attaches it after every rebuild.</div>
+    <div class="box"><b>User, not role</b>Inside Streamlit-in-Snowflake every viewer runs as the app's role. Only <code>CURRENT_USER()</code> tells people apart.</div>
+  </div>
+  <div class="analogy">Same library, same catalogue, different library cards. The librarian (the policy) checks your card at the shelf, not at the front desk. So sneaking in through a side door (a worksheet instead of the app) doesn't help.</div>
+  <div class="trap">"Unsupported subquery type … inside ROW ACCESS POLICY". The policy used a JOIN, and Snowflake only allows simple lookups in a policy body. It was rewritten as separate <code>EXISTS</code> checks plus one scalar lookup of the manager's branch.</div>
+</section>
+
+<!-- ================================================================ 7 -->
+<section id="ai">
+  <span class="tag ai">7</span><h2 style="display:inline">Ask in English — the semantic view and the app</h2>
+  <p>A chat model that only sees 40 table names will eventually guess wrong. It might sum balances across months or join the wrong customer version, and it will sound confident doing it. The <b>semantic view</b> <code>SV_MERIDIAN_BANK</code> is the contract: the allowed tables, the joins, named metrics, business rules, and 4 questions whose SQL a human has checked.</p>
+  <div class="mermaid">
+sequenceDiagram
+  actor U as MERIDIAN_CEO
+  participant S as streamlit_app.py
+  participant C as Cortex Analyst
+  participant V as SV_MERIDIAN_BANK
+  participant W as Snowflake warehouse
+  participant R as Row policy
+  U->>S: "How many suspected fraud authorizations?"
+  S->>C: question + semantic_view
+  C->>V: read tables, metrics, rules, verified queries
+  C-->>S: SQL: SELECT COUNT(*) ... WHERE is_rule_suspect
+  S->>W: run that SQL as the logged-in user
+  W->>R: each row: may this user see it?
+  R-->>W: keep / drop
+  W-->>S: result table
+  S-->>U: answer + "SQL the semantic view produced"
+  </div>
+  <div class="grid">
+    <div class="box"><b>The model writes SQL, not answers</b>The number always comes from Snowflake, never from the language model's memory.</div>
+    <div class="box"><b>The SQL is shown</b>Anyone can check it. That's how you earn a finance team's trust.</div>
+    <div class="box"><b>Security isn't in the prompt</b>The rules say "do not add filters to imitate security". The policy does it, so the AI can't talk its way past it.</div>
+  </div>
+  <div class="say">The AI only translates English into SQL against a contract we wrote. The warehouse computes the number, and the row policy decides what the person may see. Take the AI away and the security still holds.</div>
+</section>
+
+<!-- ================================================================ 8 -->
+<section id="quiz">
+  <span class="tag" style="background:#111">8</span><h2 style="display:inline">Test yourself: can you teach it?</h2>
+  <p>Answer out loud before you open each one. If you can do all 12 without peeking, you can teach this.</p>
+  <details><summary>1. Why can't dbt pull data from Postgres?</summary>dbt only sends SQL to the warehouse it's connected to. Postgres is a different system on your laptop. Moving data between systems is extract and load, done here by <code>pg_to_snowflake.py</code>.</details>
+  <details><summary>2. What two things must the source guarantee for watermark CDC?</summary><code>updated_at</code> changes on every update (trigger), and every hard delete is recorded (<code>cdc.deleted_records</code>).</details>
+  <details><summary>3. Why does the loader stop 10 seconds before "now"?</summary>A transaction that hasn't committed yet could later appear with an older timestamp. The lag gives it time to commit before we read past it.</details>
+  <details><summary>4. The loader crashes halfway. What happens on the next run?</summary>The watermark was never advanced, so it re-reads the same window. Raw may get duplicate copies, and staging's <code>QUALIFY row_number()</code> keeps one.</details>
+  <details><summary>5. Why does raw have more rows than Postgres?</summary>Raw is append-only. It keeps every version of an updated row and rows deleted in Postgres. Postgres keeps only the current state.</details>
+  <details><summary>6. What does <code>is_incremental()</code> change?</summary>On the first run, the model builds the whole table. On later runs, it reads only rows newer than the last <code>_extracted_at</code> (minus a lookback) and MERGEs them on the key.</details>
+  <details><summary>7. Why a separate hard-delete post-hook?</summary>A MERGE can't delete rows absent from its input. The hook deletes ids listed in the delete log.</details>
+  <details><summary>8. What is fan-out and which test catches it?</summary>Joining a fact to an SCD2 dimension without the date-range condition matches every version and multiplies rows. <code>assert_fct_transactions_reconciles_to_staging</code> compares row counts and amounts.</details>
+  <details><summary>9. Why is the daily snapshot not in the 5-minute DAG?</summary>Snapshots create a new history version per detected change. Running every 5 minutes multiplies versions and costs credits for nothing.</details>
+  <details><summary>10. What does the Airflow pool protect?</summary>The bank's live Postgres. At most 4 extracts read from it at the same time.</details>
+  <details><summary>11. Why <code>CURRENT_USER()</code> and not <code>CURRENT_ROLE()</code> in the policy?</summary>In Streamlit-in-Snowflake every viewer runs under the app owner's role. Only the user tells them apart.</details>
+  <details><summary>12. Where does the number in the chat answer come from?</summary>From Snowflake running the generated SQL as the logged-in user, through the row policy. The language model only wrote the SQL.</details>
+</section>
+
+</main>
+<script>
+  mermaid.initialize({startOnLoad: true, theme: "neutral", flowchart: {curve: "basis"}, securityLevel: "loose"});
+</script>
+</body>
+</html>

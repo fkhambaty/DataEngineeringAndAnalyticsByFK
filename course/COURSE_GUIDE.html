@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian — shoot this</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --ink:#1c1915; --text:#2e2a25; --muted:#57514a; --card:#fffdf8; --line:#e2dacd;
+    --blue:#1d4ed8; --bronze:#a16207; --silver:#64748b; --gold:#ca8a04;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;font-size:17px}
+  button{font:inherit}
+  code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  a{color:var(--blue)}
+
+  /* ---------- map ---------- */
+  #map{max-width:1180px;margin:0 auto;padding:28px 28px 80px}
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin:0}
+  h1{font-size:clamp(36px,5vw,56px);letter-spacing:-.04em;line-height:1.02;margin:8px 0 10px}
+  h3.sec{font-size:24px;letter-spacing:-.02em;margin:34px 0 10px}
+  .lead{font-size:18px;color:var(--muted);max-width:760px;margin:0 0 18px}
+  .journey{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:14px 10px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px 14px 18px}
+  .band{display:flex;align-items:center;gap:10px;border-radius:14px;padding:9px 12px;font-size:14px;color:var(--text)}
+  .band img{width:28px;height:28px;flex:none}
+  .band.af{grid-row:1;background:#e6f1fd;border:1px dashed #7fb5f2}
+  .band.ci{grid-row:4;background:#e8f0ff;border:1px dashed #8fb0f5}
+  .stop{grid-row:2;text-align:center;font-size:14px;position:relative}
+  .stop:not(:nth-child(8))::after{content:"→";position:absolute;right:-12px;top:30px;font-weight:800;color:#8a8175;font-size:18px}
+  .stop b{display:block;margin-top:8px;font-size:15px}
+  .stop small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35;margin-top:2px}
+  .tile{position:relative;width:76px;height:76px;margin:0 auto;border-radius:20px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
+  .tile img{width:42px;height:42px}
+  .tile img.mini{position:absolute;right:-8px;bottom:-8px;width:28px;height:28px;background:#fff;border-radius:9px;padding:3px;border:1px solid var(--line)}
+  .tile.layer-b{border:3px solid #d29b4a}.tile.layer-s{border:3px solid #9aa8b8}.tile.layer-g{border:3px solid #e2b007}
+  .chip-b,.chip-s,.chip-g{display:inline-block;border-radius:999px;padding:0 7px;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#1c1915}
+  .chip-b{background:#f6d39a}.chip-s{background:#d9e0e8}.chip-g{background:#fbe27a}
+  .rail{grid-row:3;grid-column:1 / -1;position:relative;height:22px;margin:0 7%;background:linear-gradient(#d6cfc3,#d6cfc3) center/100% 3px no-repeat}
+  .packet{position:absolute;top:0;width:22px;height:22px;margin-left:-11px;border-radius:7px;background:#facc15;box-shadow:0 0 0 4px #fde68a;animation:go 14s ease-in-out infinite}
+  @keyframes go{0%,6%{left:0}14%,20%{left:16.67%}28%,34%{left:33.33%}42%,48%{left:50%}56%,62%{left:66.67%}70%,76%{left:83.33%}84%,100%{left:100%}}
+  @media (max-width:900px){.journey{grid-template-columns:repeat(2,1fr)}.stop,.band,.rail{grid-row:auto!important;grid-column:auto!important}.rail{display:none}.stop::after{display:none}}
+
+  .medmap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .medmap > div{border-radius:20px;padding:18px;color:#1c1915;border:1px solid var(--line)}
+  .medmap h4{margin:0 0 4px;font-size:22px;letter-spacing:-.02em}
+  .medmap .where{font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:700;margin-bottom:8px}
+  .medmap ul{margin:6px 0 0;padding-left:18px}
+  .medmap li{margin:3px 0}
+  .m-b{background:linear-gradient(160deg,#fde7c4,#f6d39a)}
+  .m-s{background:linear-gradient(160deg,#eef2f6,#d9e0e8)}
+  .m-g{background:linear-gradient(160deg,#fff4c2,#fbe27a)}
+  .medbtn{margin-top:12px;border:0;background:#1c1915;color:#fff;border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:700}
+
+  .episodes{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .ep{appearance:none;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:14px 14px 16px;cursor:pointer;color:inherit}
+  .ep:hover{transform:translateY(-2px);box-shadow:0 10px 24px -16px rgba(0,0,0,.4)}
+  .ep .t{display:block;font-size:16px;font-weight:750;margin-top:8px;line-height:1.3}
+  .ep .n{display:block;color:var(--muted);font-size:14px;margin-top:4px}
+  .badge{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.04em;color:#fff;border-radius:999px;padding:4px 10px}
+  .hint{margin-top:18px;color:var(--muted);font-size:15px}
+
+  /* ---------- deck ---------- */
+  #deck{display:none;min-height:100vh}
+  #deck.on{display:block}
+  #map.off{display:none}
+  header.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:12px 18px;background:rgba(244,241,234,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  header.bar button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer}
+  header.bar .grow{flex:1;font-weight:750}
+  .dots{display:flex;gap:5px;flex-wrap:wrap;max-width:45%}
+  header.bar .dots button{width:13px;height:13px;padding:0;border-radius:50%;border:0;background:#d6cfc3;cursor:pointer}
+  header.bar .dots button.on{background:#1c1915}
+  header.bar .dots button.k-do{border-radius:3px}
+  .stage{max-width:1180px;margin:0 auto;padding:30px 28px 30px;min-height:calc(100vh - 130px);display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:30px;align-items:center}
+  .stage.stack{grid-template-columns:minmax(0,1fr);align-items:start;align-content:start;gap:16px;max-width:1040px}
+  h2{font-size:clamp(30px,3.6vw,46px);letter-spacing:-.035em;line-height:1.06;margin:6px 0 14px}
+  .say{background:#1c1915;color:#fdf8ee;border-radius:18px;padding:16px 18px;font-size:19px;line-height:1.45;margin:0 0 14px}
+  .say b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#facc15;margin-bottom:6px}
+  .plain{margin:0;padding-left:20px;color:var(--text);font-size:17px}
+  .plain li{margin:6px 0}
+  .art{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px}
+  .note{color:var(--text);font-size:15.5px;margin:12px 0 0}
+  .file{font-family:ui-monospace,Menlo,monospace;font-size:14px;color:var(--muted);margin:0 0 12px}
+
+  .do{background:#111827;color:#e5e7eb;border-radius:22px;padding:16px 16px 14px;position:relative}
+  .do .lbl{color:#93c5fd;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .do pre{margin:10px 0;white-space:pre;overflow:auto;font-size:13.5px;line-height:1.55;color:#f3f4f6}
+  .copy{position:absolute;top:12px;right:12px;border:0;background:#facc15;color:#111;border-radius:999px;padding:6px 14px;font-weight:800;cursor:pointer}
+  .happened{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px;margin-top:14px}
+  .happened b{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+  .happened ol{margin:6px 0 0;padding-left:20px}
+  .happened li{margin:4px 0;color:var(--text)}
+  .see{background:#dcfce7;border-radius:14px;padding:11px 14px;color:#14532d;margin-top:12px}
+  .trap{background:#fee2e2;border-radius:14px;padding:11px 14px;color:#7f1d1d;margin-top:10px}
+
+  .codegrid{border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+  .codegrid .row{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+  .codegrid .row + .row{border-top:1px solid #2a3140}
+  .codegrid code{display:block;background:#111827;color:#f3f4f6;padding:12px 14px;font-size:13.5px;white-space:pre-wrap;word-break:break-word}
+  .codegrid .row:hover code{background:#1f2a44}
+  .codegrid .why{background:#fff;padding:12px 14px;color:var(--text);font-size:15.5px;border-top:1px solid var(--line)}
+  .codegrid .row:first-child .why{border-top:0}
+  .codegrid .row:hover .why{background:#fef9c3}
+
+  .quiz details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:10px 0}
+  .quiz summary{cursor:pointer;font-weight:700;font-size:18px}
+  .quiz details p{margin:10px 0 0;color:var(--text)}
+
+  nav.pager{display:flex;justify-content:space-between;padding:0 28px 28px;max-width:1180px;margin:0 auto}
+  nav.pager button{border:0;background:#111827;color:#fff;border-radius:999px;padding:12px 18px;cursor:pointer;font-weight:700}
+  nav.pager button:disabled{opacity:.3}
+
+  /* ---------- art pieces ---------- */
+  table{width:100%;border-collapse:collapse;font-size:15.5px}
+  td,th{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}
+  th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .big{font-size:34px;font-weight:800;letter-spacing:-.03em;margin:0}
+  .flow{display:flex;gap:14px;flex-wrap:wrap}
+  .flow .box{flex:1;min-width:130px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;position:relative}
+  .flow .box:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:40%;font-weight:800;color:#8a8175}
+  .flow .box b{display:block;font-size:17px}
+  .flow .box span{color:var(--muted);font-size:14px}
+  .flow .box em{display:block;margin-bottom:4px;font-style:normal;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .pair .bad{background:#fee2e2;border-radius:16px;padding:14px;color:#7f1d1d}
+  .pair .good{background:#dcfce7;border-radius:16px;padding:14px;color:#14532d}
+  .pair b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  pre.snip{background:#111827;color:#f3f4f6;border-radius:12px;padding:12px;font-size:13px;overflow:auto;margin:6px 0}
+  .where3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .where3 div{border-radius:16px;padding:14px;background:#fff;border:1px solid var(--line)}
+  .where3 div:nth-child(1){border-top:6px solid #44403c}.where3 div:nth-child(2){border-top:6px solid #2563eb}.where3 div:nth-child(3){border-top:6px solid #0e7490}
+  .where3 b{display:block;font-size:17px;margin-bottom:4px}.where3 span{font-size:14.5px;color:var(--text)}
+  .medal{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-bottom:34px}
+  .medal div{border-radius:16px;padding:22px 10px;text-align:center;font-weight:900;letter-spacing:.08em;font-size:20px}
+  .medal small{display:block;font-weight:600;letter-spacing:0;font-size:14px;margin-top:4px}
+  .medal .b{background:#f6d39a}.medal .s{background:#d9e0e8}.medal .g{background:#fbe27a}
+  .medal .dot{position:absolute;bottom:6px;width:18px;height:18px;border-radius:6px;background:#1c1915;animation:med 6s ease-in-out infinite}
+  @keyframes med{0%,10%{left:14%}40%,55%{left:48%}85%,100%{left:81%}}
+  .layer{border-radius:14px;padding:10px 12px;margin:8px 0}
+  .layer b{font-size:14px}
+  .bz-bg{background:#fbe6c2}.sv-bg{background:#e5eaf0}.gd-bg{background:#fcef9f}
+  .bz{color:#92400e}.sv{color:#475569}.gd{color:#a16207}
+  .building{display:flex;flex-direction:column;gap:6px}
+  .building .fl{border-radius:12px;padding:14px;font-weight:650}
+  .building .g{background:#fbe27a}.building .s{background:#d9e0e8}.building .b{background:#f6d39a}
+  .er{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0}
+  .er span{background:#e0ecf8;border:1px solid #b8d0ea;border-radius:10px;padding:8px 10px;font-family:ui-monospace,Menlo,monospace;font-size:14px}
+  .er i{font-style:normal;font-weight:800;color:#57514a}
+  .star{position:relative;height:300px}
+  .star .c{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#c2410c;color:#fff;border-radius:16px;padding:16px 18px;font-weight:800;text-align:center}
+  .star .c small{display:block;font-weight:500}
+  .star span{position:absolute;background:#ede9fe;border:1px solid #c4b5fd;border-radius:12px;padding:8px 10px;font-family:ui-monospace,Menlo,monospace;font-size:14px}
+  .sfarch{display:flex;flex-direction:column;gap:8px}
+  .sfarch > div{background:#e0f2f5;border-radius:14px;padding:14px;font-weight:750;text-align:center}
+  .sfarch small{display:block;font-weight:500;color:var(--text)}
+  .sfarch .row{display:flex;gap:8px;background:transparent;padding:0}
+  .sfarch .row span{flex:1;background:#0e7490;color:#fff;border-radius:12px;padding:12px 6px;font-size:14px}
+  .wm{position:relative;display:grid;grid-template-columns:3fr 2fr .5fr;height:70px;margin:6px 0 34px}
+  .wm div{display:grid;place-items:center;font-weight:750;font-size:14px}
+  .wm div:first-child{border-radius:12px 0 0 12px}.wm div:nth-child(3){border-radius:0 12px 12px 0}
+  .wm .done{background:#d9e0e8}.wm .win{background:#fde68a;animation:pulse 2s ease-in-out infinite}.wm .lag{background:#fee2e2}
+  @keyframes pulse{50%{background:#facc15}}
+  .wm span{position:absolute;bottom:-26px;font-size:13px;font-weight:700;color:var(--muted)}
+  .wm .mark{left:calc(54.5% - 40px)}.wm .hi{left:calc(90.9% - 40px)}
+  .wm .mark::before,.wm .hi::before{content:"▲ "}
+  .dag{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .dag .col{display:flex;flex-direction:column;gap:6px}
+  .dag span{background:#dbeafe;border:1px solid #93c5fd;border-radius:10px;padding:8px 10px;font-family:ui-monospace,Menlo,monospace;font-size:13.5px}
+  .dag i{font-style:normal;font-weight:800;font-size:22px;color:#57514a}
+  .seq{display:flex;flex-direction:column;gap:4px}
+  .seq span{background:#ede9fe;border-radius:10px;padding:9px 12px;font-weight:650}
+  .seq i{font-style:normal;text-align:center;color:#6d28d9;font-weight:800;transform:rotate(90deg)}
+
+  @media (max-width:900px){
+    .stage{grid-template-columns:1fr;padding:18px}
+    .medmap,.where3,.pair{grid-template-columns:1fr}
+    .codegrid .row{grid-template-columns:1fr}
+    .stop{font-size:11px}
+  }
+  @media (prefers-reduced-motion:reduce){.packet,.medal .dot,.wm .win{animation:none}}
+
+  /* ---------- cinematic course studio skin ---------- */
+  :root{
+    --bg:#151b28;--ink:#edf2f9;--text:#c8d3e3;--muted:#95a6bd;--card:#222c40;
+    --line:#35435e;--blue:#38bdf8;--bronze:#d08b4f;--silver:#c3ccd8;--gold:#f5c542;
+  }
+  body{
+    background:
+      radial-gradient(900px 650px at 6% 4%,rgba(25,112,132,.28),transparent 65%),
+      radial-gradient(900px 650px at 94% 95%,rgba(91,75,181,.25),transparent 65%),
+      linear-gradient(160deg,#182032,#151b28 55%,#171c2c);
+    background-attachment:fixed;color:var(--ink);
+  }
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:64px 64px;mask-image:radial-gradient(ellipse at center,#000 25%,transparent 82%)}
+  a{color:#67e8f9}
+  .journey,.art,.ep,.tile,.happened,.codegrid .why,.quiz details,.flow .box,.where3 div{
+    background:linear-gradient(180deg,rgba(41,52,75,.94),rgba(33,42,61,.94));
+    color:var(--ink);box-shadow:0 20px 52px -30px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.05)
+  }
+  .journey,.art,.ep,.tile,.medmap>div,.happened,.quiz details,.flow .box,.where3 div{
+    animation:card-breathe 8s ease-in-out infinite
+  }
+  @keyframes card-breathe{50%{box-shadow:0 25px 58px -30px rgba(45,212,191,.28),inset 0 1px 0 rgba(255,255,255,.07)}}
+  header.bar{background:rgba(19,26,40,.94);border-color:var(--line)}
+  header.bar button{background:#222c40;color:var(--ink);border-color:var(--line)}
+  header.bar .dots button{background:#4b5870}header.bar .dots button.on{background:#2dd4bf;box-shadow:0 0 12px rgba(45,212,191,.65)}
+  .say{background:linear-gradient(135deg,#242d41,#1b2333);border:1px solid #3c4964;box-shadow:0 20px 45px -28px #000}
+  .say b{color:#2dd4bf}
+  .happened,.codegrid .why,.quiz details,.flow .box,.where3 div{color:var(--text)}
+  .codegrid .why{border-color:var(--line)}.codegrid .row:hover .why{background:#33405a}
+  .quiz details[open]{border-color:#a78bfa;box-shadow:0 0 0 1px rgba(167,139,250,.25)}
+  .flow .box span,.where3 span{color:var(--muted)}
+  .band.af{background:rgba(1,124,238,.14);border-color:#3979bd}.band.ci{background:rgba(167,139,250,.12);border-color:#7662ad}
+  .m-b,.medal .b,.bz-bg,.building .b{background:linear-gradient(150deg,#5b3b24,#382b25);color:#ffd7ae}
+  .m-s,.medal .s,.sv-bg,.building .s{background:linear-gradient(150deg,#46536a,#2c3546);color:#edf2f9}
+  .m-g,.medal .g,.gd-bg,.building .g{background:linear-gradient(150deg,#62521e,#39331e);color:#fff1a8}
+  .medmap>div{border-color:var(--line)}
+  .chip-b{background:#82552f;color:#ffe3c4}.chip-s{background:#526078;color:#f1f5f9}.chip-g{background:#75651d;color:#fff5b5}
+  .pair .bad{background:#4b2632;color:#fecdd3}.pair .good{background:#173f36;color:#bbf7d0}
+  .see{background:#173f36;color:#bbf7d0}.trap{background:#4b2632;color:#fecdd3}
+  .er span,.dag span,.sfarch>div,.seq span{background:#263752;border-color:#466688;color:var(--ink)}
+  .sfarch .row span{background:#155e75}.star span{background:#352f57;border-color:#7565b5;color:var(--ink)}
+  .wm .done{background:#46536a}.wm .win{background:#725f19}.wm .lag{background:#4b2632}
+  nav.pager button{background:linear-gradient(135deg,#243550,#1c2940);border:1px solid #405170}
+  table td,table th{border-color:var(--line)}
+  body.embed #map{display:none!important}
+  body.embed header.bar #home{display:none}
+  body.embed #deck{min-height:100vh}
+</style>
+</head>
+<body>
+<div id="map">
+  <p class="eyebrow">Shoot this · one slide at a time</p>
+  <h1>Bird's-eye view first.</h1>
+  <p class="lead">One payment moves left to right through seven stops. Airflow sets the timer; GitHub Actions guards dbt changes. Every episode below is a stack of slides. Black boxes are what you say on camera. Dark code panels are what you run, followed by what each line did. Quizzes at the end check you could teach it. <a href="MERIDIAN_COURSE.html">Open the complete course studio</a> for the main opening, every animated walkthrough, and every technical lesson from one home screen. Long notes: <a href="COURSE_GUIDE_TEXT.html">COURSE_GUIDE_TEXT.html</a>.</p>
+
+  <div class="journey">
+    <div class="band af" style="grid-column:2 / 6">
+      <img src="course_assets/logos/apacheairflow.svg" alt="">
+      <span><b>Apache Airflow</b> runs the courier every 5 minutes and the kitchen after it. It moves no data itself.</span>
+    </div>
+    <div class="stop">
+      <div class="tile"><img src="course_assets/logos/postgresql.svg" alt="PostgreSQL"><img class="mini" src="course_assets/logos/docker.svg" alt="Docker"></div>
+      <b>PostgreSQL</b><small>the bank's till · in Docker</small>
+    </div>
+    <div class="stop">
+      <div class="tile"><img src="course_assets/logos/python.svg" alt="Python"></div>
+      <b>Python</b><small>courier: copies what changed</small>
+    </div>
+    <div class="stop">
+      <div class="tile"><img src="course_assets/logos/apacheparquet.svg" alt="Parquet"></div>
+      <b>Parquet files</b><small>the parcels · PUT to a stage</small>
+    </div>
+    <div class="stop">
+      <div class="tile layer-b"><img src="course_assets/logos/snowflake.svg" alt="Snowflake"></div>
+      <b>Snowflake RAW</b><small><span class="chip-b">bronze</span> every copy kept</small>
+    </div>
+    <div class="stop">
+      <div class="tile layer-s"><img src="course_assets/logos/dbt.svg" alt="dbt"></div>
+      <b>dbt</b><small><span class="chip-s">silver</span> cleans inside Snowflake</small>
+    </div>
+    <div class="stop">
+      <div class="tile layer-g"><img src="course_assets/logos/snowflake.svg" alt="Snowflake"></div>
+      <b>Snowflake MARTS</b><small><span class="chip-g">gold</span> star schema + row policies</small>
+    </div>
+    <div class="stop">
+      <div class="tile"><img src="course_assets/logos/streamlit.svg" alt="Streamlit"><img class="mini" src="course_assets/logos/snowflake.svg" alt="Cortex"></div>
+      <b>Streamlit + Cortex</b><small>ask in English</small>
+    </div>
+    <div class="rail" aria-hidden="true"><div class="packet"></div></div>
+    <div class="band ci" style="grid-column:4 / 7">
+      <img src="course_assets/logos/githubactions.svg" alt="">
+      <span><b>GitHub Actions</b> builds and tests only the changed dbt models on every pull request, before they reach prod.</span>
+    </div>
+  </div>
+
+  <h3 class="sec">The three layers in this project</h3>
+  <div class="medmap">
+    <div class="m-b"><h4>Bronze</h4><div class="where">MERIDIAN_RAW.POSTGRES_*</div>
+      <ul><li>Exactly what Python delivered</li><li>One VARIANT column per row, plus when and which batch</li><li>Append only: every version, even deleted rows</li><li>Built by: pg_to_snowflake.py</li></ul></div>
+    <div class="m-s"><h4>Silver</h4><div class="where">MERIDIAN_ANALYTICS.STAGING · INTERMEDIATE · SNAPSHOTS</div>
+      <ul><li>Typed columns, renamed</li><li>Newest version per id; deletes removed</li><li>History kept by snapshots</li><li>Built by: dbt</li></ul></div>
+    <div class="m-g"><h4>Gold</h4><div class="where">MERIDIAN_ANALYTICS.MARTS</div>
+      <ul><li>Kimball star: facts and dimensions</li><li>Tested, contracted, row policies attached</li><li>The only layer people and the app read</li><li>Built by: dbt</li></ul></div>
+  </div>
+  <button type="button" class="medbtn" data-open="med">Open the medallion episode →</button>
+
+  <h3 class="sec">Episodes</h3>
+  <div class="episodes" id="eps"></div>
+  <p class="hint">Click an episode. Right arrow is the next slide. Left arrow goes back. Escape returns here. Dots at the top jump to any slide; square dots are steps you run.</p>
+</div>
+
+<div id="deck">
+  <header class="bar">
+    <button type="button" id="home">← Map</button>
+    <div class="grow" id="epname"></div>
+    <div class="dots" id="dots"></div>
+  </header>
+  <div class="stage" id="stage"></div>
+  <nav class="pager">
+    <button type="button" id="prev">← Previous</button>
+    <button type="button" id="next">Next →</button>
+  </nav>
+</div>
+
+<script src="course_slides.js"></script>
+<script>
+if (window.parent !== window) document.body.classList.add("embed");
+const map = document.getElementById("map");
+const deck = document.getElementById("deck");
+const stage = document.getElementById("stage");
+let cur = 0, idx = 0;
+
+document.getElementById("eps").innerHTML = EP.map((e, i) =>
+  `<button class="ep" data-i="${i}"><span class="badge" style="background:${e.color}">${e.code} · ${e.mins}</span>` +
+  `<span class="t">${e.title}</span><span class="n">${e.slides.length} slides</span></button>`
+).join("");
+document.getElementById("eps").onclick = (ev) => {
+  const b = ev.target.closest(".ep");
+  if (b) openEp(+b.dataset.i, 0);
+};
+document.querySelector("[data-open=med]").onclick = () => openEp(EP.findIndex(e => e.id === "med"), 0);
+
+function openEp(i, n){ cur = i; idx = n; map.classList.add("off"); deck.classList.add("on"); render(); }
+function closeEp(){
+  if (window.parent !== window) {
+    window.parent.postMessage({type:"meridian-home"}, "*");
+    return;
+  }
+  deck.classList.remove("on"); map.classList.remove("off"); history.replaceState(null, "", location.pathname);
+}
+function go(n){ const max = EP[cur].slides.length - 1; idx = Math.min(Math.max(n, 0), max); render(); }
+document.getElementById("home").onclick = closeEp;
+document.getElementById("prev").onclick = () => go(idx - 1);
+document.getElementById("next").onclick = () => {
+  if (idx === EP[cur].slides.length - 1 && window.parent !== window) {
+    window.parent.postMessage({type:"meridian-complete", section:"technical", episode:EP[cur].id}, "*");
+  } else go(idx + 1);
+};
+document.getElementById("dots").onclick = (ev) => { const d = ev.target.closest("button"); if (d) go(+d.dataset.n); };
+document.addEventListener("keydown", (e) => {
+  if (!deck.classList.contains("on")) return;
+  if (e.key === "ArrowRight") {
+    if (idx === EP[cur].slides.length - 1 && window.parent !== window) {
+      window.parent.postMessage({type:"meridian-complete", section:"technical", episode:EP[cur].id}, "*");
+    } else go(idx + 1);
+  }
+  if (e.key === "ArrowLeft") go(idx - 1);
+  if (e.key === "Escape") closeEp();
+});
+
+function copyText(text, btn){
+  const box = document.createElement("textarea");
+  box.value = text;
+  document.body.appendChild(box);
+  box.select();
+  document.execCommand("copy");
+  box.remove();
+  btn.textContent = "Copied";
+  setTimeout(() => btn.textContent = "Copy", 1000);
+}
+
+function sayBox(s){ return s.say ? `<div class="say"><b>Say on camera</b>${esc(s.say)}</div>` : ""; }
+function plainList(s){ return s.plain ? `<ul class="plain">${s.plain.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""; }
+
+function render(){
+  const ep = EP[cur], s = ep.slides[idx], kind = s.k || "idea";
+  history.replaceState(null, "", `#${ep.id}-${idx}`);
+  document.getElementById("epname").textContent = `${ep.code}  ${ep.title}  ·  ${idx + 1} / ${ep.slides.length}`;
+  document.getElementById("dots").innerHTML = ep.slides.map((x, n) =>
+    `<button type="button" data-n="${n}" title="${esc(x.h)}" class="${n === idx ? "on " : ""}${x.k === "do" ? "k-do" : ""}"></button>`).join("");
+  document.getElementById("prev").disabled = idx === 0;
+  document.getElementById("next").disabled = idx === ep.slides.length - 1 && window.parent === window;
+  document.getElementById("next").textContent =
+    idx === ep.slides.length - 1 && window.parent !== window ? "Finish episode →" : "Next →";
+  const head = (label) => `<p class="eyebrow">${ep.code} · ${label}</p><h2>${esc(s.h)}</h2>`;
+
+  if (kind === "do") {
+    stage.className = "stage stack";
+    stage.innerHTML = `<div>${head("do this")}<p class="file">${esc(s.where || "")}</p>
+      <div class="do"><div class="lbl">Copy and run</div><button class="copy" type="button">Copy</button><pre>${esc(s.cmd)}</pre>
+      ${s.see ? `<div class="see"><b>You should see. </b>${esc(s.see)}</div>` : ""}
+      ${s.trap ? `<div class="trap"><b>Avoid this. </b>${esc(s.trap)}</div>` : ""}</div>
+      ${s.happened ? `<div class="happened"><b>What each part did</b><ol>${s.happened.map(h => `<li>${esc(h)}</li>`).join("")}</ol></div>` : ""}</div>`;
+    stage.querySelector(".copy").onclick = (ev) => copyText(s.cmd, ev.target);
+  } else if (kind === "code") {
+    stage.className = "stage stack";
+    stage.innerHTML = `<div>${head("read the code")}<p class="file">${esc(s.file)}</p>${sayBox(s)}
+      <div class="codegrid">${s.lines.map(([c, w]) => `<div class="row"><code>${esc(c)}</code><div class="why">${esc(w)}</div></div>`).join("")}</div>
+      <p class="note">Hover a line to highlight its meaning. Open the file in Cursor while recording and point at each line.</p></div>`;
+  } else if (kind === "quiz") {
+    stage.className = "stage stack";
+    stage.innerHTML = `<div class="quiz">${head("can you teach it?")}<p class="note">Answer out loud first, then click to check.</p>
+      ${s.qs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>`;
+  } else {
+    const hasArt = !!s.art;
+    stage.className = "stage" + (hasArt && !s.wide ? "" : " stack");
+    stage.innerHTML = `<div>${head("explain")}${sayBox(s)}${plainList(s)}</div>${hasArt ? `<div class="art">${s.art}</div>` : ""}`;
+  }
+  window.scrollTo(0, 0);
+}
+
+const [hashEp, hashN] = location.hash.slice(1).split("-");
+const startEp = EP.findIndex(e => e.id === hashEp);
+if (startEp >= 0) openEp(startEp, Math.min(parseInt(hashN, 10) || 0, EP[startEp].slides.length - 1));
+</script>
+</body>
+</html>

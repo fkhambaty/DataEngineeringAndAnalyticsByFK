@@ -43,6 +43,23 @@ jobs:
           models/intermediate/int_account_primary_holder.sql
           --dialect snowflake --templater jinja
 
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Secret scan of the full git history
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pip-audit
+      - name: Known-vulnerability audit of Python dependencies
+        run: pip-audit -r requirements.txt -r 05_airflow/requirements.txt
+
   terraform:
     runs-on: ubuntu-latest
     defaults:

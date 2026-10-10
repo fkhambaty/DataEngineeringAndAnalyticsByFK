@@ -2,8 +2,8 @@
 --  DML simulator: makes the OLTP system "alive" so the pipeline has something to ingest
 --  every few minutes. Each function is an isolated, re-runnable unit of realistic change.
 --
---  Drive it from psql:    SELECT * FROM core.sim_tick(500);  \watch 5
---  or from Python:        02_ingestion_python/simulate_activity.py
+--  Drive it from DBeaver:  SELECT * FROM core.sim_tick(500);
+--  or from Python:         02_ingestion_python/simulate_activity.py
 --
 --  Every function exercises a specific warehouse concept:
 --    sim_post_transactions  -> INSERTs            (fact rows)
@@ -16,7 +16,7 @@
 --    sim_fx_tick            -> INSERT/UPDATE      (today's rate, rate corrections)
 --    sim_hard_deletes       -> DELETE             (delete propagation via cdc.deleted_records)
 -- =====================================================================================
-\set ON_ERROR_STOP on
+-- Execute the whole script in DBeaver, connected to meridian_core.
 
 -- ------------------------------------------------------------------ transactions
 CREATE OR REPLACE FUNCTION core.sim_post_transactions(p_count int DEFAULT 500) RETURNS int

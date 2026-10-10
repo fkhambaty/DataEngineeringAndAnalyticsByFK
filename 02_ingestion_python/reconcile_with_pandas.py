@@ -49,7 +49,10 @@ def source_frame(days: int, by: str) -> pd.DataFrame:
                max(t.transaction_ts AT TIME ZONE 'UTC')    AS src_max_ts
         FROM core.transactions t
         JOIN core.accounts a USING (account_id)
-        WHERE t.transaction_ts >= now() - interval '{days} days'
+        -- Compare the same complete UTC calendar dates that the Snowflake query uses.
+        -- A rolling timestamp cutoff would compare only part of the oldest day in Postgres
+        -- against the whole oldest day in Snowflake.
+        WHERE (t.transaction_ts AT TIME ZONE 'UTC')::date >= current_date - {days}
           AND t.updated_at <= now() - interval '2 minutes'   -- give the pipeline a fair chance
         GROUP BY 1, 2
     """

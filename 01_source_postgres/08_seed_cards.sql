@@ -2,26 +2,14 @@
 --  Credit-card history: merchants, sale calendar, offers, applications, plastic, spend.
 --  Run after 03_seed_bulk_data.sql and 07_ddl_cards.sql.
 --
---    psql -d meridian_core -v ON_ERROR_STOP=1 -v applications=12000 -v auths_per_card=15 \
---         -f 08_seed_cards.sql
+--  Course size, written in the SQL below: 12000 applications, 15 authorizations per card.
+--  Execute the whole script in DBeaver, connected to meridian_core.
 --
 --  Applications span the customer's life (up to ~3 years, bounded by FX history).
 --  The approve/reject label is the policy function plus a little noise — the model in
 --  09_decisioning_python has to recover that policy, not memorise a flag.
 --  About 1% of authorizations are injected fraud patterns the rules are designed to see.
 -- =====================================================================================
-\set ON_ERROR_STOP on
-\timing on
-
-\if :{?applications}
-\else
-  \set applications 12000
-\endif
-\if :{?auths_per_card}
-\else
-  \set auths_per_card 15
-\endif
-
 DO $$ BEGIN
   IF (SELECT count(*) FROM core.customers) < 100 THEN
     RAISE EXCEPTION 'Seed customers first (03_seed_bulk_data.sql)';
@@ -155,7 +143,7 @@ gen AS (
         random() AS r_when,
         random() AS r_prod,
         random() AS r_channel
-    FROM generate_series(1, :applications) AS g
+    FROM generate_series(1, 12000) AS g
 ),
 draft AS (
     SELECT
@@ -282,7 +270,7 @@ base AS (
         random() AS r_decline
     FROM core.credit_cards c
     JOIN core.customers cu ON cu.customer_id = c.customer_id
-    CROSS JOIN generate_series(1, :auths_per_card) AS g
+    CROSS JOIN generate_series(1, 15) AS g
     WHERE c.opened_date < current_date
 ),
 timed AS (

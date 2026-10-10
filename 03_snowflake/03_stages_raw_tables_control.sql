@@ -136,7 +136,7 @@ CREATE OR REPLACE VIEW MERIDIAN_RAW.CONTROL.V_LOAD_THROUGHPUT AS
 SELECT date_trunc('hour', started_at) AS hour,
        table_name,
        count(*)                       AS batches,
-       sum(rows_extracted)            AS rows,
+       sum(rows_extracted)            AS rows_loaded,
        round(avg(timestampdiff('second', started_at, finished_at)), 1) AS avg_seconds
 FROM MERIDIAN_RAW.CONTROL.LOAD_LOG
 WHERE status = 'SUCCESS'
