@@ -41,8 +41,15 @@ The lessons, decks, and dry run are in this repository. The same pipeline as cod
 
 ## Quick start (local)
 
+New machine? Follow [`setup/README.md`](setup/README.md). It contains the macOS and
+Windows installers, a setup verifier, and the automated PostgreSQL build.
+
 ```bash
-# 0. Python deps
+# 0. Verify the local tools, then build the complete source database.
+python3 setup/verify_setup.py
+python3 setup/start_postgres.py
+
+# 1. Python deps
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt pytest
 
@@ -54,13 +61,9 @@ python3 02_ingestion_python/00_python_foundations/03_collections_paths_libraries
 python3 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py || true
 pytest -q tests                                     # no warehouse needed
 
-# 1. Postgres (Docker). Then execute the SQL in DBeaver, not in the terminal.
-docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d
-#    Connection: localhost:5432, user meridian, password meridian, database postgres
-#    Execute 01_source_postgres/00_create_database.sql
-#    Change the connection database to meridian_core, then execute in order:
-#    01_ddl_core_schema, 02_seed_reference_data, 03_seed_bulk_data, 07_ddl_cards,
-#    04_cdc_triggers, 05_dml_simulator_functions, 08_seed_cards, 09_card_simulator
+# DBeaver is for learning and inspection; the setup script has already executed the
+# source SQL in the correct order. Connect to localhost:5432 / meridian_core with
+# username meridian and password meridian.
 
 # 2. Snowflake platform: EITHER run 03_snowflake/01..03 in Snowsight as ACCOUNTADMIN,
 #    OR `terraform apply` in 11_platform_terraform, then run the remaining applicable

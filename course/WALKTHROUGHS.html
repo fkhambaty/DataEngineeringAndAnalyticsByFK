@@ -244,7 +244,7 @@ const EP = [
    html:`<div class="kicker">Then the technical lesson</div><h2>First, learn to say <span class="grad">what one row means</span></h2>
    ${hand(LOGO.sf,"Technical slides · architecture before commands","the Episode 0 lesson","grain · physical location · design decisions")}`}
 ]},
-{id:"med", code:"M", color:"#f5c542", title:"Medallion: bronze, silver, gold", mins:"20 min",
+{id:"med", code:"E1 · OPEN", color:"#f5c542", title:"Medallion primer before PostgreSQL", mins:"7 min",
  slides:[
   {notes:"'Three words for how clean the data is. Bronze is the unopened delivery. Silver is washed and labelled. Gold is the plated dish. We never cook from the box, and we never throw the box away.'",
    html:`<div class="kicker in">Medallion · before Snowsight</div><h2 class="in">How clean is <span class="grad">this floor</span>?</h2><p class="lead in">Bronze keeps every copy. Silver keeps one clean row. Gold is shaped for a question.</p>
@@ -264,7 +264,7 @@ const EP = [
    html:`<div class="kicker">Then the demo</div><h2>One payment, <span class="grad">three queries</span></h2><p class="lead">Bronze returns several rows. Silver returns one. Gold returns one, with customer, branch and dollars.</p>
    ${hand(LOGO.sf,"Snowsight · MERIDIAN_TRANSFORMER · WH_TRANSFORM_XS","Snowsight","MERIDIAN_RAW → STAGING → MARTS")}`}
 ]},
-{id:"e1", code:"E1", color:"#5b9bd5", title:"The bank's live database", mins:"50 min",
+{id:"e1", code:"E1", color:"#5b9bd5", title:"Setup and the bank's live database", mins:"50 min",
  slides:[
   {notes:"'Three drawers. ref is the lists the bank looks up, like a currency. core is the customers, accounts and payments. cdc is a notebook of deletes. Once a row is gone, Python has nothing left to copy, so the trigger writes the id here first.'",
    html:`<div class="kicker in">Episode 1 · before Docker</div><h2 class="in">Three drawers, <span class="grad">twenty tables</span></h2><p class="lead in">ref is the lists the bank looks up. core is the customers, accounts and payments. cdc is a notebook of deletes: once a row is gone, Python would never see it, so the id is written here first.</p>
@@ -546,9 +546,9 @@ const EP = [
 const home = document.getElementById("home");
 const slidesRoot = document.getElementById("slides");
 const notes = document.getElementById("notes");
-home.innerHTML = `<div class="kicker">Record this, then switch to the tool</div>
-  <h1>Walkthrough, <span class="grad">then the demo</span></h1>
-  <p class="lead">Each episode opens with the picture. Arrow keys reveal the beats. The last slide names the tool. The opening video is <a href="INTRO_DECK.html" style="color:var(--teal)">INTRO_DECK.html</a>.</p>
+home.innerHTML = `<div class="kicker">Choose a lesson</div>
+  <h1>See the picture, <span class="grad">then build it</span></h1>
+  <p class="lead">Use the arrow keys to move through a lesson. Medallion is the short opening of Episode 1, immediately before PostgreSQL.</p>
   <div class="grid">${EP.map(e=>`<button class="card pick" style="--c:${e.color}" data-ep="${e.id}"><em>${e.code} · ${e.mins}</em><b>${e.title}</b><span>${e.slides.length} scenes</span></button>`).join("")}</div>`;
 
 let slides = [], index = 0, step = 0, current = null;

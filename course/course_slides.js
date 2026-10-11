@@ -88,7 +88,7 @@ const EP = [
  ]},
 
 // ================================================================ MEDALLION
-{id:"med", code:"M", mins:"20 min", color:"#a16207", title:"Medallion: bronze, silver, gold here",
+{id:"med", code:"E1 · OPEN", mins:"7 min", color:"#a16207", title:"Medallion primer inside Episode 1",
  slides:[
   {h:"Medallion is a promise about how clean data is",
    say:"Bronze is exactly what arrived. Silver is cleaned: one row per thing, proper types. Gold is shaped for a question a person asks.",
@@ -168,7 +168,7 @@ WHERE transaction_id = $txn_id;`,
  ]},
 
 // ================================================================ E1
-{id:"e1", code:"E1", mins:"50 min", color:"#336791", title:"The bank's live database",
+{id:"e1", code:"E1", mins:"50 min", color:"#336791", title:"Setup and the bank's live database",
  slides:[
   {h:"OLTP: built to take one payment fast",
    say:"Postgres here is the bank's till. It is tuned to insert and update single rows. Analytics never write back into it.",
@@ -208,33 +208,33 @@ WHERE transaction_id = $txn_id;`,
      ["hard_deletes","rows vanish: the delete log and the post-hook must remove them"],
      ["card steps","authorizations, some with injected fraud patterns the rules must catch"]]) +
      note("SELECT * FROM core.sim_tick(500) runs once. simulate_activity.py loops every 5 seconds until Ctrl+C.")},
-  {k:"do", h:"Start Postgres", where:"Terminal",
-   cmd:`cd ${ROOT}
-docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d
-docker ps --filter name=meridian_postgres`,
-   happened:["cd goes to the project folder, where the compose file lives.","up -d starts the Postgres container in the background.","docker ps shows that it is running."],
-   see:"Container meridian_postgres is Up, port 5432.",
-   trap:"Docker Desktop must be running first. Look for the whale icon in the menu bar."},
-  {k:"do", h:"Create the database, then point DBeaver at it", where:"DBeaver",
-   cmd:`Open ${ROOT}/01_source_postgres/00_create_database.sql
-Turn Auto-commit ON. Execute SQL Script.
-Edit the connection: Database = meridian_core. Test. Reconnect.`,
-   happened:["The script creates an empty database called meridian_core.","Changing the connection makes every later script run inside that database."],
-   see:"The editor's database selector shows meridian_core.",
-   trap:"If you skip the reconnect, the next scripts build the tables inside the default postgres database."},
-  {k:"do", h:"Build and fill the bank, in this order", where:"DBeaver · meridian_core · Execute SQL Script on each file",
-   cmd:`${ROOT}/01_source_postgres/01_ddl_core_schema.sql
-${ROOT}/01_source_postgres/02_seed_reference_data.sql
-${ROOT}/01_source_postgres/03_seed_bulk_data.sql
-${ROOT}/01_source_postgres/07_ddl_cards.sql
-${ROOT}/01_source_postgres/04_cdc_triggers.sql
-${ROOT}/01_source_postgres/05_dml_simulator_functions.sql
-${ROOT}/01_source_postgres/08_seed_cards.sql
-${ROOT}/01_source_postgres/09_card_simulator.sql`,
-   happened:["01 creates the empty tables.","02 adds branches, currencies, FX rates.","03 generates 200,000 customers and 5 million payments with pure SQL. Slow: record before the episode.",
-             "07 adds card tables.","04 attaches the triggers to all tables, including the card tables, which is why it runs after 07.","05 and 09 install the simulators. 08 loads card history."],
-   see:"Each script ends with no error.",
-   trap:"Running 04 before 07 leaves the card tables without triggers."},
+  {k:"do", h:"Install once, then let the repository check the machine", where:"Terminal · cloned repository root",
+   cmd:`# macOS
+bash setup/install_macos.sh
+
+# Windows Administrator PowerShell
+.\\setup\\install_windows.ps1
+
+# After Docker Desktop is running
+python3 setup/verify_setup.py`,
+   happened:["The OS script installs Docker Desktop, DBeaver, Python 3.12, Git, Cursor and Terraform.","The verifier checks the Docker CLI, Compose, the running engine, Python and DBeaver."],
+   see:"Every required row says PASS.",
+   trap:"Installing Docker is not the same as starting its engine. Open Docker Desktop and wait before running the verifier."},
+  {k:"do", h:"Build the complete bank with one checked command", where:"Terminal · repository root",
+   cmd:`python3 setup/start_postgres.py
+# Windows: py -3.12 setup\\start_postgres.py`,
+   happened:["The script starts PostgreSQL 16 and waits for it.","It creates meridian_core and runs 01, 02, 03, 07, 04, 05, 08 and 09 in the required order.","It refuses to mix a partial seed with a new run and prints the final counts."],
+   see:"520 branches · 200000 customers · about 300000 accounts · 5000000 transactions.",
+   trap:"03_seed_bulk_data.sql takes several minutes. Do not close the terminal. Use --rebuild only when you deliberately want to erase the course database."},
+  {k:"do", h:"DBeaver is where we inspect and learn the SQL", where:"DBeaver · New PostgreSQL connection",
+   cmd:`Host: localhost
+Port: 5432
+Database: meridian_core
+Username: meridian
+Password: meridian`,
+   happened:["Test Connection proves DBeaver can reach the container.","The core schema shows customers, accounts and transactions.","The setup script removed file-order guesswork; every SQL file remains available to study."],
+   see:"Schemas ref, core and cdc are visible. Right-click core → View Diagram.",
+   trap:"Use database meridian_core, not the default postgres database."},
   {k:"do", h:"Prove the bank's size, then make it move", where:"DBeaver",
    cmd:`SELECT (SELECT count(*) FROM core.branches) branches,
        (SELECT count(*) FROM core.customers) customers,
