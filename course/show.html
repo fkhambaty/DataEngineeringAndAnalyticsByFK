@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meridian Bank · The Data Engineering Course</title>
+<title>Meridian — show this</title>
 <style>
 :root{
   --bg:#111722;--panel:#1c2536;--panel2:#232e43;--line:#35435e;--ink:#f0f5fb;
@@ -101,15 +101,15 @@ body.player-open #player{opacity:1;visibility:visible;transform:none;transition:
 
 <main id="home">
   <header class="top">
-    <div class="brand"><i class="mark"></i>Meridian Bank · Video Course Studio</div>
+    <div class="brand"><i class="mark"></i>Meridian Bank · On camera</div>
     <div class="keys"><span class="key">← →</span> navigate <span class="key">N</span> notes <span class="key">F</span> fullscreen <span class="key">Esc</span> home</div>
   </header>
 
   <section class="hero">
     <div>
-      <div class="eyebrow">The complete production desk</div>
-      <h1>One story. One home. <span class="grad">Every episode.</span></h1>
-      <p class="lead">Start with the cinematic problem statement. Every episode then moves from an animated mental model into the real tools, SQL and code—without leaving this page.</p>
+      <div class="eyebrow">The only screen for the video</div>
+      <h1>Picture first. <span class="grad">Then the code.</span></h1>
+      <p class="lead">Share this page. Each episode opens with the picture, then switches to the SQL and Python you run. The private study notes stay in teach.html.</p>
       <div class="actions">
         <button class="primary" id="watch-intro">▶ Watch the main opening</button>
         <button class="secondary" id="start-course">Start Episode 0 →</button>
@@ -129,10 +129,10 @@ body.player-open #player{opacity:1;visibility:visible;transform:none;transition:
   </section>
 
   <section class="catalog">
-    <div class="catalog-head"><div><div class="eyebrow">The production order</div><h2>Choose an episode</h2></div><p>Animated walkthrough → technical lesson → next episode</p></div>
+    <div class="catalog-head"><div><div class="eyebrow">Recording order</div><h2>Choose an episode</h2></div><p>Picture, then the code for that episode</p></div>
     <div class="episodes" id="episodes"></div>
   </section>
-  <div class="section-note"><i class="mark"></i><span><b>Recording rhythm:</b> show the picture first, reveal one idea per click, then switch to the tool only when the audience knows what to look for. The persistent Home button always brings you back here.</span></div>
+  <div class="section-note"><i class="mark"></i><span><b>On camera:</b> reveal one idea per click. Switch to the code only after the picture is clear. Home returns to this list.</span></div>
 </main>
 
 <section id="player" aria-hidden="true">
@@ -142,7 +142,7 @@ body.player-open #player{opacity:1;visibility:visible;transform:none;transition:
     <nav class="phases">
       <button class="phase" id="phase-intro"><i></i><span class="txt">Main opening</span></button>
       <button class="phase" id="phase-walk"><i></i><span class="txt">Walkthrough</span></button>
-      <button class="phase" id="phase-tech"><i></i><span class="txt">Technical lesson</span></button>
+      <button class="phase" id="phase-tech"><i></i><span class="txt">Code</span></button>
     </nav>
   </header>
   <iframe id="frame" title="Meridian course player"></iframe>
@@ -189,7 +189,7 @@ let current=null, phase="intro";
 const byId=id=>EPISODES.find(e=>e.id===id);
 function setMeta(){
   const intro=phase==="intro";
-  document.getElementById("now-code").textContent=intro?"MAIN OPENING":`${current.code} · ${phase==="walk"?"WALKTHROUGH":"TECHNICAL LESSON"}`;
+  document.getElementById("now-code").textContent=intro?"MAIN OPENING":`${current.code} · ${phase==="walk"?"PICTURE":"CODE"}`;
   document.getElementById("now-title").textContent=intro?"From the live database to answers in English":current.title;
   document.documentElement.style.setProperty("--accent",intro?"#2dd4bf":current.color);
   ["intro","walk","tech"].forEach(p=>document.getElementById("phase-"+p).classList.toggle("on",phase===p));
@@ -197,9 +197,9 @@ function setMeta(){
   document.getElementById("phase-tech").disabled=intro;
 }
 function source(){
-  if(phase==="intro") return "INTRO_DECK.html?embed=1#1";
-  if(phase==="walk") return `WALKTHROUGHS.html?embed=1#${current.id}-0`;
-  return `COURSE_GUIDE.html?embed=1#${current.id}-0`;
+  if(phase==="intro") return "show/opening.html?embed=1#1";
+  if(phase==="walk") return `show/pictures.html?embed=1#${current.id}-0`;
+  return `show/code.html?embed=1#${current.id}-0`;
 }
 function transition(label,cb){
   document.getElementById("veil-word").textContent=label;
@@ -244,6 +244,9 @@ addEventListener("message",e=>{
   if(m.type==="meridian-complete"&&m.section==="walkthrough")switchPhase("tech");
   if(m.type==="meridian-complete"&&m.section==="technical")finishEpisode();
 });
+const opened = location.hash.replace("#","");
+if (opened === "intro") openPlayer();
+else if (byId(opened)) openPlayer(opened);
 addEventListener("keydown",e=>{
   if(e.key==="Escape"&&document.body.classList.contains("player-open"))closePlayer();
   if((e.key==="f"||e.key==="F")&&!document.fullscreenElement)document.documentElement.requestFullscreen();

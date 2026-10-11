@@ -189,11 +189,10 @@
   <nav id="dr-nav" class="navset" hidden></nav>
   <nav id="nav" class="navset">
     <div class="grp">Start</div>
-    <a href="index.html">Episode list</a>
+    <a href="show.html">On-camera screen</a>
     <a href="#intro">0 · How to use this guide</a>
     <a href="#episodes">Episode plan (≈10 h)</a>
-    <a href="DRY_RUN_MAP.html">Dry run map</a>
-    <a href="HOW_IT_WORKS.html">How it works</a>
+    <a href="#dryrun">Dry run checklist</a>
     <a href="#business">The business problem</a>
     <a href="#architecture">Architecture &amp; why each tool</a>
     <a href="#m0">0 · Architecture process</a>
@@ -278,7 +277,7 @@
 <section id="episodes">
   <span class="eyebrow">Recording plan</span>
   <h2>Episode plan — fourteen build episodes plus Python foundations, about ten hours</h2>
-  <p>Logical order, not tool order. Students must understand the <i>problem</i> and the <i>target model</i> before they see a single Snowflake screen; otherwise every later decision looks arbitrary. The end-to-end test, with only the steps that build the project and check it works, is <a href="DRY_RUN_MAP.html">DRY_RUN_MAP.html</a>.</p>
+  <p>Logical order, not tool order. Students must understand the <i>problem</i> and the <i>target model</i> before they see a single Snowflake screen; otherwise every later decision looks arbitrary. Build and check the project from the <a href="#dryrun">dry run checklist</a> on this page. The screen you share is <a href="show.html">show.html</a>.</p>
   <div class="timeline">
     <div><b>E0</b>45 min<br>Requirements, then architecture</div>
     <div><b>E1</b>57 min<br>Medallion + setup + source</div>
@@ -608,7 +607,8 @@ python3 setup/start_postgres.py</code></pre>
 
   <h3>Repository layout</h3>
 <pre><code>DataEngineeringAndAnalyticsByFK/
-├── course/                        ← index, animated decks, written guide, dry run
+├── course/teach.html              this page: the whole project, for you
+├── course/show.html               the only screen shared in the video, including the code
 ├── README.md · requirements.txt · .env.example · .gitignore
 ├── setup/                         macOS/Windows installers, verifier, automated PostgreSQL build
 ├── 00_architecture/               process, design, diagrams, 10 ADRs, operations + DR runbooks
@@ -619,8 +619,7 @@ python3 setup/start_postgres.py</code></pre>
 ├── 05_airflow/                    Astro: hot path, daily, card decisioning, freshness, bounded replay
 ├── 06_performance_lab/            00 measure, 01-09 experiments (Postgres + Snowflake + dbt)
 ├── 07_data_modelling/             BUS_MATRIX.md, erd_oltp.mmd, star_schema.mmd
-├── .github/workflows/             active GitHub Actions: offline checks and Snowflake slim CI
-├── 08_ci_cd/                      explained copies of those workflows
+├── .github/workflows/             GitHub Actions: offline checks and Snowflake slim CI
 ├── 09_decisioning_python/         train_and_score.py (gold in, MERIDIAN_RAW.ML out, AUC gate)
 ├── 10_semantic_app/               semantic view + Streamlit/Cortex Analyst app
 ├── 11_platform_terraform/         roles, warehouses, resource monitor, databases as Terraform
@@ -2017,7 +2016,7 @@ SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY_BY_SESSION()) WHERE query_t
     needs: "Start.",
     ready: "The row counts match, and sim_tick returns one row per step.",
     steps: [
-      { t: "Present the Medallion primer", where: "course/WALKTHROUGHS.html#med-0",
+      { t: "Present the Medallion primer", where: "course/show.html#med",
         cmd: "Bronze keeps every copy → silver keeps one clean row → gold is shaped for a question",
         see: "Students can explain why raw has more rows than the source and why people query only gold." },
       { t: "Build the complete source automatically", where: "Terminal · repository root",
@@ -2388,8 +2387,6 @@ SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY_BY_SESSION()) WHERE query_t
 07_data_modelling/BUS_MATRIX.md
 07_data_modelling/erd_oltp.mmd
 07_data_modelling/star_schema.mmd
-08_ci_cd/github_workflows_checks.yml
-08_ci_cd/github_workflows_dbt_ci.yml
 09_decisioning_python/train_and_score.py
 10_semantic_app/01_semantic_view.sql
 10_semantic_app/README.md
@@ -2410,7 +2407,7 @@ setup/install_windows.ps1
 setup/start_postgres.py
 setup/verify_setup.py
 `.trim().split("\n");
-    const DIRS = ["setup","00_architecture","00_architecture/adr","00_architecture/diagrams","01_source_postgres","02_ingestion_python","03_snowflake","04_dbt_meridian_dw","05_airflow","05_airflow/dags","05_airflow/include","06_performance_lab","07_data_modelling","08_ci_cd","09_decisioning_python","10_semantic_app","11_platform_terraform","tests",".github/workflows"];
+    const DIRS = ["setup","00_architecture","00_architecture/adr","00_architecture/diagrams","01_source_postgres","02_ingestion_python","03_snowflake","04_dbt_meridian_dw","05_airflow","05_airflow/dags","05_airflow/include","06_performance_lab","07_data_modelling","09_decisioning_python","10_semantic_app","11_platform_terraform","tests",".github/workflows"];
     FILES.push(".env", "04_dbt_meridian_dw/profiles.yml");
     const CANDIDATE = /(?<![A-Za-z0-9_./-])((?:(?:0\d|1[01])_[A-Za-z0-9_.-]+|setup)(?:\/[A-Za-z0-9_.*$-]+)*|\.env(?:\.example)?|profiles\.yml(?:\.example)?|[A-Za-z0-9_.-]+\.(?:sql|py|ps1|sh|md|ya?ml|mmd|tf|html|txt|csv|example))/g;
 
@@ -2501,7 +2498,7 @@ setup/verify_setup.py
       view.innerHTML =
         '<span class="eyebrow">Dry run · before you record</span>' +
         '<h1>Build the whole thing once, off camera</h1>' +
-        '<p class="lead">This list only builds the project and checks that it works. Tick a step when it succeeds. Underlined file names open that file in Cursor. The same order is drawn in <a href="DRY_RUN_MAP.html">DRY_RUN_MAP.html</a>.</p>' +
+        '<p class="lead">This list only builds the project and checks that it works. Tick a step when it succeeds. Underlined file names open that file in Cursor.</p>' +
         '<div class="flow"><span>Postgres</span><em>→</em><span>Snowflake</span><em>→</em><span>Python load</span><em>→</em><span>dbt</span><em>→</em><span>Airflow</span><em>→</em><span>Scores</span><em>→</em><span>Row access</span></div>' +
         (totalGaps ? '<div class="callout pitfall"><b class="tag">Red notes are real traps on this path</b><br>' + totalGaps + ' steps can fail for a reason that is easy to miss. Read the red note before you run that step.</div>' : '') +
         '<div class="dr-head"><div><b>Overall</b> · ' + all.done + ' of ' + all.total + ' steps ticked</div><div class="bar"><i style="width:' + Math.round(100 * all.done / all.total) + '%"></i></div></div>' +

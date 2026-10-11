@@ -311,14 +311,14 @@ Then: 'I'm ___. Let's build it.'">
     <h1 class="in" style="--d:1">From a bank's <span class="grad">live database</span><br>to answers in plain English</h1>
     <p class="lead in" style="--d:2">Meridian Bank · 520 branches · 5 countries · 5 currencies · one data platform</p>
     <div class="logos">
-      <div class="logo in" style="--d:3"><div class="tile"><img src="course_assets/logos/postgresql.svg" alt=""></div>PostgreSQL</div>
-      <div class="logo in" style="--d:4"><div class="tile"><img src="course_assets/logos/python.svg" alt=""></div>Python</div>
-      <div class="logo in" style="--d:5"><div class="tile"><img src="course_assets/logos/snowflake.svg" alt=""></div>Snowflake</div>
-      <div class="logo in" style="--d:6"><div class="tile"><img src="course_assets/logos/dbt.svg" alt=""></div>dbt</div>
-      <div class="logo in" style="--d:7"><div class="tile"><img src="course_assets/logos/apacheairflow.svg" alt=""></div>Airflow</div>
-      <div class="logo in" style="--d:8"><div class="tile"><img src="course_assets/logos/streamlit.svg" alt=""></div>Streamlit</div>
-      <div class="logo in" style="--d:9"><div class="tile"><img src="course_assets/logos/docker.svg" alt=""></div>Docker</div>
-      <div class="logo in" style="--d:10"><div class="tile"><img src="course_assets/logos/githubactions.svg" alt=""></div>GitHub Actions</div>
+      <div class="logo in" style="--d:3"><div class="tile"><img src="../course_assets/logos/postgresql.svg" alt=""></div>PostgreSQL</div>
+      <div class="logo in" style="--d:4"><div class="tile"><img src="../course_assets/logos/python.svg" alt=""></div>Python</div>
+      <div class="logo in" style="--d:5"><div class="tile"><img src="../course_assets/logos/snowflake.svg" alt=""></div>Snowflake</div>
+      <div class="logo in" style="--d:6"><div class="tile"><img src="../course_assets/logos/dbt.svg" alt=""></div>dbt</div>
+      <div class="logo in" style="--d:7"><div class="tile"><img src="../course_assets/logos/apacheairflow.svg" alt=""></div>Airflow</div>
+      <div class="logo in" style="--d:8"><div class="tile"><img src="../course_assets/logos/streamlit.svg" alt=""></div>Streamlit</div>
+      <div class="logo in" style="--d:9"><div class="tile"><img src="../course_assets/logos/docker.svg" alt=""></div>Docker</div>
+      <div class="logo in" style="--d:10"><div class="tile"><img src="../course_assets/logos/githubactions.svg" alt=""></div>GitHub Actions</div>
     </div>
     <div class="presenter in" style="--d:11">with <b id="presenter-name">Fakhruddin Khambaty</b></div>
   </section>
@@ -360,7 +360,7 @@ CLICK x3 for each point. Define OLTP once, slowly: Online Transaction Processing
         </div>
       </div>
       <div class="card feed in" style="--d:2">
-        <div class="feed-head"><img src="course_assets/logos/postgresql.svg" width="26" height="26" alt="">core.transactions<span class="live">LIVE</span></div>
+        <div class="feed-head"><img src="../course_assets/logos/postgresql.svg" width="26" height="26" alt="">core.transactions<span class="live">LIVE</span></div>
         <div class="rows" id="feed"></div>
         <div class="feed-foot"><span>rows written this session</span><b id="feed-count">0</b></div>
       </div>
@@ -460,7 +460,7 @@ CLICK (the honest nuance): 'And even if we added a copy of Postgres just for rep
           <ellipse class="cyl-top" cx="100" cy="30" rx="90" ry="28"/>
           <ellipse cx="100" cy="80" rx="90" ry="28" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
           <ellipse cx="100" cy="130" rx="90" ry="28" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
-          <image href="course_assets/logos/postgresql.svg" x="70" y="88" width="60" height="60"/>
+          <image href="../course_assets/logos/postgresql.svg" x="70" y="88" width="60" height="60"/>
         </svg>
         <div class="mute" style="font-size:20px">PostgreSQL · OLTP</div>
       </div>
@@ -487,8 +487,8 @@ Row vs column storage is the 'aha': a question about amount by month reads only 
     <div class="cmp in" style="--d:2">
       <div class="hrow">
         <div class="h" style="background:transparent"></div>
-        <div class="h o"><div class="tile sm"><img src="course_assets/logos/postgresql.svg" alt=""></div><div>OLTP<small>PostgreSQL · the live system</small></div></div>
-        <div class="h w"><div class="tile sm"><img src="course_assets/logos/snowflake.svg" alt=""></div><div>OLAP<small>Snowflake · the warehouse</small></div></div>
+        <div class="h o"><div class="tile sm"><img src="../course_assets/logos/postgresql.svg" alt=""></div><div>OLTP<small>PostgreSQL · the live system</small></div></div>
+        <div class="h w"><div class="tile sm"><img src="../course_assets/logos/snowflake.svg" alt=""></div><div>OLAP<small>Snowflake · the warehouse</small></div></div>
       </div>
 
       <div class="row f"><div class="k">Job</div><div class="o">Record each event the moment it happens</div><div class="w">Answer questions across <b>everything</b></div></div>
@@ -505,9 +505,9 @@ CLICK x3 for E, L, T. Stress the order: we load first and transform INSIDE Snowf
     <div class="kicker in" style="--d:0">The solution</div>
     <h2 class="in" style="--d:1">Copy it to a place <span class="grad">built for questions</span></h2>
     <div class="move">
-      <div class="end in" style="--d:2"><div class="tile"><img src="course_assets/logos/postgresql.svg" alt=""></div><h3>PostgreSQL</h3><p>keeps serving customers</p></div>
+      <div class="end in" style="--d:2"><div class="tile"><img src="../course_assets/logos/postgresql.svg" alt=""></div><h3>PostgreSQL</h3><p>keeps serving customers</p></div>
       <div class="wire in" style="--d:3"><span class="wire-label">only what changed, every 5 minutes</span></div>
-      <div class="end in" style="--d:4"><div class="tile"><img src="course_assets/logos/snowflake.svg" alt=""></div><h3>Snowflake</h3><p>answers every question</p></div>
+      <div class="end in" style="--d:4"><div class="tile"><img src="../course_assets/logos/snowflake.svg" alt=""></div><h3>Snowflake</h3><p>answers every question</p></div>
     </div>
     <div class="elt focus">
       <div class="card f"><div class="L grad">E</div><div><h3>Extract</h3><p>Python reads only the rows that changed since its last trip.</p></div></div>
@@ -523,16 +523,16 @@ CLICK 8: Airflow is the timer over the whole thing. CLICK 9: GitHub Actions test
     <div class="kicker in" style="--d:0">The whole project on one screen</div>
     <h2 class="in" style="--d:1">Follow <span class="grad">one payment</span> through seven stops</h2>
     <div class="arch">
-      <div class="card stop f" style="grid-column:1"><span class="no">01</span><div class="duo"><div class="tile sm"><img src="course_assets/logos/postgresql.svg" alt=""></div><div class="tile sm"><img src="course_assets/logos/docker.svg" alt=""></div></div><h3>PostgreSQL</h3><p>The live bank, running in Docker</p><span class="layer" style="color:var(--sky);background:rgba(56,189,248,.12)">source</span></div>
-      <div class="card stop f" style="grid-column:2"><span class="no">02</span><div class="tile sm"><img src="course_assets/logos/python.svg" alt=""></div><h3>Python</h3><p>Picks up only what changed (a watermark)</p><span class="layer" style="color:#ffd43b;background:rgba(255,212,59,.12)">extract</span></div>
-      <div class="card stop f" style="grid-column:3"><span class="no">03</span><div class="tile sm"><img src="course_assets/logos/apacheparquet.svg" alt=""></div><h3>Parquet</h3><p>Small, compressed parcels on the way</p><span class="layer" style="color:#50abf1;background:rgba(80,171,241,.12)">package</span></div>
-      <div class="card stop bronze f" style="grid-column:4"><span class="no">04</span><div class="tile sm"><img src="course_assets/logos/snowflake.svg" alt=""></div><h3>Snowflake RAW</h3><p>Exactly as received, never edited</p><span class="layer">bronze</span></div>
-      <div class="card stop silver f" style="grid-column:5"><span class="no">05</span><div class="tile sm"><img src="course_assets/logos/dbt.svg" alt=""></div><h3>dbt</h3><p>Cleans, removes duplicates, tests</p><span class="layer">silver</span></div>
-      <div class="card stop gold f" style="grid-column:6"><span class="no">06</span><div class="tile sm"><img src="course_assets/logos/snowflake.svg" alt=""></div><h3>Snowflake MARTS</h3><p>A star schema, ready for questions</p><span class="layer">gold</span></div>
-      <div class="card stop f" style="grid-column:7"><span class="no">07</span><div class="duo"><div class="tile sm"><img src="course_assets/logos/streamlit.svg" alt=""></div><div class="tile sm"><img src="course_assets/logos/snowflake.svg" alt=""></div></div><h3>Streamlit + Cortex</h3><p>Ask in English, get an answer</p><span class="layer" style="color:#ff6b6b;background:rgba(255,75,75,.12)">answer</span></div>
+      <div class="card stop f" style="grid-column:1"><span class="no">01</span><div class="duo"><div class="tile sm"><img src="../course_assets/logos/postgresql.svg" alt=""></div><div class="tile sm"><img src="../course_assets/logos/docker.svg" alt=""></div></div><h3>PostgreSQL</h3><p>The live bank, running in Docker</p><span class="layer" style="color:var(--sky);background:rgba(56,189,248,.12)">source</span></div>
+      <div class="card stop f" style="grid-column:2"><span class="no">02</span><div class="tile sm"><img src="../course_assets/logos/python.svg" alt=""></div><h3>Python</h3><p>Picks up only what changed (a watermark)</p><span class="layer" style="color:#ffd43b;background:rgba(255,212,59,.12)">extract</span></div>
+      <div class="card stop f" style="grid-column:3"><span class="no">03</span><div class="tile sm"><img src="../course_assets/logos/apacheparquet.svg" alt=""></div><h3>Parquet</h3><p>Small, compressed parcels on the way</p><span class="layer" style="color:#50abf1;background:rgba(80,171,241,.12)">package</span></div>
+      <div class="card stop bronze f" style="grid-column:4"><span class="no">04</span><div class="tile sm"><img src="../course_assets/logos/snowflake.svg" alt=""></div><h3>Snowflake RAW</h3><p>Exactly as received, never edited</p><span class="layer">bronze</span></div>
+      <div class="card stop silver f" style="grid-column:5"><span class="no">05</span><div class="tile sm"><img src="../course_assets/logos/dbt.svg" alt=""></div><h3>dbt</h3><p>Cleans, removes duplicates, tests</p><span class="layer">silver</span></div>
+      <div class="card stop gold f" style="grid-column:6"><span class="no">06</span><div class="tile sm"><img src="../course_assets/logos/snowflake.svg" alt=""></div><h3>Snowflake MARTS</h3><p>A star schema, ready for questions</p><span class="layer">gold</span></div>
+      <div class="card stop f" style="grid-column:7"><span class="no">07</span><div class="duo"><div class="tile sm"><img src="../course_assets/logos/streamlit.svg" alt=""></div><div class="tile sm"><img src="../course_assets/logos/snowflake.svg" alt=""></div></div><h3>Streamlit + Cortex</h3><p>Ask in English, get an answer</p><span class="layer" style="color:#ff6b6b;background:rgba(255,75,75,.12)">answer</span></div>
       <div class="rail"><span class="packet"></span></div>
-      <div class="band air f drop"><div class="tile sm"><img src="course_assets/logos/apacheairflow.svg" alt=""></div><div><b>Airflow</b> · the alarm clock: every 5 minutes, every night, with retries and alerts</div></div>
-      <div class="band gha f"><div class="tile sm"><img src="course_assets/logos/githubactions.svg" alt=""></div><div><b>GitHub Actions</b> · tests every dbt change before it reaches production</div></div>
+      <div class="band air f drop"><div class="tile sm"><img src="../course_assets/logos/apacheairflow.svg" alt=""></div><div><b>Airflow</b> · the alarm clock: every 5 minutes, every night, with retries and alerts</div></div>
+      <div class="band gha f"><div class="tile sm"><img src="../course_assets/logos/githubactions.svg" alt=""></div><div><b>GitHub Actions</b> · tests every dbt change before it reaches production</div></div>
     </div>
   </section>
 
@@ -541,12 +541,12 @@ CLICK 8: Airflow is the timer over the whole thing. CLICK 9: GitHub Actions test
     <div class="kicker in" style="--d:0">Meet the team</div>
     <h2 class="in" style="--d:1">Every tool has <span class="grad">one job</span></h2>
     <div class="cast focus">
-      <div class="card member f"><div class="tile"><img src="course_assets/logos/postgresql.svg" alt=""></div><div><div class="as">The till</div><h3>PostgreSQL</h3><p>Records every transaction as it happens. The source of truth.</p></div></div>
-      <div class="card member f"><div class="tile"><img src="course_assets/logos/python.svg" alt=""></div><div><div class="as">The courier</div><h3>Python</h3><p>Carries only what changed since its last trip, then delivers it to Snowflake.</p></div></div>
-      <div class="card member f"><div class="tile"><img src="course_assets/logos/snowflake.svg" alt=""></div><div><div class="as">The warehouse</div><h3>Snowflake</h3><p>Stores everything. Storage and compute scale separately, and you pay per second.</p></div></div>
-      <div class="card member f"><div class="tile"><img src="course_assets/logos/dbt.svg" alt=""></div><div><div class="as">The kitchen</div><h3>dbt</h3><p>SQL recipes turn raw ingredients into clean, tested, star-shaped tables.</p></div></div>
-      <div class="card member f"><div class="tile"><img src="course_assets/logos/apacheairflow.svg" alt=""></div><div><div class="as">The alarm clock</div><h3>Airflow</h3><p>Starts every job on time, in the right order. Retries, and raises the alarm.</p></div></div>
-      <div class="card member f"><div class="tile"><img src="course_assets/logos/streamlit.svg" alt=""></div><div><div class="as">The translator</div><h3>Streamlit + Cortex</h3><p>An English question becomes SQL, and the answer only shows what you're allowed to see.</p></div></div>
+      <div class="card member f"><div class="tile"><img src="../course_assets/logos/postgresql.svg" alt=""></div><div><div class="as">The till</div><h3>PostgreSQL</h3><p>Records every transaction as it happens. The source of truth.</p></div></div>
+      <div class="card member f"><div class="tile"><img src="../course_assets/logos/python.svg" alt=""></div><div><div class="as">The courier</div><h3>Python</h3><p>Carries only what changed since its last trip, then delivers it to Snowflake.</p></div></div>
+      <div class="card member f"><div class="tile"><img src="../course_assets/logos/snowflake.svg" alt=""></div><div><div class="as">The warehouse</div><h3>Snowflake</h3><p>Stores everything. Storage and compute scale separately, and you pay per second.</p></div></div>
+      <div class="card member f"><div class="tile"><img src="../course_assets/logos/dbt.svg" alt=""></div><div><div class="as">The kitchen</div><h3>dbt</h3><p>SQL recipes turn raw ingredients into clean, tested, star-shaped tables.</p></div></div>
+      <div class="card member f"><div class="tile"><img src="../course_assets/logos/apacheairflow.svg" alt=""></div><div><div class="as">The alarm clock</div><h3>Airflow</h3><p>Starts every job on time, in the right order. Retries, and raises the alarm.</p></div></div>
+      <div class="card member f"><div class="tile"><img src="../course_assets/logos/streamlit.svg" alt=""></div><div><div class="as">The translator</div><h3>Streamlit + Cortex</h3><p>An English question becomes SQL, and the answer only shows what you're allowed to see.</p></div></div>
     </div>
   </section>
 
@@ -607,7 +607,7 @@ LIMIT  5;"></span></div>
     <div class="kicker in" style="--d:0">Enough theory</div>
     <h1 class="in" style="--d:1"><span class="grad">Let's build it.</span></h1>
     <div class="card next in" style="--d:3">
-      <div class="duo"><div class="tile"><img src="course_assets/logos/postgresql.svg" alt=""></div><div class="tile"><img src="course_assets/logos/docker.svg" alt=""></div></div>
+      <div class="duo"><div class="tile"><img src="../course_assets/logos/postgresql.svg" alt=""></div><div class="tile"><img src="../course_assets/logos/docker.svg" alt=""></div></div>
       <p class="lead">Next · <b>Episode 1: The bank's live database</b><br>PostgreSQL in Docker, 20 tables, 5 million transactions</p>
     </div>
   </section>

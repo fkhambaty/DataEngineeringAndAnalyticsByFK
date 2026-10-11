@@ -1,4 +1,4 @@
-// Slide content for COURSE_GUIDE.html. One object per episode; one object per slide.
+// Slide content for code.html. One object per episode; one object per slide.
 // Slide kinds: idea (default), code, do, quiz.
 
 const ROOT = "/Users/fakhruddinkhambaty/Desktop/FK/DataEngineeringAndAnalyticsByFK";
