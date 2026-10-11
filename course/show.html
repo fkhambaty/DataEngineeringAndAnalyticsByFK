@@ -92,6 +92,7 @@ body.player-open #player{opacity:1;visibility:visible;transform:none;transition:
 #finish.on{opacity:1;visibility:visible}.finish-card{width:min(680px,90vw);padding:44px;border-radius:28px;background:linear-gradient(150deg,#26344d,#192233);border:1px solid #405170;box-shadow:0 50px 110px -45px #000;text-align:center}
 .finish-card h2{font-size:44px;margin:10px 0}.finish-card p{color:var(--muted);font-size:18px;line-height:1.5}.finish-actions{display:flex;justify-content:center;gap:12px;margin-top:28px}
 
+body.single-deck #phase-walk,body.single-deck #phase-tech{display:none}
 @media(max-width:1100px){.hero{grid-template-columns:1fr}.episodes{grid-template-columns:repeat(3,1fr)}.keys{display:none}}
 @media(max-width:720px){#home{padding:24px}.hero{margin-top:42px}.hero h1{font-size:48px}.episodes{grid-template-columns:1fr}.finale{grid-column:auto}.phases .txt{display:none}.bar{grid-template-columns:auto 1fr auto;padding:0 10px}.phase{padding:9px}.now .title{max-width:170px}}
 </style>
@@ -162,8 +163,7 @@ body.player-open #player{opacity:1;visibility:visible;transform:none;transition:
 <script>
 const EPISODES = [
   {id:"e0",code:"E0",title:"The problem, then the picture",mins:"45 min",color:"#2dd4bf",tech:8,desc:"Five promises, six rooms, the language/IDE map, grain and the design we rejected."},
-  {id:"med",code:"E1 · OPEN",title:"Medallion primer",mins:"7 min",color:"#f5c542",tech:8,desc:"The short opening of Episode 1: raw copies, one clean row and one business-ready fact."},
-  {id:"e1",code:"E1",title:"Setup and the bank's live database",mins:"50 min",color:"#5b9bd5",tech:12,desc:"One verified setup path, Docker, DBeaver, twenty tables, five million payments and a moving bank."},
+  {id:"e1",code:"E1",title:"The bank comes alive",mins:"55 min",color:"#5b9bd5",deck:"show/e1.html",scenes:16,desc:"Medallion in one payment, the complete toolkit, PostgreSQL in Docker, twenty tables and a moving bank."},
   {id:"e2",code:"E2",title:"Draw the warehouse first",mins:"45 min",color:"#a78bfa",tech:9,desc:"Grain, facts, dimensions, SCD2, fan-out and the bus matrix."},
   {id:"e3",code:"E3",title:"Snowflake: rooms, keys, shelves",mins:"40 min",color:"#22d3ee",tech:8,desc:"Storage versus compute, roles, key-pair auth and empty bronze tables."},
   {id:"py0",code:"P0",title:"Python foundations for this pipeline",mins:"35 min",color:"#facc15",tech:8,desc:"Run Python, read the syntax, understand the libraries, then reconcile two tiny systems."},
@@ -181,23 +181,26 @@ const EPISODES = [
 const episodes = document.getElementById("episodes");
 episodes.innerHTML = EPISODES.map((e,i)=>`<button class="ep${e.id==="e13"?" finale":""}" style="--c:${e.color}" data-id="${e.id}">
   <span class="code">${String(i+1).padStart(2,"0")} · ${e.code} · ${e.mins}</span><span class="play">▶</span>
-  <h3>${e.title}</h3><p>${e.desc}</p><span class="meta"><span>3-scene opener</span><span>${e.tech} technical slides</span></span>
+  <h3>${e.title}</h3><p>${e.desc}</p><span class="meta">${e.deck?`<span>${e.scenes} cinematic scenes</span>`:`<span>3-scene opener</span><span>${e.tech} technical slides</span>`}</span>
 </button>`).join("");
 
 const frame=document.getElementById("frame"), player=document.getElementById("player"), veil=document.getElementById("veil");
 let current=null, phase="intro";
+frame.addEventListener("load",()=>frame.contentWindow&&frame.focus());
 const byId=id=>EPISODES.find(e=>e.id===id);
 function setMeta(){
   const intro=phase==="intro";
-  document.getElementById("now-code").textContent=intro?"MAIN OPENING":`${current.code} · ${phase==="walk"?"PICTURE":"CODE"}`;
+  document.getElementById("now-code").textContent=intro?"MAIN OPENING":current.deck?current.code:`${current.code} · ${phase==="walk"?"PICTURE":"CODE"}`;
   document.getElementById("now-title").textContent=intro?"From the live database to answers in English":current.title;
   document.documentElement.style.setProperty("--accent",intro?"#2dd4bf":current.color);
   ["intro","walk","tech"].forEach(p=>document.getElementById("phase-"+p).classList.toggle("on",phase===p));
   document.getElementById("phase-walk").disabled=intro;
   document.getElementById("phase-tech").disabled=intro;
+  document.body.classList.toggle("single-deck",!intro&&!!current.deck);
 }
 function source(){
   if(phase==="intro") return "show/opening.html?embed=1#1";
+  if(current.deck) return `${current.deck}?embed=1`;
   if(phase==="walk") return `show/pictures.html?embed=1#${current.id}-0`;
   return `show/code.html?embed=1#${current.id}-0`;
 }
@@ -209,7 +212,7 @@ function transition(label,cb){
 function openPlayer(id,nextPhase="walk"){
   current=id?byId(id):null; phase=id?nextPhase:"intro";
   document.body.classList.add("player-open");player.setAttribute("aria-hidden","false");setMeta();
-  transition(phase==="intro"?"The main opening":phase==="walk"?"The picture first":"Now build it",()=>frame.src=source());
+  transition(phase==="intro"?"The main opening":current.deck?current.title:phase==="walk"?"The picture first":"Now build it",()=>frame.src=source());
 }
 function switchPhase(p){
   if(p!=="intro"&&!current)return;
@@ -222,7 +225,7 @@ function closePlayer(){
 function finishEpisode(){
   const i=EPISODES.indexOf(current), next=EPISODES[i+1];
   document.getElementById("finish-title").textContent=`${current.code} complete.`;
-  document.getElementById("finish-copy").textContent=next?`Next: ${next.code} · ${next.title}. Start with its animated picture before opening a tool.`:"You can now tell the whole Meridian story in two minutes—and defend every design choice.";
+  document.getElementById("finish-copy").textContent=next?`Next: ${next.code} · ${next.title}.`:"You can now tell the whole Meridian story in two minutes—and defend every design choice.";
   const b=document.getElementById("finish-next");b.textContent=next?"Next episode →":"Return to home";b.dataset.next=next?.id||"";
   document.getElementById("finish").classList.add("on");
 }
@@ -244,7 +247,7 @@ addEventListener("message",e=>{
   if(m.type==="meridian-complete"&&m.section==="walkthrough")switchPhase("tech");
   if(m.type==="meridian-complete"&&m.section==="technical")finishEpisode();
 });
-const opened = location.hash.replace("#","");
+const opened = location.hash.replace("#","") === "med" ? "e1" : location.hash.replace("#","");
 if (opened === "intro") openPlayer();
 else if (byId(opened)) openPlayer(opened);
 addEventListener("keydown",e=>{

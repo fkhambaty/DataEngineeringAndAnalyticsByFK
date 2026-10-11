@@ -139,9 +139,6 @@ body.clean #progress,body.clean #count,body.clean #brand{opacity:0}
 @keyframes load{50%{width:96%} }
 .lights{display:grid;grid-template-columns:1fr 1fr;gap:18px;height:100%}
 .lightcard{padding:26px;display:flex;gap:16px;align-items:flex-start}
-.toolcard{align-items:center}
-.toolcard b{font-size:22px}
-.toolcard .lead{font-size:19px!important;line-height:1.5}
 .dot{width:16px;height:16px;border-radius:50%;background:#4ade80;box-shadow:0 0 12px #4ade80;margin-top:6px;flex:none;animation:blink 2.4s ease-in-out infinite}
 @keyframes blink{50%{opacity:.35}}
 .gauge{width:520px;margin:10px auto 0;text-align:center;position:relative}
@@ -214,7 +211,7 @@ const LOGO = {
 };
 const pill = (t, hot) => `<div class="pill${hot ? " hot" : ""}">${t}</div>`;
 const beat = (n, t, d) => `<div class="beat card f"><div class="n">${n}</div><div><b>${t}</b><p>${d}</p></div></div>`;
-const hand = (logo, where, title, cmd) => `<div class="card handoff f"><div class="tile">${logo}</div><div><em>NOW WE OPEN</em><h3>${title}</h3><code>${cmd}</code><p class="lead handwhere">${where}</p></div></div>`;
+const hand = (logo, where, title, cmd) => `<div class="card handoff f"><div class="tile">${logo}</div><div><h3>${title}</h3><code>${cmd}</code><p class="lead handwhere">${where}</p></div></div>`;
 
 const EP = [
 {id:"e0", code:"E0", color:"#2dd4bf", title:"The problem, then the picture", mins:"45 min",
@@ -250,54 +247,6 @@ const EP = [
   {notes:"The technical slides now define grain, physical locations and the design we rejected. This is where the detailed course begins.",
    html:`<div class="kicker">Then the technical lesson</div><h2>First, learn to say <span class="grad">what one row means</span></h2>
    ${hand(LOGO.sf,"Technical slides · architecture before commands","the Episode 0 lesson","grain · physical location · design decisions")}`}
-]},
-{id:"med", code:"E1 · OPEN", color:"#f5c542", title:"Medallion primer before PostgreSQL", mins:"7 min",
- slides:[
-  {notes:"'Three words for how clean the data is. Bronze is the unopened delivery. Silver is washed and labelled. Gold is the plated dish. We never cook from the box, and we never throw the box away.'",
-   html:`<div class="kicker in">Medallion · before Snowsight</div><h2 class="in">How clean is <span class="grad">this floor</span>?</h2><p class="lead in">Bronze keeps every copy. Silver keeps one clean row. Gold is shaped for a question.</p>
-   <div class="scene"><div class="towers">
-     <div class="card tower"><div class="tag bz">BRONZE</div><h3>As it arrived</h3>${pill("101 · PENDING · 09:00")}${pill("101 · POSTED · 09:05")}${pill("101 · POSTED · 10:00", true)}<p class="lead" style="font-size:16px">MERIDIAN_RAW · never edited</p></div>
-     <div class="card tower"><div class="tag sv">SILVER</div><h3>One typed row</h3>${pill("101 · POSTED · ₹2,400", true)}<p class="lead" style="font-size:16px">STAGING · newest copy only</p></div>
-     <div class="card tower"><div class="tag gd">GOLD</div><h3>Ready to ask</h3>${pill("101 · Mumbai · $28.80", true)}<p class="lead" style="font-size:16px">MARTS · joined, in dollars</p></div>
-   </div></div>`},
-  {notes:"Click each rule. 'If silver is wrong, I fix the SQL and rebuild from bronze. I do not go back to the bank.'",
-   html:`<div class="kicker">The rules</div><h2>Each floor has <span class="grad">one job</span></h2><div class="beats focus">
-     ${beat(1,"Bronze only appends","New columns from Postgres just appear inside the VARIANT. Nothing here is updated or deleted.")}
-     ${beat(2,"Silver keeps the newest","One row per id. Deleted keys, from the delete log, are removed.")}
-     ${beat(3,"Gold is the only floor people read","Facts, dimensions, tests. The English app never reads bronze.")}
-     ${beat(4,"A bug is fixed in silver","dbt build --full-refresh from bronze. The bank's database stays untouched.")}
-   </div>`},
-  {notes:"'Same payment, three queries.' Then open Snowsight.",
-   html:`<div class="kicker">Then the demo</div><h2>One payment, <span class="grad">three queries</span></h2><p class="lead">Bronze returns several rows. Silver returns one. Gold returns one, with customer, branch and dollars.</p>
-   ${hand(LOGO.sf,"Snowsight · MERIDIAN_TRANSFORMER · WH_TRANSFORM_XS","Snowsight","MERIDIAN_RAW → STAGING → MARTS")}`}
-]},
-{id:"e1", code:"E1", color:"#5b9bd5", title:"Setup and the bank's live database", mins:"50 min",
- slides:[
-  {notes:"This is the whole-course tool list, not a demand to install everything today. Point students to the two setup links in the GitHub repository. PostgreSQL is not on this slide because Docker creates it for us; Snowflake is a browser account, not a desktop installation.",
-   html:`<div class="kicker in">Episode 1 · the complete toolkit</div><h2 class="in">What this project uses, <span class="grad">from start to finish</span></h2>
-   <div class="lights">
-     <div class="card lightcard toolcard"><div class="tile">${LOGO.dk}</div><div><b>Install on the computer</b><p class="lead">Git · Cursor · Python 3.12 · Docker Desktop + Compose · DBeaver · Terraform</p></div></div>
-     <div class="card lightcard toolcard"><div class="tile">${LOGO.py}</div><div><b>Install inside the project</b><p class="lead">dbt Core + dbt-snowflake · pandas · PyArrow · Snowflake connector · Streamlit · scikit-learn</p></div></div>
-     <div class="card lightcard toolcard"><div class="tile">${LOGO.af}</div><div><b>Install later</b><p class="lead">Astro CLI brings Apache Airflow when the course reaches orchestration.</p></div></div>
-     <div class="card lightcard toolcard"><div class="tile">${LOGO.gh}</div><div><b>Use in the browser</b><p class="lead">GitHub · Snowflake Snowsight. No desktop Snowflake installation.</p></div></div>
-   </div>`},
-  {notes:"'Three drawers. ref is the lists the bank looks up, like a currency. core is the customers, accounts and payments. cdc is a notebook of deletes. Once a row is gone, Python has nothing left to copy, so the trigger writes the id here first.'",
-   html:`<div class="kicker in">Episode 1 · before Docker</div><h2 class="in">Three drawers, <span class="grad">twenty tables</span></h2><p class="lead in">ref is the lists the bank looks up. core is the customers, accounts and payments. cdc is a notebook of deletes: once a row is gone, Python would never see it, so the id is written here first.</p>
-   <div class="scene card" style="padding:22px"><div class="token" style="background:#5b9bd5;box-shadow:0 0 16px #5b9bd5"></div><div class="schemas">
-     <div class="schema"><h3>ref</h3>${pill("currencies")}${pill("countries")}${pill("channels")}${pill("fx_rates")}${pill("products")}</div>
-     <div class="schema"><h3>core</h3>${pill("customers")}${pill("accounts")}${pill("transactions", true)}${pill("branches")}${pill("loan_applications")}</div>
-     <div class="schema"><h3>cdc</h3>${pill("deleted_records", true)}<p class="lead" style="font-size:16px">A row vanishes in core only after its id is written here.</p></div>
-   </div></div>`},
-  {notes:"The order matters. Say why 04 comes after 07: triggers must cover the card tables too.",
-   html:`<div class="kicker">What we will run</div><h2>Build the bank <span class="grad">in this order</span></h2><div class="beats focus">
-     ${beat(1,"Start the container","Docker Desktop first. docker compose up -d. Port 5432.")}
-     ${beat(2,"Create meridian_core","00_create_database.sql in DBeaver. Reconnect, or later scripts land in the wrong database.")}
-     ${beat(3,"Tables, then five million payments","01, 02, 03. Then card tables, then the two triggers, then both simulators.")}
-     ${beat(4,"Prove it, then make it move","520 branches, 200,000 customers, 5,000,000 payments. Then sim_tick.")}
-   </div>`},
-  {notes:"Open Docker, then DBeaver. Execute SQL Script, not a single statement.",
-   html:`<div class="kicker">Then the demo</div><h2>PostgreSQL has to be <span class="grad">running</span></h2><p class="lead">The database is the bank's till: the counter that takes each payment. Docker starts it. DBeaver is only the window you look through.</p>
-   ${hand(LOGO.dk,"Terminal, then DBeaver · Execute SQL Script","Docker, then DBeaver","docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d")}`}
 ]},
 {id:"e2", code:"E2", color:"#a78bfa", title:"Draw the warehouse first", mins:"45 min",
  slides:[
@@ -339,7 +288,7 @@ const EP = [
      ${beat(4,"A raw table is four columns","record, _extracted_at, _batch_id, _source_file. Empty until Python arrives.")}
    </div>`},
   {notes:"ACCOUNTADMIN for script 01 only. Then we drop back down.",
-   html:`<div class="kicker">Then the demo</div><h2>Script 01, as <span class="grad">ACCOUNTADMIN</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>Script 01, as <span class="grad">ACCOUNTADMIN</span></h2>
    ${hand(LOGO.sf,"Snowsight · then 02_databases and 03_stages","Snowsight","03_snowflake/01_account_setup_rbac.sql")}`}
 ]},
 {id:"py0", code:"P0", color:"#facc15", title:"Python foundations for this pipeline", mins:"35 min",
@@ -379,7 +328,7 @@ const EP = [
      ${beat(5,"Deletes ride along","cdc.deleted_records is copied like any other table. dbt applies them later.")}
    </div>`},
   {notes:"Currencies first, five rows. Only then the full load. Do not paste .env into the terminal.",
-   html:`<div class="kicker">Then the demo</div><h2>One tiny table, <span class="grad">then everything</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>One tiny table, <span class="grad">then everything</span></h2>
    ${hand(LOGO.py,"Terminal · project folder · .env loaded, not pasted","Terminal","python 02_ingestion_python/pg_to_snowflake.py --tables ref.currencies -v")}`}
 ]},
 {id:"e5", code:"E5", color:"#ff7a5c", title:"dbt cleans the inbox", mins:"45 min",
@@ -400,7 +349,7 @@ const EP = [
      ${beat(4,"Dev is a sandbox","Target dev writes DBT_FK_ schemas and only 30 days of payments.")}
    </div>`},
   {notes:"dbt deps once, then build on dev. We are not on prod yet.",
-   html:`<div class="kicker">Then the demo</div><h2>Build it where it <span class="grad">cannot hurt prod</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>Build it where it <span class="grad">cannot hurt prod</span></h2>
    ${hand(LOGO.dbt,"Terminal · 04_dbt_meridian_dw","dbt, target dev","dbt deps && dbt build --target dev")}`}
 ]},
 {id:"e6", code:"E6", color:"#ff7a5c", title:"The star schema, for real", mins:"50 min",
@@ -417,7 +366,7 @@ const EP = [
      ${beat(3,"Reconcile after the build","Warehouse totals against the bank, by day and currency.")}
    </div>`},
   {notes:"Prod build, then the reconcile script. This is the first time we write gold for real.",
-   html:`<div class="kicker">Then the demo</div><h2>Production, <span class="grad">then the two totals</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>Production, <span class="grad">then the two totals</span></h2>
    ${hand(LOGO.dbt,"Terminal · 04_dbt_meridian_dw · target prod","dbt, target prod","dbt build --target prod")}`}
 ]},
 {id:"e7", code:"E7", color:"#38bdf8", title:"Airflow is the alarm clock", mins:"30 min",
@@ -438,7 +387,7 @@ const EP = [
      ${beat(4,"One green 5-minute run, then trigger the daily","Unpause meridian_microbatch_ingest. Trigger meridian_daily_batch once.")}
    </div>`},
   {notes:"Do not run astro dev init. It would overwrite the Dockerfile and the DAGs.",
-   html:`<div class="kicker">Then the demo</div><h2>Start the clock. <span class="grad">Don't re-init the project.</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>Start the clock. <span class="grad">Don't re-init the project.</span></h2>
    ${hand(LOGO.af,"Terminal · 05_airflow","the Airflow folder","astro dev start")}`}
 ]},
 {id:"e8", code:"E8", color:"#fbbf24", title:"Break it, measure, fix", mins:"45 min",
@@ -457,7 +406,7 @@ const EP = [
      ${beat(4,"The second run is a liar","Turn USE_CACHED_RESULT off before claiming anything got faster.")}
    </div>`},
   {notes:"These scripts build big tables. The 100-million-row one should be recorded ahead, and dropped after.",
-   html:`<div class="kicker">Then the demo</div><h2>One script, <span class="grad">two measurements</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>One script, <span class="grad">two measurements</span></h2>
    ${hand(LOGO.sf,"DBeaver and Snowsight · 06_performance_lab","the lab folder","01_postgres_missing_index.sql")}`}
 ]},
 {id:"e9", code:"E9", color:"#4ade80", title:"Quality, CI, cost, runbook", mins:"30 min",
@@ -481,7 +430,7 @@ const EP = [
      ${beat(3,"The pull request","GitHub Actions: tests, secret scan, and dbt only for changed models.")}
    </div>`},
   {notes:"The runbook is a markdown file. Show it, don't perform a fake outage unless you mean to.",
-   html:`<div class="kicker">Then the demo</div><h2>Read one page of the <span class="grad">runbook</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>Read one page of the <span class="grad">runbook</span></h2>
    ${hand(LOGO.gh,"00_architecture/OPERATIONS_RUNBOOK.md","the runbook","one incident, start to finish")}`}
 ]},
 {id:"e10", code:"E10", color:"#fbbf24", title:"Cards: score, then offer", mins:"40 min",
@@ -497,7 +446,7 @@ const EP = [
      ${beat(4,"dbt publishes the offer","fct_next_best_offer. score_source is MODEL or RULE.")}
    </div>`},
   {notes:"Then the query that groups offers by score_source. We want a MODEL row.",
-   html:`<div class="kicker">Then the demo</div><h2>Train, publish, <span class="grad">count the offers</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>Train, publish, <span class="grad">count the offers</span></h2>
    ${hand(LOGO.py,"Terminal, then Snowsight","Python, then dbt","python 09_decisioning_python/train_and_score.py")}`}
 ]},
 {id:"e11", code:"E11", color:"#a78bfa", title:"Ask in English", mins:"45 min",
@@ -515,7 +464,7 @@ const EP = [
      ${beat("CU","MERIDIAN_CUSTOMER","Only their own rows.")}
    </div>`},
   {notes:"The semantic view is the menu: which tables, which joins, which metrics. Then streamlit run. If the region has no Cortex, use the saved card questions.",
-   html:`<div class="kicker">Then the demo</div><h2>Open the app. <span class="grad">Ask one question.</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>Open the app. <span class="grad">Ask one question.</span></h2>
    ${hand(LOGO.st,"Terminal · localhost:8501 · sign in as MERIDIAN_CEO","Streamlit","streamlit run 10_semantic_app/streamlit_app.py")}`}
 ]},
 {id:"e12", code:"E12", color:"#a8a29e", title:"The rules survive a rebuild", mins:"45 min",
@@ -534,7 +483,7 @@ const EP = [
      ${beat(3,"ACCESS_HISTORY","Which user read which columns. It can lag a few hours.")}
    </div>`},
   {notes:"Dev target, one model. We are trying to make it fail, then we undo it.",
-   html:`<div class="kicker">Then the demo</div><h2>Break it on purpose. <span class="grad">On dev.</span></h2>
+   html:`<div class="kicker">Hands on</div><h2>Break it on purpose. <span class="grad">On dev.</span></h2>
    ${hand(LOGO.dbt,"Terminal · 04_dbt_meridian_dw","dbt, one model","dbt build -s dim_branch --target dev")}`}
 ]},
 {id:"e13", code:"E13", color:"#4ade80", title:"Say it in two minutes", mins:"20 min",
