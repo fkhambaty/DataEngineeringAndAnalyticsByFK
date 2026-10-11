@@ -560,7 +560,7 @@ flowchart TD
 <section id="setup">
   <span class="eyebrow">Episode 1 · after the Medallion primer</span>
   <h2>Install once, verify once, then build PostgreSQL</h2>
-  <div class="callout camera"><b class="tag">On camera</b><br>Do not type six different installation commands from memory. Open <code>setup/README.md</code>, run the operating-system installer, run <code>verify_setup.py</code>, then run <code>start_postgres.py</code>. Students can repeat exactly those commands from the code-only GitHub repository.</div>
+  <div class="callout camera"><b class="tag">On camera</b><br>Show the complete-toolkit slide, share the code-only GitHub link, and tell students to choose <code>setup/MACOS_SETUP.md</code> or <code>setup/WINDOWS_SETUP.md</code>. Do not type six unrelated installation commands from memory. Each OS file explains the tools, installer, verification, project libraries and the later Astro CLI step.</div>
 
   <h3>Tools (and what each is for)</h3>
   <table>
@@ -573,6 +573,8 @@ flowchart TD
     <tr><td>Snowflake account</td><td>Created in the Snowflake episode</td><td>Enterprise trial, AWS, nearest region; no account or key is needed in Episode 1</td></tr>
     <tr><td>Astro CLI</td><td>Installed in the Airflow episode</td><td>Airflow 3 locally; do not front-load it into today's setup</td></tr>
     <tr><td>Terraform ≥ 1.6</td><td>The OS scripts install it</td><td>Used in M12; harmless until then</td></tr>
+    <tr><td>dbt Core + Python libraries</td><td><code>pip install -r requirements.txt</code> inside <code>.venv</code></td><td>Transformations, Parquet, reconciliation, ML and Streamlit</td></tr>
+    <tr><td>GitHub + Snowsight</td><td>Browser only</td><td>Code and CI; Snowflake web interface</td></tr>
     <tr><td>DBeaver ER diagram</td><td>Right-click schema <code>core</code> → View Diagram</td><td>The picture of the source tables for Episode 1</td></tr>
   </table>
 
@@ -2402,6 +2404,8 @@ tests/test_reconciliation.py
 tests/test_setup_scripts.py
 tests/test_training.py
 setup/README.md
+setup/MACOS_SETUP.md
+setup/WINDOWS_SETUP.md
 setup/install_macos.sh
 setup/install_windows.ps1
 setup/start_postgres.py

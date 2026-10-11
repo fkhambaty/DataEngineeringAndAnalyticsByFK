@@ -208,18 +208,19 @@ WHERE transaction_id = $txn_id;`,
      ["hard_deletes","rows vanish: the delete log and the post-hook must remove them"],
      ["card steps","authorizations, some with injected fraud patterns the rules must catch"]]) +
      note("SELECT * FROM core.sim_tick(500) runs once. simulate_activity.py loops every 5 seconds until Ctrl+C.")},
-  {k:"do", h:"Install once, then let the repository check the machine", where:"Terminal · cloned repository root",
-   cmd:`# macOS
+  {k:"do", h:"One GitHub link, then choose Mac or Windows", where:"setup/MACOS_SETUP.md · setup/WINDOWS_SETUP.md",
+   cmd:`# macOS — follow setup/MACOS_SETUP.md
 bash setup/install_macos.sh
 
-# Windows Administrator PowerShell
+# Windows — follow setup/WINDOWS_SETUP.md in Administrator PowerShell
 .\\setup\\install_windows.ps1
 
 # After Docker Desktop is running
-python3 setup/verify_setup.py`,
-   happened:["The OS script installs Docker Desktop, DBeaver, Python 3.12, Git, Cursor and Terraform.","The verifier checks the Docker CLI, Compose, the running engine, Python and DBeaver."],
+python3 setup/verify_setup.py
+# Windows: py -3.12 setup\\verify_setup.py`,
+   happened:["The OS guide explains every tool and every click in order.","The installer adds Docker Desktop, DBeaver, Python 3.12, Git, Cursor and Terraform.","requirements.txt adds dbt and the Python libraries inside .venv. Astro CLI waits for the Airflow episode."],
    see:"Every required row says PASS.",
-   trap:"Installing Docker is not the same as starting its engine. Open Docker Desktop and wait before running the verifier."},
+   trap:"Run from the cloned repository folder, not from ~ or C:\\Users\\your-name. Installing Docker is not the same as starting its engine."},
   {k:"do", h:"Build the complete bank with one checked command", where:"Terminal · repository root",
    cmd:`python3 setup/start_postgres.py
 # Windows: py -3.12 setup\\start_postgres.py`,

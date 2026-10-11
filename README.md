@@ -39,8 +39,10 @@ Students clone only <https://github.com/fkhambaty/snowflake_dbt_airflow_python_b
 
 ## Quick start (local)
 
-New machine? Follow [`setup/README.md`](setup/README.md). It contains the macOS and
-Windows installers, a setup verifier, and the automated PostgreSQL build.
+New machine? Choose [`setup/MACOS_SETUP.md`](setup/MACOS_SETUP.md) or
+[`setup/WINDOWS_SETUP.md`](setup/WINDOWS_SETUP.md). Each file lists the complete
+toolset and gives the commands in order. [`setup/README.md`](setup/README.md) is the
+short cross-platform reference.
 
 ```bash
 # 0. Verify the local tools, then build the complete source database.

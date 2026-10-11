@@ -139,6 +139,9 @@ body.clean #progress,body.clean #count,body.clean #brand{opacity:0}
 @keyframes load{50%{width:96%} }
 .lights{display:grid;grid-template-columns:1fr 1fr;gap:18px;height:100%}
 .lightcard{padding:26px;display:flex;gap:16px;align-items:flex-start}
+.toolcard{align-items:center}
+.toolcard b{font-size:22px}
+.toolcard .lead{font-size:19px!important;line-height:1.5}
 .dot{width:16px;height:16px;border-radius:50%;background:#4ade80;box-shadow:0 0 12px #4ade80;margin-top:6px;flex:none;animation:blink 2.4s ease-in-out infinite}
 @keyframes blink{50%{opacity:.35}}
 .gauge{width:520px;margin:10px auto 0;text-align:center;position:relative}
@@ -158,6 +161,10 @@ body.clean #progress,body.clean #count,body.clean #brand{opacity:0}
 .owner h3{margin:8px 0;font-size:32px}
 .lock{font-size:42px;text-align:center;animation:bob 3s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-8px)}}
+@media (prefers-reduced-motion:reduce){
+  .slide,.f{transition:none!important}
+  .slide.active .in,.orb,.card::after,.needle,.token,.lock{animation:none!important}
+}
 .pitch{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
 .p4{padding:28px 20px;min-height:280px;border-top:4px solid var(--c)}
 .p4 em{font-style:normal;letter-spacing:.16em;font-size:13px;font-weight:800;color:var(--c)}
@@ -266,6 +273,14 @@ const EP = [
 ]},
 {id:"e1", code:"E1", color:"#5b9bd5", title:"Setup and the bank's live database", mins:"50 min",
  slides:[
+  {notes:"This is the whole-course tool list, not a demand to install everything today. Point students to the two setup links in the GitHub repository. PostgreSQL is not on this slide because Docker creates it for us; Snowflake is a browser account, not a desktop installation.",
+   html:`<div class="kicker in">Episode 1 · the complete toolkit</div><h2 class="in">What this project uses, <span class="grad">from start to finish</span></h2>
+   <div class="lights">
+     <div class="card lightcard toolcard"><div class="tile">${LOGO.dk}</div><div><b>Install on the computer</b><p class="lead">Git · Cursor · Python 3.12 · Docker Desktop + Compose · DBeaver · Terraform</p></div></div>
+     <div class="card lightcard toolcard"><div class="tile">${LOGO.py}</div><div><b>Install inside the project</b><p class="lead">dbt Core + dbt-snowflake · pandas · PyArrow · Snowflake connector · Streamlit · scikit-learn</p></div></div>
+     <div class="card lightcard toolcard"><div class="tile">${LOGO.af}</div><div><b>Install later</b><p class="lead">Astro CLI brings Apache Airflow when the course reaches orchestration.</p></div></div>
+     <div class="card lightcard toolcard"><div class="tile">${LOGO.gh}</div><div><b>Use in the browser</b><p class="lead">GitHub · Snowflake Snowsight. No desktop Snowflake installation.</p></div></div>
+   </div>`},
   {notes:"'Three drawers. ref is the lists the bank looks up, like a currency. core is the customers, accounts and payments. cdc is a notebook of deletes. Once a row is gone, Python has nothing left to copy, so the trigger writes the id here first.'",
    html:`<div class="kicker in">Episode 1 · before Docker</div><h2 class="in">Three drawers, <span class="grad">twenty tables</span></h2><p class="lead in">ref is the lists the bank looks up. core is the customers, accounts and payments. cdc is a notebook of deletes: once a row is gone, Python would never see it, so the id is written here first.</p>
    <div class="scene card" style="padding:22px"><div class="token" style="background:#5b9bd5;box-shadow:0 0 16px #5b9bd5"></div><div class="schemas">
