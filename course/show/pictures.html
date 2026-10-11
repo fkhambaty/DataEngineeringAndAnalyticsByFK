@@ -230,17 +230,17 @@ const EP = [
      ${beat(5,"Front desk · Streamlit + Cortex","English becomes SQL; Snowflake decides which rows return.")}
      ${beat(6,"Alarm clock · Airflow","Runs the same commands on time, retries and alerts.")}
    </div>`},
-  {notes:"Read each card as technology, language, screen, output. SQL and Python are languages; DBeaver, Cursor and Snowsight are places where we work; Parquet is a file.",
+  {notes:"Read each card as technology, language, screen, output. SQL and Python are languages; DBeaver, VS Code and Snowsight are places where we work; Parquet is a file.",
    html:`<div class="kicker">The stack without the jargon</div><h2>What we type, <span class="grad">where we type it</span>, what comes out</h2>
    <div class="lights">
      ${[
        ["PostgreSQL","SQL · DBeaver","bank rows"],
-       ["Python","Python · Cursor + Terminal","Parquet files"],
+       ["Python","Python · VS Code + Terminal","Parquet files"],
        ["Snowflake","SQL · Snowsight","raw and governed tables"],
-       ["dbt","SQL + Jinja · Cursor","tested facts and dimensions"],
-       ["Airflow","Python · Cursor + Airflow UI","scheduled runs and alerts"],
-       ["Streamlit","Python · Cursor / Snowflake","a governed data app"],
-       ["Terraform","HCL · Cursor + Terminal","roles and warehouses"],
+       ["dbt","SQL + Jinja · VS Code","tested facts and dimensions"],
+       ["Airflow","Python · VS Code + Airflow UI","scheduled runs and alerts"],
+       ["Streamlit","Python · VS Code / Snowflake","a governed data app"],
+       ["Terraform","HCL · VS Code + Terminal","roles and warehouses"],
        ["GitHub Actions","YAML · GitHub","automatic checks"]
      ].map((x,i)=>`<div class="card lightcard"><i class="dot" style="animation-delay:-${i*.3}s"></i><div><b>${x[0]}</b><p class="lead" style="font-size:15px;margin:.2em 0">${x[1]}</p><span class="pill">${x[2]}</span></div></div>`).join("")}
    </div>`},
@@ -297,7 +297,7 @@ const EP = [
    html:`<div class="kicker in">Python foundations · before CDC</div><h2 class="in">Practise in a browser. <span class="grad">Build locally.</span></h2>
    <div class="scene"><div class="rooms">
      <div class="card room"><div class="tile">${LOGO.py}</div><h3>Browser warm-up</h3><p>Programiz runs tiny examples. Python Tutor shows one line at a time. No setup, no secrets.</p><div class="badge on">SYNTAX ONLY</div></div>
-     <div class="card room"><div class="tile">${LOGO.py}</div><h3>Local Python 3.12</h3><p>Cursor writes the file. Terminal runs it. The virtual environment holds this project's libraries.</p><div class="badge on">REAL PROJECT</div></div>
+     <div class="card room"><div class="tile">${LOGO.py}</div><h3>Local Python 3.12</h3><p>VS Code writes the file. Terminal runs it. The virtual environment holds this project's libraries.</p><div class="badge on">REAL PROJECT</div></div>
    </div></div>`},
   {notes:"Tie every beginner construct to code students will soon meet; do not teach syntax in isolation.",
    html:`<div class="kicker">The minimum language</div><h2>Ten ideas before the <span class="grad">400-line extractor</span></h2><div class="beats focus">
@@ -309,7 +309,7 @@ const EP = [
    </div>`},
   {notes:"Run the four tiny files before opening config.py. The fourth is reconciliation: compare the same business totals on both sides and fail when they differ.",
    html:`<div class="kicker">Then the practice</div><h2>Four small files, <span class="grad">then Meridian</span></h2>
-   ${hand(LOGO.py,"Cursor + Terminal · no database required","02_ingestion_python/00_python_foundations","values → loops → paths → mini reconciliation")}`}
+   ${hand(LOGO.py,"VS Code + Terminal · no database required","02_ingestion_python/00_python_foundations","values → loops → paths → mini reconciliation")}`}
  ]},
 {id:"e4", code:"E4", color:"#60a5fa", title:"Python carries only what changed", mins:"40 min",
  slides:[
@@ -322,7 +322,7 @@ const EP = [
   {notes:"Five steps, in order. 'If it crashes after the copy and before the bookmark moves, the next run loads those files again. Bronze can hold a duplicate. Silver keeps the newest.'",
    html:`<div class="kicker">One table, five steps</div><h2>Read, parcel, deliver, <span class="grad">then move the bookmark</span></h2><div class="beats focus">
      ${beat(1,"Read Postgres","Only rows newer than the bookmark.")}
-     ${beat(2,"Python writes Parquet files","Parquet is a file format, not a language and not an IDE. pyarrow creates the files. You read the Python in Cursor.")}
+     ${beat(2,"Python writes Parquet files","Parquet is a file format, not a language and not an IDE. pyarrow creates the files. You read the Python in VS Code.")}
      ${beat(3,"PUT and COPY","Files land in a Snowflake stage, then in the raw table.")}
      ${beat(4,"Move the bookmark","Only after the copy succeeds. Crash before that and the next run simply tries again.")}
      ${beat(5,"Deletes ride along","cdc.deleted_records is copied like any other table. dbt applies them later.")}

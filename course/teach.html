@@ -569,7 +569,7 @@ flowchart TD
     <tr><td>DBeaver Community</td><td>Inspect and query PostgreSQL after the automated SQL build</td></tr>
     <tr><td>Python 3.12</td><td>Runs the setup verifier now; ingestion and modelling libraries later</td></tr>
     <tr><td>Git</td><td>Clone the student code and later demonstrate pull requests</td></tr>
-    <tr><td>Cursor (VS Code-compatible)</td><td>Edit Python, SQL, dbt, Airflow, YAML, HCL and Markdown</td></tr>
+    <tr><td>Visual Studio Code</td><td>Edit Python, SQL, dbt, Airflow, YAML, HCL and Markdown</td></tr>
     <tr><td>Snowflake account</td><td>Created in the Snowflake episode</td><td>Enterprise trial, AWS, nearest region; no account or key is needed in Episode 1</td></tr>
     <tr><td>Astro CLI</td><td>Installed in the Airflow episode</td><td>Airflow 3 locally; do not front-load it into today's setup</td></tr>
     <tr><td>Terraform ≥ 1.6</td><td>The OS scripts install it</td><td>Used in M12; harmless until then</td></tr>
@@ -1067,7 +1067,7 @@ _loaded_at     TIMESTAMP_NTZ DEFAULT current_timestamp()</code></pre>
   <h3 id="py-run">P0.1 Browser practice versus the real runtime</h3>
   <div class="grid2">
     <div class="card"><b>For the first five minutes</b><p>Use the online editor at <a href="https://www.programiz.com/python-programming/online-compiler/">Programiz</a> to run <code>print</code>, variables, an <code>if</code>, and a loop. Use <a href="https://pythontutor.com/">Python Tutor</a> when you want to watch values change one line at a time.</p></div>
-    <div class="card"><b>For Meridian</b><p>Use Python 3.12 in the local <code>.venv</code>. Browser editors cannot reach Docker Postgres, read local Parquet files and keys, or connect with your project settings. Cursor edits the file; Terminal runs it.</p></div>
+    <div class="card"><b>For Meridian</b><p>Use Python 3.12 in the local <code>.venv</code>. Browser editors cannot reach Docker Postgres, read local Parquet files and keys, or connect with your project settings. VS Code edits the file; Terminal runs it.</p></div>
   </div>
 
   <h3 id="py-core">P0.2 The language map</h3>
@@ -1987,7 +1987,7 @@ SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY_BY_SESSION()) WHERE query_t
     steps: [
       { t: "Install the local tools", where: "Terminal · cloned repository root",
         cmd: "macOS:  bash setup/install_macos.sh\nWindows Administrator PowerShell:  .\\setup\\install_windows.ps1",
-        see: "Docker Desktop, DBeaver, Python 3.12, Git, Cursor and Terraform are installed. Astro and Snowflake wait for their own episodes." },
+        see: "Docker Desktop, DBeaver, Python 3.12, Git, Visual Studio Code and Terraform are installed. Astro and Snowflake wait for their own episodes." },
       { t: "Open Docker and verify the machine", where: "Terminal · repository root",
         cmd: "python3 setup/verify_setup.py\n# Windows: py -3.12 setup\\verify_setup.py",
         see: "Every required row says PASS." },
@@ -2028,7 +2028,7 @@ SELECT * FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY_BY_SESSION()) WHERE query_t
       { t: "Connect DBeaver", where: "DBeaver · New PostgreSQL connection",
         cmd: "Host localhost · Port 5432 · Database meridian_core · User meridian · Password meridian",
         see: "Test Connection succeeds and schemas ref, core and cdc are visible." },
-      { t: "Inspect the scripts in their real order", where: "Cursor + DBeaver",
+      { t: "Inspect the scripts in their real order", where: "VS Code + DBeaver",
         cmd: "01 schema → 02 reference seed → 03 bulk seed → 07 card tables → 04 CDC triggers → 05 simulator → 08 card seed → 09 card simulator",
         see: "Students know what the automation executed and why 07 must precede 04." },
       { t: "Make the bank alive once", where: "DBeaver · meridian_core",

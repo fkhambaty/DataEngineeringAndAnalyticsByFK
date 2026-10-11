@@ -54,14 +54,14 @@ const EP = [
    say:"A tool is not a language, and an IDE is not a file format. This is the map we will use for the whole series.",
    art: tbl(["Technology","What we type","Where we work","What it produces"],[
      ["PostgreSQL","SQL and PL/pgSQL","DBeaver; Docker runs the server","operational bank rows"],
-     ["Python","Python","Cursor and Terminal","Parquet files and control records"],
+     ["Python","Python","VS Code and Terminal","Parquet files and control records"],
      ["Snowflake","SQL","Snowsight","raw tables, policies and queries"],
-     ["dbt","SQL, Jinja and YAML","Cursor; dbt CLI in Terminal","tested facts, dimensions and docs"],
-     ["Airflow","Python","Cursor; Airflow UI","scheduled runs, retries and alerts"],
-     ["Streamlit","Python","Cursor or Streamlit in Snowflake","the governed app"],
-     ["Terraform","HCL","Cursor; Terraform CLI","roles, warehouses and cost guardrails"],
+     ["dbt","SQL, Jinja and YAML","VS Code; dbt CLI in Terminal","tested facts, dimensions and docs"],
+     ["Airflow","Python","VS Code; Airflow UI","scheduled runs, retries and alerts"],
+     ["Streamlit","Python","VS Code or Streamlit in Snowflake","the governed app"],
+     ["Terraform","HCL","VS Code; Terraform CLI","roles, warehouses and cost guardrails"],
      ["GitHub Actions","YAML","GitHub","automatic checks on every change"]]) +
-     note("Parquet is a file format. Docker is a runtime. Cursor is a VS Code-compatible editor. None is a programming language.")},
+     note("Parquet is a file format. Docker is a runtime. VS Code is the editor. None is a programming language.")},
   {wide:true, h:"Where each piece physically runs",
    say:"Three places: my laptop, Docker containers on my laptop, and Snowflake in the cloud. Most confusion comes from forgetting which one you are in.",
    art: `<div class="where3">
@@ -201,7 +201,7 @@ Run all. It switches to MERIDIAN_LOADER itself.`,
   {h:"Browser practice is not the project runtime",
    say:"Use a browser editor to learn one idea. Use local Python 3.12 for Meridian because it must reach Docker Postgres, local files and Snowflake.",
    art: pair("Programiz / Python Tutor","No installation. Good for print, if, loops and watching values change.",
-            "Cursor + Terminal + .venv","The real project. Libraries, files, Docker databases, private keys and command-line flags.")},
+            "VS Code + Terminal + .venv","The real project. Libraries, files, Docker databases, private keys and command-line flags.")},
   {k:"code", h:"Values, print, types and casting", file:"02_ingestion_python/00_python_foundations/01_values_and_decisions.py",
    lines:[
     [`source_rows_text = "100000"`,"Quotes make this text, exactly as an environment variable arrives"],
@@ -286,7 +286,7 @@ python 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py || tr
    say:"If the script dies after COPY but before the bookmark moves, the next run copies the same rows again. Bronze gets duplicates. Silver keeps one. Nothing is lost.",
    art: pair("Crash before COPY","nothing loaded, bookmark unchanged → next run retries","Crash after COPY, before bookmark","rows loaded twice → staging keeps the newest copy") +
         note("This property is called idempotent: running it again gives the same final answer.")},
-  {k:"do", h:"Confirm .env is a file, not a command", where:"Cursor",
+  {k:"do", h:"Confirm .env is a file, not a command", where:"VS Code",
    cmd:`Open ${ROOT}/.env
 
 SNOWFLAKE_ACCOUNT=SJVOGGD-MQ92888
