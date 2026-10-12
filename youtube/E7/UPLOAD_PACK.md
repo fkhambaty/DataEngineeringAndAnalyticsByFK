@@ -1,11 +1,12 @@
 # E7 — Airflow is the alarm clock
 
+Status: not published yet.
 Planned length: 30 minutes. Playlist position: 9 of 15.
 Grounding: course/show.html episode E7 (30 min, 14 scenes: five-minute DAG, nightly DAG, Docker paths, pools, retries, alerts) and the Airflow plan in course/teach.html. Deck: course/show/e7.html.
 
 ## Title
 
-Meridian E7: Airflow rings the clock. dbt does the work.
+Airflow Runs It Every 5 Minutes | Schedule dbt and Snowflake | Episode 7
 
 ## Hook
 
@@ -19,13 +20,13 @@ The replay is manual, and it leaves the live watermark where it is.
 
 Airflow is the alarm clock. dbt and Python still do the work. The five-minute DAG extracts the hot tables through a Postgres pool, loads them, then runs the narrow dbt selector. A health gate can stop the DAG. The nightly DAG loads reference data and the wider models. Freshness runs on its own schedule. Bounded replay takes a since and until window and does not move the live watermark. Retries, pools, and alerts are in the DAG files. Astro runs Airflow 3 on the laptop.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E7 in the playlist, position 9 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 7, video 9 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- E4, E5, and E6, so there is something to schedule.
+- Episode 4, Episode 5, and Episode 6, so there is something to schedule.
 - Astro CLI, installed in this episode rather than during laptop setup.
 
 Files covered
@@ -51,7 +52,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 30
 
 Task success on screen is that Airflow run. Do not describe a green box as proof of warehouse totals you did not query.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #ApacheAirflow #DataEngineering #dbt #Orchestration #ETL
 
@@ -61,7 +62,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- E4, E5, and E6, so there is something to schedule.
+- Episode 4, Episode 5, and Episode 6, so there is something to schedule.
 - Astro CLI, installed in this episode rather than during laptop setup.
 
 ## Files covered
@@ -107,7 +108,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E7 is up: Airflow rings two clocks. It schedules the pipeline and does not transform the data. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 7 is up: Airflow rings two clocks. It schedules the pipeline and does not transform the data. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -129,15 +130,15 @@ meridian-e7-airflow-alarm-clock.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E7.png`
-- Badge: EPISODE 7
-- On-image hook: Airflow rings the clock
-- Tech: Airflow
+- File: `thumbnails/E7.jpg`
+- Red corner tag: EPISODE 7
+- Headline: AIRFLOW RUNS IT EVERY 5 MINUTES
+- Handwritten line: Schedule dbt, never babysit it
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

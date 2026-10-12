@@ -1,11 +1,12 @@
 # E10 — Cards: score, then offer
 
+Status: not published yet.
 Planned length: 40 minutes. Playlist position: 12 of 15.
 Grounding: course/show.html episode E10 (40 min, 15 scenes: four models, a 0.70 holdout gate, scores as data, next best offer) and Module 10 in course/teach.html. Deck: course/show/e10.html.
 
 ## Title
 
-Meridian E10: Score the card, then let the policy decide
+Score Credit Cards with Python ML | scikit-learn on Snowflake | Episode 10
 
 ## Hook
 
@@ -19,13 +20,13 @@ Fraud labels in this course are injected, and they are never a feature.
 
 Cards add a second set of processes on the same customers. There is no bureau file and no regulatory scorecard. The approve or reject label is a published policy plus noise. The model has to recover that policy. Four paths: card_decision_v1 on a 60-day holdout, card_propensity_v1 with a 20 percent holdout, fraud rules plus card_fraud_v1 on a 14-day holdout, and a marketplace-lift report that is not a model. MERIDIAN_AUC_GATE defaults to 0.70. A run below the gate is stored as REJECTED and its scores are not published. fraud_label is injected so recall can be measured. It is excluded from features. Scores land in MERIDIAN_RAW.ML and never return to PostgreSQL. fct_next_best_offer is one offer per customer, or no row. A blocked card or a rule-suspect authorization in 30 days suppresses the offer. --dry-run trains and prints, and writes nothing.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E10 in the playlist, position 12 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 10, video 12 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- Gold marts from E6 and the scheduler from E7.
+- Gold marts from Episode 6 and the scheduler from Episode 7.
 - Say, on camera, that labels are a policy plus noise and that fraud was injected.
 - Prefer --dry-run when you only need the printout.
 
@@ -55,7 +56,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 40
 
 Do not read a holdout AUC, a lift, or a contact-list count aloud unless it is on the run you just executed. The 0.70 figure is the gate in configuration, not a measured score.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #MachineLearning #DataEngineering #scikitlearn #FraudDetection #dbt
 
@@ -65,7 +66,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- Gold marts from E6 and the scheduler from E7.
+- Gold marts from Episode 6 and the scheduler from Episode 7.
 - Say, on camera, that labels are a policy plus noise and that fraud was injected.
 - Prefer --dry-run when you only need the printout.
 
@@ -115,7 +116,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E10 is up: score the card, then let the policy decide. Below 0.70, the new scores stay unpublished. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 10 is up: score the card, then let the policy decide. Below 0.70, the new scores stay unpublished. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -137,15 +138,15 @@ meridian-e10-score-then-offer.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E10.png`
-- Badge: EPISODE 10
-- On-image hook: Score, then decide
-- Tech: scikit-learn
+- File: `thumbnails/E10.jpg`
+- Red corner tag: EPISODE 10
+- Headline: SCORE CREDIT CARDS WITH PYTHON ML
+- Handwritten line: scikit-learn on Snowflake data
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

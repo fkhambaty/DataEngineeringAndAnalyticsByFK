@@ -1,11 +1,12 @@
 # E1 — The bank comes alive
 
+Status: published (add the URL from YouTube Studio). Title, description and tags below are exactly what is live.
 Planned length: 55 minutes. Playlist position: 2 of 15.
 Grounding: course/show.html episode E1 (55 min, 16 scenes: medallion, toolkit, PostgreSQL, twenty tables, a moving bank) and the setup plus source plan in course/teach.html. Deck: course/show/e1.html.
 
 ## Title
 
-Meridian Episode 1: The fictional bank comes alive in PostgreSQL
+Build a Real Bank on Your Laptop | PostgreSQL + 5 Million Payments | Episode 1
 
 ## Hook
 
@@ -14,53 +15,38 @@ The warehouse product stays closed. The bank on the laptop does not.
 
 ## Description
 
-One payment shows raw, staging, and marts, then PostgreSQL in Docker starts moving.
-The warehouse product stays closed. The bank on the laptop does not.
+#DataEngineering #PostgreSQL #Docker
 
-Episode 1 puts one payment through bronze, silver, and gold in plain words, then installs the laptop toolkit and builds the source. PostgreSQL 16 runs in Docker. The core schema is normalised. The seed and the simulator make the bank move, and the CDC triggers bump updated_at and log deletes. Card tables are created with the same source, ready for a later episode. Snowflake is not opened.
+A real bank, on your laptop. PostgreSQL 16 in Docker, 20 tables, and 5 million payments that keep arriving while you watch.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E1 in the playlist, position 2 of 15. It is not a production bank.
+This is Episode 1 of the series. We do not open Snowflake yet. First the source has to be alive.
 
-Student repository
+Code and setup guides:
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
-Prerequisites
-- Watch E0 first.
-- Docker Desktop, Python 3.12, Git, and an editor, using setup/MACOS_SETUP.md or setup/WINDOWS_SETUP.md.
-- python3 setup/verify_setup.py passes before you record the source build.
+Mac: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK/blob/main/setup/MACOS_SETUP.md
+Windows: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK/blob/main/setup/WINDOWS_SETUP.md
 
-Files covered
-- setup/verify_setup.py
-- setup/start_postgres.py
-- setup/MACOS_SETUP.md
-- setup/WINDOWS_SETUP.md
-- 01_source_postgres/docker-compose.postgres.yml
-- 01_source_postgres/00_create_database.sql
-- 01_source_postgres/01_ddl_core_schema.sql
-- 01_source_postgres/02_seed_reference_data.sql
-- 01_source_postgres/03_seed_bulk_data.sql
-- 01_source_postgres/04_cdc_triggers.sql
-- 01_source_postgres/05_dml_simulator_functions.sql
-- 01_source_postgres/06_sql_lessons.sql
-- 01_source_postgres/07_ddl_cards.sql
-- 01_source_postgres/08_seed_cards.sql
-- 01_source_postgres/09_card_simulator.sql
+You will install the tools, start PostgreSQL, build the bank, connect with DBeaver, and see bronze, silver and gold on one payment.
 
-Chapters
-00:00 One payment, three layers
-08:00 The toolkit on the laptop
-18:00 PostgreSQL in Docker
-30:00 The normalised source
-42:00 The seeded payments
-50:00 The bank starts moving
+Run these from the repository folder:
 
-Adjust these timestamps after the final edit. They are drafted to the planned 55-minute cut, not to a finished timeline.
+docker compose -f 01_source_postgres/docker-compose.postgres.yml up -d
+python3 setup/start_postgres.py
+python3 setup/verify_setup.py
 
-The moving rows are local PostgreSQL. This episode does not show a Snowflake result.
+Windows:
+py -3.12 setup\start_postgres.py
+py -3.12 setup\verify_setup.py
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+DBeaver: localhost, port 5432, database meridian_core, user meridian, password meridian.
 
-#PostgreSQL #DataEngineering #SQL #Docker #OLTP
+Then, inside DBeaver:
+SELECT * FROM core.sim_tick(500);
+
+Next episode: draw the warehouse on paper before opening Snowflake.
+
+Watch the intro first if you are new to the series.
 
 ## Student repository
 
@@ -105,11 +91,11 @@ Adjust these timestamps after the final edit. They are drafted to the planned 55
 
 ## Hashtags
 
-#PostgreSQL #DataEngineering #SQL #Docker #OLTP
+#DataEngineering #PostgreSQL #Docker
 
 ## Tags
 
-PostgreSQL, Docker, data engineering, SQL, OLTP, medallion architecture, bronze silver gold, source system, CDC trigger, Meridian Bank, tutorial, database design
+postgresql, postgres tutorial, docker, data engineering, dbeaver, sql, medallion architecture, python, snowflake, dbt, airflow, learn data engineering, episode 1
 
 ## Pinned comment
 
@@ -143,15 +129,15 @@ meridian-e1-bank-comes-alive.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E1.png`
-- Badge: EPISODE 1
-- On-image hook: The bank wakes up
-- Tech: PostgreSQL
+- File: `thumbnails/E1.jpg`
+- Red corner tag: EPISODE 1
+- Headline: BUILD A REAL BANK ON YOUR LAPTOP
+- Handwritten line: PostgreSQL · 5 million payments
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

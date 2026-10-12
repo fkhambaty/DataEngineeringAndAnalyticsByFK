@@ -1,11 +1,12 @@
 # E5 — dbt cleans the inbox
 
+Status: not published yet.
 Planned length: 45 minutes. Playlist position: 7 of 15.
 Grounding: course/show.html episode E5 (45 min, 14 scenes: VARIANT to typed rows, incremental builds, snapshots, dev sandbox) and the dbt I plan in course/teach.html. Deck: course/show/e5.html.
 
 ## Title
 
-Meridian E5: dbt turns raw VARIANT into a typed inbox
+Turn Raw JSON into Clean Tables | dbt Staging on Snowflake | Episode 5
 
 ## Hook
 
@@ -19,13 +20,13 @@ Run the snapshot twice. A second version appears only when a tracked value chang
 
 dbt cleans the inbox. The project layout, packages, and selectors come first. Staging parses VARIANT into typed, renamed columns. QUALIFY keeps one row per business key, newest extraction first. Source freshness is a clock. It is not a content test. Customer and account snapshots use a timestamp strategy. Run the snapshot again after a tracked change and a second version is the expected shape. A dev target is a sandbox. It does not inherit production persona grants.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E5 in the playlist, position 7 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 5, video 7 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- E4, so bronze has rows to parse.
+- Episode 4, so bronze has rows to parse.
 - dbt Core with the packages in packages.yml.
 - A local profiles file based on profiles.yml.example. The real profiles.yml stays off camera.
 
@@ -54,7 +55,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 45
 
 A second snapshot version is the expected shape when a tracked column changes. Quote a version count only after that run.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #dbt #DataEngineering #AnalyticsEngineering #Snowflake #SQL
 
@@ -64,7 +65,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- E4, so bronze has rows to parse.
+- Episode 4, so bronze has rows to parse.
 - dbt Core with the packages in packages.yml.
 - A local profiles file based on profiles.yml.example. The real profiles.yml stays off camera.
 
@@ -113,7 +114,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E5 is up: dbt turns VARIANT into one typed row per key, then snapshots the customer. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 5 is up: dbt turns VARIANT into one typed row per key, then snapshots the customer. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -135,15 +136,15 @@ meridian-e5-dbt-cleans-inbox.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E5.png`
-- Badge: EPISODE 5
-- On-image hook: Clean the inbox
-- Tech: dbt staging
+- File: `thumbnails/E5.jpg`
+- Red corner tag: EPISODE 5
+- Headline: TURN RAW JSON INTO CLEAN TABLES
+- Handwritten line: dbt staging on Snowflake
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

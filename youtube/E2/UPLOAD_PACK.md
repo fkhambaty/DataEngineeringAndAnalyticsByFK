@@ -1,11 +1,12 @@
 # E2 — Draw the warehouse first
 
+Status: not published yet.
 Planned length: 45 minutes. Playlist position: 3 of 15.
 Grounding: course/show.html episode E2 (45 min, 14 scenes: grain, facts, dimensions, SCD2, fan-out, bus matrix) and Module 2 in course/teach.html. Deck: course/show/e2.html.
 
 ## Title
 
-Meridian E2: Draw the star schema before you open Snowflake
+Draw the Warehouse Before You Build | Star Schema, Kimball, SCD2 | Episode 2
 
 ## Hook
 
@@ -19,13 +20,13 @@ A customer who changes segment must still be counted as they were on the day.
 
 Kimball's four steps are done live: name the process, declare the grain, list the dimensions, then name the facts. The bus matrix is filled cell by cell. One customer is drawn with three versions on a timeline, and a transaction is dropped onto the version that was true that day. Transaction, periodic snapshot, and accumulating snapshot are three different facts. Flows and stocks are not added together. A join that forgets the time window multiplies the money. That is a grain error.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E2 in the playlist, position 3 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 2, video 3 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- Watch E0 and E1.
+- Watch the intro and Episode 1.
 - No Snowflake account. A whiteboard and 07_data_modelling/BUS_MATRIX.md are the whole studio.
 
 Files covered
@@ -46,7 +47,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 45
 
 This episode has no Snowflake session. The fan-out drawing is the grain lesson. It is not a counted warehouse total.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #Kimball #DataModeling #DataEngineering #StarSchema #SCD2
 
@@ -56,7 +57,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- Watch E0 and E1.
+- Watch the intro and Episode 1.
 - No Snowflake account. A whiteboard and 07_data_modelling/BUS_MATRIX.md are the whole studio.
 
 ## Files covered
@@ -97,7 +98,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E2 is up: draw the star before Snowflake. Grain, versions, and three kinds of fact. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 2 is up: draw the star before Snowflake. Grain, versions, and three kinds of fact. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -119,15 +120,15 @@ meridian-e2-draw-the-star.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E2.png`
-- Badge: EPISODE 2
-- On-image hook: Draw the star first
-- Tech: Kimball
+- File: `thumbnails/E2.jpg`
+- Red corner tag: EPISODE 2
+- Headline: DRAW THE WAREHOUSE BEFORE YOU BUILD
+- Handwritten line: Star schema · grain · SCD2
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

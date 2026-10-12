@@ -1,11 +1,12 @@
 # E9 — Quality, CI, cost, runbook
 
+Status: not published yet.
 Planned length: 30 minutes. Playlist position: 11 of 15.
 Grounding: course/show/e9.html chapters Checks, Reconcile, Slim CI, 2 a.m., and course/show.html (30 min, 18 scenes).
 
 ## Title
 
-Meridian E9: A green dbt build is only the first check
+A Green dbt Build Can Still Lie | Data Quality, CI and Cost | Episode 9
 
 ## Hook
 
@@ -19,13 +20,13 @@ Integrity, reconciliation, cost, and the 2 a.m. playbook each answer a different
 
 Quality starts after the build is green. Freshness is a clock. A dbt test is a rule. Reconciliation asks the bank and the warehouse the same question. The offline reconciliation test expects the same keys and a money difference under one cent. That is the test's expectation. The published-mart sweep stores a missing dimension key or a duplicate business key, together with the reason. Unknown member -1 is a designed member, not an orphan. No live orphan count is on the slide, and this pack is not a counted orphan total. Slim CI parses and builds what changed. Cost attribution names the warehouse and the query tag. The runbook then covers a hot table that goes quiet, and a bounded replay that does not move the watermark.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E9 in the playlist, position 11 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 9, video 11 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- E6 marts and E7 schedules.
+- Episode 6 marts and Episode 7 schedules.
 - GitHub Actions files can be shown without a warehouse.
 - Cost and quarantine SQL are read as the queries to run.
 
@@ -54,7 +55,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 30
 
 Do not invent an orphan count. The integrity query stores hits when you run it. Until then, the honest line is: not a counted orphan total.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #DataQuality #dbt #DataEngineering #CICD #AnalyticsEngineering
 
@@ -64,7 +65,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- E6 marts and E7 schedules.
+- Episode 6 marts and Episode 7 schedules.
 - GitHub Actions files can be shown without a warehouse.
 - Cost and quarantine SQL are read as the queries to run.
 
@@ -113,7 +114,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E9 is up: a green dbt build is only the first check. Integrity, cost, and the 2 a.m. playbook. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 9 is up: a green dbt build is only the first check. Integrity, cost, and the 2 a.m. playbook. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -135,15 +136,15 @@ meridian-e9-quality-after-green.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E9.png`
-- Badge: EPISODE 9
-- On-image hook: Green is not enough
-- Tech: Quality and CI
+- File: `thumbnails/E9.jpg`
+- Red corner tag: EPISODE 9
+- Headline: A GREEN BUILD CAN STILL LIE
+- Handwritten line: Data quality · CI · cost
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

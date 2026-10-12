@@ -1,11 +1,12 @@
 # E13 — Say it in two minutes
 
+Status: not published yet.
 Planned length: 20 minutes. Playlist position: 15 of 15.
 Grounding: course/show/e13.html chapters The clock, The pipeline, The gate, The scar, and course/show.html (20 min, 19 scenes).
 
 ## Title
 
-Meridian E13: Say the whole design in two honest minutes
+Explain This Project in 2 Minutes | Data Engineering Interview | Episode 13
 
 ## Hook
 
@@ -19,7 +20,7 @@ The customer-health numbers are an offline synthetic case, not from a live custo
 
 The close is a two-minute pitch: about 15 seconds on the problem, 15 on constraints, 40 on the design, 30 on the trade-offs, and 20 on the proof. One payment crosses eight doors. The watermark starts at 1900-01-01, the lag default is 10 seconds, and deletes live in cdc.deleted_records. Below a 0.70 holdout the model run is REJECTED. The same English question returns different rows because the policy reads the user. Shared tables versus a database per tenant is a 2-2 trade until the contract decides. Meridian is one bank with internal personas, so it ships shared marts and RAP_CUSTOMER_SCOPE. ADR 0011 records that. Then one failure you actually hit. Do not invent a measured twenty-minute wait. The task execution timeout in code is 20 minutes. The customer-health case is synthetic: grain is one Salesforce account per snapshot date, the October mart ranks Brightline first, Newly Co stays Unknown with priority 0, and the labelled back-test is precision 1.0 and recall 0.5, so automated outreach stays withheld. Those figures are not from a live customer. Claim only files you can open. Meridian has no production users.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E13 in the playlist, position 15 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 13, video 15 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
@@ -52,7 +53,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 20
 
 The scar must be a failure you can point at in the repository or in a run you did. The customer-health metrics are not from a live customer. Do not blend a separate employer story's numbers into Meridian.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #DataEngineering #SystemDesign #AnalyticsEngineering #Interview #DataArchitecture
 
@@ -131,15 +132,15 @@ meridian-e13-two-minutes.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E13.png`
-- Badge: EPISODE 13
-- On-image hook: Say it in two minutes
-- Tech: The interview
+- File: `thumbnails/E13.jpg`
+- Red corner tag: EPISODE 13
+- Headline: EXPLAIN THIS PROJECT IN 2 MINUTES
+- Handwritten line: The interview answer
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

@@ -1,7 +1,7 @@
 {
   "series": {
-    "playlist_title": "Meridian: from a live bank to an answer in English",
-    "playlist_description": "Meridian is a fictional bank. This playlist builds one analytics platform in order: the problem, the PostgreSQL source, the star schema, Snowflake, a Python primer, watermark ingestion, dbt, Airflow, performance, quality, card decisioning, English questions with row policies, governance as code, and a two-minute defence.\n\nStudent code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nOrder: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13. 610 planned minutes.\n\nSnowflake numbers in the lessons are expected results from the repository until you run them on your own trial and read them back. Meridian has no production users.",
+    "playlist_title": "End-to-End Data Engineering Project | PostgreSQL, Snowflake, dbt, Airflow",
+    "playlist_description": "Meridian is a fictional bank. This playlist builds one analytics platform in order: the problem, the PostgreSQL source, the star schema, Snowflake, a Python primer, watermark ingestion, dbt, Airflow, performance, quality, card decisioning, English questions with row policies, governance as code, and a two-minute defence.\n\nStudent code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nOrder: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4 to Episode 13. 610 planned minutes.\n\nSnowflake numbers in the lessons are expected results from the repository until you run them on your own trial and read them back. Meridian has no production users.",
     "student_repo": "https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
     "canonical_order": [
       "E0",
@@ -36,7 +36,7 @@
       "show_title": "The problem, then the picture",
       "planned_minutes": 45,
       "grounding": "course/show.html episode E0 (45 min, 14 scenes) and the Episode 0 plan in course/teach.html. Deck: course/show/e0.html.",
-      "title": "Meridian E0: Design the warehouse before a single tool is named",
+      "title": "Snowflake, dbt, Airflow Project | PostgreSQL, SQL, Data Engineering",
       "hook": [
         "Five promises from a fictional bank, then a picture that is not allowed to name a tool.",
         "You should be able to say one grain out loud and name the design that was rejected."
@@ -44,7 +44,7 @@
       "summary": "This episode is a design review. It walks the business asks and the non-functional requirements in the design doc, including a 5-minute micro-batch and a 15-minute p95, not streaming. The context picture has no product names. The conceptual model is one a banker would recognise. One grain is said as a sentence from the bus matrix. One decision record includes the option that was refused. SQL stays closed until that picture is done.",
       "honesty": "There is no Snowflake worksheet in this episode, and no warehouse count to treat as a live result.",
       "honesty_marker": "",
-      "description": "Five promises from a fictional bank, then a picture that is not allowed to name a tool.\nYou should be able to say one grain out loud and name the design that was rejected.\n\nThis episode is a design review. It walks the business asks and the non-functional requirements in the design doc, including a 5-minute micro-batch and a 15-minute p95, not streaming. The context picture has no product names. The conceptual model is one a banker would recognise. One grain is said as a sentence from the bus matrix. One decision record includes the option that was refused. SQL stays closed until that picture is done.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E0 in the playlist, position 1 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- The public student repository.\n- No Snowflake account, Docker, or warehouse result is required.\n\nFiles covered\n- 00_architecture/DESIGN_DOC.md\n- 00_architecture/ARCHITECTURE_PROCESS.md\n- 00_architecture/diagrams/01_context.mmd\n- 00_architecture/diagrams/02_container.mmd\n- 00_architecture/diagrams/03_conceptual.mmd\n- 00_architecture/diagrams/04_data_flow.mmd\n- 00_architecture/adr/README.md\n- 00_architecture/adr/0001-watermark-cdc-before-log-based.md\n- 00_architecture/adr/0002-append-only-variant-raw.md\n- 00_architecture/adr/0003-kimball-for-the-presentation-layer.md\n- 00_architecture/adr/0004-dbt-plus-airflow.md\n- 00_architecture/adr/0005-model-scores-land-in-the-warehouse.md\n- 00_architecture/adr/0006-row-access-by-user-entitlements-owned-by-security.md\n- 00_architecture/adr/0007-open-table-formats-deferred.md\n- 00_architecture/adr/0008-one-owner-per-object-type.md\n- 00_architecture/adr/0009-omni-search-is-a-serving-index.md\n- 00_architecture/adr/0010-contracts-at-public-boundaries.md\n- 00_architecture/adr/0011-multitenancy-patterns.md\n- 07_data_modelling/BUS_MATRIX.md\n\nChapters\n00:00 The business asks\n07:00 A picture with no tool names\n14:00 What the bank would recognise\n22:00 One grain, said out loud\n30:00 One payment, six rooms\n38:00 The design we rejected\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nThere is no Snowflake worksheet in this episode, and no warehouse count to treat as a live result.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#DataEngineering #DataArchitecture #AnalyticsEngineering #Kimball #DataWarehouse",
+      "description": "End-to-end data engineering project with Snowflake, dbt, Airflow, PostgreSQL, and SQL. Don't learn Snowflake alone. Build the whole analytics stack.\n\nThis is the intro. A bank with 520 branches already has every answer in PostgreSQL, and it still cannot ask a big question without slowing down the customer at the ATM.\n\nIn this episode:\n- Meridian Bank: 520 branches, 5 countries, 5 currencies, 200,000 customers, 5 million payments\n- The questions leadership cannot ask today\n- OLTP versus OLAP, and why a read-only copy of PostgreSQL is not enough\n- One job each: PostgreSQL, Python, Parquet, Snowflake, dbt, Airflow, Streamlit, Docker, GitHub Actions\n\nThe bank is fictional. The tools and the pipeline are real. Later episodes build the source database, the Snowflake warehouse, the Python load, the dbt models, the Airflow schedule, data quality, and asking the data in English.\n\nPlaylist: End-to-End Data Engineering Project | PostgreSQL, Snowflake, dbt, Airflow\n\n#Snowflake #dbt #DataEngineering",
       "prerequisites": [
         "The public student repository.",
         "No Snowflake account, Docker, or warehouse result is required."
@@ -97,13 +97,11 @@
         }
       ],
       "hashtags": [
-        "#DataEngineering",
-        "#DataArchitecture",
-        "#AnalyticsEngineering",
-        "#Kimball",
-        "#DataWarehouse"
+        "#Snowflake",
+        "#dbt",
+        "#DataEngineering"
       ],
-      "tags": "data engineering, data architecture, analytics engineering, Kimball, bus matrix, data warehouse design, dimensional modelling, Meridian Bank, system design, decision record, requirements, fictional bank, tutorial",
+      "tags": "snowflake tutorial, snowflake project, dbt tutorial, dbt snowflake, apache airflow, airflow tutorial, postgresql, postgres, sql, data engineering, data engineering project, end to end data engineering, analytics engineering, data analytics, postgresql to snowflake, python data engineering, elt pipeline, data warehouse, data pipeline project, learn snowflake dbt airflow",
       "pinned_comment": "Open 00_architecture/DESIGN_DOC.md beside the video.\n\nWhich requirement would you refuse to solve with streaming on day one, and why?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
       "community_post": "E0 is up: the warehouse picture before any tool name. One grain, said as a sentence. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E1 — The bank comes alive. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E1), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
@@ -116,15 +114,14 @@
       },
       "filename": "meridian-e0-problem-then-picture.mp4",
       "thumbnail": {
-        "badge": "EPISODE 0",
-        "hook": "Picture before tools",
-        "tech": "Architecture",
-        "accent": "#2dd4bf",
-        "motif": "rooms"
+        "file": "thumbnails/E0.jpg",
+        "tag": "INTRO VIDEO",
+        "headline": "DON'T LEARN SNOWFLAKE ALONE",
+        "sub": "Learn the whole stack"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -133,7 +130,9 @@
         "Cards and the end screen point at videos in this playlist.",
         "No tool logo appears before the decision record.",
         "The rejected alternative is named out loud."
-      ]
+      ],
+      "published": true,
+      "published_url": "https://www.youtube.com/watch?v=aMUeQKyW51k"
     },
     {
       "id": "E1",
@@ -142,7 +141,7 @@
       "show_title": "The bank comes alive",
       "planned_minutes": 55,
       "grounding": "course/show.html episode E1 (55 min, 16 scenes: medallion, toolkit, PostgreSQL, twenty tables, a moving bank) and the setup plus source plan in course/teach.html. Deck: course/show/e1.html.",
-      "title": "Meridian Episode 1: The fictional bank comes alive in PostgreSQL",
+      "title": "Build a Real Bank on Your Laptop | PostgreSQL + 5 Million Payments | Episode 1",
       "hook": [
         "One payment shows raw, staging, and marts, then PostgreSQL in Docker starts moving.",
         "The warehouse product stays closed. The bank on the laptop does not."
@@ -150,7 +149,7 @@
       "summary": "Episode 1 puts one payment through bronze, silver, and gold in plain words, then installs the laptop toolkit and builds the source. PostgreSQL 16 runs in Docker. The core schema is normalised. The seed and the simulator make the bank move, and the CDC triggers bump updated_at and log deletes. Card tables are created with the same source, ready for a later episode. Snowflake is not opened.",
       "honesty": "The moving rows are local PostgreSQL. This episode does not show a Snowflake result.",
       "honesty_marker": "",
-      "description": "One payment shows raw, staging, and marts, then PostgreSQL in Docker starts moving.\nThe warehouse product stays closed. The bank on the laptop does not.\n\nEpisode 1 puts one payment through bronze, silver, and gold in plain words, then installs the laptop toolkit and builds the source. PostgreSQL 16 runs in Docker. The core schema is normalised. The seed and the simulator make the bank move, and the CDC triggers bump updated_at and log deletes. Card tables are created with the same source, ready for a later episode. Snowflake is not opened.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E1 in the playlist, position 2 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Watch E0 first.\n- Docker Desktop, Python 3.12, Git, and an editor, using setup/MACOS_SETUP.md or setup/WINDOWS_SETUP.md.\n- python3 setup/verify_setup.py passes before you record the source build.\n\nFiles covered\n- setup/verify_setup.py\n- setup/start_postgres.py\n- setup/MACOS_SETUP.md\n- setup/WINDOWS_SETUP.md\n- 01_source_postgres/docker-compose.postgres.yml\n- 01_source_postgres/00_create_database.sql\n- 01_source_postgres/01_ddl_core_schema.sql\n- 01_source_postgres/02_seed_reference_data.sql\n- 01_source_postgres/03_seed_bulk_data.sql\n- 01_source_postgres/04_cdc_triggers.sql\n- 01_source_postgres/05_dml_simulator_functions.sql\n- 01_source_postgres/06_sql_lessons.sql\n- 01_source_postgres/07_ddl_cards.sql\n- 01_source_postgres/08_seed_cards.sql\n- 01_source_postgres/09_card_simulator.sql\n\nChapters\n00:00 One payment, three layers\n08:00 The toolkit on the laptop\n18:00 PostgreSQL in Docker\n30:00 The normalised source\n42:00 The seeded payments\n50:00 The bank starts moving\n\nAdjust these timestamps after the final edit. They are drafted to the planned 55-minute cut, not to a finished timeline.\n\nThe moving rows are local PostgreSQL. This episode does not show a Snowflake result.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#PostgreSQL #DataEngineering #SQL #Docker #OLTP",
+      "description": "#DataEngineering #PostgreSQL #Docker\n\nA real bank, on your laptop. PostgreSQL 16 in Docker, 20 tables, and 5 million payments that keep arriving while you watch.\n\nThis is Episode 1 of the series. We do not open Snowflake yet. First the source has to be alive.\n\nCode and setup guides:\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nMac: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK/blob/main/setup/MACOS_SETUP.md\nWindows: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK/blob/main/setup/WINDOWS_SETUP.md\n\nYou will install the tools, start PostgreSQL, build the bank, connect with DBeaver, and see bronze, silver and gold on one payment.\n\nRun these from the repository folder:\n\ndocker compose -f 01_source_postgres/docker-compose.postgres.yml up -d\npython3 setup/start_postgres.py\npython3 setup/verify_setup.py\n\nWindows:\npy -3.12 setup\\start_postgres.py\npy -3.12 setup\\verify_setup.py\n\nDBeaver: localhost, port 5432, database meridian_core, user meridian, password meridian.\n\nThen, inside DBeaver:\nSELECT * FROM core.sim_tick(500);\n\nNext episode: draw the warehouse on paper before opening Snowflake.\n\nWatch the intro first if you are new to the series.",
       "prerequisites": [
         "Watch E0 first.",
         "Docker Desktop, Python 3.12, Git, and an editor, using setup/MACOS_SETUP.md or setup/WINDOWS_SETUP.md.",
@@ -200,13 +199,11 @@
         }
       ],
       "hashtags": [
-        "#PostgreSQL",
         "#DataEngineering",
-        "#SQL",
-        "#Docker",
-        "#OLTP"
+        "#PostgreSQL",
+        "#Docker"
       ],
-      "tags": "PostgreSQL, Docker, data engineering, SQL, OLTP, medallion architecture, bronze silver gold, source system, CDC trigger, Meridian Bank, tutorial, database design",
+      "tags": "postgresql, postgres tutorial, docker, data engineering, dbeaver, sql, medallion architecture, python, snowflake, dbt, airflow, learn data engineering, episode 1",
       "pinned_comment": "Clone the repository and run python3 setup/verify_setup.py before Episode 1's source build.\n\nWhere does a normalised OLTP schema start to fight an analyst's question?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
       "community_post": "Episode 1 is up: a fictional bank comes alive in PostgreSQL. Raw, staging, and marts, then a moving source. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E2 — Draw the warehouse first. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E2), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
@@ -219,15 +216,14 @@
       },
       "filename": "meridian-e1-bank-comes-alive.mp4",
       "thumbnail": {
-        "badge": "EPISODE 1",
-        "hook": "The bank wakes up",
-        "tech": "PostgreSQL",
-        "accent": "#5b9bd5",
-        "motif": "layers"
+        "file": "thumbnails/E1.jpg",
+        "tag": "EPISODE 1",
+        "headline": "BUILD A REAL BANK ON YOUR LAPTOP",
+        "sub": "PostgreSQL · 5 million payments"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -236,7 +232,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "The on-screen bank is PostgreSQL in Docker, not a Snowflake worksheet.",
         "Say Episode 1 when you introduce the badge."
-      ]
+      ],
+      "published": true
     },
     {
       "id": "E2",
@@ -245,7 +242,7 @@
       "show_title": "Draw the warehouse first",
       "planned_minutes": 45,
       "grounding": "course/show.html episode E2 (45 min, 14 scenes: grain, facts, dimensions, SCD2, fan-out, bus matrix) and Module 2 in course/teach.html. Deck: course/show/e2.html.",
-      "title": "Meridian E2: Draw the star schema before you open Snowflake",
+      "title": "Draw the Warehouse Before You Build | Star Schema, Kimball, SCD2 | Episode 2",
       "hook": [
         "Declare the grain before you draw a single box of the star.",
         "A customer who changes segment must still be counted as they were on the day."
@@ -253,9 +250,9 @@
       "summary": "Kimball's four steps are done live: name the process, declare the grain, list the dimensions, then name the facts. The bus matrix is filled cell by cell. One customer is drawn with three versions on a timeline, and a transaction is dropped onto the version that was true that day. Transaction, periodic snapshot, and accumulating snapshot are three different facts. Flows and stocks are not added together. A join that forgets the time window multiplies the money. That is a grain error.",
       "honesty": "This episode has no Snowflake session. The fan-out drawing is the grain lesson. It is not a counted warehouse total.",
       "honesty_marker": "",
-      "description": "Declare the grain before you draw a single box of the star.\nA customer who changes segment must still be counted as they were on the day.\n\nKimball's four steps are done live: name the process, declare the grain, list the dimensions, then name the facts. The bus matrix is filled cell by cell. One customer is drawn with three versions on a timeline, and a transaction is dropped onto the version that was true that day. Transaction, periodic snapshot, and accumulating snapshot are three different facts. Flows and stocks are not added together. A join that forgets the time window multiplies the money. That is a grain error.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E2 in the playlist, position 3 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Watch E0 and E1.\n- No Snowflake account. A whiteboard and 07_data_modelling/BUS_MATRIX.md are the whole studio.\n\nFiles covered\n- 07_data_modelling/BUS_MATRIX.md\n- 07_data_modelling/star_schema.mmd\n- 00_architecture/adr/0003-kimball-for-the-presentation-layer.md\n- 06_performance_lab/04_join_explosion_scd2.sql\n- 04_dbt_meridian_dw/tests/assert_scd2_no_overlapping_versions.sql\n\nChapters\n00:00 Kimball in four steps\n08:00 Fill the bus matrix\n18:00 Three versions on a timeline\n28:00 Three kinds of fact\n36:00 Flows are not stocks\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nThis episode has no Snowflake session. The fan-out drawing is the grain lesson. It is not a counted warehouse total.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#Kimball #DataModeling #DataEngineering #StarSchema #SCD2",
+      "description": "Declare the grain before you draw a single box of the star.\nA customer who changes segment must still be counted as they were on the day.\n\nKimball's four steps are done live: name the process, declare the grain, list the dimensions, then name the facts. The bus matrix is filled cell by cell. One customer is drawn with three versions on a timeline, and a transaction is dropped onto the version that was true that day. Transaction, periodic snapshot, and accumulating snapshot are three different facts. Flows and stocks are not added together. A join that forgets the time window multiplies the money. That is a grain error.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 2, video 3 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Watch the intro and Episode 1.\n- No Snowflake account. A whiteboard and 07_data_modelling/BUS_MATRIX.md are the whole studio.\n\nFiles covered\n- 07_data_modelling/BUS_MATRIX.md\n- 07_data_modelling/star_schema.mmd\n- 00_architecture/adr/0003-kimball-for-the-presentation-layer.md\n- 06_performance_lab/04_join_explosion_scd2.sql\n- 04_dbt_meridian_dw/tests/assert_scd2_no_overlapping_versions.sql\n\nChapters\n00:00 Kimball in four steps\n08:00 Fill the bus matrix\n18:00 Three versions on a timeline\n28:00 Three kinds of fact\n36:00 Flows are not stocks\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nThis episode has no Snowflake session. The fan-out drawing is the grain lesson. It is not a counted warehouse total.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#Kimball #DataModeling #DataEngineering #StarSchema #SCD2",
       "prerequisites": [
-        "Watch E0 and E1.",
+        "Watch the intro and Episode 1.",
         "No Snowflake account. A whiteboard and 07_data_modelling/BUS_MATRIX.md are the whole studio."
       ],
       "files": [
@@ -296,7 +293,7 @@
       ],
       "tags": "Kimball, dimensional modelling, star schema, bus matrix, SCD2, grain, fact table, dimension, data engineering, data warehouse, fan-out, Meridian Bank, tutorial",
       "pinned_comment": "Open 07_data_modelling/BUS_MATRIX.md and say one grain as a sentence before you draw the star.\n\nWhich fact in that matrix is a stock, and which is a flow?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E2 is up: draw the star before Snowflake. Grain, versions, and three kinds of fact. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 2 is up: draw the star before Snowflake. Grain, versions, and three kinds of fact. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E3 — Snowflake: rooms, keys, shelves. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E3), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -307,15 +304,14 @@
       },
       "filename": "meridian-e2-draw-the-star.mp4",
       "thumbnail": {
-        "badge": "EPISODE 2",
-        "hook": "Draw the star first",
-        "tech": "Kimball",
-        "accent": "#a78bfa",
-        "motif": "star"
+        "file": "thumbnails/E2.jpg",
+        "tag": "EPISODE 2",
+        "headline": "DRAW THE WAREHOUSE BEFORE YOU BUILD",
+        "sub": "Star schema · grain · SCD2"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -324,7 +320,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "No Snowflake screen is in this cut.",
         "The fan-out example is not quoted as a live row count."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E3",
@@ -333,7 +330,7 @@
       "show_title": "Snowflake: rooms, keys, shelves",
       "planned_minutes": 40,
       "grounding": "course/show/e3.html chapters The computer, The locks, Empty shelves, and course/show.html (40 min, 18 scenes).",
-      "title": "Meridian E3: Snowflake rooms, roles, and shelves that stay empty",
+      "title": "Set Up Snowflake the Right Way | Roles, Warehouses, Key-Pair Login | Episode 3",
       "hook": [
         "Storage, compute, and a key that stays on your laptop. The bronze tables are created empty.",
         "A Snowflake primary key is a label. The test is the lock. The demo stream is not the pipeline."
@@ -341,9 +338,9 @@
       "summary": "Snowflake is opened as three separate bills: storage, compute, and cloud services. The setup script creates four warehouses for four jobs and a resource monitor written as 100 credits a month. That number is a limit in the file, not a bill already spent. People receive roles. The public key is attached in Snowflake. The private key stays on the laptop. Two databases are created, then empty append-only VARIANT shelves with five metadata columns. Streams, tasks, and dynamic tables are a demo file, then suspended. They are not the working path. The unit test transaction_status_update_keeps_the_latest_version uses fixture id 101. That fixture is not a live warehouse count.",
       "honesty": "Call a Snowflake number a live result only after you have run the statement and read it back. The key demo and fixture 101 are not a live warehouse count. The shelves are empty on purpose.",
       "honesty_marker": "not a live warehouse count",
-      "description": "Storage, compute, and a key that stays on your laptop. The bronze tables are created empty.\nA Snowflake primary key is a label. The test is the lock. The demo stream is not the pipeline.\n\nSnowflake is opened as three separate bills: storage, compute, and cloud services. The setup script creates four warehouses for four jobs and a resource monitor written as 100 credits a month. That number is a limit in the file, not a bill already spent. People receive roles. The public key is attached in Snowflake. The private key stays on the laptop. Two databases are created, then empty append-only VARIANT shelves with five metadata columns. Streams, tasks, and dynamic tables are a demo file, then suspended. They are not the working path. The unit test transaction_status_update_keeps_the_latest_version uses fixture id 101. That fixture is not a live warehouse count.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E3 in the playlist, position 4 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Watch E0, E1, and E2.\n- A Snowflake Enterprise trial. Create it in this episode.\n- No password is stored in the repository. The private key never goes in the description or the chat.\n\nFiles covered\n- 03_snowflake/01_account_setup_rbac.sql\n- 03_snowflake/02_databases_schemas_grants.sql\n- 03_snowflake/03_stages_raw_tables_control.sql\n- 03_snowflake/04_streams_tasks_dynamic_tables_demo.sql\n- 03_snowflake/05_time_travel_clone_demo.sql\n- 03_snowflake/08_cost_attribution.sql\n- 03_snowflake/09_zero_copy_dev_environment.sql\n- 03_snowflake/10_dr_exercises.sql\n- 11_platform_terraform/main.tf\n- 00_architecture/adr/0002-append-only-variant-raw.md\n- 00_architecture/adr/0004-dbt-plus-airflow.md\n\nChapters\n00:00 The computer\n06:00 Four warehouses, four jobs\n12:00 The locks\n20:00 Key pair, not a password\n26:00 Empty shelves\n33:00 A key is a label\n\nAdjust these timestamps after the final edit. They are drafted to the planned 40-minute cut, not to a finished timeline.\n\nCall a Snowflake number a live result only after you have run the statement and read it back. The key demo and fixture 101 are not a live warehouse count. The shelves are empty on purpose.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#Snowflake #DataEngineering #DataWarehouse #SQL #RBAC",
+      "description": "Storage, compute, and a key that stays on your laptop. The bronze tables are created empty.\nA Snowflake primary key is a label. The test is the lock. The demo stream is not the pipeline.\n\nSnowflake is opened as three separate bills: storage, compute, and cloud services. The setup script creates four warehouses for four jobs and a resource monitor written as 100 credits a month. That number is a limit in the file, not a bill already spent. People receive roles. The public key is attached in Snowflake. The private key stays on the laptop. Two databases are created, then empty append-only VARIANT shelves with five metadata columns. Streams, tasks, and dynamic tables are a demo file, then suspended. They are not the working path. The unit test transaction_status_update_keeps_the_latest_version uses fixture id 101. That fixture is not a live warehouse count.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 3, video 4 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Watch the intro, Episode 1, and Episode 2.\n- A Snowflake Enterprise trial. Create it in this episode.\n- No password is stored in the repository. The private key never goes in the description or the chat.\n\nFiles covered\n- 03_snowflake/01_account_setup_rbac.sql\n- 03_snowflake/02_databases_schemas_grants.sql\n- 03_snowflake/03_stages_raw_tables_control.sql\n- 03_snowflake/04_streams_tasks_dynamic_tables_demo.sql\n- 03_snowflake/05_time_travel_clone_demo.sql\n- 03_snowflake/08_cost_attribution.sql\n- 03_snowflake/09_zero_copy_dev_environment.sql\n- 03_snowflake/10_dr_exercises.sql\n- 11_platform_terraform/main.tf\n- 00_architecture/adr/0002-append-only-variant-raw.md\n- 00_architecture/adr/0004-dbt-plus-airflow.md\n\nChapters\n00:00 The computer\n06:00 Four warehouses, four jobs\n12:00 The locks\n20:00 Key pair, not a password\n26:00 Empty shelves\n33:00 A key is a label\n\nAdjust these timestamps after the final edit. They are drafted to the planned 40-minute cut, not to a finished timeline.\n\nCall a Snowflake number a live result only after you have run the statement and read it back. The key demo and fixture 101 are not a live warehouse count. The shelves are empty on purpose.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#Snowflake #DataEngineering #DataWarehouse #SQL #RBAC",
       "prerequisites": [
-        "Watch E0, E1, and E2.",
+        "Watch the intro, Episode 1, and Episode 2.",
         "A Snowflake Enterprise trial. Create it in this episode.",
         "No password is stored in the repository. The private key never goes in the description or the chat."
       ],
@@ -395,7 +392,7 @@
       ],
       "tags": "Snowflake, data warehouse, data engineering, RBAC, key pair authentication, VARIANT, Time Travel, zero copy clone, streams and tasks, dynamic tables, primary key, Meridian Bank, tutorial",
       "pinned_comment": "Run 03_snowflake/01_account_setup_rbac.sql as ACCOUNTADMIN, then stop before you invent a row count.\n\nWhat does Snowflake store for a primary key, and what does it actually enforce?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E3 is up: Snowflake rooms, roles, and empty bronze shelves. A key in Snowflake is a label. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 3 is up: Snowflake rooms, roles, and empty bronze shelves. A key in Snowflake is a label. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, P0 — Python foundations for this pipeline. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (P0), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -406,15 +403,14 @@
       },
       "filename": "meridian-e3-rooms-keys-shelves.mp4",
       "thumbnail": {
-        "badge": "EPISODE 3",
-        "hook": "Rooms, then shelves",
-        "tech": "Snowflake",
-        "accent": "#22d3ee",
-        "motif": "shelves"
+        "file": "thumbnails/E3.jpg",
+        "tag": "EPISODE 3",
+        "headline": "SET UP SNOWFLAKE THE RIGHT WAY",
+        "sub": "Roles · warehouses · keys"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -424,7 +420,8 @@
         "Resource monitor 100 credits is the script's limit, not a spent total.",
         "Fixture id 101 is not described as a live warehouse count.",
         "The streams demo is labelled as not the working path."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "P0",
@@ -433,7 +430,7 @@
       "show_title": "Python foundations for this pipeline",
       "planned_minutes": 35,
       "grounding": "course/show.html release P0 (35 min, 17 scenes) and the Python foundations section in course/teach.html. Deck: course/show/py0.html.",
-      "title": "Meridian Python Primer: Read the pipeline before the extractor",
+      "title": "Python for Data Engineers | Read the Pipeline Line by Line | Python Primer",
       "hook": [
         "Run Python, read the syntax, and see what each library is for.",
         "Then reconcile two tiny systems before you trust a multi-million-row load."
@@ -441,9 +438,9 @@
       "summary": "This primer sits between Snowflake setup and the extractor. A browser editor is only for the first few minutes of print, variables, if, and a loop. Meridian itself uses Python 3.12 on the laptop, because a browser cannot see Docker, local Parquet, or the project settings. The four files cover values and casting, decisions and loops, functions, lists and dictionaries, imports, paths, arguments, exceptions, and a mini reconciliation with a non-zero exit when the totals disagree. pandas, pyarrow, psycopg, and the Snowflake connector are named as toolboxes, not as a second language.",
       "honesty": "The mini reconciliation uses the tiny tables in the foundations file. It is not a Snowflake production total.",
       "honesty_marker": "",
-      "description": "Run Python, read the syntax, and see what each library is for.\nThen reconcile two tiny systems before you trust a multi-million-row load.\n\nThis primer sits between Snowflake setup and the extractor. A browser editor is only for the first few minutes of print, variables, if, and a loop. Meridian itself uses Python 3.12 on the laptop, because a browser cannot see Docker, local Parquet, or the project settings. The four files cover values and casting, decisions and loops, functions, lists and dictionaries, imports, paths, arguments, exceptions, and a mini reconciliation with a non-zero exit when the totals disagree. pandas, pyarrow, psycopg, and the Snowflake connector are named as toolboxes, not as a second language.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is P0 in the playlist, position 5 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Python 3.12 from the E1 setup.\n- No Snowflake connection is required to run the four foundation files.\n\nFiles covered\n- 02_ingestion_python/00_python_foundations/01_values_and_decisions.py\n- 02_ingestion_python/00_python_foundations/02_loops_and_functions.py\n- 02_ingestion_python/00_python_foundations/03_collections_paths_libraries.py\n- 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py\n- 02_ingestion_python/00_python_foundations/README.md\n- tests/test_python_foundations.py\n\nChapters\n00:00 Browser practice, then the laptop\n06:00 Values, decisions, loops\n14:00 Lists, paths, libraries\n24:00 A tiny reconciliation\n31:00 What the extractor will need\n\nAdjust these timestamps after the final edit. They are drafted to the planned 35-minute cut, not to a finished timeline.\n\nThe mini reconciliation uses the tiny tables in the foundations file. It is not a Snowflake production total.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#Python #DataEngineering #LearnPython #ETL #Pandas",
+      "description": "Run Python, read the syntax, and see what each library is for.\nThen reconcile two tiny systems before you trust a multi-million-row load.\n\nThis primer sits between Snowflake setup and the extractor. A browser editor is only for the first few minutes of print, variables, if, and a loop. Meridian itself uses Python 3.12 on the laptop, because a browser cannot see Docker, local Parquet, or the project settings. The four files cover values and casting, decisions and loops, functions, lists and dictionaries, imports, paths, arguments, exceptions, and a mini reconciliation with a non-zero exit when the totals disagree. pandas, pyarrow, psycopg, and the Snowflake connector are named as toolboxes, not as a second language.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Python Primer, video 5 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Python 3.12 from the Episode 1 setup.\n- No Snowflake connection is required to run the four foundation files.\n\nFiles covered\n- 02_ingestion_python/00_python_foundations/01_values_and_decisions.py\n- 02_ingestion_python/00_python_foundations/02_loops_and_functions.py\n- 02_ingestion_python/00_python_foundations/03_collections_paths_libraries.py\n- 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py\n- 02_ingestion_python/00_python_foundations/README.md\n- tests/test_python_foundations.py\n\nChapters\n00:00 Browser practice, then the laptop\n06:00 Values, decisions, loops\n14:00 Lists, paths, libraries\n24:00 A tiny reconciliation\n31:00 What the extractor will need\n\nAdjust these timestamps after the final edit. They are drafted to the planned 35-minute cut, not to a finished timeline.\n\nThe mini reconciliation uses the tiny tables in the foundations file. It is not a Snowflake production total.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#Python #DataEngineering #LearnPython #ETL #Pandas",
       "prerequisites": [
-        "Python 3.12 from the E1 setup.",
+        "Python 3.12 from the Episode 1 setup.",
         "No Snowflake connection is required to run the four foundation files."
       ],
       "files": [
@@ -496,15 +493,14 @@
       },
       "filename": "meridian-p0-python-primer.mp4",
       "thumbnail": {
-        "badge": "PYTHON PRIMER",
-        "hook": "Read the Python",
-        "tech": "Python",
-        "accent": "#facc15",
-        "motif": "python"
+        "file": "thumbnails/P0.jpg",
+        "tag": "PYTHON PRIMER",
+        "headline": "PYTHON FOR DATA ENGINEERS",
+        "sub": "Read every line of the pipeline"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -513,7 +509,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "The thumbnail badge reads PYTHON PRIMER, not an episode number.",
         "No measured Snowflake score or row count is quoted."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E4",
@@ -522,7 +519,7 @@
       "show_title": "Python carries only what changed",
       "planned_minutes": 40,
       "grounding": "course/show.html episode E4 (40 min, 15 scenes: watermarks, Parquet, retries, first load, pipeline health) and Module 4 in course/teach.html. Deck: course/show/e4.html.",
-      "title": "Meridian E4: Python carries only the rows that changed",
+      "title": "Load Only the Rows That Changed | Python CDC: PostgreSQL to Snowflake | Episode 4",
       "hook": [
         "The extractor carries the rows that changed, and it moves the bookmark only after success.",
         "Parquet keeps the cents exact. Deletes ride along in their own table."
@@ -530,9 +527,9 @@
       "summary": "Python does the hop dbt cannot do: read PostgreSQL, write typed Parquet, PUT to an internal stage, and COPY INTO an append-only VARIANT table. The first watermark in code is 1900-01-01, so the first success is a full load. The lag default is 10 seconds so an in-flight commit is not skipped. The watermark advances to the maximum cursor actually seen, and only after the copy succeeds. Overlapping batches are allowed. Staging dedupes later. Deletes travel in cdc.deleted_records. Retries do not double-advance the bookmark.",
       "honesty": "If you show LOAD_LOG or the health view, those numbers are from the run on screen. Do not type a row count from memory into the description.",
       "honesty_marker": "",
-      "description": "The extractor carries the rows that changed, and it moves the bookmark only after success.\nParquet keeps the cents exact. Deletes ride along in their own table.\n\nPython does the hop dbt cannot do: read PostgreSQL, write typed Parquet, PUT to an internal stage, and COPY INTO an append-only VARIANT table. The first watermark in code is 1900-01-01, so the first success is a full load. The lag default is 10 seconds so an in-flight commit is not skipped. The watermark advances to the maximum cursor actually seen, and only after the copy succeeds. Overlapping batches are allowed. Staging dedupes later. Deletes travel in cdc.deleted_records. Retries do not double-advance the bookmark.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E4 in the playlist, position 6 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- P0, a running PostgreSQL source from E1, and the empty raw tables plus key-pair auth from E3.\n- Copy .env.example to a local env file. Never show that file.\n\nFiles covered\n- 02_ingestion_python/config.py\n- 02_ingestion_python/pg_to_snowflake.py\n- 02_ingestion_python/simulate_activity.py\n- 02_ingestion_python/reconcile_with_pandas.py\n- 02_ingestion_python/README.md\n- .env.example\n- tests/test_extractor.py\n- tests/test_reconciliation.py\n- 00_architecture/adr/0001-watermark-cdc-before-log-based.md\n\nChapters\n00:00 The watermark, drawn\n08:00 The first full load\n18:00 Parquet, PUT, COPY\n26:00 The five-minute loop\n33:00 Health view and replay\n\nAdjust these timestamps after the final edit. They are drafted to the planned 40-minute cut, not to a finished timeline.\n\nIf you show LOAD_LOG or the health view, those numbers are from the run on screen. Do not type a row count from memory into the description.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#Python #CDC #DataEngineering #Parquet #Snowflake",
+      "description": "The extractor carries the rows that changed, and it moves the bookmark only after success.\nParquet keeps the cents exact. Deletes ride along in their own table.\n\nPython does the hop dbt cannot do: read PostgreSQL, write typed Parquet, PUT to an internal stage, and COPY INTO an append-only VARIANT table. The first watermark in code is 1900-01-01, so the first success is a full load. The lag default is 10 seconds so an in-flight commit is not skipped. The watermark advances to the maximum cursor actually seen, and only after the copy succeeds. Overlapping batches are allowed. Staging dedupes later. Deletes travel in cdc.deleted_records. Retries do not double-advance the bookmark.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 4, video 6 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- The Python Primer, a running PostgreSQL source from Episode 1, and the empty raw tables plus key-pair auth from Episode 3.\n- Copy .env.example to a local env file. Never show that file.\n\nFiles covered\n- 02_ingestion_python/config.py\n- 02_ingestion_python/pg_to_snowflake.py\n- 02_ingestion_python/simulate_activity.py\n- 02_ingestion_python/reconcile_with_pandas.py\n- 02_ingestion_python/README.md\n- .env.example\n- tests/test_extractor.py\n- tests/test_reconciliation.py\n- 00_architecture/adr/0001-watermark-cdc-before-log-based.md\n\nChapters\n00:00 The watermark, drawn\n08:00 The first full load\n18:00 Parquet, PUT, COPY\n26:00 The five-minute loop\n33:00 Health view and replay\n\nAdjust these timestamps after the final edit. They are drafted to the planned 40-minute cut, not to a finished timeline.\n\nIf you show LOAD_LOG or the health view, those numbers are from the run on screen. Do not type a row count from memory into the description.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#Python #CDC #DataEngineering #Parquet #Snowflake",
       "prerequisites": [
-        "P0, a running PostgreSQL source from E1, and the empty raw tables plus key-pair auth from E3.",
+        "The Python Primer, a running PostgreSQL source from Episode 1, and the empty raw tables plus key-pair auth from Episode 3.",
         "Copy .env.example to a local env file. Never show that file."
       ],
       "files": [
@@ -577,7 +574,7 @@
       ],
       "tags": "Python, CDC, watermark, Parquet, Snowflake COPY, data engineering, ETL, idempotent load, incremental extract, Meridian Bank, pipeline, tutorial",
       "pinned_comment": "Read pg_to_snowflake.py from main() down to the watermark update.\n\nWhy does the bookmark move to the latest row you saw, and only after success?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E4 is up: Python carries only the rows that changed. The bookmark moves after a successful copy. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 4 is up: Python carries only the rows that changed. The bookmark moves after a successful copy. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E5 — dbt cleans the inbox. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E5), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -588,15 +585,14 @@
       },
       "filename": "meridian-e4-only-what-changed.mp4",
       "thumbnail": {
-        "badge": "EPISODE 4",
-        "hook": "Only what changed",
-        "tech": "Watermark CDC",
-        "accent": "#60a5fa",
-        "motif": "delta"
+        "file": "thumbnails/E4.jpg",
+        "tag": "EPISODE 4",
+        "headline": "LOAD ONLY THE ROWS THAT CHANGED",
+        "sub": "PostgreSQL → Parquet → Snowflake"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -605,7 +601,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "Any LOAD_LOG number on screen is from that run, not from this pack.",
         "The .env file is never shown."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E5",
@@ -614,7 +611,7 @@
       "show_title": "dbt cleans the inbox",
       "planned_minutes": 45,
       "grounding": "course/show.html episode E5 (45 min, 14 scenes: VARIANT to typed rows, incremental builds, snapshots, dev sandbox) and the dbt I plan in course/teach.html. Deck: course/show/e5.html.",
-      "title": "Meridian E5: dbt turns raw VARIANT into a typed inbox",
+      "title": "Turn Raw JSON into Clean Tables | dbt Staging on Snowflake | Episode 5",
       "hook": [
         "Bronze kept every copy. Staging is allowed to keep only the latest typed row.",
         "Run the snapshot twice. A second version appears only when a tracked value changed."
@@ -622,9 +619,9 @@
       "summary": "dbt cleans the inbox. The project layout, packages, and selectors come first. Staging parses VARIANT into typed, renamed columns. QUALIFY keeps one row per business key, newest extraction first. Source freshness is a clock. It is not a content test. Customer and account snapshots use a timestamp strategy. Run the snapshot again after a tracked change and a second version is the expected shape. A dev target is a sandbox. It does not inherit production persona grants.",
       "honesty": "A second snapshot version is the expected shape when a tracked column changes. Quote a version count only after that run.",
       "honesty_marker": "",
-      "description": "Bronze kept every copy. Staging is allowed to keep only the latest typed row.\nRun the snapshot twice. A second version appears only when a tracked value changed.\n\ndbt cleans the inbox. The project layout, packages, and selectors come first. Staging parses VARIANT into typed, renamed columns. QUALIFY keeps one row per business key, newest extraction first. Source freshness is a clock. It is not a content test. Customer and account snapshots use a timestamp strategy. Run the snapshot again after a tracked change and a second version is the expected shape. A dev target is a sandbox. It does not inherit production persona grants.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E5 in the playlist, position 7 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- E4, so bronze has rows to parse.\n- dbt Core with the packages in packages.yml.\n- A local profiles file based on profiles.yml.example. The real profiles.yml stays off camera.\n\nFiles covered\n- 04_dbt_meridian_dw/dbt_project.yml\n- 04_dbt_meridian_dw/packages.yml\n- 04_dbt_meridian_dw/selectors.yml\n- 04_dbt_meridian_dw/profiles.yml.example\n- 04_dbt_meridian_dw/models/staging/postgres/_postgres__sources.yml\n- 04_dbt_meridian_dw/models/staging/postgres/stg_postgres__transactions.sql\n- 04_dbt_meridian_dw/snapshots/snap_customers.sql\n- 04_dbt_meridian_dw/snapshots/snap_accounts.sql\n- 04_dbt_meridian_dw/snapshots/snap_branches.sql\n- 04_dbt_meridian_dw/macros/helpers.sql\n- 04_dbt_meridian_dw/macros/generate_schema_name.sql\n\nChapters\n00:00 Project anatomy\n08:00 VARIANT becomes typed rows\n16:00 QUALIFY keeps one row\n24:00 Freshness\n32:00 Snapshots, run twice\n40:00 A safe dev sandbox\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nA second snapshot version is the expected shape when a tracked column changes. Quote a version count only after that run.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#dbt #DataEngineering #AnalyticsEngineering #Snowflake #SQL",
+      "description": "Bronze kept every copy. Staging is allowed to keep only the latest typed row.\nRun the snapshot twice. A second version appears only when a tracked value changed.\n\ndbt cleans the inbox. The project layout, packages, and selectors come first. Staging parses VARIANT into typed, renamed columns. QUALIFY keeps one row per business key, newest extraction first. Source freshness is a clock. It is not a content test. Customer and account snapshots use a timestamp strategy. Run the snapshot again after a tracked change and a second version is the expected shape. A dev target is a sandbox. It does not inherit production persona grants.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 5, video 7 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Episode 4, so bronze has rows to parse.\n- dbt Core with the packages in packages.yml.\n- A local profiles file based on profiles.yml.example. The real profiles.yml stays off camera.\n\nFiles covered\n- 04_dbt_meridian_dw/dbt_project.yml\n- 04_dbt_meridian_dw/packages.yml\n- 04_dbt_meridian_dw/selectors.yml\n- 04_dbt_meridian_dw/profiles.yml.example\n- 04_dbt_meridian_dw/models/staging/postgres/_postgres__sources.yml\n- 04_dbt_meridian_dw/models/staging/postgres/stg_postgres__transactions.sql\n- 04_dbt_meridian_dw/snapshots/snap_customers.sql\n- 04_dbt_meridian_dw/snapshots/snap_accounts.sql\n- 04_dbt_meridian_dw/snapshots/snap_branches.sql\n- 04_dbt_meridian_dw/macros/helpers.sql\n- 04_dbt_meridian_dw/macros/generate_schema_name.sql\n\nChapters\n00:00 Project anatomy\n08:00 VARIANT becomes typed rows\n16:00 QUALIFY keeps one row\n24:00 Freshness\n32:00 Snapshots, run twice\n40:00 A safe dev sandbox\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nA second snapshot version is the expected shape when a tracked column changes. Quote a version count only after that run.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#dbt #DataEngineering #AnalyticsEngineering #Snowflake #SQL",
       "prerequisites": [
-        "E4, so bronze has rows to parse.",
+        "Episode 4, so bronze has rows to parse.",
         "dbt Core with the packages in packages.yml.",
         "A local profiles file based on profiles.yml.example. The real profiles.yml stays off camera."
       ],
@@ -676,7 +673,7 @@
       ],
       "tags": "dbt, analytics engineering, Snowflake, staging models, QUALIFY, source freshness, snapshots, SCD2, data engineering, incremental model, Meridian Bank, tutorial",
       "pinned_comment": "Open stg_postgres__transactions.sql and find the QUALIFY that keeps one row per key.\n\nWhat is the difference between a freshness check and a content test?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E5 is up: dbt turns VARIANT into one typed row per key, then snapshots the customer. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 5 is up: dbt turns VARIANT into one typed row per key, then snapshots the customer. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E6 — The star schema, for real. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E6), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -687,15 +684,14 @@
       },
       "filename": "meridian-e5-dbt-cleans-inbox.mp4",
       "thumbnail": {
-        "badge": "EPISODE 5",
-        "hook": "Clean the inbox",
-        "tech": "dbt staging",
-        "accent": "#ff7a5c",
-        "motif": "inbox"
+        "file": "thumbnails/E5.jpg",
+        "tag": "EPISODE 5",
+        "headline": "TURN RAW JSON INTO CLEAN TABLES",
+        "sub": "dbt staging on Snowflake"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -704,7 +700,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "Snapshot version counts are quoted only from the run you just did.",
         "profiles.yml is not shown."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E6",
@@ -713,7 +710,7 @@
       "show_title": "The star schema, for real",
       "planned_minutes": 50,
       "grounding": "course/show.html episode E6 (50 min, 14 scenes: FX at the day's rate, customer versions, facts, deletes, tests, reconciliation) and the dbt II plan in course/teach.html. Deck: course/show/e6.html.",
-      "title": "Meridian E6: FX, customer history, facts, and a failing test",
+      "title": "Build the Star Schema in dbt | Facts, SCD2, Currency Rates on Snowflake | Episode 6",
       "hook": [
         "Dollars use the rate from the day the payment happened, including a forward-filled weekend.",
         "The fact points at the customer as they were that day. Remove that match and the test fails."
@@ -721,9 +718,9 @@
       "summary": "The star is built for real. Weekend FX rates forward-fill from the last published rate, and USD stays 1. Facts join the customer and account version that was valid at the event, not whoever they are today. fct_transactions is an incremental merge: one row per transaction at its latest status. Deletes removed in staging stay removed. The reconciliation test is shown failing when the point-in-time match is taken out, then passing when it is put back. Selectors separate the five-minute work from the nightly work. Docs show the lineage.",
       "honesty": "A failing test in this episode is a demonstration you cause on purpose. The pass or fail text is from that command, not from a remembered screenshot.",
       "honesty_marker": "",
-      "description": "Dollars use the rate from the day the payment happened, including a forward-filled weekend.\nThe fact points at the customer as they were that day. Remove that match and the test fails.\n\nThe star is built for real. Weekend FX rates forward-fill from the last published rate, and USD stays 1. Facts join the customer and account version that was valid at the event, not whoever they are today. fct_transactions is an incremental merge: one row per transaction at its latest status. Deletes removed in staging stay removed. The reconciliation test is shown failing when the point-in-time match is taken out, then passing when it is put back. Selectors separate the five-minute work from the nightly work. Docs show the lineage.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E6 in the playlist, position 8 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- E5 staging models and snapshots.\n- dbt build against your own dev or prod target. Do not borrow someone else's row counts.\n\nFiles covered\n- 04_dbt_meridian_dw/models/intermediate/int_fx_rates_daily_filled.sql\n- 04_dbt_meridian_dw/models/intermediate/int_transactions_with_fx.sql\n- 04_dbt_meridian_dw/models/intermediate/int_account_primary_holder.sql\n- 04_dbt_meridian_dw/models/marts/core/dim_customer.sql\n- 04_dbt_meridian_dw/models/marts/core/dim_account.sql\n- 04_dbt_meridian_dw/models/marts/core/fct_transactions.sql\n- 04_dbt_meridian_dw/models/marts/core/fct_monthly_account_balance.sql\n- 04_dbt_meridian_dw/models/marts/core/fct_loan_applications.sql\n- 04_dbt_meridian_dw/models/marts/finance/agg_branch_daily_performance.sql\n- 04_dbt_meridian_dw/models/marts/core/_core__models.yml\n- 04_dbt_meridian_dw/tests/assert_fct_transactions_reconciles_to_staging.sql\n- 04_dbt_meridian_dw/tests/assert_posted_transactions_have_fx.sql\n- 04_dbt_meridian_dw/tests/assert_scd2_no_overlapping_versions.sql\n- 04_dbt_meridian_dw/selectors.yml\n\nChapters\n00:00 FX on the day it happened\n10:00 Customer versions\n20:00 The transaction fact\n30:00 Deletes and incremental merge\n40:00 A test that fails on purpose\n46:00 Lineage\n\nAdjust these timestamps after the final edit. They are drafted to the planned 50-minute cut, not to a finished timeline.\n\nA failing test in this episode is a demonstration you cause on purpose. The pass or fail text is from that command, not from a remembered screenshot.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#dbt #StarSchema #DataEngineering #Kimball #AnalyticsEngineering",
+      "description": "Dollars use the rate from the day the payment happened, including a forward-filled weekend.\nThe fact points at the customer as they were that day. Remove that match and the test fails.\n\nThe star is built for real. Weekend FX rates forward-fill from the last published rate, and USD stays 1. Facts join the customer and account version that was valid at the event, not whoever they are today. fct_transactions is an incremental merge: one row per transaction at its latest status. Deletes removed in staging stay removed. The reconciliation test is shown failing when the point-in-time match is taken out, then passing when it is put back. Selectors separate the five-minute work from the nightly work. Docs show the lineage.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 6, video 8 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Episode 5 staging models and snapshots.\n- dbt build against your own dev or prod target. Do not borrow someone else's row counts.\n\nFiles covered\n- 04_dbt_meridian_dw/models/intermediate/int_fx_rates_daily_filled.sql\n- 04_dbt_meridian_dw/models/intermediate/int_transactions_with_fx.sql\n- 04_dbt_meridian_dw/models/intermediate/int_account_primary_holder.sql\n- 04_dbt_meridian_dw/models/marts/core/dim_customer.sql\n- 04_dbt_meridian_dw/models/marts/core/dim_account.sql\n- 04_dbt_meridian_dw/models/marts/core/fct_transactions.sql\n- 04_dbt_meridian_dw/models/marts/core/fct_monthly_account_balance.sql\n- 04_dbt_meridian_dw/models/marts/core/fct_loan_applications.sql\n- 04_dbt_meridian_dw/models/marts/finance/agg_branch_daily_performance.sql\n- 04_dbt_meridian_dw/models/marts/core/_core__models.yml\n- 04_dbt_meridian_dw/tests/assert_fct_transactions_reconciles_to_staging.sql\n- 04_dbt_meridian_dw/tests/assert_posted_transactions_have_fx.sql\n- 04_dbt_meridian_dw/tests/assert_scd2_no_overlapping_versions.sql\n- 04_dbt_meridian_dw/selectors.yml\n\nChapters\n00:00 FX on the day it happened\n10:00 Customer versions\n20:00 The transaction fact\n30:00 Deletes and incremental merge\n40:00 A test that fails on purpose\n46:00 Lineage\n\nAdjust these timestamps after the final edit. They are drafted to the planned 50-minute cut, not to a finished timeline.\n\nA failing test in this episode is a demonstration you cause on purpose. The pass or fail text is from that command, not from a remembered screenshot.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#dbt #StarSchema #DataEngineering #Kimball #AnalyticsEngineering",
       "prerequisites": [
-        "E5 staging models and snapshots.",
+        "Episode 5 staging models and snapshots.",
         "dbt build against your own dev or prod target. Do not borrow someone else's row counts."
       ],
       "files": [
@@ -777,7 +774,7 @@
       ],
       "tags": "dbt, star schema, fact table, SCD2, foreign exchange, incremental merge, data tests, reconciliation, analytics engineering, Snowflake, Meridian Bank, tutorial",
       "pinned_comment": "Open fct_transactions.sql and name the grain in one sentence.\n\nWhy must March use the March customer, even if that customer is premium now?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E6 is up: the star schema for real. The day's FX rate, the day's customer, and a test that can fail. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 6 is up: the star schema for real. The day's FX rate, the day's customer, and a test that can fail. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E7 — Airflow is the alarm clock. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E7), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -788,15 +785,14 @@
       },
       "filename": "meridian-e6-star-schema.mp4",
       "thumbnail": {
-        "badge": "EPISODE 6",
-        "hook": "The star, for real",
-        "tech": "dbt marts",
-        "accent": "#ff7a5c",
-        "motif": "fact"
+        "file": "thumbnails/E6.jpg",
+        "tag": "EPISODE 6",
+        "headline": "BUILD THE STAR SCHEMA IN DBT",
+        "sub": "Facts · SCD2 · currency rates"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -804,7 +800,8 @@
         "Upload as Unlisted. Switch to Public only after the video is in the playlist at this position.",
         "Cards and the end screen point at videos in this playlist.",
         "Test output is read from the command you run, not typed from memory."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E7",
@@ -813,7 +810,7 @@
       "show_title": "Airflow is the alarm clock",
       "planned_minutes": 30,
       "grounding": "course/show.html episode E7 (30 min, 14 scenes: five-minute DAG, nightly DAG, Docker paths, pools, retries, alerts) and the Airflow plan in course/teach.html. Deck: course/show/e7.html.",
-      "title": "Meridian E7: Airflow rings the clock. dbt does the work.",
+      "title": "Airflow Runs It Every 5 Minutes | Schedule dbt and Snowflake | Episode 7",
       "hook": [
         "Two clocks, one scheduler. Airflow never builds the star.",
         "The replay is manual, and it leaves the live watermark where it is."
@@ -821,9 +818,9 @@
       "summary": "Airflow is the alarm clock. dbt and Python still do the work. The five-minute DAG extracts the hot tables through a Postgres pool, loads them, then runs the narrow dbt selector. A health gate can stop the DAG. The nightly DAG loads reference data and the wider models. Freshness runs on its own schedule. Bounded replay takes a since and until window and does not move the live watermark. Retries, pools, and alerts are in the DAG files. Astro runs Airflow 3 on the laptop.",
       "honesty": "Task success on screen is that Airflow run. Do not describe a green box as proof of warehouse totals you did not query.",
       "honesty_marker": "",
-      "description": "Two clocks, one scheduler. Airflow never builds the star.\nThe replay is manual, and it leaves the live watermark where it is.\n\nAirflow is the alarm clock. dbt and Python still do the work. The five-minute DAG extracts the hot tables through a Postgres pool, loads them, then runs the narrow dbt selector. A health gate can stop the DAG. The nightly DAG loads reference data and the wider models. Freshness runs on its own schedule. Bounded replay takes a since and until window and does not move the live watermark. Retries, pools, and alerts are in the DAG files. Astro runs Airflow 3 on the laptop.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E7 in the playlist, position 9 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- E4, E5, and E6, so there is something to schedule.\n- Astro CLI, installed in this episode rather than during laptop setup.\n\nFiles covered\n- 05_airflow/dags/_common.py\n- 05_airflow/dags/meridian_microbatch_ingest.py\n- 05_airflow/dags/meridian_daily_batch.py\n- 05_airflow/dags/meridian_source_freshness.py\n- 05_airflow/dags/meridian_bounded_replay.py\n- 05_airflow/dags/meridian_card_decisioning.py\n- 05_airflow/dags/meridian_alerts.py\n- 05_airflow/airflow_settings.yaml.example\n- 05_airflow/README.md\n- 00_architecture/adr/0004-dbt-plus-airflow.md\n\nChapters\n00:00 Airflow rings the clock\n06:00 The five-minute DAG\n14:00 The nightly DAG\n20:00 Pools, retries, alerts\n25:00 Bounded replay\n\nAdjust these timestamps after the final edit. They are drafted to the planned 30-minute cut, not to a finished timeline.\n\nTask success on screen is that Airflow run. Do not describe a green box as proof of warehouse totals you did not query.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#ApacheAirflow #DataEngineering #dbt #Orchestration #ETL",
+      "description": "Two clocks, one scheduler. Airflow never builds the star.\nThe replay is manual, and it leaves the live watermark where it is.\n\nAirflow is the alarm clock. dbt and Python still do the work. The five-minute DAG extracts the hot tables through a Postgres pool, loads them, then runs the narrow dbt selector. A health gate can stop the DAG. The nightly DAG loads reference data and the wider models. Freshness runs on its own schedule. Bounded replay takes a since and until window and does not move the live watermark. Retries, pools, and alerts are in the DAG files. Astro runs Airflow 3 on the laptop.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 7, video 9 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Episode 4, Episode 5, and Episode 6, so there is something to schedule.\n- Astro CLI, installed in this episode rather than during laptop setup.\n\nFiles covered\n- 05_airflow/dags/_common.py\n- 05_airflow/dags/meridian_microbatch_ingest.py\n- 05_airflow/dags/meridian_daily_batch.py\n- 05_airflow/dags/meridian_source_freshness.py\n- 05_airflow/dags/meridian_bounded_replay.py\n- 05_airflow/dags/meridian_card_decisioning.py\n- 05_airflow/dags/meridian_alerts.py\n- 05_airflow/airflow_settings.yaml.example\n- 05_airflow/README.md\n- 00_architecture/adr/0004-dbt-plus-airflow.md\n\nChapters\n00:00 Airflow rings the clock\n06:00 The five-minute DAG\n14:00 The nightly DAG\n20:00 Pools, retries, alerts\n25:00 Bounded replay\n\nAdjust these timestamps after the final edit. They are drafted to the planned 30-minute cut, not to a finished timeline.\n\nTask success on screen is that Airflow run. Do not describe a green box as proof of warehouse totals you did not query.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#ApacheAirflow #DataEngineering #dbt #Orchestration #ETL",
       "prerequisites": [
-        "E4, E5, and E6, so there is something to schedule.",
+        "Episode 4, Episode 5, and Episode 6, so there is something to schedule.",
         "Astro CLI, installed in this episode rather than during laptop setup."
       ],
       "files": [
@@ -869,7 +866,7 @@
       ],
       "tags": "Apache Airflow, Astro, data engineering, orchestration, dbt, DAG, micro-batch, retries, data pipeline, Meridian Bank, tutorial, ETL",
       "pinned_comment": "Open meridian_microbatch_ingest.py and point at the task that shells out to dbt.\n\nWhat does the bounded replay refuse to change?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E7 is up: Airflow rings two clocks. It schedules the pipeline and does not transform the data. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 7 is up: Airflow rings two clocks. It schedules the pipeline and does not transform the data. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E8 — Break it, measure, fix. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E8), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -880,15 +877,14 @@
       },
       "filename": "meridian-e7-airflow-alarm-clock.mp4",
       "thumbnail": {
-        "badge": "EPISODE 7",
-        "hook": "Airflow rings the clock",
-        "tech": "Airflow",
-        "accent": "#38bdf8",
-        "motif": "clock"
+        "file": "thumbnails/E7.jpg",
+        "tag": "EPISODE 7",
+        "headline": "AIRFLOW RUNS IT EVERY 5 MINUTES",
+        "sub": "Schedule dbt, never babysit it"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -896,7 +892,8 @@
         "Upload as Unlisted. Switch to Public only after the video is in the playlist at this position.",
         "Cards and the end screen point at videos in this playlist.",
         "A green task is not narrated as a warehouse total."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E8",
@@ -905,7 +902,7 @@
       "show_title": "Break it, measure, fix",
       "planned_minutes": 45,
       "grounding": "course/show/e8.html chapters Four beats, Read less, One change, The second run, and course/show.html (45 min, 16 scenes).",
-      "title": "Meridian E8: Break the query, measure it, then fix one thing",
+      "title": "Make Snowflake Fast and Cheap | Query Profile, Pruning, Spilling | Episode 8",
       "hook": [
         "Read the query profile before you resize anything.",
         "Pruning, spilling, and a lying cache are three different problems. The 3x join is an example, not a live total."
@@ -913,9 +910,9 @@
       "summary": "One habit: measure, name the waste, change one thing, measure again. The Postgres lab shows a sequential scan and then an index. The Snowflake pruning lab is written against a 100,000,000-row table. Record that build before the episode. A function wrapped around the filter column can blind pruning. Spilling means the work did not fit in memory. Rewrite before you resize. The join-explosion file's example, not a live total, is that 3 customer versions count 3 times. Search optimization is for needles. Clustering is for ranges. The second run can be the warehouse cache. Scale-up and scale-out answer different queues. The triage playbook is the order you say out loud.",
       "honesty": "The 3-version multiplier is the file's example, not a live total. Quote bytes scanned, spill, or duration only from the measure query you just ran. The whole-lab credit remark in the teaching notes is an upper bound to check with WAREHOUSE_METERING_HISTORY, not a number to invent.",
       "honesty_marker": "not a live total",
-      "description": "Read the query profile before you resize anything.\nPruning, spilling, and a lying cache are three different problems. The 3x join is an example, not a live total.\n\nOne habit: measure, name the waste, change one thing, measure again. The Postgres lab shows a sequential scan and then an index. The Snowflake pruning lab is written against a 100,000,000-row table. Record that build before the episode. A function wrapped around the filter column can blind pruning. Spilling means the work did not fit in memory. Rewrite before you resize. The join-explosion file's example, not a live total, is that 3 customer versions count 3 times. Search optimization is for needles. Clustering is for ranges. The second run can be the warehouse cache. Scale-up and scale-out answer different queues. The triage playbook is the order you say out loud.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E8 in the playlist, position 10 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- PostgreSQL from E1 and a Snowflake warehouse from E3.\n- Build the large pruning table before you record, then cut to the result.\n- Keep the scoreboard worksheet ready. Read it after each fix.\n\nFiles covered\n- 06_performance_lab/README.md\n- 06_performance_lab/00_measure.sql\n- 06_performance_lab/01_postgres_missing_index.sql\n- 06_performance_lab/02_snowflake_pruning_clustering.sql\n- 06_performance_lab/03_spilling_and_warehouse_size.sql\n- 06_performance_lab/04_join_explosion_scd2.sql\n- 06_performance_lab/05_caching_layers.sql\n- 06_performance_lab/06_predicate_antipatterns.sql\n- 06_performance_lab/07_search_optimization_and_mv.sql\n- 06_performance_lab/08_dbt_incremental_vs_full_refresh.md\n- 06_performance_lab/09_warehouse_sizing_and_concurrency.sql\n- 06_performance_lab/10_slow_query_triage_playbook.sql\n\nChapters\n00:00 Four beats\n08:00 Read less\n20:00 One change\n32:00 The second run\n40:00 The triage order\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nThe 3-version multiplier is the file's example, not a live total. Quote bytes scanned, spill, or duration only from the measure query you just ran. The whole-lab credit remark in the teaching notes is an upper bound to check with WAREHOUSE_METERING_HISTORY, not a number to invent.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#Snowflake #SQLPerformance #DataEngineering #QueryOptimization #dbt",
+      "description": "Read the query profile before you resize anything.\nPruning, spilling, and a lying cache are three different problems. The 3x join is an example, not a live total.\n\nOne habit: measure, name the waste, change one thing, measure again. The Postgres lab shows a sequential scan and then an index. The Snowflake pruning lab is written against a 100,000,000-row table. Record that build before the episode. A function wrapped around the filter column can blind pruning. Spilling means the work did not fit in memory. Rewrite before you resize. The join-explosion file's example, not a live total, is that 3 customer versions count 3 times. Search optimization is for needles. Clustering is for ranges. The second run can be the warehouse cache. Scale-up and scale-out answer different queues. The triage playbook is the order you say out loud.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 8, video 10 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- PostgreSQL from Episode 1 and a Snowflake warehouse from Episode 3.\n- Build the large pruning table before you record, then cut to the result.\n- Keep the scoreboard worksheet ready. Read it after each fix.\n\nFiles covered\n- 06_performance_lab/README.md\n- 06_performance_lab/00_measure.sql\n- 06_performance_lab/01_postgres_missing_index.sql\n- 06_performance_lab/02_snowflake_pruning_clustering.sql\n- 06_performance_lab/03_spilling_and_warehouse_size.sql\n- 06_performance_lab/04_join_explosion_scd2.sql\n- 06_performance_lab/05_caching_layers.sql\n- 06_performance_lab/06_predicate_antipatterns.sql\n- 06_performance_lab/07_search_optimization_and_mv.sql\n- 06_performance_lab/08_dbt_incremental_vs_full_refresh.md\n- 06_performance_lab/09_warehouse_sizing_and_concurrency.sql\n- 06_performance_lab/10_slow_query_triage_playbook.sql\n\nChapters\n00:00 Four beats\n08:00 Read less\n20:00 One change\n32:00 The second run\n40:00 The triage order\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nThe 3-version multiplier is the file's example, not a live total. Quote bytes scanned, spill, or duration only from the measure query you just ran. The whole-lab credit remark in the teaching notes is an upper bound to check with WAREHOUSE_METERING_HISTORY, not a number to invent.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#Snowflake #SQLPerformance #DataEngineering #QueryOptimization #dbt",
       "prerequisites": [
-        "PostgreSQL from E1 and a Snowflake warehouse from E3.",
+        "PostgreSQL from Episode 1 and a Snowflake warehouse from Episode 3.",
         "Build the large pruning table before you record, then cut to the result.",
         "Keep the scoreboard worksheet ready. Read it after each fix."
       ],
@@ -964,7 +961,7 @@
       ],
       "tags": "Snowflake performance, query optimization, pruning, clustering, spilling, warehouse sizing, join explosion, SCD2, data engineering, SQL, cache, Meridian Bank, tutorial",
       "pinned_comment": "Open 06_performance_lab/10_slow_query_triage_playbook.sql and say the order before you touch a warehouse size.\n\nWhich problem is pruning, and which problem is spilling?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E8 is up: break one query, measure it, fix one thing. The 3x join is an example, not a live total. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 8 is up: break one query, measure it, fix one thing. The 3x join is an example, not a live total. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E9 — Quality, CI, cost, runbook. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E9), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -975,15 +972,14 @@
       },
       "filename": "meridian-e8-break-measure-fix.mp4",
       "thumbnail": {
-        "badge": "EPISODE 8",
-        "hook": "Measure, then fix",
-        "tech": "Performance lab",
-        "accent": "#fbbf24",
-        "motif": "measure"
+        "file": "thumbnails/E8.jpg",
+        "tag": "EPISODE 8",
+        "headline": "MAKE SNOWFLAKE FAST AND CHEAP",
+        "sub": "Break it · measure · fix it"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -992,7 +988,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "The 3-version join is called an example, not a live total.",
         "No duration or credit figure is spoken unless it was just read from the account."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E9",
@@ -1001,7 +998,7 @@
       "show_title": "Quality, CI, cost, runbook",
       "planned_minutes": 30,
       "grounding": "course/show/e9.html chapters Checks, Reconcile, Slim CI, 2 a.m., and course/show.html (30 min, 18 scenes).",
-      "title": "Meridian E9: A green dbt build is only the first check",
+      "title": "A Green dbt Build Can Still Lie | Data Quality, CI and Cost | Episode 9",
       "hook": [
         "A green build means the job finished. It does not mean the numbers are fit to publish.",
         "Integrity, reconciliation, cost, and the 2 a.m. playbook each answer a different question."
@@ -1009,9 +1006,9 @@
       "summary": "Quality starts after the build is green. Freshness is a clock. A dbt test is a rule. Reconciliation asks the bank and the warehouse the same question. The offline reconciliation test expects the same keys and a money difference under one cent. That is the test's expectation. The published-mart sweep stores a missing dimension key or a duplicate business key, together with the reason. Unknown member -1 is a designed member, not an orphan. No live orphan count is on the slide, and this pack is not a counted orphan total. Slim CI parses and builds what changed. Cost attribution names the warehouse and the query tag. The runbook then covers a hot table that goes quiet, and a bounded replay that does not move the watermark.",
       "honesty": "Do not invent an orphan count. The integrity query stores hits when you run it. Until then, the honest line is: not a counted orphan total.",
       "honesty_marker": "not a counted orphan total",
-      "description": "A green build means the job finished. It does not mean the numbers are fit to publish.\nIntegrity, reconciliation, cost, and the 2 a.m. playbook each answer a different question.\n\nQuality starts after the build is green. Freshness is a clock. A dbt test is a rule. Reconciliation asks the bank and the warehouse the same question. The offline reconciliation test expects the same keys and a money difference under one cent. That is the test's expectation. The published-mart sweep stores a missing dimension key or a duplicate business key, together with the reason. Unknown member -1 is a designed member, not an orphan. No live orphan count is on the slide, and this pack is not a counted orphan total. Slim CI parses and builds what changed. Cost attribution names the warehouse and the query tag. The runbook then covers a hot table that goes quiet, and a bounded replay that does not move the watermark.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E9 in the playlist, position 11 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- E6 marts and E7 schedules.\n- GitHub Actions files can be shown without a warehouse.\n- Cost and quarantine SQL are read as the queries to run.\n\nFiles covered\n- .github/workflows/meridian-checks.yml\n- .github/workflows/meridian-dbt-ci.yml\n- .github/dependabot.yml\n- 02_ingestion_python/dbt_artifact.py\n- 03_snowflake/08_cost_attribution.sql\n- 03_snowflake/09_zero_copy_dev_environment.sql\n- 03_snowflake/10_dr_exercises.sql\n- 04_dbt_meridian_dw/tests/assert_staging_complete_versus_bronze.sql\n- 04_dbt_meridian_dw/tests/assert_raw_transactions_required_keys.sql\n- 00_architecture/OPERATIONS_RUNBOOK.md\n- 00_architecture/DR_RUNBOOK.md\n- 03_snowflake/11_mart_integrity_and_quarantine.sql\n- 04_dbt_meridian_dw/tests/assert_mart_referential_integrity.sql\n\nChapters\n00:00 Checks\n08:00 Reconcile\n16:00 Slim CI\n23:00 2 a.m.\n\nAdjust these timestamps after the final edit. They are drafted to the planned 30-minute cut, not to a finished timeline.\n\nDo not invent an orphan count. The integrity query stores hits when you run it. Until then, the honest line is: not a counted orphan total.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#DataQuality #dbt #DataEngineering #CICD #AnalyticsEngineering",
+      "description": "A green build means the job finished. It does not mean the numbers are fit to publish.\nIntegrity, reconciliation, cost, and the 2 a.m. playbook each answer a different question.\n\nQuality starts after the build is green. Freshness is a clock. A dbt test is a rule. Reconciliation asks the bank and the warehouse the same question. The offline reconciliation test expects the same keys and a money difference under one cent. That is the test's expectation. The published-mart sweep stores a missing dimension key or a duplicate business key, together with the reason. Unknown member -1 is a designed member, not an orphan. No live orphan count is on the slide, and this pack is not a counted orphan total. Slim CI parses and builds what changed. Cost attribution names the warehouse and the query tag. The runbook then covers a hot table that goes quiet, and a bounded replay that does not move the watermark.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 9, video 11 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Episode 6 marts and Episode 7 schedules.\n- GitHub Actions files can be shown without a warehouse.\n- Cost and quarantine SQL are read as the queries to run.\n\nFiles covered\n- .github/workflows/meridian-checks.yml\n- .github/workflows/meridian-dbt-ci.yml\n- .github/dependabot.yml\n- 02_ingestion_python/dbt_artifact.py\n- 03_snowflake/08_cost_attribution.sql\n- 03_snowflake/09_zero_copy_dev_environment.sql\n- 03_snowflake/10_dr_exercises.sql\n- 04_dbt_meridian_dw/tests/assert_staging_complete_versus_bronze.sql\n- 04_dbt_meridian_dw/tests/assert_raw_transactions_required_keys.sql\n- 00_architecture/OPERATIONS_RUNBOOK.md\n- 00_architecture/DR_RUNBOOK.md\n- 03_snowflake/11_mart_integrity_and_quarantine.sql\n- 04_dbt_meridian_dw/tests/assert_mart_referential_integrity.sql\n\nChapters\n00:00 Checks\n08:00 Reconcile\n16:00 Slim CI\n23:00 2 a.m.\n\nAdjust these timestamps after the final edit. They are drafted to the planned 30-minute cut, not to a finished timeline.\n\nDo not invent an orphan count. The integrity query stores hits when you run it. Until then, the honest line is: not a counted orphan total.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#DataQuality #dbt #DataEngineering #CICD #AnalyticsEngineering",
       "prerequisites": [
-        "E6 marts and E7 schedules.",
+        "Episode 6 marts and Episode 7 schedules.",
         "GitHub Actions files can be shown without a warehouse.",
         "Cost and quarantine SQL are read as the queries to run."
       ],
@@ -1057,7 +1054,7 @@
       ],
       "tags": "data quality, dbt tests, reconciliation, CI CD, Snowflake cost, runbook, data engineering, analytics engineering, quarantine, freshness, Meridian Bank, tutorial",
       "pinned_comment": "Open 03_snowflake/11_mart_integrity_and_quarantine.sql and say what gets stored when a key has no dimension row.\n\nWhy is member -1 not an orphan?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E9 is up: a green dbt build is only the first check. Integrity, cost, and the 2 a.m. playbook. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 9 is up: a green dbt build is only the first check. Integrity, cost, and the 2 a.m. playbook. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E10 — Cards: score, then offer. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E10), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -1068,15 +1065,14 @@
       },
       "filename": "meridian-e9-quality-after-green.mp4",
       "thumbnail": {
-        "badge": "EPISODE 9",
-        "hook": "Green is not enough",
-        "tech": "Quality and CI",
-        "accent": "#4ade80",
-        "motif": "checks"
+        "file": "thumbnails/E9.jpg",
+        "tag": "EPISODE 9",
+        "headline": "A GREEN BUILD CAN STILL LIE",
+        "sub": "Data quality · CI · cost"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -1085,7 +1081,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "No orphan count is stated as a live result.",
         "The one-cent reconciliation line is labelled as the test expectation."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E10",
@@ -1094,7 +1091,7 @@
       "show_title": "Cards: score, then offer",
       "planned_minutes": 40,
       "grounding": "course/show.html episode E10 (40 min, 15 scenes: four models, a 0.70 holdout gate, scores as data, next best offer) and Module 10 in course/teach.html. Deck: course/show/e10.html.",
-      "title": "Meridian E10: Score the card, then let the policy decide",
+      "title": "Score Credit Cards with Python ML | scikit-learn on Snowflake | Episode 10",
       "hook": [
         "The model scores. The SQL policy decides. Below 0.70, the new scores do not ship.",
         "Fraud labels in this course are injected, and they are never a feature."
@@ -1102,9 +1099,9 @@
       "summary": "Cards add a second set of processes on the same customers. There is no bureau file and no regulatory scorecard. The approve or reject label is a published policy plus noise. The model has to recover that policy. Four paths: card_decision_v1 on a 60-day holdout, card_propensity_v1 with a 20 percent holdout, fraud rules plus card_fraud_v1 on a 14-day holdout, and a marketplace-lift report that is not a model. MERIDIAN_AUC_GATE defaults to 0.70. A run below the gate is stored as REJECTED and its scores are not published. fraud_label is injected so recall can be measured. It is excluded from features. Scores land in MERIDIAN_RAW.ML and never return to PostgreSQL. fct_next_best_offer is one offer per customer, or no row. A blocked card or a rule-suspect authorization in 30 days suppresses the offer. --dry-run trains and prints, and writes nothing.",
       "honesty": "Do not read a holdout AUC, a lift, or a contact-list count aloud unless it is on the run you just executed. The 0.70 figure is the gate in configuration, not a measured score.",
       "honesty_marker": "",
-      "description": "The model scores. The SQL policy decides. Below 0.70, the new scores do not ship.\nFraud labels in this course are injected, and they are never a feature.\n\nCards add a second set of processes on the same customers. There is no bureau file and no regulatory scorecard. The approve or reject label is a published policy plus noise. The model has to recover that policy. Four paths: card_decision_v1 on a 60-day holdout, card_propensity_v1 with a 20 percent holdout, fraud rules plus card_fraud_v1 on a 14-day holdout, and a marketplace-lift report that is not a model. MERIDIAN_AUC_GATE defaults to 0.70. A run below the gate is stored as REJECTED and its scores are not published. fraud_label is injected so recall can be measured. It is excluded from features. Scores land in MERIDIAN_RAW.ML and never return to PostgreSQL. fct_next_best_offer is one offer per customer, or no row. A blocked card or a rule-suspect authorization in 30 days suppresses the offer. --dry-run trains and prints, and writes nothing.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E10 in the playlist, position 12 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Gold marts from E6 and the scheduler from E7.\n- Say, on camera, that labels are a policy plus noise and that fraud was injected.\n- Prefer --dry-run when you only need the printout.\n\nFiles covered\n- 09_decisioning_python/train_and_score.py\n- 04_dbt_meridian_dw/macros/card_policy.sql\n- 04_dbt_meridian_dw/models/marts/cards/ml_customer_features.sql\n- 04_dbt_meridian_dw/models/marts/cards/fct_card_applications.sql\n- 04_dbt_meridian_dw/models/marts/cards/fct_card_authorizations.sql\n- 04_dbt_meridian_dw/models/marts/cards/fct_card_fraud_alerts.sql\n- 04_dbt_meridian_dw/models/marts/cards/fct_next_best_offer.sql\n- 04_dbt_meridian_dw/models/staging/ml/stg_ml__model_scores.sql\n- 04_dbt_meridian_dw/tests/assert_fraud_rules_catch_injected_patterns.sql\n- 04_dbt_meridian_dw/tests/assert_offers_skip_recent_fraud.sql\n- tests/test_training.py\n- 05_airflow/dags/meridian_card_decisioning.py\n- 00_architecture/adr/0005-model-scores-land-in-the-warehouse.md\n\nChapters\n00:00 Policy versus model\n08:00 Four models\n16:00 The 0.70 holdout gate\n26:00 Scores land in the warehouse\n33:00 The next best offer\n\nAdjust these timestamps after the final edit. They are drafted to the planned 40-minute cut, not to a finished timeline.\n\nDo not read a holdout AUC, a lift, or a contact-list count aloud unless it is on the run you just executed. The 0.70 figure is the gate in configuration, not a measured score.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#MachineLearning #DataEngineering #scikitlearn #FraudDetection #dbt",
+      "description": "The model scores. The SQL policy decides. Below 0.70, the new scores do not ship.\nFraud labels in this course are injected, and they are never a feature.\n\nCards add a second set of processes on the same customers. There is no bureau file and no regulatory scorecard. The approve or reject label is a published policy plus noise. The model has to recover that policy. Four paths: card_decision_v1 on a 60-day holdout, card_propensity_v1 with a 20 percent holdout, fraud rules plus card_fraud_v1 on a 14-day holdout, and a marketplace-lift report that is not a model. MERIDIAN_AUC_GATE defaults to 0.70. A run below the gate is stored as REJECTED and its scores are not published. fraud_label is injected so recall can be measured. It is excluded from features. Scores land in MERIDIAN_RAW.ML and never return to PostgreSQL. fct_next_best_offer is one offer per customer, or no row. A blocked card or a rule-suspect authorization in 30 days suppresses the offer. --dry-run trains and prints, and writes nothing.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 10, video 12 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Gold marts from Episode 6 and the scheduler from Episode 7.\n- Say, on camera, that labels are a policy plus noise and that fraud was injected.\n- Prefer --dry-run when you only need the printout.\n\nFiles covered\n- 09_decisioning_python/train_and_score.py\n- 04_dbt_meridian_dw/macros/card_policy.sql\n- 04_dbt_meridian_dw/models/marts/cards/ml_customer_features.sql\n- 04_dbt_meridian_dw/models/marts/cards/fct_card_applications.sql\n- 04_dbt_meridian_dw/models/marts/cards/fct_card_authorizations.sql\n- 04_dbt_meridian_dw/models/marts/cards/fct_card_fraud_alerts.sql\n- 04_dbt_meridian_dw/models/marts/cards/fct_next_best_offer.sql\n- 04_dbt_meridian_dw/models/staging/ml/stg_ml__model_scores.sql\n- 04_dbt_meridian_dw/tests/assert_fraud_rules_catch_injected_patterns.sql\n- 04_dbt_meridian_dw/tests/assert_offers_skip_recent_fraud.sql\n- tests/test_training.py\n- 05_airflow/dags/meridian_card_decisioning.py\n- 00_architecture/adr/0005-model-scores-land-in-the-warehouse.md\n\nChapters\n00:00 Policy versus model\n08:00 Four models\n16:00 The 0.70 holdout gate\n26:00 Scores land in the warehouse\n33:00 The next best offer\n\nAdjust these timestamps after the final edit. They are drafted to the planned 40-minute cut, not to a finished timeline.\n\nDo not read a holdout AUC, a lift, or a contact-list count aloud unless it is on the run you just executed. The 0.70 figure is the gate in configuration, not a measured score.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#MachineLearning #DataEngineering #scikitlearn #FraudDetection #dbt",
       "prerequisites": [
-        "Gold marts from E6 and the scheduler from E7.",
+        "Gold marts from Episode 6 and the scheduler from Episode 7.",
         "Say, on camera, that labels are a policy plus noise and that fraud was injected.",
         "Prefer --dry-run when you only need the printout."
       ],
@@ -1154,7 +1151,7 @@
       ],
       "tags": "machine learning, scikit-learn, data engineering, fraud rules, AUC, feature leakage, credit card analytics, dbt, Snowflake, next best offer, Meridian Bank, tutorial",
       "pinned_comment": "Open train_and_score.py and find the gate that rejects a run below 0.70.\n\nWhy must fraud_label stay out of the feature list?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E10 is up: score the card, then let the policy decide. Below 0.70, the new scores stay unpublished. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 10 is up: score the card, then let the policy decide. Below 0.70, the new scores stay unpublished. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E11 — Ask in English. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E11), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -1165,15 +1162,14 @@
       },
       "filename": "meridian-e10-score-then-offer.mp4",
       "thumbnail": {
-        "badge": "EPISODE 10",
-        "hook": "Score, then decide",
-        "tech": "scikit-learn",
-        "accent": "#fbbf24",
-        "motif": "gate"
+        "file": "thumbnails/E10.jpg",
+        "tag": "EPISODE 10",
+        "headline": "SCORE CREDIT CARDS WITH PYTHON ML",
+        "sub": "scikit-learn on Snowflake data"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -1182,7 +1178,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "No AUC or offer count is quoted unless it was just printed by the script.",
         "Injected fraud and the policy-plus-noise label are said before any model claim."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E11",
@@ -1191,7 +1188,7 @@
       "show_title": "Ask in English",
       "planned_minutes": 45,
       "grounding": "course/show/e11.html chapters The menu, Four people, The lock, Ask it, and course/show.html (45 min, 18 scenes).",
-      "title": "Meridian E11: Ask the gold layer in English, as four people",
+      "title": "Ask Your Data in Plain English | Snowflake Cortex Analyst + Streamlit | Episode 11",
       "hook": [
         "The menu stops the model inventing joins. The policy stops the right SQL returning the wrong rows.",
         "Who sees what, on the slide, is the rule in the file. It is not a counted run."
@@ -1199,9 +1196,9 @@
       "summary": "The semantic view SV_MERIDIAN_BANK is the menu: allowed tables, joins, metrics, and four questions whose SQL a human already checked. Approval rate is an average of a yes-or-no flag and must not be averaged again. Customers on the menu are who they are today. At the time uses the SCD2 key. Cortex Analyst writes SQL against that view. If the region has no Cortex, ask the same four questions from analyses/card_questions.sql while logged in as each demo user. The persona picture is the rule, not a counted result. The CEO sees every customer. The Mumbai manager and staff see home branch IN-MUM-0001. Staff contact cells are masked. The customer sees only their own id. USE ROLE does not change CURRENT_USER. Log out between demos. A country key labels the row. RAP_COUNTRY_SCOPE is the wall. A WHERE clause is not. The prove-it block at the bottom of 06_row_level_security.sql states expected results from the code, not a counted run, until you execute it.",
       "honesty": "Do not narrate persona counts, masked-cell screenshots, or the Hong Kong fixture as measured totals unless you just ran them. The slide is the rule, not a counted run.",
       "honesty_marker": "not a counted run",
-      "description": "The menu stops the model inventing joins. The policy stops the right SQL returning the wrong rows.\nWho sees what, on the slide, is the rule in the file. It is not a counted run.\n\nThe semantic view SV_MERIDIAN_BANK is the menu: allowed tables, joins, metrics, and four questions whose SQL a human already checked. Approval rate is an average of a yes-or-no flag and must not be averaged again. Customers on the menu are who they are today. At the time uses the SCD2 key. Cortex Analyst writes SQL against that view. If the region has no Cortex, ask the same four questions from analyses/card_questions.sql while logged in as each demo user. The persona picture is the rule, not a counted result. The CEO sees every customer. The Mumbai manager and staff see home branch IN-MUM-0001. Staff contact cells are masked. The customer sees only their own id. USE ROLE does not change CURRENT_USER. Log out between demos. A country key labels the row. RAP_COUNTRY_SCOPE is the wall. A WHERE clause is not. The prove-it block at the bottom of 06_row_level_security.sql states expected results from the code, not a counted run, until you execute it.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E11 in the playlist, position 13 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Gold marts from E6 and the card marts from E10.\n- Row-access script from 03_snowflake/06_row_level_security.sql, run as ACCOUNTADMIN after the prod build.\n- Check Cortex region availability the week you record. Have card_questions.sql ready as the fallback.\n\nFiles covered\n- 03_snowflake/06_row_level_security.sql\n- 03_snowflake/07_omni_search.sql\n- 04_dbt_meridian_dw/macros/governance.sql\n- 04_dbt_meridian_dw/models/marts/serving/omni_search.sql\n- 04_dbt_meridian_dw/models/marts/governance/ent_customer_branch.sql\n- 04_dbt_meridian_dw/analyses/card_questions.sql\n- 10_semantic_app/01_semantic_view.sql\n- 10_semantic_app/streamlit_app.py\n- 10_semantic_app/README.md\n- 00_architecture/adr/0006-row-access-by-user-entitlements-owned-by-security.md\n- 00_architecture/adr/0009-omni-search-is-a-serving-index.md\n\nChapters\n00:00 The menu\n10:00 Four people\n22:00 The lock\n34:00 Ask it\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nDo not narrate persona counts, masked-cell screenshots, or the Hong Kong fixture as measured totals unless you just ran them. The slide is the rule, not a counted run.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#Snowflake #Cortex #DataEngineering #DataGovernance #SemanticLayer",
+      "description": "The menu stops the model inventing joins. The policy stops the right SQL returning the wrong rows.\nWho sees what, on the slide, is the rule in the file. It is not a counted run.\n\nThe semantic view SV_MERIDIAN_BANK is the menu: allowed tables, joins, metrics, and four questions whose SQL a human already checked. Approval rate is an average of a yes-or-no flag and must not be averaged again. Customers on the menu are who they are today. At the time uses the SCD2 key. Cortex Analyst writes SQL against that view. If the region has no Cortex, ask the same four questions from analyses/card_questions.sql while logged in as each demo user. The persona picture is the rule, not a counted result. The CEO sees every customer. The Mumbai manager and staff see home branch IN-MUM-0001. Staff contact cells are masked. The customer sees only their own id. USE ROLE does not change CURRENT_USER. Log out between demos. A country key labels the row. RAP_COUNTRY_SCOPE is the wall. A WHERE clause is not. The prove-it block at the bottom of 06_row_level_security.sql states expected results from the code, not a counted run, until you execute it.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 11, video 13 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Gold marts from Episode 6 and the card marts from Episode 10.\n- Row-access script from 03_snowflake/06_row_level_security.sql, run as ACCOUNTADMIN after the prod build.\n- Check Cortex region availability the week you record. Have card_questions.sql ready as the fallback.\n\nFiles covered\n- 03_snowflake/06_row_level_security.sql\n- 03_snowflake/07_omni_search.sql\n- 04_dbt_meridian_dw/macros/governance.sql\n- 04_dbt_meridian_dw/models/marts/serving/omni_search.sql\n- 04_dbt_meridian_dw/models/marts/governance/ent_customer_branch.sql\n- 04_dbt_meridian_dw/analyses/card_questions.sql\n- 10_semantic_app/01_semantic_view.sql\n- 10_semantic_app/streamlit_app.py\n- 10_semantic_app/README.md\n- 00_architecture/adr/0006-row-access-by-user-entitlements-owned-by-security.md\n- 00_architecture/adr/0009-omni-search-is-a-serving-index.md\n\nChapters\n00:00 The menu\n10:00 Four people\n22:00 The lock\n34:00 Ask it\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nDo not narrate persona counts, masked-cell screenshots, or the Hong Kong fixture as measured totals unless you just ran them. The slide is the rule, not a counted run.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#Snowflake #Cortex #DataEngineering #DataGovernance #SemanticLayer",
       "prerequisites": [
-        "Gold marts from E6 and the card marts from E10.",
+        "Gold marts from Episode 6 and the card marts from Episode 10.",
         "Row-access script from 03_snowflake/06_row_level_security.sql, run as ACCOUNTADMIN after the prod build.",
         "Check Cortex region availability the week you record. Have card_questions.sql ready as the fallback."
       ],
@@ -1245,7 +1242,7 @@
       ],
       "tags": "Snowflake, Cortex Analyst, semantic view, row access policy, data governance, masking, data engineering, Streamlit, English to SQL, Meridian Bank, tutorial, analytics",
       "pinned_comment": "Open 10_semantic_app/01_semantic_view.sql and read one verified question before you ask it in English.\n\nWhy can the SQL match for four people while the rows do not?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E11 is up: ask the gold layer in English. Same SQL, different rows. The picture is the rule, not a counted run. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 11 is up: ask the gold layer in English. Same SQL, different rows. The picture is the rule, not a counted run. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E12 — The rules survive a rebuild. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E12), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -1256,15 +1253,14 @@
       },
       "filename": "meridian-e11-ask-in-english.mp4",
       "thumbnail": {
-        "badge": "EPISODE 11",
-        "hook": "Ask in English",
-        "tech": "Cortex Analyst",
-        "accent": "#a78bfa",
-        "motif": "personas"
+        "file": "thumbnails/E11.jpg",
+        "tag": "EPISODE 11",
+        "headline": "ASK YOUR DATA IN PLAIN ENGLISH",
+        "sub": "Cortex Analyst + Streamlit"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -1274,7 +1270,8 @@
         "Persona results are called the rule, or expected results, until a live run is read back.",
         "Cortex absence is an allowed outcome. The checked SQL is the fallback.",
         "Demo passwords are set in Snowsight and are never spoken or typed on screen."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E12",
@@ -1283,7 +1280,7 @@
       "show_title": "The rules survive a rebuild",
       "planned_minutes": 45,
       "grounding": "course/show.html episode E12 (45 min, 16 scenes: one owner per object, contracts that fail, access history) and Module 12 in course/teach.html. Deck: course/show/e12.html.",
-      "title": "Meridian E12: Contracts and policies that survive a rebuild",
+      "title": "Security That Survives a Rebuild | Terraform, Masking, Row Access | Episode 12",
       "hook": [
         "A rebuild will try to drop the lock. The post-hook puts the lock back.",
         "One owner per object. A contract fails before the wrong shape is published."
@@ -1291,9 +1288,9 @@
       "summary": "The rules have to survive the next rebuild. Terraform owns roles, warehouses, the resource monitor, and databases. dbt owns marts, grants, tests, and contracts. Security owns row-access policies, masking policies, and the entitlement table. Human users belong to an identity provider, which is not in this repo. terraform validate needs no account. terraform plan is the picture you show. Do not also apply the SQL setup scripts onto the same objects. A contract on dim_branch fails the build before a renamed column lands. Unit tests for weekend FX and the fraud rules run on rows you wrote by hand. CREATE OR REPLACE drops a policy. The prod post-hook apply_governance puts it back. ACCESS_HISTORY is the audit, and account-usage data can lag by hours.",
       "honesty": "An empty terraform plan, a contract error, or an ACCESS_HISTORY row is live only when it is on the screen you just produced. Do not invent a drift count.",
       "honesty_marker": "",
-      "description": "A rebuild will try to drop the lock. The post-hook puts the lock back.\nOne owner per object. A contract fails before the wrong shape is published.\n\nThe rules have to survive the next rebuild. Terraform owns roles, warehouses, the resource monitor, and databases. dbt owns marts, grants, tests, and contracts. Security owns row-access policies, masking policies, and the entitlement table. Human users belong to an identity provider, which is not in this repo. terraform validate needs no account. terraform plan is the picture you show. Do not also apply the SQL setup scripts onto the same objects. A contract on dim_branch fails the build before a renamed column lands. Unit tests for weekend FX and the fraud rules run on rows you wrote by hand. CREATE OR REPLACE drops a policy. The prod post-hook apply_governance puts it back. ACCESS_HISTORY is the audit, and account-usage data can lag by hours.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E12 in the playlist, position 14 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- E3 platform objects and E11 policies.\n- Terraform 1.6 or newer for validate. Plan needs Snowflake env vars and must not be mixed with scripts 01 and 02 on the same account.\n\nFiles covered\n- 11_platform_terraform/main.tf\n- 11_platform_terraform/variables.tf\n- 04_dbt_meridian_dw/macros/governance.sql\n- 04_dbt_meridian_dw/models/marts/core/_core__models.yml\n- 04_dbt_meridian_dw/models/marts/cards/_cards__unit_tests.yml\n- 04_dbt_meridian_dw/models/staging/postgres/_postgres__unit_tests.yml\n- 04_dbt_meridian_dw/models/intermediate/_intermediate__unit_tests.yml\n- 00_architecture/adr/0008-one-owner-per-object-type.md\n- 00_architecture/adr/0010-contracts-at-public-boundaries.md\n\nChapters\n00:00 One owner per object\n10:00 Terraform plan\n20:00 A contract that fails the build\n30:00 The policy survives a rebuild\n38:00 Access history\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nAn empty terraform plan, a contract error, or an ACCESS_HISTORY row is live only when it is on the screen you just produced. Do not invent a drift count.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#Terraform #DataEngineering #DataGovernance #dbt #Snowflake",
+      "description": "A rebuild will try to drop the lock. The post-hook puts the lock back.\nOne owner per object. A contract fails before the wrong shape is published.\n\nThe rules have to survive the next rebuild. Terraform owns roles, warehouses, the resource monitor, and databases. dbt owns marts, grants, tests, and contracts. Security owns row-access policies, masking policies, and the entitlement table. Human users belong to an identity provider, which is not in this repo. terraform validate needs no account. terraform plan is the picture you show. Do not also apply the SQL setup scripts onto the same objects. A contract on dim_branch fails the build before a renamed column lands. Unit tests for weekend FX and the fraud rules run on rows you wrote by hand. CREATE OR REPLACE drops a policy. The prod post-hook apply_governance puts it back. ACCESS_HISTORY is the audit, and account-usage data can lag by hours.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 12, video 14 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- Episode 3 platform objects and Episode 11 policies.\n- Terraform 1.6 or newer for validate. Plan needs Snowflake env vars and must not be mixed with scripts 01 and 02 on the same account.\n\nFiles covered\n- 11_platform_terraform/main.tf\n- 11_platform_terraform/variables.tf\n- 04_dbt_meridian_dw/macros/governance.sql\n- 04_dbt_meridian_dw/models/marts/core/_core__models.yml\n- 04_dbt_meridian_dw/models/marts/cards/_cards__unit_tests.yml\n- 04_dbt_meridian_dw/models/staging/postgres/_postgres__unit_tests.yml\n- 04_dbt_meridian_dw/models/intermediate/_intermediate__unit_tests.yml\n- 00_architecture/adr/0008-one-owner-per-object-type.md\n- 00_architecture/adr/0010-contracts-at-public-boundaries.md\n\nChapters\n00:00 One owner per object\n10:00 Terraform plan\n20:00 A contract that fails the build\n30:00 The policy survives a rebuild\n38:00 Access history\n\nAdjust these timestamps after the final edit. They are drafted to the planned 45-minute cut, not to a finished timeline.\n\nAn empty terraform plan, a contract error, or an ACCESS_HISTORY row is live only when it is on the screen you just produced. Do not invent a drift count.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#Terraform #DataEngineering #DataGovernance #dbt #Snowflake",
       "prerequisites": [
-        "E3 platform objects and E11 policies.",
+        "Episode 3 platform objects and Episode 11 policies.",
         "Terraform 1.6 or newer for validate. Plan needs Snowflake env vars and must not be mixed with scripts 01 and 02 on the same account."
       ],
       "files": [
@@ -1338,7 +1335,7 @@
       ],
       "tags": "Terraform, Snowflake, dbt contracts, data governance, row access policy, unit tests, access history, data engineering, analytics engineering, platform engineering, Meridian Bank, tutorial",
       "pinned_comment": "Break the dim_branch contract on purpose, read the dbt error, then put the column name back.\n\nWho owns the row-access policy, and who is only allowed to attach it?\n\nStudent repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n",
-      "community_post": "E12 is up: one owner per object, a contract that can fail the build, and a policy that survives CREATE OR REPLACE. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
+      "community_post": "Episode 12 is up: one owner per object, a contract that can fail the build, and a policy that survives CREATE OR REPLACE. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK",
       "cards_end_screen": "Card: after the first chapter change, link the next upload, E13 — Say it in two minutes. Paste that video URL once YouTube has assigned it.\nEnd screen, final 20 seconds: next video (E13), this playlist, and Subscribe.\nDo not attach a card to a private account, a key, or an unlisted secret. The GitHub URL stays in the description and the pinned comment. A website card is available only after the channel has a verified associated site.",
       "settings": {
         "category": "Education",
@@ -1349,15 +1346,14 @@
       },
       "filename": "meridian-e12-rules-survive.mp4",
       "thumbnail": {
-        "badge": "EPISODE 12",
-        "hook": "Rules that survive",
-        "tech": "Terraform",
-        "accent": "#a8a29e",
-        "motif": "rebuild"
+        "file": "thumbnails/E12.jpg",
+        "tag": "EPISODE 12",
+        "headline": "SECURITY THAT SURVIVES A REBUILD",
+        "sub": "Terraform · masking · row access"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -1366,7 +1362,8 @@
         "Cards and the end screen point at videos in this playlist.",
         "terraform plan output is read from the terminal, not from memory.",
         "SQL setup and Terraform are not both applied to the same objects in the demo."
-      ]
+      ],
+      "published": false
     },
     {
       "id": "E13",
@@ -1375,7 +1372,7 @@
       "show_title": "Say it in two minutes",
       "planned_minutes": 20,
       "grounding": "course/show/e13.html chapters The clock, The pipeline, The gate, The scar, and course/show.html (20 min, 19 scenes).",
-      "title": "Meridian E13: Say the whole design in two honest minutes",
+      "title": "Explain This Project in 2 Minutes | Data Engineering Interview | Episode 13",
       "hook": [
         "Problem, constraints, design, trade-offs, proof. Then stop.",
         "The customer-health numbers are an offline synthetic case, not from a live customer."
@@ -1383,7 +1380,7 @@
       "summary": "The close is a two-minute pitch: about 15 seconds on the problem, 15 on constraints, 40 on the design, 30 on the trade-offs, and 20 on the proof. One payment crosses eight doors. The watermark starts at 1900-01-01, the lag default is 10 seconds, and deletes live in cdc.deleted_records. Below a 0.70 holdout the model run is REJECTED. The same English question returns different rows because the policy reads the user. Shared tables versus a database per tenant is a 2-2 trade until the contract decides. Meridian is one bank with internal personas, so it ships shared marts and RAP_CUSTOMER_SCOPE. ADR 0011 records that. Then one failure you actually hit. Do not invent a measured twenty-minute wait. The task execution timeout in code is 20 minutes. The customer-health case is synthetic: grain is one Salesforce account per snapshot date, the October mart ranks Brightline first, Newly Co stays Unknown with priority 0, and the labelled back-test is precision 1.0 and recall 0.5, so automated outreach stays withheld. Those figures are not from a live customer. Claim only files you can open. Meridian has no production users.",
       "honesty": "The scar must be a failure you can point at in the repository or in a run you did. The customer-health metrics are not from a live customer. Do not blend a separate employer story's numbers into Meridian.",
       "honesty_marker": "not from a live customer",
-      "description": "Problem, constraints, design, trade-offs, proof. Then stop.\nThe customer-health numbers are an offline synthetic case, not from a live customer.\n\nThe close is a two-minute pitch: about 15 seconds on the problem, 15 on constraints, 40 on the design, 30 on the trade-offs, and 20 on the proof. One payment crosses eight doors. The watermark starts at 1900-01-01, the lag default is 10 seconds, and deletes live in cdc.deleted_records. Below a 0.70 holdout the model run is REJECTED. The same English question returns different rows because the policy reads the user. Shared tables versus a database per tenant is a 2-2 trade until the contract decides. Meridian is one bank with internal personas, so it ships shared marts and RAP_CUSTOMER_SCOPE. ADR 0011 records that. Then one failure you actually hit. Do not invent a measured twenty-minute wait. The task execution timeout in code is 20 minutes. The customer-health case is synthetic: grain is one Salesforce account per snapshot date, the October mart ranks Brightline first, Newly Co stays Unknown with priority 0, and the labelled back-test is precision 1.0 and recall 0.5, so automated outreach stays withheld. Those figures are not from a live customer. Claim only files you can open. Meridian has no production users.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E13 in the playlist, position 15 of 15. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- The earlier releases, enough that you can defend the design without opening a new tool.\n- Have the student repository name ready as the last thing you point at.\n\nFiles covered\n- 00_architecture/DESIGN_DOC.md\n- 00_architecture/adr/0001-watermark-cdc-before-log-based.md\n- 00_architecture/adr/0004-dbt-plus-airflow.md\n- 00_architecture/adr/0006-row-access-by-user-entitlements-owned-by-security.md\n- 00_architecture/adr/0010-contracts-at-public-boundaries.md\n- 00_architecture/adr/0011-multitenancy-patterns.md\n- 04_dbt_meridian_dw/models/marts/core/fct_transactions.sql\n- 03_snowflake/06_row_level_security.sql\n- 00_architecture/OPERATIONS_RUNBOOK.md\n- 12_case_studies/customer_health/README.md\n- 12_case_studies/customer_health/run_case.py\n- tests/test_customer_health_case.py\n\nChapters\n00:00 The clock\n05:00 The pipeline\n10:00 The gate\n15:00 The scar\n\nAdjust these timestamps after the final edit. They are drafted to the planned 20-minute cut, not to a finished timeline.\n\nThe scar must be a failure you can point at in the repository or in a run you did. The customer-health metrics are not from a live customer. Do not blend a separate employer story's numbers into Meridian.\n\nWatch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.\n\n#DataEngineering #SystemDesign #AnalyticsEngineering #Interview #DataArchitecture",
+      "description": "Problem, constraints, design, trade-offs, proof. Then stop.\nThe customer-health numbers are an offline synthetic case, not from a live customer.\n\nThe close is a two-minute pitch: about 15 seconds on the problem, 15 on constraints, 40 on the design, 30 on the trade-offs, and 20 on the proof. One payment crosses eight doors. The watermark starts at 1900-01-01, the lag default is 10 seconds, and deletes live in cdc.deleted_records. Below a 0.70 holdout the model run is REJECTED. The same English question returns different rows because the policy reads the user. Shared tables versus a database per tenant is a 2-2 trade until the contract decides. Meridian is one bank with internal personas, so it ships shared marts and RAP_CUSTOMER_SCOPE. ADR 0011 records that. Then one failure you actually hit. Do not invent a measured twenty-minute wait. The task execution timeout in code is 20 minutes. The customer-health case is synthetic: grain is one Salesforce account per snapshot date, the October mart ranks Brightline first, Newly Co stays Unknown with priority 0, and the labelled back-test is precision 1.0 and recall 0.5, so automated outreach stays withheld. Those figures are not from a live customer. Claim only files you can open. Meridian has no production users.\n\nMeridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 13, video 15 of 15 in the playlist. It is not a production bank.\n\nStudent repository\nhttps://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK\n\nPrerequisites\n- The earlier releases, enough that you can defend the design without opening a new tool.\n- Have the student repository name ready as the last thing you point at.\n\nFiles covered\n- 00_architecture/DESIGN_DOC.md\n- 00_architecture/adr/0001-watermark-cdc-before-log-based.md\n- 00_architecture/adr/0004-dbt-plus-airflow.md\n- 00_architecture/adr/0006-row-access-by-user-entitlements-owned-by-security.md\n- 00_architecture/adr/0010-contracts-at-public-boundaries.md\n- 00_architecture/adr/0011-multitenancy-patterns.md\n- 04_dbt_meridian_dw/models/marts/core/fct_transactions.sql\n- 03_snowflake/06_row_level_security.sql\n- 00_architecture/OPERATIONS_RUNBOOK.md\n- 12_case_studies/customer_health/README.md\n- 12_case_studies/customer_health/run_case.py\n- tests/test_customer_health_case.py\n\nChapters\n00:00 The clock\n05:00 The pipeline\n10:00 The gate\n15:00 The scar\n\nAdjust these timestamps after the final edit. They are drafted to the planned 20-minute cut, not to a finished timeline.\n\nThe scar must be a failure you can point at in the repository or in a run you did. The customer-health metrics are not from a live customer. Do not blend a separate employer story's numbers into Meridian.\n\nWatch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.\n\n#DataEngineering #SystemDesign #AnalyticsEngineering #Interview #DataArchitecture",
       "prerequisites": [
         "The earlier releases, enough that you can defend the design without opening a new tool.",
         "Have the student repository name ready as the last thing you point at."
@@ -1440,15 +1437,14 @@
       },
       "filename": "meridian-e13-two-minutes.mp4",
       "thumbnail": {
-        "badge": "EPISODE 13",
-        "hook": "Say it in two minutes",
-        "tech": "The interview",
-        "accent": "#4ade80",
-        "motif": "pitch"
+        "file": "thumbnails/E13.jpg",
+        "tag": "EPISODE 13",
+        "headline": "EXPLAIN THIS PROJECT IN 2 MINUTES",
+        "sub": "The interview answer"
       },
       "pre_publish_checks": [
         "Title is 100 characters or fewer and matches this pack.",
-        "Thumbnail is the 1280x720 PNG named below and is under 2MB.",
+        "Thumbnail is the 1280x720 JPG named below and is under 2MB.",
         "First chapter is 00:00. Move every later timestamp to match the final edit before you publish.",
         "No account locator, password, private key, or .env value is on screen or in the text.",
         "Meridian is described as a fictional bank. No production users are claimed.",
@@ -1458,7 +1454,8 @@
         "Customer-health precision and recall are labelled as the offline synthetic case.",
         "No invented outage duration. The 20-minute figure is the task timeout in code.",
         "The last frame points at the public repository name."
-      ]
+      ],
+      "published": false
     }
   ]
 }

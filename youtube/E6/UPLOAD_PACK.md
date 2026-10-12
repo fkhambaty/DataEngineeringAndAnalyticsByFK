@@ -1,11 +1,12 @@
 # E6 — The star schema, for real
 
+Status: not published yet.
 Planned length: 50 minutes. Playlist position: 8 of 15.
 Grounding: course/show.html episode E6 (50 min, 14 scenes: FX at the day's rate, customer versions, facts, deletes, tests, reconciliation) and the dbt II plan in course/teach.html. Deck: course/show/e6.html.
 
 ## Title
 
-Meridian E6: FX, customer history, facts, and a failing test
+Build the Star Schema in dbt | Facts, SCD2, Currency Rates on Snowflake | Episode 6
 
 ## Hook
 
@@ -19,13 +20,13 @@ The fact points at the customer as they were that day. Remove that match and the
 
 The star is built for real. Weekend FX rates forward-fill from the last published rate, and USD stays 1. Facts join the customer and account version that was valid at the event, not whoever they are today. fct_transactions is an incremental merge: one row per transaction at its latest status. Deletes removed in staging stay removed. The reconciliation test is shown failing when the point-in-time match is taken out, then passing when it is put back. Selectors separate the five-minute work from the nightly work. Docs show the lineage.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E6 in the playlist, position 8 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 6, video 8 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- E5 staging models and snapshots.
+- Episode 5 staging models and snapshots.
 - dbt build against your own dev or prod target. Do not borrow someone else's row counts.
 
 Files covered
@@ -56,7 +57,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 50
 
 A failing test in this episode is a demonstration you cause on purpose. The pass or fail text is from that command, not from a remembered screenshot.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #dbt #StarSchema #DataEngineering #Kimball #AnalyticsEngineering
 
@@ -66,7 +67,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- E5 staging models and snapshots.
+- Episode 5 staging models and snapshots.
 - dbt build against your own dev or prod target. Do not borrow someone else's row counts.
 
 ## Files covered
@@ -117,7 +118,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E6 is up: the star schema for real. The day's FX rate, the day's customer, and a test that can fail. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 6 is up: the star schema for real. The day's FX rate, the day's customer, and a test that can fail. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -139,15 +140,15 @@ meridian-e6-star-schema.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E6.png`
-- Badge: EPISODE 6
-- On-image hook: The star, for real
-- Tech: dbt marts
+- File: `thumbnails/E6.jpg`
+- Red corner tag: EPISODE 6
+- Headline: BUILD THE STAR SCHEMA IN DBT
+- Handwritten line: Facts · SCD2 · currency rates
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

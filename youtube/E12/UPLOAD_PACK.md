@@ -1,11 +1,12 @@
 # E12 — The rules survive a rebuild
 
+Status: not published yet.
 Planned length: 45 minutes. Playlist position: 14 of 15.
 Grounding: course/show.html episode E12 (45 min, 16 scenes: one owner per object, contracts that fail, access history) and Module 12 in course/teach.html. Deck: course/show/e12.html.
 
 ## Title
 
-Meridian E12: Contracts and policies that survive a rebuild
+Security That Survives a Rebuild | Terraform, Masking, Row Access | Episode 12
 
 ## Hook
 
@@ -19,13 +20,13 @@ One owner per object. A contract fails before the wrong shape is published.
 
 The rules have to survive the next rebuild. Terraform owns roles, warehouses, the resource monitor, and databases. dbt owns marts, grants, tests, and contracts. Security owns row-access policies, masking policies, and the entitlement table. Human users belong to an identity provider, which is not in this repo. terraform validate needs no account. terraform plan is the picture you show. Do not also apply the SQL setup scripts onto the same objects. A contract on dim_branch fails the build before a renamed column lands. Unit tests for weekend FX and the fraud rules run on rows you wrote by hand. CREATE OR REPLACE drops a policy. The prod post-hook apply_governance puts it back. ACCESS_HISTORY is the audit, and account-usage data can lag by hours.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E12 in the playlist, position 14 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 12, video 14 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- E3 platform objects and E11 policies.
+- Episode 3 platform objects and Episode 11 policies.
 - Terraform 1.6 or newer for validate. Plan needs Snowflake env vars and must not be mixed with scripts 01 and 02 on the same account.
 
 Files covered
@@ -50,7 +51,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 45
 
 An empty terraform plan, a contract error, or an ACCESS_HISTORY row is live only when it is on the screen you just produced. Do not invent a drift count.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #Terraform #DataEngineering #DataGovernance #dbt #Snowflake
 
@@ -60,7 +61,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- E3 platform objects and E11 policies.
+- Episode 3 platform objects and Episode 11 policies.
 - Terraform 1.6 or newer for validate. Plan needs Snowflake env vars and must not be mixed with scripts 01 and 02 on the same account.
 
 ## Files covered
@@ -105,7 +106,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E12 is up: one owner per object, a contract that can fail the build, and a policy that survives CREATE OR REPLACE. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 12 is up: one owner per object, a contract that can fail the build, and a policy that survives CREATE OR REPLACE. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -127,15 +128,15 @@ meridian-e12-rules-survive.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E12.png`
-- Badge: EPISODE 12
-- On-image hook: Rules that survive
-- Tech: Terraform
+- File: `thumbnails/E12.jpg`
+- Red corner tag: EPISODE 12
+- Headline: SECURITY THAT SURVIVES A REBUILD
+- Handwritten line: Terraform · masking · row access
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

@@ -1,11 +1,12 @@
 # E11 — Ask in English
 
+Status: not published yet.
 Planned length: 45 minutes. Playlist position: 13 of 15.
 Grounding: course/show/e11.html chapters The menu, Four people, The lock, Ask it, and course/show.html (45 min, 18 scenes).
 
 ## Title
 
-Meridian E11: Ask the gold layer in English, as four people
+Ask Your Data in Plain English | Snowflake Cortex Analyst + Streamlit | Episode 11
 
 ## Hook
 
@@ -19,13 +20,13 @@ Who sees what, on the slide, is the rule in the file. It is not a counted run.
 
 The semantic view SV_MERIDIAN_BANK is the menu: allowed tables, joins, metrics, and four questions whose SQL a human already checked. Approval rate is an average of a yes-or-no flag and must not be averaged again. Customers on the menu are who they are today. At the time uses the SCD2 key. Cortex Analyst writes SQL against that view. If the region has no Cortex, ask the same four questions from analyses/card_questions.sql while logged in as each demo user. The persona picture is the rule, not a counted result. The CEO sees every customer. The Mumbai manager and staff see home branch IN-MUM-0001. Staff contact cells are masked. The customer sees only their own id. USE ROLE does not change CURRENT_USER. Log out between demos. A country key labels the row. RAP_COUNTRY_SCOPE is the wall. A WHERE clause is not. The prove-it block at the bottom of 06_row_level_security.sql states expected results from the code, not a counted run, until you execute it.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E11 in the playlist, position 13 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 11, video 13 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- Gold marts from E6 and the card marts from E10.
+- Gold marts from Episode 6 and the card marts from Episode 10.
 - Row-access script from 03_snowflake/06_row_level_security.sql, run as ACCOUNTADMIN after the prod build.
 - Check Cortex region availability the week you record. Have card_questions.sql ready as the fallback.
 
@@ -52,7 +53,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 45
 
 Do not narrate persona counts, masked-cell screenshots, or the Hong Kong fixture as measured totals unless you just ran them. The slide is the rule, not a counted run.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #Snowflake #Cortex #DataEngineering #DataGovernance #SemanticLayer
 
@@ -62,7 +63,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- Gold marts from E6 and the card marts from E10.
+- Gold marts from Episode 6 and the card marts from Episode 10.
 - Row-access script from 03_snowflake/06_row_level_security.sql, run as ACCOUNTADMIN after the prod build.
 - Check Cortex region availability the week you record. Have card_questions.sql ready as the fallback.
 
@@ -109,7 +110,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E11 is up: ask the gold layer in English. Same SQL, different rows. The picture is the rule, not a counted run. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 11 is up: ask the gold layer in English. Same SQL, different rows. The picture is the rule, not a counted run. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -131,15 +132,15 @@ meridian-e11-ask-in-english.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E11.png`
-- Badge: EPISODE 11
-- On-image hook: Ask in English
-- Tech: Cortex Analyst
+- File: `thumbnails/E11.jpg`
+- Red corner tag: EPISODE 11
+- Headline: ASK YOUR DATA IN PLAIN ENGLISH
+- Handwritten line: Cortex Analyst + Streamlit
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

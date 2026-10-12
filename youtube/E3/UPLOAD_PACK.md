@@ -1,11 +1,12 @@
 # E3 — Snowflake: rooms, keys, shelves
 
+Status: not published yet.
 Planned length: 40 minutes. Playlist position: 4 of 15.
 Grounding: course/show/e3.html chapters The computer, The locks, Empty shelves, and course/show.html (40 min, 18 scenes).
 
 ## Title
 
-Meridian E3: Snowflake rooms, roles, and shelves that stay empty
+Set Up Snowflake the Right Way | Roles, Warehouses, Key-Pair Login | Episode 3
 
 ## Hook
 
@@ -19,13 +20,13 @@ A Snowflake primary key is a label. The test is the lock. The demo stream is not
 
 Snowflake is opened as three separate bills: storage, compute, and cloud services. The setup script creates four warehouses for four jobs and a resource monitor written as 100 credits a month. That number is a limit in the file, not a bill already spent. People receive roles. The public key is attached in Snowflake. The private key stays on the laptop. Two databases are created, then empty append-only VARIANT shelves with five metadata columns. Streams, tasks, and dynamic tables are a demo file, then suspended. They are not the working path. The unit test transaction_status_update_keeps_the_latest_version uses fixture id 101. That fixture is not a live warehouse count.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is E3 in the playlist, position 4 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Episode 3, video 4 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- Watch E0, E1, and E2.
+- Watch the intro, Episode 1, and Episode 2.
 - A Snowflake Enterprise trial. Create it in this episode.
 - No password is stored in the repository. The private key never goes in the description or the chat.
 
@@ -54,7 +55,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 40
 
 Call a Snowflake number a live result only after you have run the statement and read it back. The key demo and fixture 101 are not a live warehouse count. The shelves are empty on purpose.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #Snowflake #DataEngineering #DataWarehouse #SQL #RBAC
 
@@ -64,7 +65,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- Watch E0, E1, and E2.
+- Watch the intro, Episode 1, and Episode 2.
 - A Snowflake Enterprise trial. Create it in this episode.
 - No password is stored in the repository. The private key never goes in the description or the chat.
 
@@ -113,7 +114,7 @@ Student repository: https://github.com/fkhambaty/snowflake_dbt_airflow_python_by
 
 ## Community post
 
-E3 is up: Snowflake rooms, roles, and empty bronze shelves. A key in Snowflake is a label. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
+Episode 3 is up: Snowflake rooms, roles, and empty bronze shelves. A key in Snowflake is a label. Code: https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Cards and end screen
 
@@ -135,15 +136,15 @@ meridian-e3-rooms-keys-shelves.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/E3.png`
-- Badge: EPISODE 3
-- On-image hook: Rooms, then shelves
-- Tech: Snowflake
+- File: `thumbnails/E3.jpg`
+- Red corner tag: EPISODE 3
+- Headline: SET UP SNOWFLAKE THE RIGHT WAY
+- Handwritten line: Roles · warehouses · keys
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

@@ -1,11 +1,12 @@
 # P0 — Python foundations for this pipeline
 
+Status: not published yet.
 Planned length: 35 minutes. Playlist position: 5 of 15.
 Grounding: course/show.html release P0 (35 min, 17 scenes) and the Python foundations section in course/teach.html. Deck: course/show/py0.html.
 
 ## Title
 
-Meridian Python Primer: Read the pipeline before the extractor
+Python for Data Engineers | Read the Pipeline Line by Line | Python Primer
 
 ## Hook
 
@@ -19,13 +20,13 @@ Then reconcile two tiny systems before you trust a multi-million-row load.
 
 This primer sits between Snowflake setup and the extractor. A browser editor is only for the first few minutes of print, variables, if, and a loop. Meridian itself uses Python 3.12 on the laptop, because a browser cannot see Docker, local Parquet, or the project settings. The four files cover values and casting, decisions and loops, functions, lists and dictionaries, imports, paths, arguments, exceptions, and a mini reconciliation with a non-zero exit when the totals disagree. pandas, pyarrow, psycopg, and the Snowflake connector are named as toolboxes, not as a second language.
 
-Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is P0 in the playlist, position 5 of 15. It is not a production bank.
+Meridian Bank is fictional: 520 branches (India 300, UAE 60, UK 60, United States 60, Singapore 40), currencies INR, AED, GBP, USD and SGD, and group figures in USD. The course seed is 200,000 customers and 5 million payments. This is Python Primer, video 5 of 15 in the playlist. It is not a production bank.
 
 Student repository
 https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 Prerequisites
-- Python 3.12 from the E1 setup.
+- Python 3.12 from the Episode 1 setup.
 - No Snowflake connection is required to run the four foundation files.
 
 Files covered
@@ -47,7 +48,7 @@ Adjust these timestamps after the final edit. They are drafted to the planned 35
 
 The mini reconciliation uses the tiny tables in the foundations file. It is not a Snowflake production total.
 
-Watch in this order: E0, E1, E2, E3, P0, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13.
+Watch in order: Intro, Episode 1, Episode 2, Episode 3, Python Primer, Episode 4, Episode 5, Episode 6, Episode 7, Episode 8, Episode 9, Episode 10, Episode 11, Episode 12, Episode 13.
 
 #Python #DataEngineering #LearnPython #ETL #Pandas
 
@@ -57,7 +58,7 @@ https://github.com/fkhambaty/snowflake_dbt_airflow_python_byFK
 
 ## Prerequisites
 
-- Python 3.12 from the E1 setup.
+- Python 3.12 from the Episode 1 setup.
 - No Snowflake connection is required to run the four foundation files.
 
 ## Files covered
@@ -121,15 +122,15 @@ meridian-p0-python-primer.mp4
 
 ## Thumbnail
 
-- File: `thumbnails/P0.png`
-- Badge: PYTHON PRIMER
-- On-image hook: Read the Python
-- Tech: Python
+- File: `thumbnails/P0.jpg`
+- Red corner tag: PYTHON PRIMER
+- Headline: PYTHON FOR DATA ENGINEERS
+- Handwritten line: Read every line of the pipeline
 
 ## Pre-publish checks
 
 - [ ] Title is 100 characters or fewer and matches this pack.
-- [ ] Thumbnail is the 1280x720 PNG named below and is under 2MB.
+- [ ] Thumbnail is the 1280x720 JPG named below and is under 2MB.
 - [ ] First chapter is 00:00. Move every later timestamp to match the final edit before you publish.
 - [ ] No account locator, password, private key, or .env value is on screen or in the text.
 - [ ] Meridian is described as a fictional bank. No production users are claimed.

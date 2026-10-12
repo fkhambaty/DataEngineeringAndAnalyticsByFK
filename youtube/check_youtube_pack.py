@@ -13,16 +13,14 @@ import re
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageChops
-
-import build_thumbnails
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
 CATALOG_PATH = ROOT / "catalog.json"
 SOURCE_PATH = ROOT / "thumbnails" / "source.json"
 MAX_TITLE = 100
 MAX_TAGS = 500
-MAX_PNG_BYTES = 2 * 1024 * 1024
+MAX_THUMB_BYTES = 2 * 1024 * 1024
 REQUIRED_HEADINGS = (
     "Title",
     "Hook",
@@ -77,8 +75,14 @@ def render_pack(release: dict, series: dict) -> str:
     thumb = release["thumbnail"]
     hook = "\n".join(release["hook"])
     position = f"{release['order']} of {len(series['canonical_order'])}"
+    if release.get("published"):
+        url = release.get("published_url") or "add the URL from YouTube Studio"
+        status = f"Status: published ({url}). Title, description and tags below are exactly what is live."
+    else:
+        status = "Status: not published yet."
     return f"""# {release['id']} — {release['show_title']}
 
+{status}
 Planned length: {release['planned_minutes']} minutes. Playlist position: {position}.
 Grounding: {release['grounding']}
 
@@ -148,10 +152,10 @@ Grounding: {release['grounding']}
 
 ## Thumbnail
 
-- File: `thumbnails/{release['id']}.png`
-- Badge: {thumb['badge']}
-- On-image hook: {thumb['hook']}
-- Tech: {thumb['tech']}
+- File: `{thumb['file']}`
+- Red corner tag: {thumb['tag']}
+- Headline: {thumb['headline']}
+- Handwritten line: {thumb['sub']}
 
 ## Pre-publish checks
 
@@ -226,22 +230,27 @@ def collect_errors() -> list[str]:
         if not title or len(title) > MAX_TITLE:
             errors.append(f"{prefix} title length is {len(title)}")
         description = release.get("description", "")
+        published = release.get("published") is True
+        if "published" not in release:
+            errors.append(f"{prefix} must say whether it is published")
         hook = release.get("hook", [])
         if not (isinstance(hook, list) and len(hook) == 2 and all(isinstance(line, str) and line.strip() for line in hook)):
             errors.append(f"{prefix} hook must be exactly two non-empty lines")
-        elif not description.startswith(f"{hook[0]}\n{hook[1]}"):
+        elif not published and not description.startswith(f"{hook[0]}\n{hook[1]}"):
             errors.append(f"{prefix} description does not open with the two-line hook")
+        if not published and re.search(r"\b(?:E\d+|P0)\b", description):
+            errors.append(f"{prefix} description uses an internal episode code instead of the YouTube name")
         for field in ("summary", "honesty", "filename", "pinned_comment", "community_post", "cards_end_screen", "grounding"):
             if not str(release.get(field, "")).strip():
                 errors.append(f"{prefix} is missing {field}")
         if not release.get("prerequisites") or not release.get("files") or not release.get("pre_publish_checks"):
             errors.append(f"{prefix} prerequisites, files, or pre-publish checks are empty")
-        if CHAPTER_WARNING not in description:
+        if not published and CHAPTER_WARNING not in description:
             errors.append(f"{prefix} description is missing the chapter warning")
-        if repo not in description or repo not in release.get("pinned_comment", ""):
+        if repo not in release.get("pinned_comment", "") or (not published and repo not in description):
             errors.append(f"{prefix} description or pinned comment is missing the student repository")
         marker = release.get("honesty_marker", "")
-        if identity in {"E3", "E8", "E9", "E11", "E13"} and (not marker or marker not in description):
+        if not published and identity in {"E3", "E8", "E9", "E11", "E13"} and (not marker or marker not in description):
             errors.append(f"{prefix} description is missing its honesty marker")
         chapters = release.get("chapters", [])
         if len(chapters) < 3:
@@ -262,7 +271,7 @@ def collect_errors() -> list[str]:
                 if stamp >= limit:
                     errors.append(f"{prefix} chapter {chapter['at']} is outside the planned duration")
                 previous = stamp
-            if chapter_block(chapters) not in description:
+            if not published and chapter_block(chapters) not in description:
                 errors.append(f"{prefix} description chapters differ from the chapter list")
         hashtags = release.get("hashtags", [])
         if not (3 <= len(hashtags) <= 5) or any(not tag.startswith("#") or " " in tag for tag in hashtags):
@@ -283,25 +292,31 @@ def collect_errors() -> list[str]:
         if not release.get("filename", "").endswith(".mp4"):
             errors.append(f"{prefix} filename must end in .mp4")
         thumb = release.get("thumbnail", {})
-        words = thumb.get("hook", "").split()
-        hooks.append(thumb.get("hook", ""))
-        if not (2 <= len(words) <= 5):
-            errors.append(f"{prefix} thumbnail hook must be 2 to 5 words")
+        words = thumb.get("headline", "").split()
+        hooks.append(thumb.get("headline", ""))
+        if not (2 <= len(words) <= 7):
+            errors.append(f"{prefix} thumbnail headline must be 2 to 7 words")
+        if thumb.get("file") != f"thumbnails/{identity}.jpg":
+            errors.append(f"{prefix} thumbnail file is not thumbnails/{identity}.jpg")
         visual = source_by_id.get(identity)
         if visual is None:
             errors.append(f"{prefix} has no thumbnail source")
         else:
-            for key in ("badge", "hook", "tech", "accent", "motif"):
-                if visual.get(key) != thumb.get(key):
+            expected = {
+                "tag": " ".join(visual.get("tag", [])),
+                "headline": " ".join(part for part in (visual.get("line1"), visual.get("blue"), visual.get("rest")) if part),
+                "sub": visual.get("sub"),
+            }
+            for key, value in expected.items():
+                if thumb.get(key) != value:
                     errors.append(f"{prefix} thumbnail {key} does not match source.json")
-        if identity == "E1" and thumb.get("badge") != "EPISODE 1":
-            errors.append("E1 badge is not EPISODE 1")
-        if identity == "P0" and thumb.get("badge") != "PYTHON PRIMER":
-            errors.append("P0 badge is not PYTHON PRIMER")
-        if identity.startswith("E"):
-            number = identity[1:]
-            if thumb.get("badge") != f"EPISODE {number}":
-                errors.append(f"{prefix} badge is not EPISODE {number}")
+            if len(visual.get("logos", [])) not in (4, 6):
+                errors.append(f"{prefix} thumbnail needs four logo circles")
+            if published != ("original" in visual):
+                errors.append(f"{prefix} published thumbnails must be the original files, and only those")
+        expected_tag = "INTRO VIDEO" if identity == "E0" else "PYTHON PRIMER" if identity == "P0" else f"EPISODE {identity[1:]}"
+        if thumb.get("tag") != expected_tag:
+            errors.append(f"{prefix} tag is not {expected_tag}")
         blob = json.dumps(release)
         if EMAIL_RE.search(blob) or "BEGIN PRIVATE KEY" in blob or "snowflakecomputing.com" in blob:
             errors.append(f"{prefix} contains private account material")
@@ -329,36 +344,32 @@ def collect_errors() -> list[str]:
             errors.append(f"{prefix} pack chapters do not match catalog.json")
         if CHAPTER_WARNING not in parsed.get("Chapters", ""):
             errors.append(f"{prefix} pack chapters are missing the final-edit warning")
-        if "EPISODE 1" not in parsed.get("Thumbnail", "") and identity == "E1":
-            errors.append("E1 pack thumbnail section does not say EPISODE 1")
+        if thumb.get("tag", "~") not in parsed.get("Thumbnail", ""):
+            errors.append(f"{prefix} pack thumbnail section does not name the corner tag")
 
-        png_path = ROOT / "thumbnails" / f"{identity}.png"
-        if not png_path.is_file():
-            errors.append(f"{prefix} thumbnail PNG is missing")
+        thumb_path = ROOT / "thumbnails" / f"{identity}.jpg"
+        if not thumb_path.is_file():
+            errors.append(f"{prefix} thumbnail JPG is missing")
             continue
-        size = png_path.stat().st_size
-        if size >= MAX_PNG_BYTES:
+        size = thumb_path.stat().st_size
+        if size >= MAX_THUMB_BYTES:
             errors.append(f"{prefix} thumbnail is {size} bytes")
-        with Image.open(png_path) as image:
+        with Image.open(thumb_path) as image:
             if image.size != (1280, 720):
                 errors.append(f"{prefix} thumbnail size is {image.size}")
-            if image.format != "PNG":
+            if image.format != "JPEG":
                 errors.append(f"{prefix} thumbnail format is {image.format}")
-            rendered = build_thumbnails.render(visual)
-            if ImageChops.difference(image.convert("RGB"), rendered).getbbox() is not None:
-                errors.append(f"{prefix} thumbnail pixels do not match source.json")
+        if visual is not None and "original" in visual:
+            original = ROOT / "thumbnails" / visual["original"]
+            if not original.is_file() or original.read_bytes() != thumb_path.read_bytes():
+                errors.append(f"{prefix} thumbnail is not byte-identical to the published {visual['original']}")
 
     if len(set(hooks)) != len(hooks):
-        errors.append("thumbnail hooks are not unique")
+        errors.append("thumbnail headlines are not unique")
     if len(set(titles)) != len(titles):
         errors.append("titles are not unique")
-
-    e1 = source_by_id.get("E1")
-    if e1 is not None:
-        painted = build_thumbnails.render(e1)
-        blank = build_thumbnails.render(e1, badge_override="")
-        if ImageChops.difference(painted, blank).getbbox() is None:
-            errors.append("EPISODE 1 badge is not painted onto the E1 thumbnail")
+    if not (ROOT / "thumbnails" / "assets" / "plate.jpg").is_file():
+        errors.append("thumbnails/assets/plate.jpg is missing")
     return errors
 
 
@@ -378,10 +389,10 @@ def main() -> int:
     catalog = load_json(CATALOG_PATH)
     print(f"OK {len(catalog['releases'])} releases")
     for release in catalog["releases"]:
-        png = ROOT / "thumbnails" / f"{release['id']}.png"
+        thumb = ROOT / release["thumbnail"]["file"]
         print(
             f"OK {release['id']} title={len(release['title'])} chars "
-            f"tags={len(release['tags'])} chars png={png.stat().st_size} bytes "
+            f"tags={len(release['tags'])} chars jpg={thumb.stat().st_size} bytes "
             f"chapters={release['chapters'][0]['at']}"
         )
     return 0
