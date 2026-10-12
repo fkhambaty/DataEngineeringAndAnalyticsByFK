@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 9 · Quality, CI, cost, runbook</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.lights{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:28px}
+.light{min-height:268px;padding:28px 26px 24px}
+.light .dot{width:14px;height:14px;border-radius:50%;background:var(--c,#4ade80);box-shadow:0 0 16px var(--c,#4ade80);animation:ping 1.8s infinite}
+.light b{display:block;font-size:28px;margin:14px 0 6px}
+.light p{margin:0;color:var(--mute);font-size:18px;line-height:1.4}
+
+.where{margin-top:22px}
+.res.t.where .rr{padding:34px 22px;font-size:22px}
+.res.t.where .rr b{font-weight:800}
+.res.t.tests .rr{padding:20px 20px;font-size:18px}
+.res.t.tests .rr span:first-child{color:#7dd3fc}
+
+.ask.steps{margin-top:0}
+.ask.steps::before,.ask.steps .wire{top:80px}
+.ask .st .bub{width:160px;height:160px;font-size:52px}
+.ask .st b{font-size:28px}
+.ask .st p{min-height:4.6em;font-size:20px;line-height:1.45}
+.strip{margin-top:22px;padding:26px 28px;display:flex;align-items:center;gap:22px;font-size:22px;font-weight:700}
+.strip em{font-style:normal;color:#bbf7d0}
+
+.mean{min-height:500px;padding:36px 30px}
+.mean .ico{margin-bottom:8px}
+.mean h3{font-size:34px}
+.mean .ask{font:800 20px var(--mono);color:#bbf7d0;margin:8px 0 14px}
+.mean p{font-size:20px}
+
+.tests .rr span:first-child{color:#7dd3fc}
+
+.scale{position:relative;height:500px;margin-top:12px}
+.scale .base{position:absolute;left:50%;bottom:18px;width:120px;height:18px;margin-left:-60px;border-radius:10px;background:#334155}
+.scale .post{position:absolute;left:50%;bottom:28px;width:14px;height:250px;margin-left:-7px;border-radius:6px;background:linear-gradient(#cbd5e1,#64748b)}
+.scale .beam{position:absolute;left:12%;right:12%;top:78px;height:10px;border-radius:8px;background:linear-gradient(90deg,#e2e8f0,#94a3b8);transform:rotate(-9deg);transform-origin:center;transition:transform 1.3s cubic-bezier(.2,.8,.2,1);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.scale.ok .beam{transform:rotate(0deg)}
+.pan{position:absolute;top:8px;width:340px;text-align:center}
+.pan.left{left:0}.pan.right{right:0}
+.pan .hook{width:3px;height:54px;margin:0 auto;background:#94a3b8}
+.pan .bag{padding:18px 16px 16px;border-radius:18px}
+.pan b{display:block;font:900 52px var(--mono);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.pan small{display:block;color:var(--mute);font-size:16px;margin-top:2px}
+.pan.left b{color:#7dd3fc}.pan.right b{color:#fde68a}
+.scale .pan .bag{transform:rotate(9deg);transition:transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.scale.ok .pan .bag{transform:none}
+.scale .stampbox{position:absolute;left:calc(50% + 42px);bottom:48px;transform:none;z-index:2}
+.verdict{padding:12px 20px;border-radius:16px;font:900 22px var(--mono);letter-spacing:.08em;white-space:nowrap}
+.verdict.hide{opacity:0}
+.verdict.bad{color:#fb7185;border:3px solid #fb7185;background:rgba(251,113,133,.12)}
+.verdict.good{color:#4ade80;border:3px solid #4ade80;background:rgba(74,222,128,.12);box-shadow:0 0 40px rgba(74,222,128,.35)}
+
+.clock{width:250px;height:250px;border-radius:50%;margin:0 auto;position:relative;background:radial-gradient(circle at 40% 35%,#1e293b,#0b1220 70%);border:10px solid rgba(251,191,36,.35);box-shadow:0 0 80px -10px rgba(251,191,36,.45),inset 0 0 40px rgba(0,0,0,.5)}
+.clock .hand{position:absolute;left:50%;top:18%;width:6px;height:32%;margin-left:-3px;border-radius:6px;background:#fde68a;transform-origin:bottom center;animation:sweep 8s linear infinite}
+.timelabel{text-align:center;font:900 56px var(--mono);letter-spacing:-.04em;color:#fde68a;margin-top:14px}
+@keyframes sweep{to{transform:rotate(360deg)}}
+.clock .cap{position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#fff;box-shadow:0 0 16px #fde68a}
+
+.jobs{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:22px}
+.job{min-height:520px;padding:26px 22px}
+.job .num{color:var(--c,#4ade80)}
+.job h3{font-size:26px;margin:12px 0 8px}
+.job code{display:block;margin-top:8px;font:600 18px var(--mono);color:#bbf7d0;line-height:1.45}
+
+.costgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:18px}
+.wh{display:flex;align-items:center;gap:16px;padding:14px 18px;margin-top:12px}
+.wh b{width:210px;font:700 16px var(--mono)}
+.wh .meter{flex:1}
+.wh em{font:800 16px var(--mono);font-style:normal;color:#fde68a;width:70px;text-align:right}
+
+.gatebar{margin-top:18px}
+.gatebar .lab{display:flex;justify-content:space-between;font:700 15px var(--mono);color:var(--mute);margin-bottom:8px}
+.cmd.wrap{align-items:flex-start}
+.cmd.wrap code{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.45}
+.pair{align-items:stretch}
+.play .notes2{gap:20px}
+.play .callout{padding:28px 22px}
+.pair .code{min-height:520px;display:flex;flex-direction:column}
+.pair .code pre{flex:1}
+.pair .notes2{height:100%;justify-content:space-between}
+.flow .fbox{min-height:300px}
+
+.s.fill{display:flex;flex-direction:column}
+.s.fill > .lights,
+.s.fill > .g2,
+.s.fill > .g3,
+.s.fill > .jobs,
+.s.fill > .costgrid{flex:1;min-height:0;margin-top:16px;align-content:stretch;grid-auto-rows:minmax(0,1fr)}
+.s.fill > .term{flex:1.35;min-height:0;margin-top:16px;display:flex;flex-direction:column}
+.s.fill > .term + .g2{flex:0.72}
+.s.fill > .term .body{flex:1;font-size:21px;line-height:1.7;display:flex;flex-direction:column;justify-content:space-evenly}
+.s.fill .card{height:100%;min-height:0;justify-content:space-evenly;gap:12px}
+.s.fill .card .eg{margin-top:0}
+.s.fill .card h3{font-size:32px}
+.s.fill .card p{font-size:22px;line-height:1.45}
+.s.fill .card .num{font-size:18px}
+.s.fill .light{justify-content:center;padding:28px 28px}
+.s.fill .light b{font-size:36px;margin:8px 0 4px}
+.s.fill .light p{font-size:22px}
+.s.fill .light .dot{width:18px;height:18px}
+.s.fill .mean .ico{width:84px;height:84px;border-radius:24px}
+.s.fill .mean .ico svg{width:46px;height:46px}
+.s.fill .mean h3{font-size:40px}
+.s.fill .mean .ask{font-size:24px}
+.s.fill .mean p{font-size:22px}
+.s.fill .job h3{font-size:30px}
+.s.fill .job p{font-size:20px}
+.s.fill .steps{margin-top:auto}
+.s.fill > .strip{margin-top:26px;margin-bottom:auto;font-size:24px;padding:28px 32px}
+.s.fill .costgrid > div:first-child{display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-height:0}
+.s.fill .wh{flex:1;margin-top:0;padding:16px 20px}
+.s.fill .wh b{font-size:18px}
+.s.fill .wh em{font-size:18px}
+.s.fill .meter{height:22px}
+.s.fill .costgrid .card h3{font-size:34px}
+.s.fill .costgrid .card p{font-size:20px}
+.s.fill .gatebar .lab{font-size:17px}
+.s.fill .lead{font-size:20px}
+.s:last-child{display:flex;align-items:center;justify-content:center;padding-top:80px;padding-bottom:80px}
+.s:last-child .outro{height:auto;width:100%}
+
+.s.audit{display:flex;flex-direction:column}
+.s.audit .split{flex:1;min-height:0;display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;margin-top:4px}
+.s.audit .notes2{height:100%;justify-content:space-between;gap:10px}
+.s.audit .callout{flex:1;align-items:center;padding:14px 16px}
+.s.audit .callout b{font-size:20px}
+.s.audit .callout p{font-size:16px;line-height:1.35}
+.s.audit .swap{position:relative;height:100%;min-height:0}
+.s.audit .sheet{position:absolute;inset:0;padding:26px 28px;display:flex;flex-direction:column;justify-content:center;gap:14px;pointer-events:none}
+.s.audit .sheet.on{pointer-events:auto}
+.s.audit .sheet h3{margin:0;font-size:32px}
+.s.audit .sheet p{margin:0;color:var(--mute);font-size:18px;line-height:1.45}
+.s.audit .file{font:800 13px var(--mono);letter-spacing:.06em;color:#bbf7d0}
+.s.audit .ticket{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.s.audit .ticket .row{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center;padding:16px 18px;border-radius:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.08)}
+.s.audit .ticket .row span{font:800 13px var(--sans);letter-spacing:.16em;color:#86efac}
+.s.audit .ticket .row b{font:700 22px var(--mono);color:#f8fbff;min-height:1.2em}
+.s.audit .ticket .in.focus{box-shadow:inset 0 -2px 0 #4ade80}
+</style>
+</head>
+<body data-episode="e9" data-label="Episode 9" data-chapters="Checks|Reconcile|Slim CI|2 a.m." data-chapter-colors="#4ade80|#38bdf8|#a78bfa|#fb923c">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#14532d,#1f6f9b" data-notes="A green build means the SQL ran. It does not yet mean the numbers match the bank, the data is fresh, or the account can afford the night.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;--teal:#4ade80;border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.08);color:#bbf7d0"><i style="background:#4ade80;box-shadow:0 0 14px #4ade80"></i>EPISODE 9</div>
+      <h1 class="mega rise" style="--d:1">Quality<br><span class="grad-green">after green.</span></h1>
+      <p class="lead rise" style="--d:2">Reconciliation, completeness, freshness, an audit of tables already published, slim CI, cost, and the playbook for 2 a.m.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Reconcile</span><span><b>02</b>Freshness</span><span><b>03</b>Slim CI</span><span><b>04</b>Runbook</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="dbt,py,gha,sf,af,pandas" data-core="i-shield" data-core-class="green"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s fill" data-ch="0" data-accent="#14532d,#3b2a80" data-notes="Walk the six lights. Each one answers a different question. A dashboard tile is not a check unless someone owns the action.">
+  <div class="kicker rise" style="--k-c:#4ade80">Six questions, six owners</div>
+  <h2 class="rise" data-words style="--d:1">A green build is <span class="grad-green">the first check.</span></h2>
+  <div class="lights" data-seq="280">
+    <div class="glass card light seq" style="--c:#4ade80"><i class="dot"></i><b>Tests</b><p>Did the model that just built obey its rule?</p></div>
+    <div class="glass card light seq" style="--c:#38bdf8"><i class="dot"></i><b>Reconcile</b><p>Did the journey change the bank's totals?</p></div>
+    <div class="glass card light seq" style="--c:#2dd4bf"><i class="dot"></i><b>Freshness</b><p>Did the hot tables arrive within 15 minutes?</p></div>
+    <div class="glass card light seq" style="--c:#a78bfa"><i class="dot"></i><b>Completeness</b><p>Is every bronze key present in staging?</p></div>
+    <div class="glass card light seq" style="--c:#fbbf24"><i class="dot"></i><b>Slim CI</b><p>Did the pull request build only what changed?</p></div>
+    <div class="glass card light seq" style="--c:#fb923c"><i class="dot"></i><b>Cost</b><p>Which warehouse, which tag, which credits?</p></div>
+  </div>
+</section>
+
+<!-- 03 WHERE EACH CHECK LIVES -->
+<section class="s" data-ch="0" data-steps="4" data-accent="#14532d,#1f4f8a" data-notes="Point at the file for each row. Tests ride every dbt build. Reconciliation is the daily DAG. Freshness is the five-minute health gate. Cost is a Snowflake view.">
+  <div class="kicker rise" style="--k-c:#4ade80">Where to look</div>
+  <h2 class="rise" style="--d:1">Four checks. <span class="grad-green">Four places.</span></h2>
+  <div class="res t where" data-rows="80" style="--cols:1.15fr 1.7fr">
+    <div class="rh"><span>Check</span><span>Where it lives</span></div>
+    <div class="rr" data-at="1"><span><b>Schema, singular, unit</b></span><span>every <b>dbt build</b> · seven <b>tests/assert_*.sql</b> · three unit tests</span></div>
+    <div class="rr" data-at="2"><span><b>Day and currency</b></span><span>daily DAG · <b>CONTROL.RECONCILIATION_RUNS</b></span></div>
+    <div class="rr" data-at="3"><span><b>Under 15 minutes</b></span><span><b>report_pipeline_health</b> on the 5-minute DAG</span></div>
+    <div class="rr" data-at="4"><span><b>Credits</b></span><span>warehouse and query tag · <b>08_cost_attribution.sql</b></span></div>
+  </div>
+  <div class="glass strip" data-at="4"><span class="ico sm" data-logo="i-check"></span><div>Like a shop that checks the receipt, the till, the clock on the door, and the electricity bill. <em>One of them passing does not make the others true.</em></div></div>
+</section>
+
+<!-- 04 THREE MEANINGS -->
+<section class="s fill" data-ch="0" data-steps="3" data-accent="#0f5c63,#14532d" data-notes="Say the three questions out loud. Students mix them up in interviews. Freshness is time. A test is a rule inside the warehouse. Reconciliation is the bank versus the warehouse.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">Three different questions</div>
+  <h2 class="rise" style="--d:1">Time. A rule. <span class="grad">The journey.</span></h2>
+  <div class="g3 mt2">
+    <div class="glass card mean" data-at="1" style="--c:#2dd4bf"><div class="ico" data-logo="i-clock"></div><h3>Freshness</h3><div class="ask">When did it arrive?</div><p>The hot path should be at most 15 minutes behind the bank. A late table can still contain perfect rows.</p></div>
+    <div class="glass card mean" data-at="2" style="--c:#a78bfa"><div class="ico" data-logo="dbt"></div><h3>A dbt test</h3><div class="ask">Does this table obey a rule?</div><p>Unique keys, a relationship, a singular SQL file. The test can see only the warehouse.</p></div>
+    <div class="glass card mean" data-at="3" style="--c:#4ade80"><div class="ico" data-logo="pandas"></div><h3>Reconciliation</h3><div class="ask">Did the trip change the truth?</div><p>pandas holds Postgres and Snowflake at once and asks both the same business question.</p></div>
+  </div>
+</section>
+
+<!-- 05 COMPLETENESS -->
+<section class="s" data-ch="0" data-steps="3" data-accent="#3b2a80,#14532d" data-notes="Completeness is nightly on purpose. Reading every bronze key every five minutes would cost more than it protects. The macro is missing_from_staging.">
+  <div class="kicker rise" style="--k-c:#a78bfa">macros/completeness.sql</div>
+  <h2 class="rise" style="--d:1">Every parcel on the shelf. <span class="grad-violet">Nightly.</span></h2>
+  <div class="two pair" style="grid-template-columns:1.2fr .8fr">
+    <div class="glass code rise" style="--d:2"><div class="hd"><i></i>missing_from_staging<span class="lg" data-logo="dbt"></span></div><pre>
+<span class="ln">expected keys in bronze</span>
+<span class="ln" data-at="1"><span class="kw">minus</span> keys in the delete log</span>
+<span class="ln" data-at="1"><span class="kw">minus</span> rows newer than staging's last read</span>
+<span class="ln hl" data-at="2"><span class="kw">where not exists</span> in staging</span>
+<span class="ln" data-at="2">composite keys joined with <span class="str">':'</span></span></pre></div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Staging may have more</b><p>A delete can wait for the next post-hook. Staging must never have fewer keys than bronze promised.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>Nineteen source tables</b><p>assert_staging_complete_versus_bronze.sql names the missing table and the missing key.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>Daily selector only</b><p>Tag completeness is excluded from the 5-minute microbatch selector.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 SINGULAR TESTS -->
+<section class="s" data-ch="0" data-steps="2" data-accent="#1f4f8a,#14532d" data-notes="A singular test fails by returning rows. Zero rows means the rule held. The fraud and offer tests belong to the card marts and still run in this folder.">
+  <div class="kicker rise" style="--k-c:#38bdf8">tests/assert_*.sql</div>
+  <h2 class="rise" style="--d:1">Seven rules. <span class="grad">A row means it failed.</span></h2>
+  <div class="res t tests" data-rows="70" style="--cols:1.35fr 1.65fr">
+    <div class="rh"><span>File</span><span>A returned row means</span></div>
+    <div class="rr"><span>assert_staging_complete_versus_bronze</span><span>a bronze key never reached staging</span></div>
+    <div class="rr"><span>assert_raw_transactions_required_keys</span><span>a recent raw row lost a key staging needs · warn</span></div>
+    <div class="rr"><span>assert_fct_transactions_reconciles_to_staging</span><span>fact count or amount disagrees with staging</span></div>
+    <div class="rr"><span>assert_posted_transactions_have_fx</span><span>a posted foreign payment has no reporting amount</span></div>
+    <div class="rr"><span>assert_scd2_no_overlapping_versions</span><span>customer versions overlap or leave a gap</span></div>
+    <div class="rr"><span>assert_fraud_rules_catch_injected_patterns</span><span>pattern recall for a card burst is under 0.7</span></div>
+    <div class="rr"><span>assert_offers_skip_recent_fraud</span><span>a 30-day rule-suspect still has an offer</span></div>
+  </div>
+  <div class="note" data-at="2">Three unit tests sit beside these: weekend FX forward-fill, the latest transaction version, and which tap of a burst the fraud rules fire on.</div>
+</section>
+
+<!-- 07 ALREADY PUBLISHED -->
+<section class="s fill" data-ch="0" data-steps="2" data-accent="#14532d,#7a1f35" data-notes="A dbt test rides the model that just built. unique, not_null, relationships, and the singular tests. A failed test skips downstream models in that build. It does not watch the table after someone updates it by hand. Open 03_snowflake/11_mart_integrity_and_quarantine.sql for the scheduled read of MARTS as it sits. That file does not rebuild the table. Do not quote a row count.">
+  <div class="kicker rise" style="--k-c:#4ade80">Two different moments</div>
+  <h2 class="rise" style="--d:1">The build can pass. <span class="grad-green">The table can still change.</span></h2>
+  <div class="g2">
+    <div class="glass card" data-at="1" style="--c:#4ade80">
+      <div class="num">DURING THE PIPELINE</div>
+      <h3>dbt build</h3>
+      <p>unique, not_null, relationships, and tests/assert_*.sql run on the model that just built. A failure skips downstream models in that build.</p>
+      <div class="eg">04_dbt_meridian_dw · the run that just happened</div>
+    </div>
+    <div class="glass card" data-at="2" style="--c:#fb7185">
+      <div class="num">AFTER PUBLICATION</div>
+      <h3>The mart as it sits</h3>
+      <p>A restore, a hotfix, or a manual write can change MARTS later. The next micro-batch does not re-read every mart. File 11 selects. It does not rebuild.</p>
+      <div class="eg">03_snowflake/11_mart_integrity_and_quarantine.sql</div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 KEY AND REASON -->
+<section class="s audit" data-ch="0" data-steps="4" data-accent="#7a1f35,#14532d" data-notes="File 11 schedules two reads of published marts: an anti-join for a fact key with no dimension row, and a duplicate business key. Each hit is stored with the key and the reason. Unknown member -1 in dim_customer.sql, and coalesce to '-1' in fct_transactions.sql, is a designed member, not an orphan. reconcile_with_pandas.py is still bank versus warehouse. The daily integrity task on meridian_daily_batch fails when a row comes back. The dbt test is the same rule. No live orphan count on this slide.">
+  <div class="kicker rise" style="--k-c:#fb7185">03_snowflake/11_mart_integrity_and_quarantine.sql</div>
+  <h2 class="rise" style="--d:1">Keep the key. <span class="grad-red">Write the reason.</span></h2>
+  <div class="split">
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Anti-join, on a schedule</b><p>A published fact key with no dimension row. This select does not rebuild the mart.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>Duplicate key, same pass</b><p>Two published rows, one business key. The pipeline test may not run again until tomorrow.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>Quarantine the exception</b><p>Store the key and the reason. Do not replace the row with a count.</p></div></div>
+      <div class="callout" data-at="4"><span class="k">4</span><div><b>Unknown member, then the gate</b><p>'-1' is a designed member. The daily task fails when a real exception row comes back.</p></div></div>
+    </div>
+    <div class="swap">
+      <div class="glass sheet" data-at="1" data-until="2">
+        <div class="file">MARTS fact → dimension · not completeness.sql</div>
+        <h3>Who has no parent?</h3>
+        <p>completeness.sql is bronze versus staging, inside the build. This anti-join is a mart that is already published, read on a schedule.</p>
+        <div class="eg">open 11_mart_integrity_and_quarantine.sql</div>
+      </div>
+      <div class="glass sheet" data-at="2" data-until="3">
+        <div class="file">same file · second check</div>
+        <h3>Who appears twice?</h3>
+        <p>Group the published business key. A count above one is a duplicate. The slide does not print how many this account has.</p>
+        <div class="eg">key · reason will be duplicate</div>
+      </div>
+      <div class="glass sheet" data-at="3" data-until="4" data-typein>
+        <div class="file">exception row · not a scoreboard</div>
+        <h3>One row per failure.</h3>
+        <div class="ticket">
+          <div class="row"><span>KEY</span><b class="in" data-val="the business key returned"></b></div>
+          <div class="row"><span>REASON</span><b class="in" data-val="orphan, or duplicate"></b></div>
+        </div>
+        <p>Those words are the shape of the row. They are not a result from this account.</p>
+      </div>
+      <div class="glass sheet" data-at="4">
+        <div class="file">dim_customer.sql · fct_transactions.sql · meridian_daily_batch.py</div>
+        <h3>'-1' is a member.</h3>
+        <p>dim_customer unions customer_id -1, Unknown customer. fct_transactions coalesces a miss to '-1'. Leave that member out of the orphan check. reconcile_with_pandas.py still weighs the bank against the warehouse.</p>
+        <div class="eg">daily task fails on a returned row · same rule as the dbt test</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 SAME QUESTION -->
+<section class="s fill" data-ch="1" data-steps="4" data-accent="#1f4f8a,#0f5c63" data-notes="Both queries share one cutoff, one grain, and one measure. The outer merge is the point: an inner join would hide a group that exists on only one side.">
+  <div class="kicker rise" style="--k-c:#38bdf8">reconcile_with_pandas.py</div>
+  <h2 class="rise" style="--d:1">Ask both systems <span class="grad">the same question.</span></h2>
+  <div class="steps ask" style="--n:4"><i class="wire"></i>
+    <div class="st" data-at="1" style="--c:#38bdf8"><div class="bub">1</div><b>Same cutoff</b><p>Ignore rows whose updated_at is newer than two minutes ago.</p><span class="eg">pipeline lag is not a loss</span></div>
+    <div class="st" data-at="2" style="--c:#2dd4bf"><div class="bub">2</div><b>Same grain</b><p>UTC date, plus currency or branch.</p><span class="eg">--by currency is the default</span></div>
+    <div class="st" data-at="3" style="--c:#fbbf24"><div class="bub">3</div><b>Same measures</b><p>Count every row. Sum local amount only where status is POSTED.</p><span class="eg">keys alone do not prove money</span></div>
+    <div class="st" data-at="4" style="--c:#4ade80"><div class="bub">4</div><b>Outer merge</b><p>A group that exists on only one side stays visible.</p><span class="eg">row_diff · amount_diff</span></div>
+  </div>
+  <div class="glass strip" data-at="4">Postgres <em>core.transactions</em> &nbsp;↔&nbsp; Snowflake <em>MARTS.FCT_TRANSACTIONS</em> &nbsp;·&nbsp; whole UTC dates, so the oldest day is not half a day on one side.</div>
+</section>
+
+<!-- 08 THE GATE -->
+<section class="s" data-ch="1" data-steps="2" data-scene="scale" data-accent="#7a1f35,#0f5c3a" data-notes="The offline pytest feeds 100 source rows against 99 warehouse rows and expects failure. The matching pair exits 0. Amounts must agree to under one cent.">
+  <div class="kicker rise" style="--k-c:#4ade80">The gate, proved offline</div>
+  <h2 class="rise" style="--d:1">Same rows. <span class="grad-green">Under one cent.</span></h2>
+  <div class="scale" id="scale">
+    <div class="beam">
+      <div class="pan left"><div class="hook"></div><div class="glass bag"><b>100</b><small>Postgres rows · INR · 250,000.00 posted</small></div></div>
+      <div class="pan right"><div class="hook"></div><div class="glass bag"><b id="whRows">99</b><small id="whLab">warehouse rows · row_diff −1</small></div></div>
+    </div>
+    <div class="post"></div>
+    <div class="base"></div>
+    <div class="stampbox">
+      <div class="verdict bad" id="verdBad">FAILED · exit 1</div>
+      <div class="verdict good hide" id="verdGood">PASSED · exit 0</div>
+    </div>
+  </div>
+  <div class="note" data-at="2">A group passes only when row_diff is 0 and the absolute posted-amount difference is below 0.01. --record writes PASSED or FAILED to RECONCILIATION_RUNS.</div>
+</section>
+
+<!-- 09 COMMAND -->
+<section class="s fill" data-ch="1" data-steps="2" data-accent="#1f4f8a,#14532d" data-notes="The daily DAG runs this exact command after the daily dbt build. The last task of that DAG then saves the production manifest for CI.">
+  <div class="kicker rise" style="--k-c:#38bdf8">Hands on · daily DAG</div>
+  <h2 class="rise" style="--d:1">Weigh the last <span class="grad">seven days.</span></h2>
+  <div class="cmd rise" style="--d:2"><span class="pr">$</span><code>python 02_ingestion_python/reconcile_with_pandas.py --days 7 --by currency --record</code><button class="copy">Copy</button></div>
+  <div class="term mt2" data-term data-at="1">
+    <div class="bar"><i></i><i></i><i></i><span>Terminal — snowflake_dbt_airflow_python_byFK</span></div>
+    <div class="body">
+      <div><span class="ps"><b>repo</b> %</span> <span class="typed" data-type="python 02_ingestion_python/reconcile_with_pandas.py --days 7 --by currency --record"></span><span class="caret"></span></div>
+      <div class="out dim">signs in as SNOWFLAKE_DBT_USER, role MERIDIAN_TRANSFORMER, tag meridian_reconcile</div>
+      <div class="out">end-to-end freshness lag: newest Postgres timestamp minus newest warehouse timestamp</div>
+      <div class="out ok">RECONCILED: groups match → exit 0 · else MISMATCH → exit 1</div>
+      <div class="out">--record appends one row to MERIDIAN_RAW.CONTROL.RECONCILIATION_RUNS</div>
+    </div>
+  </div>
+  <div class="g2" data-at="2" style="margin-top:18px">
+    <div class="glass card" style="--c:#38bdf8;min-height:0;padding:18px 22px"><h3 style="font-size:28px">Default window</h3><p>Seven complete UTC dates, grouped by currency. --by branch asks the same question by branch.</p></div>
+    <div class="glass card" style="--c:#4ade80;min-height:0;padding:18px 22px"><h3 style="font-size:28px">Airflow stops here</h3><p>meridian_daily_batch runs this after dbt build --selector daily. Exit 1 fails the task.</p></div>
+  </div>
+</section>
+
+<!-- 10 FRESHNESS -->
+<section class="s fill" data-ch="1" data-steps="3" data-accent="#0f5c63,#7a5a10" data-notes="Two clocks on purpose. The five-minute DAG checks four hot tables. The fifteen-minute DAG still fires if the ingest scheduler itself is dead.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">Two clocks</div>
+  <h2 class="rise" style="--d:1">Fifteen minutes, <span class="grad">checked two ways.</span></h2>
+  <div class="g2 mt2">
+    <div class="glass card" data-at="1" style="--c:#2dd4bf">
+      <div class="ico" data-logo="af"></div>
+      <div class="num">EVERY 5 MIN</div>
+      <h3>meridian_microbatch_ingest</h3>
+      <p>Last task, report_pipeline_health, calls assert_pipeline_health. It fails when any of the four hot tables is over 15 minutes behind, or the latest load is not SUCCESS or NO_CHANGES.</p>
+      <div class="eg">transactions · card applications · card authorizations · deleted_records</div>
+    </div>
+    <div class="glass card" data-at="2" style="--c:#fbbf24">
+      <div class="ico" data-logo="dbt"></div>
+      <div class="num">EVERY 15 MIN</div>
+      <h3>meridian_source_freshness</h3>
+      <p>A separate watchdog. dbt source freshness compares max(_extracted_at) with now. Transactions and card authorizations warn at 15 minutes and error at 60. Retries are zero, so a miss is loud.</p>
+      <div class="eg">a dead scheduler still shows up here</div>
+    </div>
+  </div>
+  <div class="note" data-at="3">Small reference tables warn after 6 hours. FX rates warn after 36 hours, so Monday morning still passes. V_PLATFORM_STATUS uses the same 15-minute line.</div>
+</section>
+
+<!-- 11 OFFLINE CI -->
+<section class="s fill" data-ch="2" data-steps="4" data-accent="#3b2a80,#14532d" data-notes="meridian-checks.yml has no Snowflake warehouse. Say that out loud. The SQLFluff line is one file on purpose: a narrow baseline, widened file by file.">
+  <div class="kicker rise" style="--k-c:#a78bfa">.github/workflows/meridian-checks.yml</div>
+  <h2 class="rise" style="--d:1">No warehouse. <span class="grad-violet">Still a gate.</span></h2>
+  <div class="jobs" data-seq="420">
+    <div class="glass card job seq" data-at="1" style="--c:#3776ab"><div class="num">01</div><h3>python</h3><p>Install, then test and compile. No account required.</p><code>pytest -q tests</code><code>python -m py_compile …</code></div>
+    <div class="glass card job seq" data-at="2" style="--c:#ff694b"><div class="num">02</div><h3>dbt parse</h3><p>An offline profile. Parse must be clean.</p><code>dbt parse --warn-error</code><code>sqlfluff lint int_account_primary_holder.sql</code></div>
+    <div class="glass card job seq" data-at="3" style="--c:#fbbf24"><div class="num">03</div><h3>security</h3><p>History, not just the latest commit.</p><code>gitleaks on full git history</code><code>pip-audit -r requirements.txt</code></div>
+    <div class="glass card job seq" data-at="4" style="--c:#7c3aed"><div class="num">04</div><h3>terraform</h3><p>Format, then a plan-free validate.</p><code>terraform fmt -check</code><code>terraform validate</code></div>
+  </div>
+</section>
+
+<!-- 12 SLIM CI -->
+<section class="s" data-ch="2" data-steps="4" data-accent="#3b2a80,#1f6f9b" data-notes="The daily DAG's last task, dbt_save_prod_manifest, uploads manifest.json. Slim CI downloads that file and builds only state:modified+ into disposable schemas.">
+  <div class="kicker rise" style="--k-c:#a78bfa">.github/workflows/meridian-dbt-ci.yml</div>
+  <h2 class="rise" style="--d:1">Build only <span class="grad-violet">what changed.</span></h2>
+  <div class="flow mt2" style="margin-top:28px">
+    <div class="fbox" data-at="1" style="min-width:200px"><div class="ico sm" data-logo="gha"></div><b>Pull request</b><small>dbt, artifact helper, or this workflow</small></div>
+    <div class="arrow" data-at="1"></div>
+    <div class="fbox" data-at="2" style="min-width:210px"><div class="ico sm" data-logo="sf"></div><b>Prod manifest</b><small>dbt_artifact.py download</small></div>
+    <div class="arrow" data-at="2"></div>
+    <div class="fbox" data-at="3" style="min-width:230px"><div class="ico sm" data-logo="dbt"></div><b>state:modified+</b><small>--defer --state prod-state</small></div>
+    <div class="arrow" data-at="3"></div>
+    <div class="fbox" data-at="4" style="min-width:200px"><div class="ico sm" data-logo="i-trash"></div><b>Drop schemas</b><small>drop_ci_schemas, always</small></div>
+  </div>
+  <div class="glass code sm mt2" data-at="3"><div class="hd"><i></i>the build line</div><pre>
+<span class="ln"><span class="fn">dbt build</span> --target dev --select <span class="str">state:modified+</span> --defer --state prod-state</span>
+<span class="ln">--vars <span class="str">'{dev_days_of_history: 7}'</span> · schema prefix <span class="str">dbt_ci_pr_&lt;pull request&gt;</span></span></pre></div>
+  <div class="note" data-at="4">Unchanged upstream models are read from production. The daily DAG's last task uploads the manifest CI compares against. Artifacts are manifest.json and run_results.json.</div>
+</section>
+
+<!-- 13 COST -->
+<section class="s fill" data-ch="2" data-steps="3" data-accent="#7a5a10,#7a1f35" data-notes="Per-query credits are an estimate: warehouse credits split by execution time. Warehouse metering is the bill. ACCOUNT_USAGE can lag about three hours, so this is a trend, not an alert.">
+  <div class="kicker rise" style="--k-c:#fbbf24">03_snowflake/08_cost_attribution.sql</div>
+  <h2 class="rise" style="--d:1">Who spent it. <span class="grad-gold">Then stop it.</span></h2>
+  <div class="costgrid">
+    <div>
+      <div class="glass wh rise" style="--d:2"><b>WH_INGEST_XS</b><div class="meter" data-go style="--c:#38bdf8"><i style="--w:100%"></i></div><em>60s</em></div>
+      <div class="glass wh rise" style="--d:3"><b>WH_TRANSFORM_XS</b><div class="meter" data-go style="--c:#2dd4bf"><i style="--w:100%"></i></div><em>60s</em></div>
+      <div class="glass wh rise" style="--d:4"><b>WH_TRANSFORM_M</b><div class="meter" data-go style="--c:#a78bfa"><i style="--w:100%"></i></div><em>60s</em></div>
+      <div class="glass wh rise" style="--d:5"><b>WH_BI_XS</b><div class="meter" data-go style="--c:#fbbf24"><i style="--w:50%"></i></div><em>120s</em></div>
+      <p class="lead" style="margin-top:16px;font-size:20px">Auto-suspend, in seconds. A dashboard warehouse is separate so a heavy chart does not starve ingestion.</p>
+    </div>
+    <div class="glass card" data-at="1" data-go style="--c:#fb7185">
+      <div class="num">RM_MERIDIAN_TRIAL · quota 100</div>
+      <h3>The resource monitor</h3>
+      <div class="gatebar"><div class="lab"><span>notify</span><span>75%</span></div><div class="meter" data-go><i style="--w:75%;--c:#fbbf24"></i></div></div>
+      <div class="gatebar" data-at="2"><div class="lab"><span>suspend</span><span>90%</span></div><div class="meter" data-go><i style="--w:90%;--c:#fb923c"></i></div></div>
+      <div class="gatebar" data-at="3"><div class="lab"><span>suspend immediate</span><span>100%</span></div><div class="meter" data-go><i style="--w:100%;--c:#fb7185"></i></div></div>
+      <p style="margin-top:18px">V_QUERY_COST_ATTRIBUTION splits warehouse credits by execution time, using the query tag and the dbt node. The daily warehouse total is the bill. Account history can lag about three hours. A statement stops at one hour.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14 RUNBOOK -->
+<section class="s" data-ch="3" data-steps="4" data-accent="#7a3a12,#7a1f35" data-notes="Open OPERATIONS_RUNBOOK.md and read the stale hot-source incident. Leave the watermark alone. catchup stays off because it would race that watermark.">
+  <div class="kicker rise" style="--k-c:#fb923c">00_architecture/OPERATIONS_RUNBOOK.md</div>
+  <h2 class="rise" style="--d:1">A hot table <span class="grad-warm">goes quiet.</span></h2>
+  <div class="two play" style="grid-template-columns:1.35fr .65fr;align-items:center">
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Is the source up?</b><p>Postgres reachable, and did the Airflow extract task fail? Read LOAD_LOG.error_message.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>Leave the watermark</b><p>Retry the failed mapped task. Raw is append-only and staging dedupes, so a retry is safe.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>One missed window</b><p>Trigger meridian_bounded_replay with one table, since, and until. Forward progress stays put.</p></div></div>
+      <div class="callout" data-at="4"><span class="k">4</span><div><b>Then prove it</b><p>dbt build --selector microbatch, then assert_pipeline_health. A green DAG with a red V_PLATFORM_STATUS row is still an incident.</p></div></div>
+    </div>
+    <div class="rise" style="--d:2">
+      <div class="clock pulse" style="--c:#fbbf24"><div class="hand"></div><div class="cap"></div></div>
+      <div class="timelabel">02:00</div>
+      <p class="lead" style="text-align:center;margin-top:8px;font-size:18px">First page of the runbook. One incident, start to finish.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 15 REPLAY -->
+<section class="s fill" data-ch="3" data-steps="2" data-accent="#7a3a12,#1f4f8a" data-notes="schedule is None. This DAG is manual. Params are table, since, until, and dbt_selector microbatch or daily. The extractor flags are --since and --until.">
+  <div class="kicker rise" style="--k-c:#fb923c">meridian_bounded_replay</div>
+  <h2 class="rise" style="--d:1">Re-copy one window. <span class="grad-warm">Watermark stays.</span></h2>
+  <div class="cmd wrap rise" style="--d:2"><span class="pr">$</span><code>python pg_to_snowflake.py --tables core.transactions --since 2026-09-01T00:00:00Z --until 2026-09-02T00:00:00Z</code><button class="copy">Copy</button></div>
+  <div class="g3 mt2">
+    <div class="glass card" data-at="1" style="--c:#38bdf8"><div class="num">PARAMS</div><h3>table · since · until</h3><p>The DAG default table is core.transactions. since and until are UTC timestamps. Schedule is none. The selector is microbatch or daily.</p></div>
+    <div class="glass card" data-at="1" style="--c:#fbbf24"><div class="num">SAFE</div><h3>Append, then dedupe</h3><p>The copy lands again in raw. Staging keeps one row per key. The normal watermark does not move.</p></div>
+    <div class="glass card" data-at="2" style="--c:#4ade80"><div class="num">THEN</div><h3>Rebuild consumers</h3><p>dbt build --selector microbatch, or daily if the param says so. catchup stays off.</p></div>
+  </div>
+  <div class="note" data-at="2">Airflow catchup would invent a second set of windows and race the watermark. Replay is the one window you name.</div>
+</section>
+
+<!-- 16 OUTRO -->
+<section class="s" data-ch="3" data-accent="#14532d,#7a5a10" data-notes="Close on the four beats. Next episode trains the card models and only publishes scores that clear 0.70.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#4ade80">Episode 9 complete</div>
+    <h2 class="rise" style="--d:1;font-size:72px">The night has <span class="grad-green">a playbook.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Tests, then published rows</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Key and reason kept</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Hot tables inside 15 minutes</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>CI builds only the change</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="py"></div><div style="text-align:left"><small>Next · Episode 10</small><b>Cards: score, then offer</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+<script>
+Deck.scene("scale", (s, k) => {
+  const scale = s.querySelector("#scale");
+  const rows = s.querySelector("#whRows");
+  const lab = s.querySelector("#whLab");
+  const level = k >= 2;
+  scale.classList.toggle("ok", level);
+  s.querySelector("#verdBad").classList.toggle("hide", level);
+  s.querySelector("#verdGood").classList.toggle("hide", !level);
+  rows.textContent = level ? "100" : "99";
+  lab.textContent = level ? "warehouse rows · amount diff 0.00" : "warehouse rows · row_diff −1";
+});
+</script>
+</body>
+</html>

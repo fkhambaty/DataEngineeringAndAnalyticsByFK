@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 7 · Airflow is the alarm clock</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.h2s{font-size:48px;margin-bottom:8px}
+.grad-sky{background:linear-gradient(92deg,#7dd3fc,#38bdf8 50%,#2dd4bf);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-violet{background:linear-gradient(92deg,#ddd6fe,#a78bfa 50%,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.claim{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;height:100%;gap:20px}
+.claim .huge{font-size:78px;line-height:.98;letter-spacing:-.045em;font-weight:850;margin:0}
+.claim .hero3d{height:560px}
+
+/* five jobs */
+.clockrow{display:grid;grid-template-columns:340px 1fr;gap:28px;margin-top:8px;align-items:center}
+.clock{width:300px;height:300px;margin:0 auto;border-radius:50%;position:relative;background:radial-gradient(circle at 40% 35%,#1c3a62,#0b1428 62%);border:1px solid rgba(125,211,252,.35);box-shadow:0 0 80px -20px rgba(56,189,248,.7),inset 0 0 40px rgba(56,189,248,.15)}
+.clock::before{content:"";position:absolute;inset:18px;border-radius:50%;border:1px dashed rgba(125,211,252,.25)}
+.hand{position:absolute;left:50%;bottom:50%;transform-origin:50% 100%;border-radius:4px;background:#e8f4ff}
+.hand.h{width:6px;height:78px;margin-left:-3px;animation:spinH 12s linear infinite}
+.hand.m{width:4px;height:108px;margin-left:-2px;background:#7dd3fc;animation:spinM 4s linear infinite}
+@keyframes spinH{to{transform:rotate(360deg)}}
+@keyframes spinM{to{transform:rotate(360deg)}}
+.clock .hub{position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px;border-radius:50%;background:#fde68a;box-shadow:0 0 16px #fbbf24}
+.clock .cad{position:absolute;left:0;right:0;bottom:-36px;text-align:center;font:800 16px var(--mono);color:#7dd3fc}
+.jobs{display:flex;flex-direction:column;gap:8px}
+.job{display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:center;padding:12px 16px}
+.job b{font:700 18px var(--mono);display:block}
+.job small{color:var(--mute);font-size:14px}
+.job .when{font:800 13px var(--mono);color:#7dd3fc;padding:6px 10px;border-radius:10px;background:rgba(56,189,248,.1)}
+
+/* hot path */
+.hotpath{display:grid;grid-template-columns:1.15fr .7fr .85fr;gap:16px;margin-top:10px;align-items:stretch;min-height:540px}
+.extracts{display:flex;flex-direction:column;gap:8px;height:100%}
+.ex{display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:center;padding:12px 14px;flex:1}
+.ex .tag{font:800 11px var(--sans);letter-spacing:.12em;color:#7dd3fc}
+.ex b{font:700 16px var(--mono);display:block}
+.ex small{color:var(--mute);font-size:13px}
+.then{padding:22px 18px;display:flex;flex-direction:column;justify-content:center;gap:8px;text-align:center}
+.then b{font:800 22px var(--mono)}
+.then small{color:var(--mute);font-size:15px}
+.gatebox{padding:22px 18px;display:flex;flex-direction:column;justify-content:center;gap:8px;border-color:rgba(251,191,36,.45)}
+.gatebox b{font:800 20px var(--mono);color:#fde68a}
+.gatebox small{color:var(--mute);font-size:15px;line-height:1.35}
+
+/* rules */
+.rules{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:8px}
+.rules .code pre{font-size:15px;line-height:1.45}
+.rlist{display:flex;flex-direction:column;gap:10px}
+.rule{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center;padding:12px 14px}
+.rule .n{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font:900 16px var(--mono);background:rgba(56,189,248,.14);color:#7dd3fc}
+.rule b{display:block;font-size:18px}
+.rule p{margin:2px 0 0;color:var(--mute);font-size:15px;line-height:1.35}
+
+/* retries */
+.knocks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+.knock{min-height:200px;padding:18px 18px;display:flex;flex-direction:column}
+.knock .n{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font:900 20px var(--mono);background:rgba(251,113,133,.16);color:#fecdd3}
+.knock b{display:block;font-size:26px;margin:12px 0 6px}
+.knock p{margin:0;color:var(--mute);font-size:16px;line-height:1.35}
+.alertrow{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:12px}
+.payload{padding:14px 16px;font:650 15px/1.55 var(--mono);color:#dbe7f5}
+.payload em{font-style:normal;color:#7dd3fc}
+.slack{padding:16px 18px;display:flex;flex-direction:column;justify-content:center}
+.slack b{display:block;font-size:18px;margin-bottom:6px}
+.slack p{margin:0;color:var(--mute);font-size:15px;line-height:1.4}
+
+/* daily */
+.chain{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.stepc{display:grid;grid-template-columns:36px 210px 1fr auto;gap:12px;align-items:center;padding:8px 14px}
+.stepc .n{font:900 16px var(--mono);color:#7dd3fc}
+.stepc b{font:700 16px var(--mono)}
+.stepc span{color:var(--mute);font-size:15px}
+.stepc .fname{font:700 13px var(--mono);color:#fde68a}
+.stepc.hot{border-color:rgba(251,113,133,.55);background:linear-gradient(90deg,rgba(251,113,133,.14),rgba(16,22,38,.7))}
+.why2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.why2 .glass{padding:16px 18px;font-size:16px;color:var(--mute);line-height:1.4}
+.why2 b{color:var(--ink)}
+
+/* other clocks */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+.trio .glass{min-height:460px;padding:22px 18px;display:flex;flex-direction:column;gap:10px}
+.trio h3{margin:8px 0 0;font-size:28px}
+.trio p{margin:0;color:var(--mute);font-size:16px;line-height:1.4}
+.pills{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.pills i{font-style:normal;font:700 14px var(--mono);padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.04);color:#dbe7f5}
+
+/* docker paths */
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+.path{padding:26px 22px 22px;min-height:360px;display:flex;flex-direction:column;justify-content:space-between}
+.path h3{margin:0 0 10px;font-size:22px}
+.mapl{display:grid;grid-template-columns:150px 1fr;gap:16px 12px;font-size:16px;align-items:center}
+.mapl small{color:var(--faint);font:800 11px var(--sans);letter-spacing:.12em}
+.mapl b{font:700 15px var(--mono)}
+.mapl .bad{color:#fb7185}
+.mapl .ok{color:#4ade80}
+.copies{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.copies .glass{padding:16px 12px;text-align:center}
+.copies b{display:block;font:700 14px var(--mono);color:#7dd3fc}
+.copies small{color:var(--mute);font-size:13px}
+
+/* pool */
+.pool{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+.pool .glass{min-height:420px;padding:26px 24px;display:flex;flex-direction:column}
+.pool h3{margin:8px 0;font-size:32px}
+.pool p{margin:0;color:var(--mute);font-size:18px;line-height:1.4}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:auto}
+.slot{height:88px;border-radius:16px;display:grid;place-items:center;font:800 18px var(--mono);border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08);color:#bbf7d0}
+.queued{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.queued i{font-style:normal;padding:8px 12px;border-radius:10px;background:rgba(251,113,133,.12);color:#fecdd3;font:700 14px var(--mono)}
+.markx{font-size:64px;text-align:center;margin-top:auto;color:#fb7185}
+.markok{font-size:64px;text-align:center;margin-top:12px;color:#4ade80}
+
+/* hands */
+.term .body{font-size:15px;line-height:1.55;min-height:0}
+.term .out{white-space:pre-wrap;word-break:break-word}
+.fitcode pre{font-size:15px}
+.fitcode{min-width:0;max-width:100%}
+.fitcode .ln{white-space:pre-wrap;overflow-wrap:anywhere}
+.two{min-width:0}
+.two>*{min-width:0}
+.term{min-width:0;max-width:100%;overflow:hidden}
+.term .body{overflow-wrap:anywhere}
+.sidepool{padding:16px 16px}
+.sidepool b{display:block;font-size:18px;margin-bottom:6px}
+.dags{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.dags span{font:700 15px var(--mono);color:#dbe7f5}
+.warn{margin-top:10px;padding:12px 14px;color:#fde68a;font-size:15px}
+
+/* ui */
+.ui2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+.ui2 .glass{padding:18px 18px;min-height:250px}
+.ui2 h3{margin:0 0 6px;font-size:24px}
+.ui2 p{margin:0 0 10px;color:var(--mute);font-size:16px}
+.chips.tight{margin-top:0;gap:8px}
+.chips.tight span{padding:7px 10px;font-size:14px}
+.traps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.traps .glass{padding:14px 16px}
+.traps b{display:block;font-size:17px;margin-bottom:4px}
+.traps p{margin:0;color:var(--mute);font-size:15px;line-height:1.35}
+</style>
+</head>
+<body data-episode="e7" data-label="Episode 7" data-chapters="The clock|Five minutes|Paths and pools|Hands on" data-chapter-colors="#38bdf8|#2dd4bf|#fb7185|#4ade80">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#0c4a6e,#1e3a8a" data-notes="Episode 6 built the star by hand. This episode puts the same commands on a clock. Airflow does not move rows. Python and dbt still do the work. Five DAGs, one pool, retries, then an alert.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;border-color:rgba(56,189,248,.45);background:rgba(56,189,248,.1);color:#7dd3fc"><i style="background:#38bdf8;box-shadow:0 0 14px #38bdf8"></i>EPISODE 7</div>
+      <h1 class="mega rise" style="--d:1">Airflow is the<br><span class="grad-sky">alarm clock</span></h1>
+      <p class="lead rise" style="--d:2">The five-minute DAG, the nightly DAG, Docker paths, pools, retries and alerts. Same commands as by hand. A clock instead of us.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Every 5 min</span><span><b>02</b>02:00 UTC</span><span><b>03</b>Docker paths</span><span><b>04</b>Pool of 4</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="py,dbt,i-bell,i-clock,sf,i-terminal" data-core="af" data-core-class="sky"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s" data-ch="0" data-accent="#0c4a6e,#312e81" data-notes="Say this before any DAG. Python loads. dbt transforms. Airflow decides when, in what order, and what to do when a command fails. Open 05_airflow/dags and show that every task is a shell command.">
+  <div class="claim">
+    <div>
+      <div class="kicker rise" style="--k-c:#38bdf8">What Airflow is for</div>
+      <p class="huge" data-words>It moves <span class="grad-sky">no rows.</span> It rings on time.</p>
+      <p class="lead rise" style="--d:8">Python loads. dbt transforms. Airflow only decides when, in what order, and what to do when a command fails.</p>
+    </div>
+    <div class="hero3d rise" style="--d:3">
+      <div class="halo"></div>
+      <div class="logo3d" data-logo3d="af" data-color="#38bdf8"></div>
+      <div class="floor"></div>
+      <div class="ringx"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 FIVE JOBS -->
+<section class="s" data-ch="0" data-steps="5" data-accent="#0c4a6e,#14532d" data-notes="Five Meridian DAGs. The alert module meridian_alerts.py is not a sixth DAG. Card decisioning is weekly and is taught again in Episode 10. Replay has no schedule.">
+  <div class="kicker rise" style="--k-c:#38bdf8">Five DAGs</div>
+  <h2 class="rise h2s" style="--d:1">One clock. <span class="grad-sky">Five jobs.</span></h2>
+  <div class="clockrow">
+    <div class="clock rise" style="--d:2" aria-hidden="true"><div class="hand h"></div><div class="hand m"></div><div class="hub"></div><div class="cad">*/5 &nbsp; every five minutes</div></div>
+    <div class="jobs">
+      <div class="glass job" data-at="1"><div><b>meridian_microbatch_ingest</b><small>4 hot tables, then dbt build --selector microbatch, then the health gate.</small></div><span class="when">*/5 * * * *</span></div>
+      <div class="glass job" data-at="2"><div><b>meridian_daily_batch</b><small>17 slow tables, snapshots, the daily build, mart integrity, reconcile, docs, manifest.</small></div><span class="when">02:00 UTC</span></div>
+      <div class="glass job" data-at="3"><div><b>meridian_source_freshness</b><small>Watchdog. Still rings if the five-minute DAG has stopped. Retries are 0.</small></div><span class="when">*/15 * * * *</span></div>
+      <div class="glass job" data-at="4"><div><b>meridian_card_decisioning</b><small>Monday morning. Train on gold, publish scores, rebuild the card marts.</small></div><span class="when">Mon 03:00 UTC</span></div>
+      <div class="glass job" data-at="5"><div><b>meridian_bounded_replay</b><small>Manual. Re-copy one time window. The watermark stays put.</small></div><span class="when">schedule = none</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 HOT PATH -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#0f766e,#0c4a6e" data-notes="File 05_airflow/dags/meridian_microbatch_ingest.py. HOT_TABLES in _common.py. The health task uses trigger_rule all_done and dbt run-operation assert_pipeline_health with max_minutes 15. A dbt failure does not roll back raw.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">meridian_microbatch_ingest</div>
+  <h2 class="rise h2s" style="--d:1">Four extracts, then dbt, <span class="grad">then the gate.</span></h2>
+  <div class="hotpath">
+    <div class="extracts">
+      <div class="glass ex" data-at="1"><div class="tag">EXTRACT · LOAD</div><div><b>core.transactions</b><small>python pg_to_snowflake.py --tables …</small></div></div>
+      <div class="glass ex" data-at="1"><div class="tag">EXTRACT · LOAD</div><div><b>core.card_applications</b><small>one task each, own log, own retry</small></div></div>
+      <div class="glass ex" data-at="1"><div class="tag">EXTRACT · LOAD</div><div><b>core.card_authorizations</b><small>pool meridian_postgres · 4 slots</small></div></div>
+      <div class="glass ex" data-at="1"><div class="tag">EXTRACT · LOAD</div><div><b>cdc.deleted_records</b><small>small tables do not wait for payments</small></div></div>
+    </div>
+    <div class="glass then" data-at="2"><div class="kicker" style="justify-content:center;--k-c:#ff8a6a">THEN</div><b>dbt_build_hot_path</b><small>dbt build --selector microbatch --target prod</small></div>
+    <div class="glass gatebox" data-at="3"><div class="kicker" style="--k-c:#fbbf24">TRIGGER_RULE ALL_DONE</div><b>report_pipeline_health</b><small>assert_pipeline_health max 15 minutes. Runs even if a task failed, so the failure is reported.</small></div>
+  </div>
+</section>
+
+<!-- 05 RULES -->
+<section class="s" data-ch="1" data-steps="4" data-accent="#0c4a6e,#14532d" data-notes="Read the design comment at the top of meridian_microbatch_ingest.py. catchup stays false because the watermark already knows where the data is. max_active_runs is 1 so two writers cannot race the control row. Raw is append-only.">
+  <div class="kicker rise" style="--k-c:#38bdf8">05_airflow/dags/meridian_microbatch_ingest.py</div>
+  <h2 class="rise h2s" style="--d:1">The rules that <span class="grad-sky">keep the bookmark honest.</span></h2>
+  <div class="rules">
+    <div class="glass code" data-at="1"><div class="hd"><i></i> meridian_microbatch_ingest.py</div><pre>
+<span class="ln"><span class="kw">schedule</span>=<span class="str">"*/5 * * * *"</span></span>
+<span class="ln"><span class="kw">catchup</span>=<span class="kw">False</span></span>
+<span class="ln"><span class="kw">max_active_runs</span>=<span class="num">1</span></span>
+<span class="ln"><span class="fn">@task.bash</span>(pool=INGEST_POOL, max_active_tis_per_dag=<span class="num">4</span>)</span>
+<span class="ln"><span class="kw">return</span> (</span>
+<span class="ln">  <span class="str">f"cd {INGEST_DIR} &amp;&amp; python pg_to_snowflake.py --tables {table}"</span></span>
+<span class="ln">)</span>
+<span class="ln">extract_load.expand(table=HOT_TABLES)</span>
+<span class="ln">  &gt;&gt; dbt_build_hot_path() &gt;&gt; report_pipeline_health()</span></pre></div>
+    <div class="rlist">
+      <div class="glass rule" data-at="1"><div class="n">1</div><div><b>Every five minutes, no replay</b><p>catchup is off. The watermark already knows where we are. Old intervals are meaningless.</p></div></div>
+      <div class="glass rule" data-at="2"><div class="n">2</div><div><b>One run at a time</b><p>A slow run must not overlap the next. Two runs would race to move the watermark.</p></div></div>
+      <div class="glass rule" data-at="3"><div class="n">3</div><div><b>Same loader, one task per table</b><p>expand() makes four tasks on Postgres at once. Each table gets its own log and its own retry.</p></div></div>
+      <div class="glass rule" data-at="4"><div class="n">4</div><div><b>The gate still speaks</b><p>all_done means the health check runs even after a failure. A dbt failure does not roll raw back. Raw is append-only.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 RETRIES -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#7a1f35,#0c4a6e" data-notes="DEFAULT_ARGS in _common.py: retries 2, retry_delay one minute, exponential backoff, execution_timeout 20 minutes, on_failure_callback log_failure. meridian_alerts.py always logs one JSON line, posts to Slack only when MERIDIAN_SLACK_WEBHOOK_URL is set, times out after five seconds, and never raises. Prove it with pytest -q tests/test_alerts.py. Four tests.">
+  <div class="kicker rise" style="--k-c:#fb7185">DEFAULT_ARGS in _common.py</div>
+  <h2 class="rise h2s" style="--d:1">Knock twice. <span style="color:#fb7185">Then shout once.</span></h2>
+  <div class="knocks">
+    <div class="glass knock" data-at="1"><div class="n">1</div><b>Fails</b><p>First attempt. Wait one minute, then try again. retries is 2.</p></div>
+    <div class="glass knock" data-at="2"><div class="n">2</div><b>Fails again</b><p>retry_exponential_backoff. The wait grows. Still the same task.</p></div>
+    <div class="glass knock" data-at="3"><div class="n">3</div><b>Retries spent</b><p>log_failure runs once. A task still running at 20 minutes is killed.</p></div>
+  </div>
+  <div class="alertrow" data-at="3">
+    <div class="glass payload"><em>event</em> meridian_task_failed<br>dag_id · task_id · run_id · try_number<br>log_url · exception <span style="color:#94a3b8">(first 1,000 characters)</span></div>
+    <div class="glass slack"><b>Slack only if a webhook is set</b><p>MERIDIAN_SLACK_WEBHOOK_URL empty means the JSON line in the task log, and nothing else. An alert must never fail the task it is reporting.</p></div>
+  </div>
+  <div class="cmd" data-at="3" style="margin-top:12px"><span class="pr">$</span><code>pytest -q tests/test_alerts.py</code><button class="copy" data-copy="pytest -q tests/test_alerts.py">Copy</button></div>
+</section>
+
+<!-- 07 NIGHTLY -->
+<section class="s" data-ch="1" data-steps="7" data-accent="#14532d,#7a5a10" data-notes="meridian_daily_batch.py schedule 0 2 * * *. Order is extract_daily, snapshot, dbt build --selector daily with search_refresh_reference true, mart_integrity with retries 0, reconcile --days 7 --by currency --record, docs generate --static, then dbt_artifact.py upload of manifest.json. Integrity SQL is 03_snowflake/11_mart_integrity_and_quarantine.sql as MERIDIAN_TRANSFORMER on WH_TRANSFORM_XS, query tag meridian_mart_integrity. A MART violation fails the task so reconcile does not run.">
+  <div class="kicker rise" style="--k-c:#4ade80">meridian_daily_batch · 0 2 * * *</div>
+  <h2 class="rise h2s" style="--d:1">At 02:00 UTC, <span class="grad">the slow work.</span></h2>
+  <div class="chain">
+    <div class="glass stepc" data-at="1"><span class="n">01</span><b>extract_daily</b><span>17 slow and reference tables. Same pool, four at a time.</span><span class="fname">pg_to_snowflake.py</span></div>
+    <div class="glass stepc" data-at="2"><span class="n">02</span><b>dbt_snapshot</b><span>Customer and account versions. Once a night, not every tick.</span><span class="fname">dbt snapshot</span></div>
+    <div class="glass stepc" data-at="3"><span class="n">03</span><b>dbt_build_daily</b><span>Dims, facts, every test. Reference search ids refresh too.</span><span class="fname">selector daily</span></div>
+    <div class="glass stepc hot" data-at="4"><span class="n">04</span><b>mart_integrity</b><span>Retries stay 0. A duplicate or an orphan is not a blip. Reconcile waits.</span><span class="fname">11_mart_integrity_and_quarantine.sql</span></div>
+    <div class="glass stepc" data-at="5"><span class="n">05</span><b>reconcile</b><span>Last 7 days, by currency, written to the control table.</span><span class="fname">--days 7 --record</span></div>
+    <div class="glass stepc" data-at="6"><span class="n">06</span><b>dbt_docs</b><span>One static docs file, easy to put on a screen.</span><span class="fname">docs generate --static</span></div>
+    <div class="glass stepc" data-at="7"><span class="n">07</span><b>save_manifest</b><span>The state file goes to Snowflake's internal stage.</span><span class="fname">dbt_artifact.py upload</span></div>
+  </div>
+  <div class="why2">
+    <div class="glass" data-at="4"><b>Why this is not every five minutes.</b> A snapshot every tick would multiply versions. 288 pulls a day is for the four hot tables only.</div>
+    <div class="glass" data-at="7"><b>The daily build passes one var.</b> search_refresh_reference true. The five-minute DAG does not, so slow ids are not re-merged all day.</div>
+  </div>
+</section>
+
+<!-- 08 OTHER CLOCKS -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#5b3fb5,#0c4a6e" data-notes="Freshness is meridian_source_freshness.py, schedule every 15 minutes, retries overridden to 0, command dbt source freshness. Decisioning is Mondays 03:00 UTC and writes only MERIDIAN_RAW.ML. Replay is meridian_bounded_replay.py, schedule None, params table, since, until, and a selector of microbatch or daily. The shell passes --since and --until. The watermark is not advanced.">
+  <div class="kicker rise" style="--k-c:#a78bfa">The other three clocks</div>
+  <h2 class="rise h2s" style="--d:1">A watchdog, a Monday, <span class="grad-violet">a manual replay.</span></h2>
+  <div class="trio">
+    <div class="glass" data-at="1"><div class="tile sm" data-logo="i-bell"></div><h3>Freshness</h3><p>Every 15 minutes. dbt source freshness. Retries are 0, so the alarm does not wait.</p><div class="pills"><i>max(_extracted_at) vs now()</i><i>separate from ingest</i><i>a dead scheduler is still seen</i><i>retries overridden to 0</i></div></div>
+    <div class="glass" data-at="2"><div class="tile sm" data-logo="i-cpu"></div><h3>Card scores</h3><p>Mondays 03:00 UTC. Airflow shells out. Scores land in MERIDIAN_RAW.ML.</p><div class="pills"><i>refresh features</i><i>train_and_score.py</i><i>stg_ml__model_scores+</i><i>nothing written back to Postgres</i></div></div>
+    <div class="glass" data-at="3"><div class="tile sm" data-logo="i-refresh"></div><h3>Bounded replay</h3><p>You press play. One table, one UTC window. The normal watermark is not moved.</p><div class="pills"><i>core.transactions</i><i>2026-09-01Z → 2026-09-02Z</i><i>then rebuild microbatch or daily</i><i>append-only raw keeps it safe</i></div></div>
+  </div>
+</section>
+
+<!-- 09 DOCKER PATHS -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#1e3a8a,#7a1f35" data-notes="The container cannot see the Mac. PG_HOST becomes host.docker.internal. The key path becomes /usr/local/airflow/include/keys/meridian_rsa_key.p8. Defaults in _common.py: DBT_PROJECT_DIR include/dbt, INGEST_DIR include/ingestion. Decisioning uses include/decisioning. The sed line rewrites only the Airflow copy of .env. On Linux drop the empty quotes after sed -i.">
+  <div class="kicker rise" style="--k-c:#fb7185">The container cannot see the Mac</div>
+  <h2 class="rise h2s" style="--d:1"><span style="color:#fb7185">localhost</span> in Docker is the container.</h2>
+  <div class="paths">
+    <div class="glass path" data-at="1">
+      <h3>Your Mac's .env</h3>
+      <div class="mapl">
+        <small>PG_HOST</small><b class="bad">localhost</b>
+        <small>KEY PATH</small><b class="bad">~/.ssh/meridian_rsa_key.p8</b>
+        <small>PROJECT</small><b>the project on your Mac</b>
+      </div>
+    </div>
+    <div class="glass path" data-at="2">
+      <h3>05_airflow/.env</h3>
+      <div class="mapl">
+        <small>PG_HOST</small><b class="ok">host.docker.internal</b>
+        <small>KEY PATH</small><b class="ok">/usr/local/airflow/include/keys/meridian_rsa_key.p8</b>
+        <small>INGEST_DIR</small><b class="ok">/usr/local/airflow/include/ingestion</b>
+      </div>
+    </div>
+  </div>
+  <div class="copies" data-at="2">
+    <div class="glass"><b>include/dbt</b><small>04_dbt_meridian_dw</small></div>
+    <div class="glass"><b>include/ingestion</b><small>02_ingestion_python</small></div>
+    <div class="glass"><b>include/decisioning</b><small>09_decisioning_python</small></div>
+    <div class="glass"><b>include/keys</b><small>meridian_rsa_key.p8</small></div>
+  </div>
+  <div class="why2" data-at="2">
+    <div class="glass"><b>dbt and the trainer.</b> DBT_PROJECT_DIR is /usr/local/airflow/include/dbt. DECISIONING_DIR is include/decisioning.</div>
+    <div class="glass"><b>Only the Airflow copy.</b> The rewrite touches 05_airflow/.env. The project .env on your Mac stays localhost.</div>
+  </div>
+</section>
+
+<!-- 10 POOL -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#7a1f35,#14532d" data-notes="airflow_settings.yaml.example declares pool meridian_postgres with pool_slot 4. The description is bounded read pressure on the Postgres source. astro dev object import creates it. Until that import, mapped extract tasks sit scheduled and do not run. Four slots match max_active_tis_per_dag=4.">
+  <div class="kicker rise" style="--k-c:#fb7185">The run that looked stuck</div>
+  <h2 class="rise h2s" style="--d:1">No pool, and <span style="color:#fb7185">it waits forever.</span></h2>
+  <div class="pool">
+    <div class="glass" data-at="1" style="border-color:rgba(251,113,133,.4)">
+      <div class="kicker" style="--k-c:#fb7185">Before the import</div>
+      <h3>Queued, not running</h3>
+      <p>Tasks ask for a pool named meridian_postgres. It does not exist yet. Airflow waits politely. The DAG says running. Nothing moves.</p>
+      <div class="queued"><i>scheduled</i><i>scheduled</i><i>scheduled</i><i>scheduled</i></div>
+      <div class="markx">✕</div>
+    </div>
+    <div class="glass" data-at="2" style="border-color:rgba(74,222,128,.4)">
+      <div class="kicker" style="--k-c:#4ade80">Four slots</div>
+      <h3>Then it moves</h3>
+      <p>astro dev object import reads airflow_settings.yaml. pool_slot is 4, the same cap as max_active_tis_per_dag.</p>
+      <div class="slots"><div class="slot">1 slot</div><div class="slot">2 slot</div><div class="slot">3 slot</div><div class="slot">4 slot</div></div>
+      <div class="markok">✓</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 PHOTOCOPY -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#0c4a6e,#14532d" data-notes="Run from 05_airflow after E5 profiles.yml and dbt deps. Copy the three project folders, the key, and .env. sed rewrites only this copy. grep should print host.docker.internal and the include/keys path. include/ is a copy: copy again after dbt deps. Do not scaffold a new Astro project on top of these DAGs.">
+  <div class="kicker rise" style="--k-c:#38bdf8">Terminal · 05_airflow · macOS</div>
+  <h2 class="rise h2s" style="--d:1">Photocopy the project <span class="grad-sky">into include/.</span></h2>
+  <div class="two" style="grid-template-columns:1.25fr .75fr;margin-top:8px">
+    <div class="stack">
+      <div class="glass code sm fitcode" data-at="1"><div class="hd"><i></i>macOS · 05_airflow</div><pre>
+<span class="ln">mkdir -p include/keys</span>
+<span class="ln">cp -R ../04_dbt_meridian_dw include/dbt</span>
+<span class="ln">cp -R ../02_ingestion_python include/ingestion</span>
+<span class="ln">cp -R ../09_decisioning_python include/decisioning</span>
+<span class="ln">cp ~/.ssh/meridian_rsa_key.p8 include/keys/</span>
+<span class="ln">cp ../.env .env</span>
+<span class="ln"><span class="cm"># sed writes these two lines into this copy</span></span>
+<span class="ln">PG_HOST=host.docker.internal</span>
+<span class="ln">SNOWFLAKE_PRIVATE_KEY_PATH=</span>
+<span class="ln">  /usr/local/airflow/include/keys/meridian_rsa_key.p8</span>
+<span class="ln">cp airflow_settings.yaml.example airflow_settings.yaml</span></pre></div>
+      <div class="cmd" data-at="2"><span class="pr">$</span><code class="wrap">grep -E '^(PG_HOST|SNOWFLAKE_PRIVATE_KEY_PATH)=' .env</code><button class="copy" data-copy="cd 05_airflow
+mkdir -p include/keys
+cp -R ../04_dbt_meridian_dw include/dbt
+cp -R ../02_ingestion_python include/ingestion
+cp -R ../09_decisioning_python include/decisioning
+cp ~/.ssh/meridian_rsa_key.p8 include/keys/meridian_rsa_key.p8
+cp ../.env .env
+sed -i '' -e 's#^PG_HOST=.*#PG_HOST=host.docker.internal#' -e 's#^SNOWFLAKE_PRIVATE_KEY_PATH=.*#SNOWFLAKE_PRIVATE_KEY_PATH=/usr/local/airflow/include/keys/meridian_rsa_key.p8#' .env
+cp airflow_settings.yaml.example airflow_settings.yaml
+grep -E '^(PG_HOST|SNOWFLAKE_PRIVATE_KEY_PATH)=' .env">Copy</button></div>
+    </div>
+    <div class="stack">
+      <div class="term" data-term data-at="3">
+        <div class="bar"><i></i><i></i><i></i><span>05_airflow</span></div>
+        <div class="body">
+          <div><span class="ps">$</span> <span class="typed" data-type="grep PG_HOST .env"></span><span class="caret"></span></div>
+          <div class="out ok">PG_HOST=host.docker.internal</div>
+          <div class="out ok">SNOWFLAKE_PRIVATE_KEY_PATH=/usr/local/airflow/include/keys/meridian_rsa_key.p8</div>
+        </div>
+      </div>
+      <div class="glass sidepool" data-at="3"><b>include/ is a copy</b><p style="margin:0;color:var(--mute);font-size:16px">Copy it again after dbt deps, so the packages come along. Your main .env is not touched.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 START -->
+<section class="s" data-ch="3" data-steps="2" data-accent="#14532d,#0c4a6e" data-notes="From 05_airflow: create .astro/config.yaml if it is missing, then astro dev start, then astro dev object import. The UI should show five meridian_ DAGs and no import errors. The pool print is pool_name meridian_postgres, pool_slot 4. Offline, python -m py_compile 05_airflow/dags/*.py only proves syntax.">
+  <div class="kicker rise" style="--k-c:#4ade80">Terminal · 05_airflow</div>
+  <h2 class="rise h2s" style="--d:1">Start the clock. <span class="grad">Then make the pool.</span></h2>
+  <div class="two" style="grid-template-columns:1.05fr .95fr;margin-top:10px">
+    <div class="stack">
+      <div class="cmd" data-at="1"><span class="pr">$</span><code>astro dev start</code><button class="copy" data-copy="cd 05_airflow
+mkdir -p .astro
+test -f .astro/config.yaml || printf 'project:\n    name: meridian\n' > .astro/config.yaml
+astro dev start">Copy</button></div>
+      <div class="cmd" data-at="2"><span class="pr">$</span><code>astro dev object import</code><button class="copy" data-copy="cd 05_airflow && astro dev object import">Copy</button></div>
+      <div class="glass code sm" data-at="2"><div class="hd"><i></i>airflow_settings.yaml · the pool</div><pre>
+<span class="ln">pool_name: meridian_postgres</span>
+<span class="ln">pool_slot: <span class="num">4</span></span>
+<span class="ln">pool_description: Bounded read pressure on the Postgres source</span></pre></div>
+      <div class="glass warn" data-at="1">Do not scaffold a new project on top of this folder. The DAGs are already here.</div>
+    </div>
+    <div class="glass sidepool" data-at="2">
+      <b>Five DAGs, no import errors</b>
+      <p style="margin:0 0 8px;color:var(--mute)">Start brings up the scheduler, the workers, the UI and the metadata database. Open the URL it prints. Port 8080 on this Mac is a different Airflow.</p>
+      <div class="dags">
+        <span>meridian_microbatch_ingest</span>
+        <span>meridian_daily_batch</span>
+        <span>meridian_source_freshness</span>
+        <span>meridian_card_decisioning</span>
+        <span>meridian_bounded_replay</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 ONE GREEN TICK -->
+<section class="s" data-ch="3" data-steps="2" data-accent="#0f766e,#7a5a10" data-notes="Unpause meridian_microbatch_ingest and wait for one green run: four extracts, dbt_build_hot_path, report_pipeline_health. Then trigger meridian_daily_batch once. Do not wait for 02:00 UTC. A missing DAG: safe mode skips a file that never contains the words airflow and DAG. Reconcile compares whole UTC dates on both sides, plus a two-minute updated_at cutoff. A rolling timestamp cutoff would mismatch the oldest day.">
+  <div class="kicker rise" style="--k-c:#4ade80">Airflow UI</div>
+  <h2 class="rise h2s" style="--d:1">One green tick. <span class="grad">Then the night, now.</span></h2>
+  <div class="ui2">
+    <div class="glass" data-at="1">
+      <h3>Unpause the five-minute DAG</h3>
+      <p>The scheduler takes the next five-minute slot. Every box goes green.</p>
+      <div class="chips tight"><span>transactions</span><span>card_applications</span><span>card_authorizations</span><span>deleted_records</span><span>dbt_build_hot_path</span><span>report_pipeline_health</span></div>
+    </div>
+    <div class="glass" data-at="2">
+      <h3>Trigger the nightly DAG once</h3>
+      <p>Do not wait for 02:00 UTC. Same chain, one run. Integrity sits before reconcile.</p>
+      <div class="chips tight"><span>extract_daily</span><span>snapshot</span><span>daily build</span><span>mart_integrity</span><span>reconcile</span><span>docs</span><span>manifest</span></div>
+      <div class="cmd" style="margin-top:14px"><span class="pr">UI</span><code>Trigger DAG · meridian_daily_batch</code><button class="copy" data-copy="Trigger meridian_daily_batch once from the Airflow UI. Do not wait for 02:00 UTC.">Copy</button></div>
+    </div>
+  </div>
+  <div class="traps">
+    <div class="glass" data-at="1"><b>1 &nbsp; A DAG missing from the list</b><p>Safe mode skips a file that never contains the words airflow and DAG. The nightly and freshness files start with that comment. Read the processor log.</p></div>
+    <div class="glass" data-at="2"><b>2 &nbsp; Reconcile fails only on the oldest day</b><p>A rolling cutoff compared half a Postgres day with a whole Snowflake day. The script compares whole UTC dates, and ignores rows updated in the last two minutes.</p></div>
+  </div>
+</section>
+
+<!-- 14 OUTRO -->
+<section class="s" data-ch="3" data-accent="#0c4a6e,#14532d" data-notes="The clock rings. The tools cook. Next episode breaks a query, measures it, and fixes one thing.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#38bdf8">Episode 7 complete</div>
+    <h2 class="rise" style="--d:1;font-size:68px">The clock rings. <span class="grad-sky">The tools cook.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Five-minute gate</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Nightly chain</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Container paths</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Pool of four</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="i-gauge"></div><div style="text-align:left"><small>Next · Episode 8</small><b>Break it, measure, fix</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+</body>
+</html>

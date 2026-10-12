@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 11 · Ask in English</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.pipe{margin-top:28px}
+.pipe .stop b{font-size:20px}
+.pipe .stop small{font-size:16px;line-height:1.35}
+.qbox{margin-top:28px;padding:22px 28px;display:flex;align-items:center;gap:18px;min-height:92px}
+.qbox .lbl{font:800 16px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;flex:none}
+.qbox .in{font:650 28px var(--mono);color:#f8fbff;min-height:1.3em}
+.menu .card{min-height:248px}
+.menu .card h3{font-size:26px}
+.menu .card p{font-size:17px}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.rule{padding:22px 24px;min-height:268px;display:flex;flex-direction:column;gap:8px}
+.rule h3{margin:0;font-size:26px}
+.rule p{margin:0;color:var(--mute);font-size:18px;line-height:1.4}
+.rule .eg{margin-top:auto}
+.qs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.q{padding:22px 24px 20px;min-height:275px;display:flex;flex-direction:column;gap:8px}
+.q .num{font:900 13px var(--mono);letter-spacing:.16em;color:var(--c,#a78bfa)}
+.q h3{margin:0;font-size:24px;letter-spacing:-.02em}
+.q code{font:650 15px var(--mono);color:#dbe5f3;line-height:1.45}
+.askbar{margin-top:6px;padding:16px 20px;display:flex;align-items:center;gap:14px}
+.askbar .lbl{font:800 16px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;flex:none}
+.askbar code{font:650 20px var(--mono);color:#f8fbff}
+.askbar .tag{margin-left:auto;font:800 14px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#4ade80;flex:none}
+.four{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+.four .card{min-height:0;height:100%;padding:20px 16px 16px;gap:12px}
+.four .card h3{font-size:22px;line-height:1.15}
+.four .role{font:650 16px var(--mono);color:var(--mute);line-height:1.35}
+.prow{border-radius:14px;padding:14px 12px;background:rgba(10,15,28,.45);border:1px solid rgba(255,255,255,.06)}
+.prow b{display:block;font-size:18px;letter-spacing:-.01em;line-height:1.25}
+.slots{display:flex;gap:6px;margin-top:10px}
+.slots span{flex:1;text-align:center;font:800 18px var(--mono);padding:10px 2px;border-radius:8px;background:rgba(74,222,128,.14);color:#86efac}
+.slots span.hid{background:rgba(251,113,133,.18);color:#fecdd3;animation:slam .7s var(--spring) both}
+.slots span.nul{background:rgba(251,191,36,.16);color:#fde68a}
+.prow.out{opacity:.4}
+.prow.out .slots span{background:transparent;color:#fb7185;text-decoration:line-through;animation:none}
+.four .card.was{opacity:1;filter:none;transform:none}
+.keep{margin-top:auto;padding-top:8px}
+.keep .meter{margin-top:8px}
+.keep small{display:block;margin-top:10px;font:700 16px var(--mono);color:#eaf2ff}
+.open .statement{justify-content:space-between;max-width:none}
+.open .lead{font-size:30px;max-width:1280px}
+.open .beat3{margin-top:0}
+.open .fbox{min-height:250px;padding:36px 26px;display:flex;flex-direction:column;justify-content:center}
+.open .fbox b{font-size:32px}
+.open .fbox small{font-size:20px;margin-top:10px}
+.open .fbox .ico{width:78px;height:78px;border-radius:22px}
+.open .fbox .ico svg{width:42px;height:42px}
+.path{display:flex;flex-direction:column}
+.path .pipe{margin-top:16px}
+.path .pipe .stop .tile{width:112px;height:112px}
+.path .qbox{margin-top:18px;min-height:100px}
+.path .sqlans{margin-top:auto}
+.path .sqlans pre{font-size:22px;line-height:1.55}
+.personas{display:flex;flex-direction:column}
+.personas .four{flex:1}
+@keyframes slam{0%{transform:translateY(-28px) scale(1.4);opacity:0}100%{transform:none;opacity:1}}
+.masks{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:22px}
+.mask{min-height:520px;padding:26px 26px 22px;display:flex;flex-direction:column}
+.mask h3{margin:0;font-size:28px}
+.mask .ret{margin-top:16px;font:900 64px var(--mono);letter-spacing:-.04em;line-height:1}
+.mask .ret em{font-style:normal}
+.mask ul{margin:16px 0 0;padding:0;list-style:none;color:var(--mute);font-size:17px;line-height:1.55}
+.mask .foot{margin-top:auto;font:700 15px var(--mono);color:#dbe5f3}
+.falltag{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:8px 12px;border-radius:10px;background:rgba(167,139,250,.15);color:#ddd6fe;font:800 13px var(--mono);animation:dropTag .8s var(--spring) both}
+@keyframes dropTag{0%{transform:translateY(-40px);opacity:0}100%{transform:none;opacity:1}}
+.side .mini{margin-top:16px}
+.side h3{font-size:26px}
+.userow{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;margin-top:18px;align-items:stretch}
+.userow .card{min-height:168px}
+.hits{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.hit{padding:16px 14px 14px;min-height:250px}
+.hit h3{font-size:16px}
+.hit .ent{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.hit .ent i{font-style:normal;font:700 13px var(--mono);padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.05)}
+.hit .ent i.off{opacity:.28;text-decoration:line-through}
+.term .body{min-height:120px}
+.term .out{white-space:pre-wrap}
+.cmd.sql pre{white-space:pre-wrap}
+.edges{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.edges .card{min-height:275px;padding:22px 24px}
+.tall .card{min-height:490px}
+.vs .side{min-height:530px}
+.two.stretch{align-items:stretch}
+.two.stretch .notes2{height:100%}
+.two.stretch .callout{flex:1}
+.beat3{display:grid;grid-template-columns:1fr 70px 1fr 70px 1fr;align-items:center;margin-top:54px}
+.beat3 .fbox{min-width:0}
+.edges .card h3{font-size:24px}
+.edges .card p{font-size:17px}
+/* country key versus the lock */
+.klay{display:grid;grid-template-columns:.92fr 1.08fr;gap:24px;margin-top:14px;align-items:stretch}
+.board{padding:18px 18px 14px;display:flex;flex-direction:column}
+.board .bh{display:flex;align-items:center;justify-content:space-between;font:800 13px var(--sans);letter-spacing:.16em;color:var(--faint);text-transform:uppercase}
+.board .bh b{font:800 13px var(--mono);letter-spacing:.04em;color:#c4b5fd;text-transform:none}
+.crows{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.crow{display:grid;grid-template-columns:62px 1fr 96px;gap:12px;align-items:center;padding:8px 12px;border-radius:12px;background:rgba(10,15,28,.5);border:1px solid rgba(255,255,255,.06);font:600 15px var(--mono);color:#dbe5f3;opacity:0;transform:translateX(-18px);transition:opacity .5s var(--ease),transform .7s var(--spring),filter .5s,background .5s,border-color .5s;transition-delay:calc(var(--i)*70ms)}
+.crow .cc{text-align:center;padding:5px 0;border-radius:8px;font:900 15px var(--mono);background:color-mix(in srgb,var(--c) 20%,transparent);color:var(--c);border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.crow .st2{text-align:right;font:800 12px var(--sans);letter-spacing:.12em;color:#86efac;transition:color .4s}
+.board[data-k="1"] .crow,.board[data-k="2"] .crow,.board[data-k="3"] .crow,.board[data-k="4"] .crow{opacity:1;transform:none}
+.board[data-k="2"] .crow{background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.22)}
+.board[data-k="3"] .crow,.board[data-k="4"] .crow{opacity:.28;filter:saturate(.3);text-decoration:line-through;text-decoration-color:#fb7185}
+.board[data-k="3"] .crow.hk,.board[data-k="4"] .crow.hk{opacity:1;filter:none;text-decoration:none;background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.4)}
+.board[data-k="3"] .crow .st2,.board[data-k="4"] .crow .st2{color:#fb7185}
+.board[data-k="3"] .crow.hk .st2,.board[data-k="4"] .crow.hk .st2{color:#4ade80}
+.crow .st2::after{content:"VISIBLE"}
+.board[data-k="2"] .crow .st2{color:#fde68a}
+.board[data-k="2"] .crow .st2::after{content:"STILL IN"}
+.board[data-k="3"] .crow .st2::after,.board[data-k="4"] .crow .st2::after{content:"DENIED"}
+.board[data-k="3"] .crow.hk .st2::after,.board[data-k="4"] .crow.hk .st2::after{content:"HK ONLY"}
+.board .tally{margin-top:auto;padding-top:12px;display:flex;align-items:baseline;gap:14px}
+.board .tally .n{font:900 52px var(--mono);letter-spacing:-.04em;color:#eaf2ff;line-height:1;transition:color .5s}
+.board .tally small{color:var(--mute);font-size:15px;line-height:1.35}
+.board[data-k="3"] .tally .n,.board[data-k="4"] .tally .n{color:#4ade80}
+.kstack{display:flex;flex-direction:column;gap:12px}
+.kcard{padding:14px 18px;display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+.kcard .k{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font:900 16px var(--mono);background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c)}
+.kcard b{display:block;font-size:20px}
+.kcard p{margin:4px 0 0;color:var(--mute);font-size:16px;line-height:1.4}
+.kcard code{display:block;margin-top:8px;font:650 14px var(--mono);color:#e9e2ff;background:rgba(10,15,28,.6);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:8px 10px;white-space:pre;overflow:hidden}
+.kcard.bad{border-color:rgba(251,113,133,.35)}
+.kcard.bad b{text-decoration:line-through;text-decoration-color:rgba(251,113,133,.0);transition:text-decoration-color .5s .6s}
+.kcard.bad.was b{text-decoration-color:#fb7185}
+.kcard .lbl3{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:7px;font:800 11px var(--sans);letter-spacing:.12em;vertical-align:3px;background:rgba(251,191,36,.16);color:#fde68a}
+/* four proofs */
+.crumbs{display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:nowrap}
+.crumbs .seq{padding:10px 16px;border-radius:12px;font:700 17px var(--mono);color:#9fb0c8;background:rgba(10,15,28,.55);border:1px solid rgba(255,255,255,.08);white-space:nowrap;transition:color .4s,border-color .4s,box-shadow .4s,background .4s}
+.crumbs .seq.lit,.crumbs .seq.done{color:#f2f6fc;border-color:rgba(167,139,250,.55)}
+.crumbs .seq.lit{box-shadow:0 0 30px -8px rgba(167,139,250,.8);background:rgba(167,139,250,.14)}
+.crumbs .gt{color:#5f708c;font:800 18px var(--mono)}
+.proofs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.proof{padding:20px 22px;display:flex;flex-direction:column;gap:12px;min-height:236px}
+.proof .ph{display:flex;align-items:center;gap:10px}
+.proof .ph .k{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font:900 14px var(--mono);background:color-mix(in srgb,var(--c) 20%,transparent);color:var(--c);flex:none}
+.proof .ph b{font-size:22px}
+.proof .ph em{margin-left:auto;font-style:normal;font:700 13px var(--mono);color:var(--c);white-space:nowrap}
+.proof pre{margin:0;padding:12px 14px;border-radius:12px;background:#0a0f1c;border:1px solid rgba(255,255,255,.07);font:600 15px/1.6 var(--mono);color:#dbe5f3;white-space:pre-wrap}
+.proof .exp{margin-top:auto;display:flex;align-items:center;gap:10px;font:700 17px var(--mono);color:#eaf2ff}
+.proof .exp i{font-style:normal;font:800 11px var(--sans);letter-spacing:.14em;color:var(--faint);flex:none}
+.proof .exp .r{padding:4px 10px;border-radius:8px;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);opacity:0;transform:scale(.6);transition:opacity .3s .8s,transform .6s var(--spring) .8s}
+.proof.on .exp .r{opacity:1;transform:none}
+.logout{margin-top:20px;font-size:18px}
+</style>
+</head>
+<body data-episode="e11" data-label="Episode 11" data-chapters="The menu|Four people|The lock|Ask it" data-chapter-colors="#a78bfa|#38bdf8|#fbbf24|#2dd4bf">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#4c1d95,#1e3a5f" data-notes="The gold tables are done. A person who will not write SQL still has to get a true answer, and only the rows they are allowed to see.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;--teal:#a78bfa;border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.08);color:#c4b5fd"><i style="background:#a78bfa;box-shadow:0 0 14px #a78bfa"></i>EPISODE 11</div>
+      <h1 class="mega rise" style="--d:1">Ask in<br><span class="grad-violet">English.</span></h1>
+      <p class="lead rise" style="--d:2">The model may write the SQL. Snowflake runs it as the person who signed in. A hidden row never reaches the model.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Semantic view</span><span><b>02</b>Four personas</span><span><b>03</b>Row policy</span><span><b>04</b>Masked columns</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="st,sf,dbt,i-lock,i-shield,i-search" data-core="i-message" data-core-class="violet"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s open" data-ch="0" data-accent="#3b0764,#0f4c5c" data-notes="If the chat invents joins, it will sum the wrong thing and sound sure. The menu stops that. The policy stops the other problem: the right SQL, the wrong rows.">
+  <div class="statement">
+    <div class="kicker rise" style="--k-c:#a78bfa">Before the app</div>
+    <p class="huge" data-words>English in. <span class="grad-violet">The lock decides.</span></p>
+    <p class="lead rise" style="--d:6">Streamlit is only the window. The semantic view is the menu of tables, joins and metrics. The row policy is the lock on the door.</p>
+    <div class="beat3">
+      <div class="fbox rise" style="--d:7"><div class="ico sm" data-logo="i-user" style="margin:0 auto 10px"></div><b>Person</b><small>types English</small></div>
+      <div class="arrow rise" style="--d:8"></div>
+      <div class="fbox rise" style="--d:8"><div class="ico sm" data-logo="i-robot" style="margin:0 auto 10px"></div><b>Cortex</b><small>writes the SQL</small></div>
+      <div class="arrow rise" style="--d:9"></div>
+      <div class="fbox rise" style="--d:9"><div class="ico sm" data-logo="i-lock" style="margin:0 auto 10px"></div><b>Policy</b><small>drops hidden rows</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 THE PATH -->
+<section class="s path" data-ch="0" data-steps="2" data-accent="#5b21b6,#155e75" data-notes="Walk one token left to right. The model writes SQL. The warehouse runs it as that user. The policy filters before the answer is drawn.">
+  <div class="kicker rise" style="--k-c:#a78bfa">One question, seven stops</div>
+  <h2 class="rise" style="--d:1">The model writes SQL. <span class="grad-violet">Snowflake filters it.</span></h2>
+  <div class="pipe" data-seq="380">
+    <div class="rail"><i class="packet"></i></div>
+    <div class="stop seq"><div class="tile" data-logo="i-user"></div><b>Person</b><small>types English</small></div>
+    <div class="stop seq"><div class="tile" data-logo="st"></div><b>Streamlit</b><small>the window</small></div>
+    <div class="stop seq"><div class="tile" data-logo="i-robot"></div><b>Cortex</b><small>writes SQL</small></div>
+    <div class="stop seq"><div class="tile" data-logo="i-layers"></div><b>Menu</b><small>semantic view</small></div>
+    <div class="stop seq"><div class="tile" data-logo="sf"></div><b>Warehouse</b><small>runs as them</small></div>
+    <div class="stop seq"><div class="tile" data-logo="i-lock"></div><b>Policy</b><small>drops rows</small></div>
+    <div class="stop seq"><div class="tile" data-logo="i-chart"></div><b>Answer</b><small>table and SQL</small></div>
+  </div>
+  <div class="glass qbox" data-at="1" data-typein>
+    <span class="lbl">Question</span>
+    <span class="in" data-val="How many suspected fraudulent card authorizations did the rules flag?"></span>
+  </div>
+  <div class="glass code sqlans" data-at="2"><div class="hd"><i></i>fraud_queue · the checked SQL</div><pre>
+<span class="ln">SELECT COUNT(*) AS suspected_authorizations</span>
+<span class="ln">FROM MERIDIAN_ANALYTICS.MARTS.FCT_CARD_AUTHORIZATIONS</span>
+<span class="ln">WHERE is_rule_suspect</span></pre></div>
+  <div class="note" data-at="2">The app shows this SQL. It does not hide it, and it does not invent a number when Cortex refuses.</div>
+</section>
+
+<!-- 04 THE MENU -->
+<section class="s" data-ch="0" data-steps="6" data-accent="#4c1d95,#1e40af" data-notes="SV_MERIDIAN_BANK sits on gold only. Customers in the menu are who they are today. The version at the time of a payment is a different join.">
+  <div class="kicker rise" style="--k-c:#a78bfa">10_semantic_app/01_semantic_view.sql</div>
+  <h2 class="rise" style="--d:1">The semantic view <span class="grad-violet">is the menu.</span></h2>
+  <div class="g3 menu mt1">
+    <div class="glass card" data-at="1" style="--c:#a78bfa"><div class="ico" data-logo="i-layers"></div><h3>Tables</h3><p>Seven gold tables, with friendly names. Payments means fct_transactions. Clients means who the customer is today.</p><div class="eg">SV_MERIDIAN_BANK</div></div>
+    <div class="glass card" data-at="2" style="--c:#38bdf8"><div class="ico" data-logo="i-branch"></div><h3>Relationships</h3><p>The only joins allowed. customer_id points at dim_customer_current, so a count of customers does not double.</p><div class="eg">not every SCD2 version</div></div>
+    <div class="glass card" data-at="3" style="--c:#2dd4bf"><div class="ico" data-logo="i-eye"></div><h3>Dimensions</h3><p>Words you can group or filter by. Segment, city, status, marketplace, the decision on an application.</p><div class="eg">branches.city · customers.segment</div></div>
+    <div class="glass card" data-at="4" style="--c:#fbbf24"><div class="ico" data-logo="i-chart"></div><h3>Metrics</h3><p>Named maths, written once. Card spend, net flow in USD, suspected-fraud count, approval rate, people to contact.</p><div class="eg">suspected_fraud_count</div></div>
+    <div class="glass card" data-at="5" style="--c:#fb923c"><div class="ico" data-logo="i-file"></div><h3>House rules</h3><p>AI_SQL_GENERATION. Defaults the model must obey: posted payments, approved swipes, dollars, never fraud_label.</p><div class="eg">do not imitate the lock</div></div>
+    <div class="glass card" data-at="6" style="--c:#4ade80"><div class="ico" data-logo="i-check"></div><h3>Checked questions</h3><p>AI_VERIFIED_QUERIES. Four questions a human already wrote the SQL for. Analyst prefers them when the words are close.</p><div class="eg">also in card_questions.sql</div></div>
+  </div>
+</section>
+
+<!-- 05 HOUSE RULES -->
+<section class="s" data-ch="0" data-steps="4" data-accent="#7c2d12,#4c1d95" data-notes="Approval rate is an average of a yes-or-no flag. Do not average that average again. At the time means the SCD2 key, the same drawing as the warehouse episode.">
+  <div class="kicker rise" style="--k-c:#fb923c">AI_SQL_GENERATION</div>
+  <h2 class="rise" style="--d:1">House rules, <span class="grad-warm">said once.</span></h2>
+  <div class="rules">
+    <div class="glass rule" data-at="1" style="--c:#38bdf8"><h3>Start from the settled row</h3><p>Payments default to status POSTED. Card swipes default to response APPROVED, unless the person asks about declines or fraud. Money is USD.</p><div class="eg">amount_reporting · signed flow</div></div>
+    <div class="glass rule" data-at="2" style="--c:#a78bfa"><h3>Today, unless they say “at the time”</h3><p>Segment and risk are the current customer. “At the time” joins dim_customer on customer_key, the version that was true that day.</p><div class="eg">dim_customer_current is a view</div></div>
+    <div class="glass rule" data-at="3" style="--c:#fb7185"><h3>Three things it must not do</h3><p>Never use fraud_label. Do not add a month of balances together. Do not add a filter to imitate the row policy, and do not try to turn the policy off.</p><div class="eg">the lock is not a prompt</div></div>
+    <div class="glass rule" data-at="4" style="--c:#4ade80"><h3>Marketplace is two names</h3><p>FLIPKART or AMAZON. A customer missing from offers was suppressed or did not qualify. The caller may be one person, one branch, or the whole bank.</p><div class="eg">the policy picks the rows</div></div>
+  </div>
+</section>
+
+<!-- 06 FOUR QUESTIONS -->
+<section class="s" data-ch="0" data-steps="4" data-accent="#1e3a8a,#4c1d95" data-notes="These four are onboarding questions. The fraud one is the demo: same SQL four times, the count should fall. Approval rate must not be averaged again.">
+  <div class="kicker rise" style="--k-c:#38bdf8">AI_VERIFIED_QUERIES · four questions</div>
+  <h2 class="rise" style="--d:1">A human already <span class="grad">checked the SQL.</span></h2>
+  <div class="qs">
+    <div class="glass q" data-at="1" style="--c:#38bdf8"><div class="num">01 · card_spend_in_sales</div><h3>Spend on Flipkart and Amazon during sales</h3><code>SUM(amount_reporting)<br>where response = APPROVED<br>and marketplace is not null</code></div>
+    <div class="glass q" data-at="2" style="--c:#a78bfa"><div class="num">02 · approval_rate_by_segment</div><h3>Approval rate by the segment at apply</h3><code>AVG of a yes-or-no flag<br>on segment_at_apply<br>do not average it again</code></div>
+    <div class="glass q" data-at="3" style="--c:#fbbf24"><div class="num">03 · who_to_contact</div><h3>Who to offer a card before the next sale</h3><code>offer_name, reason, COUNT<br>from fct_next_best_offer<br>grouped, then ordered</code></div>
+    <div class="glass q" data-at="4" style="--c:#fb7185"><div class="num">04 · fraud_queue</div><h3>How many swipes the rules flagged</h3><code>COUNT(*)<br>from fct_card_authorizations<br>where is_rule_suspect</code></div>
+  </div>
+</section>
+
+<!-- 07 FOUR PERSONAS -->
+<section class="s personas" data-ch="1" data-steps="4" data-accent="#0e7490,#4c1d95" data-notes="Same query, four logins. Log out between them. USE ROLE does not change CURRENT_USER. CEO sees every customer. Manager and staff see home branch IN-MUM-0001. Staff contact cells are masked. The customer sees only their own id. This picture is the rule, not a counted result.">
+  <div class="kicker rise" style="--k-c:#38bdf8">The rule, not a counted result</div>
+  <h2 class="rise" style="--d:1">Who signed in <span class="grad">changes the answer.</span></h2>
+  <div class="glass askbar rise" style="--d:2">
+    <span class="lbl">Same SQL</span>
+    <code>select email, phone, date_of_birth from dim_customer_current</code>
+    <span class="tag">query does not change</span>
+  </div>
+  <div class="four">
+    <div class="glass card" data-at="1" style="--c:#f5c542">
+      <div class="num">PERSONA CEO</div>
+      <h3>MERIDIAN_CEO</h3>
+      <div class="role">role MERIDIAN_CEO</div>
+      <div class="prow"><b>Every customer</b><div class="slots"><span>email</span><span>phone</span><span>born</span></div></div>
+      <div class="keep"><div class="meter" data-go><i style="--w:100%;--c:#f5c542"></i></div><small>every customer · values shown</small></div>
+    </div>
+    <div class="glass card" data-at="2" style="--c:#38bdf8">
+      <div class="num">BRANCH_MANAGER</div>
+      <h3>MERIDIAN_BM_MUMBAI</h3>
+      <div class="role">role MERIDIAN_BRANCH_MANAGER</div>
+      <div class="prow"><b>Home branch IN-MUM-0001</b><div class="slots"><span>email</span><span>phone</span><span>born</span></div></div>
+      <div class="prow out"><b>Another branch</b><div class="slots"><span>hidden</span></div></div>
+      <div class="keep"><div class="meter" data-go><i style="--w:62%;--c:#38bdf8"></i></div><small>home branch only · values shown</small></div>
+    </div>
+    <div class="glass card" data-at="3" style="--c:#fb7185">
+      <div class="num">STAFF</div>
+      <h3>MERIDIAN_STAFF_MUMBAI</h3>
+      <div class="role">role MERIDIAN_STAFF</div>
+      <div class="prow"><b>Same home branch</b><div class="slots"><span class="hid">***</span><span class="hid">***</span><span class="nul">NULL</span></div></div>
+      <div class="prow out"><b>Another branch</b><div class="slots"><span>hidden</span></div></div>
+      <div class="keep"><div class="meter" data-go><i style="--w:62%;--c:#fb7185"></i></div><small>same rows · contact masked</small></div>
+    </div>
+    <div class="glass card" data-at="4" style="--c:#4ade80">
+      <div class="num">CUSTOMER</div>
+      <h3>MERIDIAN_CUSTOMER</h3>
+      <div class="role">role MERIDIAN_CUSTOMER</div>
+      <div class="prow"><b>Their own customer_id</b><div class="slots"><span>email</span><span>phone</span><span>born</span></div></div>
+      <div class="prow out"><b>Anyone else</b><div class="slots"><span>hidden</span></div></div>
+      <div class="keep"><div class="meter" data-go><i style="--w:22%;--c:#4ade80"></i></div><small>one person · values shown</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 MASKING -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#9f1239,#4c1d95" data-notes="Row policy chooses rows. Masking changes cells. Only persona STAFF. The tag is GOVERNANCE.PII. dbt sets the tag; the policy is already on the tag.">
+  <div class="kicker rise" style="--k-c:#fb7185">Tag GOVERNANCE.PII · masked for STAFF only</div>
+  <h2 class="rise" style="--d:1">Same rows. <span class="grad-red">The cells change.</span></h2>
+  <div class="masks">
+    <div class="glass mask" data-at="1" style="--c:#fb7185">
+      <div class="falltag">PII = contact</div>
+      <h3>Words</h3>
+      <div class="ret"><em>***</em></div>
+      <ul><li>email</li><li>phone</li></ul>
+      <div class="foot">MASK_PII_STRING</div>
+    </div>
+    <div class="glass mask" data-at="2" style="--c:#fbbf24">
+      <div class="falltag">PII = contact_date</div>
+      <h3>A date</h3>
+      <div class="ret" style="color:#fde68a">NULL</div>
+      <ul><li>date_of_birth</li></ul>
+      <div class="foot">MASK_PII_DATE</div>
+    </div>
+    <div class="glass mask" data-at="3" style="--c:#a78bfa">
+      <div class="falltag">PII = income</div>
+      <h3>A number</h3>
+      <div class="ret" style="color:#ddd6fe">NULL</div>
+      <ul><li>estimated_annual_income</li><li>income_at_apply and the other money columns tagged income</li></ul>
+      <div class="foot">MASK_PII_NUMBER · NUMBER(18,2)</div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 POLICY BODY -->
+<section class="s" data-ch="2" data-steps="5" data-accent="#92400e,#4c1d95" data-notes="Read the CASE top to bottom. CEO, then the customer, then manager and staff through ENT_CUSTOMER_BRANCH, then any other mapped user is denied, then engineers outside the app.">
+  <div class="kicker rise" style="--k-c:#fbbf24">RAP_CUSTOMER_SCOPE · plain words</div>
+  <h2 class="rise" style="--d:1">Five answers, <span class="grad-gold">in this order.</span></h2>
+  <div class="steps" style="--n:5;margin-top:36px"><i class="wire"></i>
+    <div class="st" data-at="1" style="--c:#f5c542"><div class="bub">1</div><b>CEO</b><p>persona CEO. Every row comes back.</p><span class="eg">CURRENT_USER()</span></div>
+    <div class="st" data-at="2" style="--c:#4ade80"><div class="bub">2</div><b>Customer</b><p>Their customer_id equals the row.</p><span class="eg">own rows only</span></div>
+    <div class="st" data-at="3" style="--c:#38bdf8"><div class="bub">3</div><b>Branch</b><p>Manager and staff. Home branch via ENT_CUSTOMER_BRANCH.</p><span class="eg">MIN(branch_id)</span></div>
+    <div class="st" data-at="4" style="--c:#fb7185"><div class="bub">4</div><b>Anyone else mapped</b><p>They are in APP_USER, and they still get nothing.</p><span class="eg">THEN FALSE</span></div>
+    <div class="st" data-at="5" style="--c:#a78bfa"><div class="bub">5</div><b>Builders</b><p>Not in APP_USER, and one of three roles is in the session.</p><span class="eg">three builder roles</span></div>
+  </div>
+  <div class="note" data-at="5">The lookup table is home branch, not the branch where a swipe happened. A manager sees their customers everywhere, and misses a visitor from another branch.</div>
+  <div class="glass code sm" data-at="5" style="margin-top:16px"><div class="hd"><i></i>RAP_CUSTOMER_SCOPE · the order of the CASE</div><pre>
+<span class="ln">WHEN persona = <span class="str">'CEO'</span>                                          THEN TRUE</span>
+<span class="ln">WHEN persona = <span class="str">'CUSTOMER'</span> AND customer_id = p_customer_id THEN TRUE</span>
+<span class="ln">WHEN ENT_CUSTOMER_BRANCH matches MIN(branch_id)             THEN TRUE</span>
+<span class="ln">WHEN the signed-in user is already in APP_USER              THEN FALSE</span>
+<span class="ln">ELSE transformer, analyst, or ML is in the session</span></pre></div>
+</section>
+
+<!-- 10 NO JOIN -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#9f1239,#14532d" data-notes="Snowflake refuses a JOIN inside a row policy. The old body failed. The rewrite is separate EXISTS checks. The entitlement table has no policy, so the policy owner can read it and personas never need SELECT on it.">
+  <div class="kicker rise" style="--k-c:#fb7185">Why the policy has no JOIN</div>
+  <h2 class="rise" style="--d:1">A lock cannot <span class="grad-red">join a table.</span></h2>
+  <div class="vs">
+    <div class="glass side bad" data-at="1">
+      <div class="stampx">✗</div>
+      <h3><span class="tag2">REFUSED</span> A JOIN inside the body</h3>
+      <p>The policy is not allowed to join. The app reported an unsupported subquery. dim_customer cannot be the lookup either: that table wears this same policy, and a policy may not read itself.</p>
+      <div class="cmd sql" style="margin-top:18px"><pre>JOIN dim_customer ...</pre></div>
+    </div>
+    <div class="glass side good" data-at="2">
+      <div class="stampx">✓</div>
+      <h3><span class="tag2">WORKS</span> Separate EXISTS checks</h3>
+      <p>A scalar MIN(branch_id) finds the person’s branch. A second EXISTS looks in ent_customer_branch. That table has no policy and no consumer grant. The subquery runs as the policy owner.</p>
+      <div class="cmd sql" style="margin-top:18px"><pre>EXISTS (... ENT_CUSTOMER_BRANCH ...)</pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 CURRENT USER -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#92400e,#0f766e" data-notes="Inside Streamlit in Snowflake the role is the app owner for every viewer. READ SESSION makes CURRENT_USER the person. MERIDIAN_APP is deliberately not a bypass role. Log out between demos.">
+  <div class="kicker rise" style="--k-c:#fbbf24">The person, not the role</div>
+  <h2 class="rise" style="--d:1">The app knows <span class="grad-gold">who signed in.</span></h2>
+  <div class="g3 tall mt2">
+    <div class="glass card" data-at="1" style="--c:#fb7185"><div class="ico" data-logo="i-users"></div><h3>CURRENT_ROLE() lies here</h3><p>Streamlit runs as its owner. Every viewer would look like MERIDIAN_APP. A role check cannot tell them apart.</p><div class="eg">one role, many people</div></div>
+    <div class="glass card" data-at="2" style="--c:#fbbf24"><div class="ico" data-logo="i-user"></div><h3>CURRENT_USER() is the viewer</h3><p>GRANT READ SESSION ON ACCOUNT to MERIDIAN_APP. The policy looks that name up in APP_USER. On a laptop, the connection itself is that user.</p><div class="eg">log out. USE ROLE is not a login.</div></div>
+    <div class="glass card" data-at="3" style="--c:#4ade80"><div class="ico" data-logo="i-shield"></div><h3>The owner is not a bypass</h3><p>Transformer, analyst and ML see every row when they are absent from APP_USER. MERIDIAN_APP is not on that list. An app owned by the transformer would show the whole bank.</p><div class="eg">deny by default</div></div>
+  </div>
+</section>
+
+<!-- 12 COUNTRY KEY -->
+<section class="s" data-ch="2" data-steps="4" data-scene="countrylock" data-accent="#7c2d12,#4c1d95" data-notes="The interview case: a Hong Kong user must see Hong Kong only. Step one, every row carries a country label. Step two, a WHERE clause is a request, not a wall. Step three, RAP_COUNTRY_SCOPE reads APP_USER.country_code. Seeded countries are IN, AE, GB, US and SG, so the file inserts one labelled HK fixture. MERIDIAN_HK_OFFICER sees that fixture only. MERIDIAN_UNENTITLED has the same role and sees zero. Step four, branch personas stay on their existing policies because one table accepts one row policy.">
+  <div class="kicker rise" style="--k-c:#fb923c">Tenant or country key · label or lock?</div>
+  <h2 class="rise" style="--d:1">The key labels the row. <span class="grad-warm">The policy is the wall.</span></h2>
+  <div class="klay">
+    <div class="glass board rise" style="--d:2" data-k="0">
+      <div class="bh"><span>Rows a Hong Kong-only user asks for</span><b>dim_customer</b></div>
+      <div class="crows">
+        <div class="crow" style="--i:0;--c:#fb923c"><span class="cc">IN</span><span>customer row</span><span class="st2"></span></div>
+        <div class="crow" style="--i:1;--c:#2dd4bf"><span class="cc">AE</span><span>customer row</span><span class="st2"></span></div>
+        <div class="crow" style="--i:2;--c:#a78bfa"><span class="cc">GB</span><span>customer row</span><span class="st2"></span></div>
+        <div class="crow" style="--i:3;--c:#38bdf8"><span class="cc">US</span><span>customer row</span><span class="st2"></span></div>
+        <div class="crow" style="--i:4;--c:#fb7185"><span class="cc">SG</span><span>customer row</span><span class="st2"></span></div>
+        <div class="crow" style="--i:5;--c:#fb923c"><span class="cc">IN</span><span>customer row</span><span class="st2"></span></div>
+        <div class="crow" style="--i:6;--c:#a78bfa"><span class="cc">GB</span><span>customer row</span><span class="st2"></span></div>
+        <div class="crow hk" style="--i:7;--c:#4ade80"><span class="cc">HK</span><span>labelled fixture row</span><span class="st2"></span></div>
+      </div>
+      <div class="tally"><div class="n" id="ktally">—</div><small id="ktallyl">Press next. Every row wears a country label.</small></div>
+    </div>
+    <div class="kstack">
+      <div class="glass kcard" data-at="1" style="--c:#fb923c"><div class="k">1</div><div><b>The key labels the row</b><p>country_code sits on dim_customer and dim_branch. Meridian seeds five: IN, AE, GB, US, SG.</p><code>dim_customer.country_code   -- a label</code></div></div>
+      <div class="glass kcard bad" data-at="2" style="--c:#fb7185"><div class="k">✗</div><div><b>A WHERE clause is a request</b><p>The next query, a BI tool, or a chat that drops the filter sees every country. The house rules forbid imitating the lock.</p><code>WHERE country_code = 'HK'    -- not a wall</code></div></div>
+      <div class="glass kcard" data-at="3" style="--c:#4ade80"><div class="k">✓</div><div><b>The entitlement decides</b><p>RAP_COUNTRY_SCOPE matches CURRENT_USER() to APP_USER.country_code. MERIDIAN_HK_OFFICER sees the HK fixture. MERIDIAN_UNENTITLED shares the role and sees zero.</p><code>COUNTRY_SCOPED_MART · country_code</code></div></div>
+      <div class="glass kcard" data-at="4" style="--c:#38bdf8"><div class="k">4</div><div><b>Branch policies stay untouched</b><p>One table accepts one row policy. The Mumbai personas stay on RAP_CUSTOMER_SCOPE. The country proof lives on its own security-owned projection.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 FOUR PROOFS -->
+<section class="s" data-ch="2" data-steps="4" data-accent="#4c1d95,#7c2d12" data-notes="Open the repository, then 03_snowflake, then 06_row_level_security.sql, and scroll to the prove it block at the bottom. Log out between users. Proof one: the one-scope user sees one scope row and a smaller count. Proof two: deny by default, a mapped user with no scope or a viewer outside APP_USER gets zero rows, not an error. Proof three: persona roles have no grant on MERIDIAN_RAW, so the raw table refuses. Proof four: staff see masked contact cells. These are expected results from the code, not a counted run.">
+  <div class="kicker rise" style="--k-c:#a78bfa">Find it · then prove it</div>
+  <h2 class="rise" style="--d:1">Four proofs. <span class="grad-violet">Log out between them.</span></h2>
+  <div class="crumbs rise" style="--d:2" data-seq="420">
+    <span class="seq">snowflake_dbt_airflow_python_byFK</span><span class="gt">›</span>
+    <span class="seq">03_snowflake</span><span class="gt">›</span>
+    <span class="seq">06_row_level_security.sql</span><span class="gt">›</span>
+    <span class="seq">-- prove it · the last block</span>
+  </div>
+  <div class="proofs">
+    <div class="glass proof" data-at="1" style="--c:#38bdf8">
+      <div class="ph"><span class="k">1</span><b>One scope only</b><em>MERIDIAN_BM_MUMBAI</em></div>
+      <pre>SELECT * FROM MERIDIAN_ANALYTICS.GOVERNANCE.V_MY_SCOPE;
+SELECT COUNT(*)
+  FROM MERIDIAN_ANALYTICS.MARTS.FCT_CARD_AUTHORIZATIONS;</pre>
+      <div class="exp"><i>EXPECT</i><span class="r">one scope row · count below the CEO’s</span></div>
+    </div>
+    <div class="glass proof" data-at="2" style="--c:#fb7185">
+      <div class="ph"><span class="k">2</span><b>Deny by default</b><em>mapped, no scope · or unmapped</em></div>
+      <pre>WHEN the user is in APP_USER          THEN FALSE
+ELSE TRANSFORMER, ANALYST or ML in session</pre>
+      <div class="exp"><i>EXPECT</i><span class="r">0 rows, no error · MERIDIAN_APP is no bypass</span></div>
+    </div>
+    <div class="glass proof" data-at="3" style="--c:#fbbf24">
+      <div class="ph"><span class="k">3</span><b>Raw is not granted</b><em>MERIDIAN_STAFF_MUMBAI</em></div>
+      <pre>SELECT COUNT(*) FROM MERIDIAN_RAW.POSTGRES_CORE.CUSTOMERS;
+-- 02_databases_schemas_grants.sql: RAW → TRANSFORMER, ML</pre>
+      <div class="exp"><i>EXPECT</i><span class="r">does not exist or not authorized</span></div>
+    </div>
+    <div class="glass proof" data-at="4" style="--c:#4ade80">
+      <div class="ph"><span class="k">4</span><b>PII is masked</b><em>MERIDIAN_STAFF_MUMBAI</em></div>
+      <pre>SELECT email, phone, date_of_birth
+FROM MERIDIAN_ANALYTICS.MARTS.DIM_CUSTOMER_CURRENT LIMIT 5;</pre>
+      <div class="exp"><i>EXPECT</i><span class="r">*** · *** · NULL</span></div>
+    </div>
+  </div>
+  <div class="note logout rise" style="--d:3">Sign out, then sign in as the next user. USE ROLE does not change CURRENT_USER().</div>
+</section>
+
+<!-- 14 OMNI -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#0f766e,#4c1d95" data-notes="Omni search is a serving index, not a new fact. The search box has no permission check of its own. RAP_CUSTOMER_SCOPE on customer_id does the filtering. Four characters minimum. Names and email are not in the index.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">omni_search · a serving index</div>
+  <h2 class="rise" style="--d:1">Same fragment. <span class="grad">Different hits.</span></h2>
+  <div class="glass code sm rise" style="--d:2"><div class="hd"><i></i>03_snowflake/07_omni_search.sql</div><pre>
+<span class="ln">WHERE CONTAINS(search_text, <span class="str">'0001'</span>)</span>
+<span class="ln">ORDER BY IFF(search_text = <span class="str">'0001'</span>, <span class="num">0</span>, <span class="num">1</span>), LENGTH(search_text)</span></pre></div>
+  <div class="hits">
+    <div class="glass hit card" data-at="1" style="--c:#f5c542"><h3>MERIDIAN_CEO</h3><div class="ent"><i>TRANSACTION</i><i>ACCOUNT</i><i>CUSTOMER</i><i>CARD_AUTHORIZATION</i></div><p>any of these entity types</p></div>
+    <div class="glass hit card" data-at="2" style="--c:#38bdf8"><h3>Branch manager</h3><div class="ent"><i>home-branch customers</i><i class="off">other branches</i></div><p>same fragment, fewer rows</p></div>
+    <div class="glass hit card" data-at="2" style="--c:#fb7185"><h3>Staff</h3><div class="ent"><i>those same customers</i><i>email is not indexed</i></div><p>the index has no contact fields</p></div>
+    <div class="glass hit card" data-at="3" style="--c:#4ade80"><h3>MERIDIAN_CUSTOMER</h3><div class="ent"><i>their own customer_id</i><i class="off">every other id</i></div><p>the policy is the filter</p></div>
+  </div>
+  <div class="note" data-at="3">At least 4 characters, already uppercased. Search Optimization is on SUBSTRING(search_text). A full refresh drops that path: run 07_omni_search.sql again.</div>
+</section>
+
+<!-- 15 HANDS ON SETUP -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#0f766e,#1e3a8a" data-notes="Order matters. Build prod first so the tables exist. Then the security script as ACCOUNTADMIN. Then dbt attaches. Then the semantic view as MERIDIAN_TRANSFORMER. The SQL file contains no password.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">After the prod build</div>
+  <h2 class="rise" style="--d:1">Hang the lock. <span class="grad">Then open the menu.</span></h2>
+  <div class="two" style="grid-template-columns:1.15fr .85fr;margin-top:18px">
+    <div class="stack">
+      <div class="cmd sql" data-at="1"><pre>Snowsight · ACCOUNTADMIN
+03_snowflake/06_row_level_security.sql</pre><button class="copy" data-copy="-- Snowsight, ACCOUNTADMIN. Run all of 03_snowflake/06_row_level_security.sql">Copy</button></div>
+      <div class="cmd" data-at="2"><span class="pr">$</span><code>dbt run-operation apply_governance_all --target prod</code><button class="copy">Copy</button></div>
+      <div class="cmd sql" data-at="3"><pre>Snowsight · MERIDIAN_TRANSFORMER
+10_semantic_app/01_semantic_view.sql</pre><button class="copy" data-copy="-- Snowsight, MERIDIAN_TRANSFORMER. Run all of 10_semantic_app/01_semantic_view.sql">Copy</button></div>
+      <div class="term scan" data-term data-at="3">
+        <div class="bar"><i></i><i></i><i></i><span>dbt · prod</span></div>
+        <div class="body">
+          <div><span class="ps">$</span> <span class="typed" data-type="dbt run-operation apply_governance_all --target prod"></span><i class="caret"></i></div>
+          <div class="out">governance applied to "MERIDIAN_ANALYTICS"."MARTS"."DIM_CUSTOMER"</div>
+        </div>
+      </div>
+    </div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Security writes the lock</b><p>Policies, masks, the PII tag, APP_USER, and the four users. No password is stored in the file.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>dbt hangs it on the tables</b><p>Only after the tables exist. Later prod builds re-attach the same policies themselves.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>Read the mapping</b><p>The last SELECT binds the Mumbai users to IN-MUM-0001 when that branch exists. The CEO is not tied to a branch.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 HANDS ON ASK -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#6d28d9,#0f766e" data-notes="The four CORTEX_USER grants are already in the security script. Run them if chat is still refused. Set a password you choose and do not commit it. streamlit run opens the laptop app. Sign in as MERIDIAN_CEO and click the fraud question.">
+  <div class="kicker rise" style="--k-c:#a78bfa">Allow Cortex, then ask</div>
+  <h2 class="rise" style="--d:1">Sign in. <span class="grad-violet">Ask the fraud question.</span></h2>
+  <div class="two stretch" style="grid-template-columns:1.2fr .8fr;margin-top:16px">
+    <div class="stack">
+      <div class="glass code sm" data-at="1"><div class="hd"><i></i>Snowsight · ACCOUNTADMIN</div><pre>
+<span class="ln">GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER</span>
+<span class="ln">  TO ROLE MERIDIAN_CEO;</span>
+<span class="ln">GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER</span>
+<span class="ln">  TO ROLE MERIDIAN_BRANCH_MANAGER;</span>
+<span class="ln">GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER</span>
+<span class="ln">  TO ROLE MERIDIAN_STAFF;</span>
+<span class="ln">GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER</span>
+<span class="ln">  TO ROLE MERIDIAN_CUSTOMER;</span></pre></div>
+      <div class="cmd sql" data-at="2"><pre>ALTER USER MERIDIAN_CEO SET PASSWORD = 'choose-a-password'
+  MUST_CHANGE_PASSWORD = FALSE;</pre><button class="copy" data-copy="ALTER USER MERIDIAN_CEO SET PASSWORD = 'choose-a-password' MUST_CHANGE_PASSWORD = FALSE;">Copy</button></div>
+      <div class="cmd sql" data-at="3"><pre>python -c "import streamlit" || pip install 'streamlit>=1.39'
+streamlit run 10_semantic_app/streamlit_app.py</pre><button class="copy" data-copy="python -c &quot;import streamlit&quot; || pip install 'streamlit>=1.39'
+streamlit run 10_semantic_app/streamlit_app.py">Copy</button></div>
+    </div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Each persona may call Cortex</b><p>The same four grants are already in the security script. The laptop app calls Cortex as the person who signed in.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>A password you choose</b><p>Replace the placeholder. Never commit it. Snowsight can reset the password instead. The SQL file itself has none.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>localhost:8501</b><p>Sign in as MERIDIAN_CEO. The fraud question returns a count and the SQL. Then repeat as the other three users.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 EDGES -->
+<section class="s" data-ch="3" data-steps="4" data-accent="#155e75,#7c2d12" data-notes="Say the edges out loud so the policy does not sound like magic. If the region has no Cortex, run the four saved questions while logged in as each user. Dev has no policies.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">Said out loud</div>
+  <h2 class="rise" style="--d:1">The lock is not <span class="grad">magic.</span></h2>
+  <div class="edges">
+    <div class="glass card" data-at="1" style="--c:#fb7185"><div class="ico sm" data-logo="i-x"></div><h3>Unmapped means empty</h3><p>Inside the app, a user missing from APP_USER sees nothing. Outside it, transformer, analyst and ML still see the bank. That is the ELSE branch.</p></div>
+    <div class="glass card" data-at="2" style="--c:#38bdf8"><div class="ico sm" data-logo="i-users"></div><h3>The payment names one customer</h3><p>fct_transactions stores primary_customer_id. A joint holder who is not primary does not see that row. The bridge still lists them, filtered to their own id.</p></div>
+    <div class="glass card" data-at="3" style="--c:#fbbf24"><div class="ico sm" data-logo="i-eyeoff"></div><h3>No chat in this region</h3><p>A trial can build every table and still refuse Cortex. Run the four questions in analyses/card_questions.sql, logged in as each user. The policy does not need Cortex.</p></div>
+    <div class="glass card" data-at="4" style="--c:#4ade80"><div class="ico sm" data-logo="i-alert"></div><h3>The demo is prod</h3><p>The attach hook runs only when the target is prod. Dev has no persona grants and no policies. CREATE IF NOT EXISTS will not edit a policy that already exists: the script ends with ALTER … SET BODY.</p></div>
+  </div>
+</section>
+
+<!-- 18 OUTRO -->
+<section class="s" data-ch="3" data-accent="#4c1d95,#0f766e" data-notes="The menu makes the SQL predictable. The login makes the rows different. Next episode: the lock has to survive a rebuild.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#a78bfa">Episode 11 complete</div>
+    <h2 class="rise" style="--d:1;font-size:72px">The menu writes. <span class="grad-violet">The lock answers.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Checked SQL</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Four logins</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Masked cells</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Search obeys it</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="i-shield"></div><div style="text-align:left"><small>Next · Episode 12</small><b>The rules survive a rebuild</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+<script>
+Deck.scene("countrylock", (s, k) => {
+  const board = s.querySelector(".board"), n = s.querySelector("#ktally"), l = s.querySelector("#ktallyl");
+  if (!board) return;
+  board.dataset.k = String(k);
+  const rows = s.querySelectorAll(".crow").length;
+  const say = [
+    ["—", "Press next. Every row wears a country label."],
+    [String(rows), "rows on screen, each with a label. Labels do not decide anything."],
+    [String(rows), "still every row. Drop the WHERE and nothing stops the read."],
+    ["1", "HK fixture stays. Every other country is denied by RAP_COUNTRY_SCOPE."],
+    ["1", "Same role, no entitlement row: zero. Branch personas stay on their own policies."]
+  ][Math.max(0, Math.min(k, 4))];
+  if (n) n.textContent = say[0];
+  if (l) l.textContent = say[1];
+});
+</script>
+</body>
+</html>

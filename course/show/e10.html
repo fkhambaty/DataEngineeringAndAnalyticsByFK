@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 10 · Cards: score, then offer</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.h2s{font-size:48px;margin-bottom:8px}
+.grad-gold{background:linear-gradient(92deg,#fde68a,#fbbf24 48%,#fb923c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-violet{background:linear-gradient(92deg,#ddd6fe,#a78bfa 50%,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.passrun{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:8px;align-items:stretch;min-height:520px}
+.plist{display:flex;flex-direction:column;gap:10px;height:100%}
+.passrun > .code{height:100%;display:flex;flex-direction:column}
+.passrun > .code pre{flex:1}
+.prow{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center;padding:18px 16px;flex:1}
+.prow .n{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font:900 16px var(--mono);background:rgba(56,189,248,.14);color:#7dd3fc}
+.prow b{display:block;font-size:18px}
+.prow p{margin:2px 0 0;color:var(--mute);font-size:15px;line-height:1.35}
+.banner{margin-top:14px;padding:12px 16px;font-size:16px;color:#fde68a;text-align:center}
+
+/* loop */
+.loop{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr 28px 1fr;gap:8px;align-items:stretch;margin-top:16px}
+.lbox{min-height:420px;padding:22px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.lbox b{font-size:26px}
+.lbox small{color:var(--mute);font-size:15px;line-height:1.35}
+.arr{display:grid;place-items:center;font-size:28px;color:#fbbf24}
+
+/* adr */
+.adr{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+.adr .glass{min-height:420px;padding:24px 22px;display:flex;flex-direction:column}
+.adr h3{margin:12px 0 8px;font-size:28px}
+.adr p{margin:0;color:var(--mute);font-size:18px;line-height:1.4}
+.adr em{margin-top:auto;font-style:normal;font:700 15px var(--mono);color:#fde68a;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04)}
+
+/* gauge */
+.gate{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:center;margin-top:4px}
+.gauge{width:420px;height:240px;margin:0 auto;position:relative}
+.gauge svg{width:420px;height:240px;overflow:visible}
+.needle{transform-origin:210px 200px;transform:rotate(-70deg);transition:transform 1.2s cubic-bezier(.16,.84,.24,1)}
+.gauge.go .needle{transform:rotate(-18deg)}
+.gcap{text-align:center;font:800 18px var(--mono);color:#fde68a;margin-top:-8px}
+.verdicts{display:flex;flex-direction:column;gap:12px}
+.verdicts .glass{padding:18px 18px}
+.verdicts b{display:block;font-size:22px;margin-bottom:4px}
+.verdicts p{margin:0;color:var(--mute);font-size:16px;line-height:1.35}
+.badv{border-color:rgba(251,113,133,.45)}
+.goodv{border-color:rgba(74,222,128,.45)}
+
+/* holdout */
+.holds{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+.hold{min-height:380px;padding:22px 20px;display:flex;flex-direction:column}
+.hold .big{font-size:72px;font-weight:850;letter-spacing:-.04em;line-height:1}
+.hold h3{margin:8px 0;font-size:22px}
+.hold p{margin:0;color:var(--mute);font-size:16px;line-height:1.4}
+.hold i{margin-top:auto;font-style:normal;font:700 14px var(--mono);color:#fde68a}
+
+/* models */
+.models{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.mod{padding:16px 16px;min-height:200px;display:flex;flex-direction:column}
+.mod .eye{font:800 12px var(--sans);letter-spacing:.16em;color:#fbbf24}
+.mod b{font:750 20px var(--mono);display:block;margin:6px 0}
+.mod p{margin:0;color:var(--mute);font-size:15px;line-height:1.35}
+.mod .ent{margin-top:auto;font:800 13px var(--mono);color:#c4b5fd}
+
+/* leakage */
+.forbid{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.forbid span{padding:8px 12px;border-radius:12px;background:rgba(251,113,133,.12);border:1px solid rgba(251,113,133,.35);font:700 16px var(--mono);color:#fecdd3}
+.twoleak{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.twoleak .glass{min-height:250px;padding:22px}
+.twoleak h3{margin:0 0 8px;font-size:26px}
+.twoleak p{margin:0;color:var(--mute);font-size:17px;line-height:1.4}
+
+/* rules */
+.rules4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.rule{min-height:250px;padding:16px 14px}
+.rule .eye{font:800 12px var(--sans);letter-spacing:.14em;color:#fb7185}
+.rule b{display:block;font-size:22px;margin:8px 0}
+.rule p{margin:0;color:var(--mute);font-size:15px;line-height:1.35}
+.burst{margin-top:12px;display:grid;grid-template-columns:1.1fr .9fr;gap:14px;align-items:center}
+.bars{display:flex;align-items:flex-end;gap:10px;height:90px}
+.bars i{display:block;width:48px;border-radius:8px 8px 0 0;background:linear-gradient(#fb7185,#7f1d1d);height:0;transition:height 1s var(--ease)}
+.bars.go i{height:var(--h)}
+.burst .glass{padding:14px 16px}
+.burst b{display:block;margin-bottom:4px}
+.burst p{margin:0;color:var(--mute);font-size:15px}
+
+/* offers */
+.offers{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.off{min-height:280px;padding:18px 16px;display:flex;flex-direction:column}
+.off .foot{margin-top:auto;font:700 13px var(--mono);color:#86efac}
+.off b{font:750 16px var(--mono);display:block;margin-bottom:8px;color:#fde68a}
+.off p{margin:0;color:var(--mute);font-size:15px;line-height:1.35}
+.srcrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.srcrow .glass{padding:14px 16px}
+.srcrow b{display:block;font-size:16px;margin-bottom:4px}
+.srcrow p{margin:0;color:var(--mute);font-size:15px;line-height:1.35}
+
+/* tables */
+.res.t{font-size:16px}
+.res .rh,.res .rr{display:grid;grid-template-columns:var(--cols);gap:8px;align-items:center;padding:10px 12px}
+.res .rh{font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.res .rr{border-top:1px solid rgba(255,255,255,.06);opacity:0;transform:translateY(8px);transition:.45s}
+.res .rr.show{opacity:1;transform:none}
+
+/* staging + hands */
+.sqlpre{font-size:15px}
+.checks .glass{padding:14px 14px}
+.checks b{display:block;font-size:17px;margin-bottom:4px}
+.checks p{margin:0;color:var(--mute);font-size:15px;line-height:1.35}
+
+/* week */
+.week{display:grid;grid-template-columns:1fr 80px 1fr 80px 1fr;gap:8px;align-items:center;margin-top:18px}
+.wstep{min-height:420px;padding:28px 18px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.wstep .bub{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font:900 32px var(--sans);margin-bottom:12px}
+.wstep h3{margin:0 0 8px;font-size:24px}
+.wstep p{margin:0;color:var(--mute);font-size:16px;line-height:1.35}
+.wstep i{margin-top:auto;font-style:normal;font:700 13px var(--mono);color:#fde68a}
+.warr{text-align:center;font-size:32px;color:#fbbf24}
+
+/* bands */
+.bands{display:grid;grid-template-columns:1fr 1fr .9fr;gap:14px;margin-top:10px}
+.numcard{min-height:460px;padding:28px 22px;display:flex;flex-direction:column;justify-content:center}
+.numcard .n{font-size:84px;font-weight:850;letter-spacing:-.04em;line-height:.9}
+.numcard b{font-size:22px;margin-top:8px}
+.numcard p{color:var(--mute);font-size:16px;line-height:1.4}
+.band{padding:18px 16px}
+.band h3{margin:0 0 12px}
+.bl{display:grid;grid-template-columns:80px 1fr;gap:8px;align-items:center;margin-top:10px;font:700 14px var(--mono)}
+.bl i{display:block;height:10px;border-radius:6px;width:var(--w);background:var(--c)}
+</style>
+</head>
+<body data-episode="e10" data-label="Episode 10" data-chapters="The loop|The gate|Models|The offer" data-chapter-colors="#fbbf24|#fb7185|#a78bfa|#4ade80">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#7a5a10,#7a1f35" data-notes="Synthetic demo. The seed plants applications, swipes, and fraud labels. Nothing on these slides is a live bank metric. Four models, a 0.70 holdout gate, scores stored as rows, then one offer or silence.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;border-color:rgba(251,191,36,.45);background:rgba(251,191,36,.1);color:#fde68a"><i style="background:#fbbf24;box-shadow:0 0 14px #fbbf24"></i>EPISODE 10</div>
+      <h1 class="mega rise" style="--d:1">Score,<br><span class="grad-gold">then offer.</span></h1>
+      <p class="lead rise" style="--d:2">Four models, a 0.70 holdout gate, scores stored as data, and one next offer to a person. Synthetic demo. No live AUC on this deck.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Gold features</span><span><b>02</b>0.70 gate</span><span><b>03</b>Bronze scores</span><span><b>04</b>One offer</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="sf,py,i-shield,dbt,i-chart,i-coin" data-core="i-robot" data-core-class="gold"></div>
+  </div>
+</section>
+
+<!-- 02 LOOP -->
+<section class="s" data-ch="0" data-steps="4" data-accent="#7a5a10,#1e3a8a" data-notes="Data flow in train_and_score.py. Gold features in, MERIDIAN_RAW.ML out, dbt reads the latest succeeded run. Role MERIDIAN_ML reads the marts and writes MERIDIAN_RAW.ML. Postgres stays the system of record. No arrow points back.">
+  <div class="kicker rise" style="--k-c:#fbbf24">Scores are a feed</div>
+  <h2 class="rise h2s" style="--d:1">The bank never <span class="grad-gold">receives a score.</span></h2>
+  <div class="loop">
+    <div class="glass lbox" data-at="1"><div class="tile" data-logo="sf"></div><b>Gold</b><small>ml_customer_features and the card facts</small></div>
+    <div class="arr" data-at="2">→</div>
+    <div class="glass lbox" data-at="2"><div class="tile" data-logo="py"></div><b>Python</b><small>train_and_score.py · scikit-learn</small></div>
+    <div class="arr" data-at="3">→</div>
+    <div class="glass lbox" data-at="3"><div class="tile" data-logo="i-db"></div><b>Bronze</b><small>RAW.ML · MODEL_RUNS and MODEL_SCORES</small></div>
+    <div class="arr" data-at="4">→</div>
+    <div class="glass lbox" data-at="4"><div class="tile" data-logo="dbt"></div><b>Gold again</b><small>fct_next_best_offer</small></div>
+  </div>
+  <div class="glass banner" data-at="4">Role MERIDIAN_ML reads the marts and writes MERIDIAN_RAW.ML. Postgres stays the system of record.</div>
+</section>
+
+<!-- 03 ADR -->
+<section class="s" data-ch="0" data-steps="3" data-accent="#1e3a8a,#14532d" data-notes="ADR 0005 title, from the architecture index: model scores land in the warehouse, never in the OLTP. The body of that file is the decision name. The behaviour is the docstring of train_and_score.py and the comment above core.card_policy_logit. One feature table: ml_customer_features.">
+  <div class="kicker rise" style="--k-c:#38bdf8">ADR 0005</div>
+  <h2 class="rise h2s" style="--d:1">Why scores <span class="grad">stay in the warehouse.</span></h2>
+  <div class="adr">
+    <div class="glass" data-at="1"><div class="tile sm" data-logo="pg"></div><h3>The bank stays the bank</h3><p>A model score is analytical output. Putting it in Postgres would make the warehouse a source of the system of record.</p><em>no score written to core</em></div>
+    <div class="glass" data-at="2"><div class="tile sm" data-logo="i-refresh"></div><h3>No loop</h3><p>Warehouse, then model, then the OLTP, then the extractor, then the warehouse. A bad batch would copy itself before anyone looked.</p><em>one direction only</em></div>
+    <div class="glass" data-at="3"><div class="tile sm" data-logo="i-layers"></div><h3>One feature table</h3><p>Training and the offer both read ml_customer_features. Two definitions of the same feature is how a model that looked good offline fails live.</p><em>training and serving share it</em></div>
+  </div>
+</section>
+
+<!-- 04 GATE -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#7a1f35,#14532d" data-notes="AUC_GATE defaults to 0.70 in train_and_score.py and can be overridden with MERIDIAN_AUC_GATE. A passed run is holdout AUC at or above the gate, and not NaN. A one-class holdout has no AUC and fails. REJECTED still writes a MODEL_RUNS row and does not write scores. Do not read a measured AUC off this slide. The needle marks the gate, not a run.">
+  <div class="kicker rise" style="--k-c:#fb7185">MERIDIAN_AUC_GATE · default 0.70</div>
+  <h2 class="rise h2s" style="--d:1">Below the line, <span style="color:#fb7185">no scores.</span></h2>
+  <div class="gate">
+    <div>
+      <div class="gauge" data-go data-at="1" aria-hidden="true">
+        <svg viewBox="0 0 420 230">
+          <path d="M40 200 A170 170 0 0 1 380 200" fill="none" stroke="url(#g)" stroke-width="28" stroke-linecap="round"/>
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fb7185"/><stop offset=".45" stop-color="#fbbf24"/><stop offset="1" stop-color="#4ade80"/></linearGradient></defs>
+          <line class="needle" x1="210" y1="200" x2="210" y2="70" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="210" cy="200" r="10" fill="#fde68a"/>
+        </svg>
+      </div>
+      <div class="gcap">gate 0.70 &nbsp;·&nbsp; the line, not a measured run</div>
+      <div class="note" data-at="2" style="text-align:center">A coin toss sits at 0.50. A holdout with one class has no AUC, and that run fails the same gate.</div>
+    </div>
+    <div class="verdicts">
+      <div class="glass badv" data-at="1"><b style="color:#fecdd3">BELOW 0.70 · REJECTED</b><p>The run is stored. Its scores are not. Marts keep the last good model. Offers fall back to the published policy.</p></div>
+      <div class="glass goodv" data-at="2"><b style="color:#bbf7d0">0.70 OR ABOVE · SUCCEEDED</b><p>Scores land in MODEL_SCORES. score_source on the offer becomes MODEL.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 HOLDOUT -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#1e3a8a,#5b3fb5" data-notes="time_split holds out the latest window. Decision uses 60 days on decided_at. Fraud uses 14 days on auth_ts. Propensity has no event time, so it uses a random 20 percent with random_state 7. The code says that out loud in the split label. Logistic regression, balanced classes. AUC only when the test fold has both classes.">
+  <div class="kicker rise" style="--k-c:#38bdf8">The days the model never trained on</div>
+  <h2 class="rise h2s" style="--d:1">Hold out the future. <span class="grad">Where there is a future.</span></h2>
+  <div class="holds">
+    <div class="glass hold" data-at="1"><div class="big">60</div><small style="color:var(--mute)">days</small><h3>card_decision_v1</h3><p>Latest applications, by decided_at. A random split would let tomorrow teach yesterday.</p><i>TIME holdout</i></div>
+    <div class="glass hold" data-at="2"><div class="big">14</div><small style="color:var(--mute)">days</small><h3>card_fraud_v1</h3><p>Latest authorizations, by auth_ts. The customer rollup reuses this same AUC.</p><i>TIME holdout</i></div>
+    <div class="glass hold" data-at="3"><div class="big">20%</div><h3>card_propensity_v1</h3><p>Customers have no event time on this table, so the holdout is a random fifth, seed 7.</p><i>RANDOM 20%</i></div>
+  </div>
+  <div class="glass banner" data-at="3">A holdout with only one class has no AUC. That run fails the gate too. Logistic regression, balanced classes, features scaled first.</div>
+</section>
+
+<!-- 06 FOUR MODELS -->
+<section class="s" data-ch="2" data-steps="4" data-accent="#5b3fb5,#7a5a10" data-notes="Four ModelResult rows from one script. Decision target is APPROVED versus REJECTED on fct_card_applications, features are the frozen underwriting columns. Propensity label is has_been_approved, which is forbidden as a feature. Fraud label is the synthetic fraud_label. Customer fraud score is the max of the last 20 authorization scores and inherits the swipe model's AUC. Do not quote an AUC. The print line is whatever this synthetic sample produces.">
+  <div class="kicker rise" style="--k-c:#a78bfa">train_and_score.py</div>
+  <h2 class="rise h2s" style="--d:1">Four models. <span class="grad-violet">One job.</span></h2>
+  <div class="models">
+    <div class="glass mod" data-at="1"><span class="eye">DECIDE</span><b>card_decision_v1</b><p>Would we approve this application? One score per application. The policy already decided. The score sits beside that decision.</p><span class="ent">entity APPLICATION</span></div>
+    <div class="glass mod" data-at="2"><span class="eye">TARGET</span><b>card_propensity_v1</b><p>Would this customer be approved if they applied? One score per customer. The offer list reads this score.</p><span class="ent">entity CUSTOMER</span></div>
+    <div class="glass mod" data-at="3"><span class="eye">PROTECT</span><b>card_fraud_v1</b><p>Does this authorization match an injected fraud pattern? The label is the target. It is never a feature.</p><span class="ent">entity AUTHORIZATION</span></div>
+    <div class="glass mod" data-at="4"><span class="eye">ROLL UP</span><b>card_fraud_customer_v1</b><p>The highest fraud probability among that customer's last 20 authorizations. Same holdout AUC as the swipe model.</p><span class="ent">entity CUSTOMER</span></div>
+  </div>
+</section>
+
+<!-- 07 LEAKAGE -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#7a1f35,#5b3fb5" data-notes="FORBIDDEN_FEATURES is fraud_label, fraud_pattern, decision, has_been_approved, is_rule_suspect. assert_no_leakage runs before the design matrix. tests/test_training.py raises ValueError if fraud_label is a feature, and checks the three feature lists. Features on the application are copied at apply time: income, balance, segment, and the rest of the _at_apply columns.">
+  <div class="kicker rise" style="--k-c:#fb7185">assert_no_leakage</div>
+  <h2 class="rise h2s" style="--d:1">These columns <span style="color:#fb7185">stay out.</span></h2>
+  <p class="lead" style="font-size:20px">A feature that is the answer, or a rule built from the same moments, makes the model look brilliant and teaches it nothing.</p>
+  <div class="forbid" data-at="1"><span>fraud_label</span><span>fraud_pattern</span><span>decision</span><span>has_been_approved</span><span>is_rule_suspect</span></div>
+  <div class="twoleak">
+    <div class="glass" data-at="1"><h3>Frozen at apply time</h3><p>Income, balance, and segment on the application are copied when the customer applies. Later changes cannot rewrite that decision.</p></div>
+    <div class="glass" data-at="2"><h3>pytest, no warehouse</h3><p>tests/test_training.py refuses a feature list that contains the label, and refuses a model under the gate.</p></div>
+  </div>
+</section>
+
+<!-- 08 RULES -->
+<section class="s" data-ch="2" data-steps="4" data-accent="#7a1f35,#7a5a10" data-notes="Rules live in fct_card_authorizations.sql. Velocity is four or more auths in ten minutes. Geo is merchant country different and card not present. High amount is above four times the recent average and above half the limit. Card testing is amount at most 5 and four or more in ten minutes. is_rule_suspect is any of those. The seed function sim_card_fraud_burst inserts five rows, forty seconds apart, fraud_label true, pattern VELOCITY. The label is synthetic ground truth. assert_fraud_rules_catch_injected_patterns checks the planted patterns.">
+  <div class="kicker rise" style="--k-c:#fb7185">fct_card_authorizations</div>
+  <h2 class="rise h2s" style="--d:1">Rules first. <span style="color:#fb7185">Then a score.</span></h2>
+  <div class="rules4">
+    <div class="glass rule" data-at="1"><span class="eye">VELOCITY</span><b>4 in 10 min</b><p>Four or more authorizations on the same card inside ten minutes.</p></div>
+    <div class="glass rule" data-at="2"><span class="eye">GEO</span><b>Abroad, not present</b><p>Merchant country differs from the customer, and the card was not present.</p></div>
+    <div class="glass rule" data-at="3"><span class="eye">AMOUNT</span><b>4× and half the limit</b><p>Above four times the card's recent average, and above half the limit.</p></div>
+    <div class="glass rule" data-at="4"><span class="eye">TESTING</span><b>Tiny, and fast</b><p>Amount at most 5, and four or more taps in the same ten minutes.</p></div>
+  </div>
+  <div class="burst">
+    <div>
+      <p class="lead" style="font-size:18px;margin-bottom:8px">sim_card_fraud_burst · five taps, forty seconds apart, labelled VELOCITY. Synthetic. fraud_label is the answer key, not an input.</p>
+      <div class="bars" data-go data-at="4"><i style="--h:36%"></i><i style="--h:48%"></i><i style="--h:60%"></i><i style="--h:74%"></i><i style="--h:92%"></i></div>
+    </div>
+    <div class="glass" data-at="4"><b>fraud_label = true</b><p>The seed plants the pattern so recall can be measured. A real chargeback would arrive later. This course does not have one.</p></div>
+  </div>
+</section>
+
+<!-- 09 OFFER -->
+<section class="s" data-ch="3" data-steps="4" data-accent="#14532d,#7a1f35" data-notes="fct_next_best_offer.sql. One offer_code or the row disappears because the join to dim_offer needs a code. ACQ_FEE_WAIVE needs no active card, propensity at least 0.60, risk not HIGH, KYC verified. Marketplace cashback needs that marketplace to dominate spend and a sale inside 21 days in India. LIMIT_REVIEW needs utilisation under 0.25, tenure at least 12 months, risk LOW. Suppression is a blocked card or is_rule_suspect in the last 30 days. assert_offers_skip_recent_fraud fails if that customer still has an offer row. score_source is MODEL when card_propensity_v1 scored them, else RULE from the logit macro.">
+  <div class="kicker rise" style="--k-c:#4ade80">fct_next_best_offer</div>
+  <h2 class="rise h2s" style="--d:1">One offer, or <span class="grad">no row.</span></h2>
+  <div class="offers">
+    <div class="glass off" data-at="1"><b>ACQ_FEE_WAIVE</b><p>No active card, propensity at least 0.60, risk not HIGH, KYC verified.</p><span class="foot">first, when no marketplace dominates</span></div>
+    <div class="glass off" data-at="2"><b>FLIPKART_CASHBACK_5</b><p>Own Flipkart spend dominates, and a Flipkart sale is inside 21 days.</p><span class="foot">active card · India sale calendar</span></div>
+    <div class="glass off" data-at="3"><b>AMAZON_CASHBACK_5</b><p>Own Amazon spend dominates, and an Amazon sale is inside 21 days.</p><span class="foot">active card · India sale calendar</span></div>
+    <div class="glass off" data-at="4"><b>LIMIT_REVIEW</b><p>Utilisation under 0.25, tenure at least a year, risk LOW. A human still confirms.</p><span class="foot">last, after the cashback rules</span></div>
+  </div>
+  <div class="srcrow">
+    <div class="glass" data-at="3"><b>SCORE SOURCE · MODEL or RULE</b><p>If card_propensity_v1 has a score, the source is MODEL. If that score is missing, the SQL uses the same weights as core.card_policy_logit and marks RULE.</p></div>
+    <div class="glass" data-at="4" style="border-color:rgba(251,113,133,.4)"><b>SUPPRESSED</b><p>A blocked card, or is_rule_suspect in the last 30 days, and the offer code is empty. assert_offers_skip_recent_fraud fails if that customer is still contacted.</p></div>
+  </div>
+</section>
+
+<!-- 10 SIMULATOR -->
+<section class="s" data-ch="3" data-steps="2" data-accent="#0c4a6e,#7a5a10" data-notes="01_source_postgres/07_ddl_cards.sql, 08_seed_cards.sql, 09_card_simulator.sql. The seed comment states the course size: 12000 applications and 15 authorizations per card. About 1 percent of authorizations are injected patterns. Those are generator settings, not a count you read back from Snowflake. Approve at probability 0.55 is the policy in core.card_policy_logit. The comment says the weights are teaching values, not a production scorecard. No full PAN. card_last4 is a random mask.">
+  <div class="kicker rise" style="--k-c:#38bdf8">07_ddl_cards.sql · 08_seed_cards.sql · 09_card_simulator.sql</div>
+  <h2 class="rise h2s" style="--d:1">The bank's card tables. <span class="grad">Simulator, not a live book.</span></h2>
+  <div class="glass res t" data-rows="90" data-at="1" style="--cols:1.15fr .7fr 1.5fr;margin-top:8px">
+    <div class="rh"><span>Table</span><span>One row</span><span>What it exists for</span></div>
+    <div class="rr"><span>core.customer_features</span><span>customer</span><span>what a decision is allowed to see</span></div>
+    <div class="rr"><span>core.card_applications</span><span>application</span><span>decision, limit, features frozen at apply</span></div>
+    <div class="rr"><span>core.credit_cards</span><span>card</span><span>limit and status · last 4 digits, no full number</span></div>
+    <div class="rr"><span>core.card_authorizations</span><span>swipe</span><span>merchant, amount, country, card-present</span></div>
+    <div class="rr"><span>merchants · sales · offers</span><span>reference</span><span>Flipkart and Amazon, the sale calendar, the catalogue</span></div>
+  </div>
+  <div class="srcrow" data-at="2">
+    <div class="glass"><b>Seed size, in the SQL</b><p>12,000 applications. 15 authorizations on each card. About 1% of swipes are injected patterns. That is the generator. It is not a warehouse total.</p></div>
+    <div class="glass"><b>The policy is published</b><p>core.card_policy_logit. Probability 0.55 or above is APPROVED. The weights are teaching values. The model has to recover that policy. The label is a little noisy on purpose.</p></div>
+  </div>
+</section>
+
+<!-- 11 STAGING -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#1e3a8a,#14532d" data-notes="stg_ml__model_scores.sql keeps the latest SUCCEEDED run per model_name, then joins scores on run_id. REJECTED runs stay in MODEL_RUNS and never reach the mart. Freshness on the ML source warns after 8 days and errors after 15. Score must be between 0 and 1. One row per model, entity type, and entity.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">models/staging/ml/stg_ml__model_scores.sql</div>
+  <h2 class="rise h2s" style="--d:1">Only the last <span class="grad">passing run.</span></h2>
+  <div class="passrun">
+    <div class="glass code" data-at="1"><div class="hd"><i></i> stg_ml__model_scores</div><pre>
+<span class="ln"><span class="kw">where</span> status = <span class="str">'SUCCEEDED'</span></span>
+<span class="ln">qualify row_number() over (</span>
+<span class="ln">  partition <span class="kw">by</span> model_name</span>
+<span class="ln">  <span class="kw">order by</span> trained_at <span class="kw">desc</span>) = <span class="num">1</span></span>
+<span class="ln"><span class="kw">join</span> model_scores <span class="kw">on</span> run_id</span></pre></div>
+    <div class="plist">
+      <div class="glass prow" data-at="1"><div class="n">1</div><div><b>REJECTED stays in the log</b><p>MODEL_RUNS keeps the AUC, the features, the row counts, and the git version. The scores of that run are never inserted.</p></div></div>
+      <div class="glass prow" data-at="2"><div class="n">2</div><div><b>Freshness is weekly</b><p>The ML source warns after 8 days and errors after 15. This job is Monday, not every five minutes.</p></div></div>
+      <div class="glass prow" data-at="3"><div class="n">3</div><div><b>Score stays in range</b><p>A test requires each score between 0 and 1, and one row per model, entity type, and entity.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 HANDS -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#7a5a10,#14532d" data-notes="From the project folder, with the virtualenv and .env loaded: python 09_decisioning_python/train_and_score.py then dbt build -s stg_ml__model_scores+ --target prod. The script prints SUCCEEDED or REJECTED and an AUC that belongs to this synthetic sample. Do not memorise the AUC. Snowsight: select score_source, count(*) from MERIDIAN_ANALYTICS.MARTS.FCT_NEXT_BEST_OFFER group by 1. A MODEL row appears only after a succeeding propensity run. Login is SNOWFLAKE_ML_USER, default MERIDIAN_ML_SVC, role MERIDIAN_ML. --dry-run writes nothing.">
+  <div class="kicker rise" style="--k-c:#fbbf24">Hands on · terminal, then Snowsight</div>
+  <h2 class="rise h2s" style="--d:1">Train, publish, <span class="grad-gold">count the source.</span></h2>
+  <div class="two" style="grid-template-columns:1.05fr .95fr;margin-top:8px">
+    <div class="stack">
+      <div class="cmd" data-at="1"><span class="pr">$</span><code>python 09_decisioning_python/train_and_score.py</code><button class="copy" data-copy="python 09_decisioning_python/train_and_score.py">Copy</button></div>
+      <div class="cmd" data-at="2"><span class="pr">$</span><code>dbt build -s stg_ml__model_scores+ --target prod</code><button class="copy" data-copy="cd 04_dbt_meridian_dw && dbt build -s stg_ml__model_scores+ --target prod">Copy</button></div>
+      <div class="term" data-term data-at="3">
+        <div class="bar"><i></i><i></i><i></i><span>synthetic sample · status is the lesson</span></div>
+        <div class="body">
+          <div><span class="ps">$</span> <span class="typed" data-type="python 09_decisioning_python/train_and_score.py"></span><span class="caret"></span></div>
+          <div class="out">card_decision_v1 &nbsp; SUCCEEDED or REJECTED &nbsp; gate 0.70</div>
+          <div class="out dim">AUC is printed. It belongs to this sample. Do not quote it as a bank result.</div>
+        </div>
+      </div>
+    </div>
+    <div class="checks">
+      <div class="glass" data-at="1"><b>1 &nbsp; Log line per model</b><p>SUCCEEDED or REJECTED, the holdout AUC, and the gate. A dry run adds --dry-run and writes nothing.</p></div>
+      <div class="glass" data-at="2"><b>2 &nbsp; Snowsight · the offer grain</b><p>select score_source, count(*) from MERIDIAN_ANALYTICS.MARTS.FCT_NEXT_BEST_OFFER group by 1;</p></div>
+      <div class="glass" data-at="3"><b>3 &nbsp; Want a MODEL row</b><p>MODEL_RUNS should show SUCCEEDED. The offer query shows MODEL once a succeeding propensity run exists.</p></div>
+      <div class="glass" data-at="3"><b>4 &nbsp; The login</b><p>SNOWFLAKE_ML_USER, role MERIDIAN_ML. The user is MERIDIAN_ML_SVC, and the public key has to be set.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 WEEK -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#7a5a10,#0c4a6e" data-notes="meridian_card_decisioning.py schedule 0 3 * * 1. Three bash tasks: dbt build of ml_customer_features and the two card facts, then python train_and_score.py, then dbt build -s stg_ml__model_scores+. Airflow does not contain the model. Query tag meridian_ml_training is set in the Python connect(), so last week's fit shows up in the cost view from Episode 9.">
+  <div class="kicker rise" style="--k-c:#fbbf24">meridian_card_decisioning · Mondays 03:00 UTC</div>
+  <h2 class="rise h2s" style="--d:1">The week does <span class="grad-gold">this once.</span></h2>
+  <div class="week">
+    <div class="glass wstep" data-at="1"><div class="bub" style="background:#fbbf24;color:#1c1404">1</div><h3>Refresh features</h3><p>dbt build of ml_customer_features and the two card facts.</p><i>gold, as of this morning</i></div>
+    <div class="warr" data-at="2">→</div>
+    <div class="glass wstep" data-at="2"><div class="bub" style="background:#38bdf8;color:#041018">2</div><h3>Train and score</h3><p>The same Python file. Gate, then write runs and scores.</p><i>role MERIDIAN_ML</i></div>
+    <div class="warr" data-at="3">→</div>
+    <div class="glass wstep" data-at="3"><div class="bub" style="background:#fb7185;color:#1c0a0e">3</div><h3>Rebuild scored marts</h3><p>dbt build -s stg_ml__model_scores+ publishes the offer.</p><i>downstream of the scores</i></div>
+  </div>
+  <div class="glass banner" data-at="3">Query tag meridian_ml_training · so last week's fit shows up in the cost view from Episode 9.</div>
+</section>
+
+<!-- 14 GATE VS BAND -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#7a5a10,#14532d" data-notes="0.55 is the approve line in core.card_policy_logit: probability at or above 0.55 is APPROVED. The dbt macro copies those weights. 0.70 is two different jobs: the release gate for a whole model, and the HIGH band on one score. band() in train_and_score.py: under 0.40 LOW, 0.40 up to but not including 0.70 MEDIUM, 0.70 and above HIGH. tests/test_training.py checks 0.69 is MEDIUM and 0.7 is HIGH. A customer's score can be anything from 0 to 1. The band is a label. The policy is still the decision.">
+  <div class="kicker rise" style="--k-c:#fbbf24">Same number, two jobs</div>
+  <h2 class="rise h2s" style="--d:1">0.70 is a gate. <span class="grad-gold">Also a band.</span></h2>
+  <div class="bands">
+    <div class="glass numcard" data-at="1"><div class="n">0.55</div><b>Approve line</b><p>core.card_policy_logit. Probability at or above 0.55 is APPROVED. This is the bank's published rule. The dbt macro copies the same weights.</p></div>
+    <div class="glass numcard" data-at="2"><div class="n">0.70</div><b>Release gate</b><p>Holdout AUC. The whole model is REJECTED below it. One customer's score can still be anything from 0 to 1.</p></div>
+    <div class="glass band" data-at="2"><h3>Score band</h3><p style="color:var(--mute);margin:0 0 8px">On each row</p>
+      <div class="bl"><span>LOW</span><i style="--w:38%;--c:#38bdf8"></i></div>
+      <div class="bl" style="color:var(--faint);font-size:13px"><span></span><span>under 0.40</span></div>
+      <div class="bl"><span>MEDIUM</span><i style="--w:62%;--c:#fbbf24"></i></div>
+      <div class="bl" style="color:var(--faint);font-size:13px"><span></span><span>0.40 up to 0.70</span></div>
+      <div class="bl"><span>HIGH</span><i style="--w:88%;--c:#4ade80"></i></div>
+      <div class="bl" style="color:var(--faint);font-size:13px"><span></span><span>0.70 and up</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 OUTRO -->
+<section class="s" data-ch="3" data-accent="#7a5a10,#5b3fb5" data-notes="A score is a row. Next episode asks the warehouse in English, through a semantic view, with a row policy on the person.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#fbbf24">Episode 10 complete</div>
+    <h2 class="rise" style="--d:1;font-size:68px">A score is <span class="grad-gold">a row.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Four models</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Holdout AUC gate at 0.70</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Rejected runs write no scores</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>One offer, or silence</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="i-message"></div><div style="text-align:left"><small>Next · Episode 11</small><b>Ask in English</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+</body>
+</html>

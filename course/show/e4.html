@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 4 · Python carries only what changed</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.s h2{font-size:48px;margin-bottom:8px}
+.s .kicker{margin-bottom:10px}
+.fit{display:flex;flex-direction:column;min-height:0}
+.fit .body{flex:1;min-height:0;display:flex;flex-direction:column}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px;flex:1}
+.trio .card{min-height:0}
+.trio h3{font-size:28px}
+.foot{margin-top:14px;padding:14px 18px;border-radius:16px;background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.28);color:#fde68a;font-size:17px}
+.split{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;flex:1;min-height:0;align-items:start}
+.split .code{height:auto;align-self:start}
+.notes2{display:flex;flex-direction:column;gap:10px}
+.notes2 .callout{flex:1}
+.callout{padding:13px 15px}
+.callout b{font-size:18px}
+.callout p{font-size:15px}
+.code pre{font-size:15px;line-height:1.42}
+.code.sm pre{font-size:14.5px;line-height:1.38}
+.wm{display:grid;grid-template-columns:1.15fr 1.25fr .7fr;gap:16px;margin-top:28px;align-items:end;position:relative}
+.wm::before{content:"";position:absolute;left:0;right:0;bottom:78px;height:3px;background:linear-gradient(90deg,rgba(125,211,252,.35),rgba(250,204,21,.7),rgba(251,113,133,.45));border-radius:3px}
+.zone{padding:18px 18px 16px;min-height:210px;display:flex;flex-direction:column;position:relative}
+.zone b{font-size:20px}
+.zone small{color:var(--mute);font-size:15px;margin-top:4px}
+.zone .pills{margin-top:auto}
+.pin{position:absolute;top:-46px;left:28px;background:#facc15;color:#1c1408;font:800 12px var(--sans);letter-spacing:.14em;padding:6px 10px;border-radius:999px}
+.pin::after{content:"";position:absolute;left:22px;top:100%;width:2px;height:36px;background:#facc15}
+.clock{position:absolute;top:-28px;right:8px;color:#fb7185;font:700 13px var(--mono);letter-spacing:.04em}
+.formula{margin-top:22px;padding:16px 22px;border-radius:999px;text-align:center;font:700 22px var(--mono);color:#eaf2ff}
+.flow{margin-top:48px}
+.fbox{min-width:220px;padding:32px 18px;min-height:168px}
+.chips{margin-top:22px}
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.stat{padding:18px 16px;text-align:center}
+.stat .n{font:900 64px/1 var(--mono);letter-spacing:-.04em}
+.stat .l{margin-top:8px;color:var(--mute);font:700 13px var(--sans);letter-spacing:.12em}
+.cmds{display:flex;flex-direction:column;gap:10px}
+.cmds .cmd{padding:12px 14px 12px 20px}
+.cmds .cmd code{font-size:18px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.metric{padding:14px 14px 12px;min-height:0}
+.metric b{display:block;font-family:var(--mono);font-size:16px;color:#7dd3fc;margin-bottom:6px}
+.metric p{margin:0;color:var(--mute);font-size:15px}
+.vs{margin-top:12px;flex:1}
+.vs .side{min-height:0}
+.badge20{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font:900 22px var(--mono);background:rgba(56,189,248,.15);color:#7dd3fc;flex:none}
+</style>
+</head>
+<body data-episode="e4" data-label="Episode 4" data-chapters="Why Python|The bookmark|The carry|Prove it" data-chapter-colors="#60a5fa|#facc15|#2dd4bf|#4ade80">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#0b3a66,#7a5a10" data-notes="Episode 4. Python reads Postgres, writes Parquet, and loads Snowflake. dbt cannot do this hop. File: 02_ingestion_python/pg_to_snowflake.py. Needs E1 seeded and E3 scripts 01 through 03.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;--teal:#60a5fa;border-color:rgba(96,165,250,.45);background:rgba(96,165,250,.1);color:#bfdbfe"><i style="background:#60a5fa;box-shadow:0 0 14px #60a5fa"></i>EPISODE 4</div>
+      <h1 class="mega rise" style="--d:1;font-size:88px">Carry only<br><span class="grad-py">what changed</span></h1>
+      <p class="lead rise" style="--d:2">Watermarks, Parquet, retries, the first load and the pipeline health view.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Bookmark</span><span><b>02</b>Parquet</span><span><b>03</b>COPY</span><span><b>04</b>Health</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="pg,pq,i-file,sf,pandas,i-clock" data-core="py" data-core-class="py"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s" data-ch="0" data-accent="#0b3a66,#0e4a5c" data-notes="dbt only sends SQL to Snowflake. It never opens Postgres. The courier is pg_to_snowflake.py. Read main, then run_once, then process_table.">
+  <div class="statement">
+    <div class="kicker rise" style="--k-c:#60a5fa">Why this script exists</div>
+    <p class="huge" data-words style="font-size:72px">Snowflake cannot see the laptop. <span class="grad-py">Python carries the rows.</span></p>
+    <p class="lead rise" style="--d:5">dbt only sends SQL to Snowflake. Something else has to read Postgres and hand files across. That something is pg_to_snowflake.py.</p>
+  </div>
+</section>
+
+<!-- 03 NOT THESE -->
+<section class="s fit" data-ch="0" data-steps="4" data-accent="#1e3a8a,#7a2412" data-notes="Three things this script is not. dbt builds from data already in Snowflake. snowflake.connector is the cable, not the job. Dynamic tables refresh rows Snowflake already holds. In production a bank at scale uses log-based CDC. We write the courier so every step stays visible.">
+  <div class="kicker rise" style="--k-c:#60a5fa">Three things this script is not</div>
+  <h2 class="rise" style="--d:1">The courier is <span class="grad">a small Python job.</span></h2>
+  <div class="trio">
+    <div class="glass card" data-at="1" style="--c:#ff694b">
+      <div class="tile sm" data-logo="dbt"></div>
+      <h3>dbt sends SQL</h3>
+      <p>It builds tables from data that is already in Snowflake. It never opens Postgres.</p>
+      <div class="eg">ref() and source() only</div>
+    </div>
+    <div class="glass card" data-at="2" style="--c:#29b5e8">
+      <div class="tile sm" data-logo="sf"></div>
+      <h3>A connector logs in</h3>
+      <p>snowflake.connector is the cable. It is not a job that copies the bank.</p>
+      <div class="eg">login, then you send SQL</div>
+    </div>
+    <div class="glass card" data-at="3" style="--c:#2dd4bf">
+      <div class="ico sm" data-logo="i-refresh"></div>
+      <h3>Already inside</h3>
+      <p>Dynamic tables and incremental models refresh rows Snowflake already holds.</p>
+      <div class="eg">no path back to the laptop</div>
+    </div>
+  </div>
+  <div class="foot" data-at="4">In production, Fivetran or Debezium does this job. We write it so every step stays visible: read, file, upload, copy, then the bookmark.</div>
+</section>
+
+<!-- 04 WATERMARK PICTURE -->
+<section class="s fit" data-ch="1" data-steps="3" data-accent="#7a5a10,#7a1f35" data-notes="The clock times are a picture of the rule, not a row from CONTROL.WATERMARKS. Low is the bookmark. High is now minus INGEST_LAG_SECONDS, default 10. A row stamped inside the lag can still be committing. The next run is allowed to see it. That overlap is why raw can hold the same key twice.">
+  <div class="kicker rise" style="--k-c:#facc15">CONTROL.WATERMARKS</div>
+  <h2 class="rise" style="--d:1">A bookmark, not a <span class="grad-gold">full copy.</span></h2>
+  <div class="wm">
+    <div class="glass zone" data-at="1" style="border-color:rgba(125,211,252,.35)">
+      <b>already copied</b>
+      <small>rows at or before the bookmark</small>
+      <div class="pills"><span class="pl">09:00</span><span class="pl">09:04</span><span class="pl">09:11</span></div>
+    </div>
+    <div class="glass zone" data-at="2" style="border-color:rgba(250,204,21,.55);box-shadow:0 0 50px -12px rgba(250,204,21,.45)">
+      <div class="pin">WATERMARK</div>
+      <b>this run's window</b>
+      <small>after the mark, up to now − 10 s</small>
+      <div class="pills"><span class="pl c" style="--c:#facc15">09:40</span><span class="pl c" style="--c:#facc15">09:44</span><span class="pl c" style="--c:#facc15">09:51</span></div>
+    </div>
+    <div class="glass zone" data-at="3" style="border-color:rgba(251,113,133,.4)">
+      <span class="clock">now − 10 s</span>
+      <b>10 s lag</b>
+      <small>still committing</small>
+      <div class="pills"><span class="pl" style="border-color:rgba(251,113,133,.4);color:#fecdd3">in flight</span></div>
+    </div>
+  </div>
+  <div class="glass formula" data-at="3">updated_at &gt; watermark &nbsp; and &nbsp; updated_at &lt;= now() − 10 seconds</div>
+</section>
+
+<!-- 05 TWO TIMESTAMPS -->
+<section class="s fit" data-ch="1" data-steps="4" data-accent="#0e4a5c,#7a5a10" data-notes="config.py IngestConfig. Lag defaults to 10 seconds. Chunks default to 200000. Missing watermark becomes 1900-01-01, so the first run is a full load. The SQL is extract_table. The cursor column is updated_at, except deleted_at on the delete log. The bookmark moves to the max cursor seen, never blindly to high.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">config.py · pg_to_snowflake.py</div>
+  <h2 class="rise" style="--d:1">The window is <span class="grad">two timestamps.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="glass code sm">
+          <div class="hd"><i></i>config.py · IngestConfig</div>
+          <pre>
+<span class="ln">lag_seconds: <span class="fn">int</span> = <span class="fn">int</span>(os.getenv(<span class="str">"INGEST_LAG_SECONDS"</span>, <span class="str">"10"</span>))</span>
+<span class="ln">chunk_rows: <span class="fn">int</span> = <span class="fn">int</span>(os.getenv(<span class="str">"INGEST_CHUNK_ROWS"</span>, <span class="str">"200000"</span>))</span>
+<span class="ln">initial_watermark: <span class="fn">str</span> = <span class="str">"1900-01-01 00:00:00"</span></span></pre>
+        </div>
+        <div class="glass code sm">
+          <div class="hd"><i></i>extract_table() · the only rows this run wants</div>
+          <pre>
+<span class="ln"><span class="str">f"SELECT * FROM {table.qualified_source} "</span></span>
+<span class="ln hl"><span class="str">f"WHERE {table.cursor_column} &gt; %s AND {table.cursor_column} &lt;= %s "</span></span>
+<span class="ln"><span class="str">f"ORDER BY {table.cursor_column}"</span></span></pre>
+        </div>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>Ten seconds of patience</b><p>A payment can be stamped before it commits. The gap leaves it for the next run.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>First run reads everything</b><p>No bookmark yet. The default is year 1900, so every existing row is inside the window.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>%s are the two ends</b><p>Low is the bookmark. High is now minus the lag. The cursor column is updated_at, except deletes.</p></div></div>
+        <div class="callout" data-at="4"><div class="k">4</div><div><b>Move to what you saw</b><p>The bookmark advances to the newest updated_at in the files, never to the clock. A quiet table keeps its mark.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 FIVE STEPS -->
+<section class="s fit" data-ch="2" data-steps="5" data-accent="#0e4a5c,#14532d" data-notes="One table, five steps, in process_table. SELECT, Parquet, PUT, COPY, then set_watermark. The mark stays until COPY succeeds. A replay with --since and --until loads rows and should_advance_watermark returns false, so the mark stays.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">One table, five steps</div>
+  <h2 class="rise" style="--d:1">Rows flow. <span class="grad">The bookmark moves last.</span></h2>
+  <div class="flow">
+    <div class="fbox" data-at="1"><div class="ico sm" data-logo="pg" style="margin:0 auto 10px"></div><b>PostgreSQL</b><small>SELECT in the window</small></div>
+    <div class="arrow" data-at="2"></div>
+    <div class="fbox" data-at="2"><div class="ico sm" data-logo="pq" style="margin:0 auto 10px"></div><b>Parquet</b><small>200,000 rows · snappy</small></div>
+    <div class="arrow" data-at="3"></div>
+    <div class="fbox" data-at="3"><div class="ico sm" data-logo="i-file" style="margin:0 auto 10px"></div><b>PG_STAGE</b><small>PUT · 8 at a time</small></div>
+    <div class="arrow" data-at="4"></div>
+    <div class="fbox" data-at="4" style="border-color:rgba(125,211,252,.55)"><div class="ico sm" data-logo="sf" style="margin:0 auto 10px"></div><b>COPY INTO raw</b><small>record is the whole row</small></div>
+    <div class="arrow" data-at="5"></div>
+    <div class="fbox" data-at="5" style="border-color:rgba(250,204,21,.7);box-shadow:0 0 40px -10px rgba(250,204,21,.6)"><b style="color:#facc15">watermark</b><small>only after COPY</small></div>
+  </div>
+  <div class="chips">
+    <span data-at="1"><b>1</b>SELECT</span>
+    <span data-at="2"><b>2</b>Parquet</span>
+    <span data-at="3"><b>3</b>PUT</span>
+    <span data-at="4"><b>4</b>COPY</span>
+    <span data-at="5"><b>5</b>then the bookmark</span>
+  </div>
+  <div class="glass formula" data-at="5" style="font-size:18px;margin-top:18px">The mark stays on the left until COPY INTO raw succeeds. Then it jumps to the newest row that landed.</div>
+</section>
+
+<!-- 07 EXTRACT -->
+<section class="s fit" data-ch="2" data-steps="4" data-accent="#0e4a5c,#14532d" data-notes="extract_table uses a named server-side cursor. itersize and fetchmany are INGEST.chunk_rows, default 200000. Five million seed transactions become 25 files. build_arrow_schema and normalise_dataframe run before from_pandas. The window shows the stream, the stamp, the max cursor, and the snappy write.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">extract_table()</div>
+  <h2 class="rise" style="--d:1">Stream rows. <span class="grad">One file per chunk.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>pg_to_snowflake.py · extract_table()<div class="lg" data-logo="py"></div></div>
+        <pre>
+<span class="ln"><span class="kw">with</span> pg_conn.cursor(name=<span class="str">f"ingest_{table.name}_{batch_id[:8]}"</span>) <span class="kw">as</span> cur:</span>
+<span class="ln">    cur.itersize = INGEST.chunk_rows</span>
+<span class="ln">    <span class="kw">while</span> <span class="kw">True</span>:</span>
+<span class="ln">        rows = cur.fetchmany(INGEST.chunk_rows)</span>
+<span class="ln">        <span class="kw">if not</span> rows:</span>
+<span class="ln">            <span class="kw">break</span></span>
+<span class="ln">        df = pd.DataFrame(rows, columns=[c.name <span class="kw">for</span> c <span class="kw">in</span> cur.description])</span>
+<span class="ln">        df[<span class="str">"_extracted_at"</span>] = _naive(extracted_at)</span>
+<span class="ln">        df[<span class="str">"_batch_id"</span>] = batch_id</span>
+<span class="ln">        chunk_max = df[table.cursor_column].max()</span>
+<span class="ln">        max_cursor = <span class="fn">max</span>(max_cursor, chunk_max) <span class="kw">if</span> max_cursor <span class="kw">else</span> chunk_max</span>
+<span class="ln">        path = out_dir / <span class="str">f"{table.name}_{batch_id}_{part:05d}.parquet"</span></span>
+<span class="ln hl">        pq.write_table(arrow_table, path, compression=<span class="str">"snappy"</span>)</span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>A named cursor streams</b><p>The server holds the 5 million payments. Python never loads them all at once.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>200,000 at a time</b><p>INGEST_CHUNK_ROWS. Five million transactions become 25 Parquet files.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>Stamp the batch</b><p>When, and which run. Remember the newest cursor actually seen in the chunk.</p></div></div>
+        <div class="callout" data-at="4"><div class="k">4</div><div><b>Snappy Parquet</b><p>Typed columns, already compressed. One file per chunk, named with the batch and a part number.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 PUT COPY -->
+<section class="s fit" data-ch="2" data-steps="4" data-accent="#14532d,#0e4a5c" data-notes="load_files. PUT uses AUTO_COMPRESS false because Parquet is already snappy, OVERWRITE true, PARALLEL 8. COPY selects $1 into record, a VARIANT. ON_ERROR aborts the statement. PURGE deletes the staged files after success. set_watermark runs only when should_advance_watermark is true. A replay does not move the mark.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">load_files() · then set_watermark()</div>
+  <h2 class="rise" style="--d:1">Upload, copy, <span class="grad">then move the mark.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>pg_to_snowflake.py</div>
+        <pre>
+<span class="ln"><span class="fn">PUT</span> file://{pattern} {stage} AUTO_COMPRESS=<span class="kw">FALSE</span> OVERWRITE=<span class="kw">TRUE</span> PARALLEL=<span class="num">8</span></span>
+<span class="ln"><span class="fn">COPY INTO</span> {target} (record, _extracted_at, _batch_id, _source_file)</span>
+<span class="ln"><span class="kw">SELECT</span> $1, %s::<span class="fn">TIMESTAMP_NTZ</span>, %s, METADATA$FILENAME</span>
+<span class="ln"><span class="kw">FROM</span> {stage}</span>
+<span class="ln">FILE_FORMAT = (FORMAT_NAME = <span class="str">'{SF.raw_database}.{SF.control_schema}.FF_PARQUET'</span>)</span>
+<span class="ln">ON_ERROR = ABORT_STATEMENT</span>
+<span class="ln">PURGE = <span class="kw">TRUE</span></span>
+<span class="ln cm"># Advance to what we saw, never `high`</span>
+<span class="ln hl">set_watermark(sf_cur, table, max_cursor, batch_id)</span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>Eight uploads at once</b><p>Parquet is already compressed, so AUTO_COMPRESS is false. The stage is PG_STAGE.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>$1 is the whole row</b><p>It lands in record, a VARIANT. Typing waits for dbt. _loaded_at fills itself.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>All of the batch, or none</b><p>One bad file aborts the statement. PURGE deletes the staged files after success.</p></div></div>
+        <div class="callout" data-at="4"><div class="k">4</div><div><b>MERGE the bookmark</b><p>Only after COPY. A replay with --since and --until loads rows and leaves the mark alone.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 IDEMPOTENT -->
+<section class="s fit" data-ch="2" data-steps="2" data-accent="#7a1f35,#14532d" data-notes="If the script dies before COPY, status FAILED when the log write succeeds, and the watermark is unchanged. The next run reads the same window. If it dies after COPY and before the MERGE, raw holds two copies. Staging keeps the newest _extracted_at. That second copy is the overlap. Do not reset the watermark as a first move.">
+  <div class="kicker rise" style="--k-c:#4ade80">If the script dies in the middle</div>
+  <h2 class="rise" style="--d:1">Run it again. <span class="grad-green">Same final answer.</span></h2>
+  <div class="vs">
+    <div class="side bad" data-at="1">
+      <h3><span class="tag2">BEFORE COPY</span></h3>
+      <p>The bookmark has not moved. Raw has nothing from this run. The next run reads the same window and tries again.</p>
+      <div class="eg" style="margin-top:auto">status = FAILED<br>watermark unchanged</div>
+      <div class="stampx">↺</div>
+    </div>
+    <div class="side good" data-at="2">
+      <h3><span class="tag2">AFTER COPY</span></h3>
+      <p>Rows landed, then the process died before the MERGE. The next run copies them again. Bronze keeps both. Staging keeps the newest.</p>
+      <div class="eg" style="margin-top:auto">raw may hold two copies<br>silver keeps one</div>
+      <div class="stampx">✓</div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 DELETES -->
+<section class="s fit" data-ch="2" data-steps="3" data-accent="#7a2412,#7a5a10" data-notes="A watermark on updated_at cannot see a row that is already gone. cdc.deleted_records is a normal SourceTable, cursor deleted_at. The loader copies it. It does not issue DELETE on the raw table. dbt staging removes keys that show up in the delete log. TABLES has 20 entries. currencies is first.">
+  <div class="kicker rise" style="--k-c:#fb923c">The hole in a bookmark</div>
+  <h2 class="rise" style="--d:1">A deleted row <span class="grad-warm">is no longer there to read.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>config.py · TABLES<div class="lg" data-logo="py"></div></div>
+        <pre>
+<span class="ln">SourceTable(<span class="str">"ref"</span>, <span class="str">"currencies"</span>, (<span class="str">"currency_code"</span>,)),</span>
+<span class="ln">SourceTable(<span class="str">"cdc"</span>, <span class="str">"deleted_records"</span>, (<span class="str">"deleted_record_id"</span>,),</span>
+<span class="ln hl">            cursor_column=<span class="str">"deleted_at"</span>),</span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="badge20">20</div><div><b>Twenty tables, one loop</b><p>ref, core, and cdc. Each is independent. currencies is the small one we load first.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>Deletes ride along</b><p>The loader copies cdc.deleted_records like any other table. It does not issue DELETE in the raw table.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>dbt applies them</b><p>Raw stays append-only. The silver models remove ids that show up in the delete log.</p></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot" data-at="3">A bookmark on updated_at never sees a row that vanished. The delete log is the plug for that hole.</div>
+</section>
+
+<!-- 11 ENV -->
+<section class="s fit" data-ch="3" data-steps="3" data-accent="#0e4a5c,#7a5a10" data-notes=".env.example is the file. xy12345.ap-south-1 is the placeholder in that file, not an account to use. Copy it to .env and put your own account identifier and the absolute key path. config.py calls load_dotenv on the project .env. Do not paste secrets into the terminal. The example also names SNOWFLAKE_DBT_USER and SNOWFLAKE_ML_USER.">
+  <div class="kicker rise" style="--k-c:#facc15">.env is a file, not a command</div>
+  <h2 class="rise" style="--d:1">Settings live in a file. <span class="grad">Python reads them.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>.env.example · copy to .env · VS Code</div>
+        <pre>
+<span class="ln"><span class="var">SNOWFLAKE_ACCOUNT</span>          <span class="str">xy12345.ap-south-1</span></span>
+<span class="ln"><span class="var">SNOWFLAKE_USER</span>             <span class="str">MERIDIAN_LOADER_SVC</span></span>
+<span class="ln"><span class="var">SNOWFLAKE_PRIVATE_KEY_PATH</span> <span class="str">~/.ssh/meridian_rsa_key.p8</span></span>
+<span class="ln"><span class="var">SNOWFLAKE_ROLE</span>             <span class="str">MERIDIAN_LOADER</span></span>
+<span class="ln"><span class="var">SNOWFLAKE_WAREHOUSE</span>        <span class="str">WH_INGEST_XS</span></span>
+<span class="ln"><span class="var">SNOWFLAKE_RAW_DATABASE</span>     <span class="str">MERIDIAN_RAW</span></span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>load_dotenv</b><p>config.py reads .env from the project folder when Python starts.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>Not a terminal paste</b><p>Cmd+P, then .env, if the file is hidden. The shell loads it with set -a.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>The key stays local</b><p>The path at the private key. The account line here is the example placeholder.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 COMMANDS -->
+<section class="s fit" data-ch="3" data-steps="3" data-accent="#7a5a10,#14532d" data-notes="Activate the venv, export .env, smoke-test ref.currencies, then the full script. The seed inserts five currencies: USD, INR, AED, GBP, SGD. TABLES has 20 entries. 5,000,000 seed transactions divided by 200,000 chunk rows is 25 files. This slide does not show a live load. If the smoke test fails, it is the account, the key, or the role.">
+  <div class="kicker rise" style="--k-c:#facc15">Project folder · .env loaded, not pasted</div>
+  <h2 class="rise" style="--d:1">One tiny table, <span class="grad-py">then everything.</span></h2>
+  <div class="cmds">
+    <div class="cmd"><span class="pr">$</span><code>source .venv/bin/activate</code><button class="copy" data-copy="source .venv/bin/activate">Copy</button></div>
+    <div class="cmd"><span class="pr">$</span><code>set -a; source .env; set +a</code><button class="copy" data-copy="set -a; source .env; set +a">Copy</button></div>
+    <div class="cmd" data-at="1"><span class="pr">$</span><code>python 02_ingestion_python/pg_to_snowflake.py --tables ref.currencies -v</code><button class="copy" data-copy="python 02_ingestion_python/pg_to_snowflake.py --tables ref.currencies -v">Copy</button></div>
+    <div class="cmd" data-at="2"><span class="pr">$</span><code>time python 02_ingestion_python/pg_to_snowflake.py</code><button class="copy" data-copy="time python 02_ingestion_python/pg_to_snowflake.py">Copy</button></div>
+  </div>
+  <div class="statrow">
+    <div class="glass stat" data-at="1"><div class="n">5</div><div class="l">CURRENCY ROWS IN THE SEED</div></div>
+    <div class="glass stat" data-at="2"><div class="n">20</div><div class="l">SOURCE TABLES</div></div>
+    <div class="glass stat" data-at="3"><div class="n">25</div><div class="l">PARQUET FILES · 5 MILLION ÷ 200,000</div></div>
+  </div>
+</section>
+
+<!-- 13 HEALTH -->
+<section class="s fit" data-ch="3" data-steps="4" data-accent="#0e4a5c,#5b3fb5" data-notes="The view is 03_snowflake/03_stages_raw_tables_control.sql. minutes_behind_source, last_status, last_rows, last_duration_s. Status strings in the loader are SUCCESS, NO_CHANGES, FAILED, and the REPLAY_ names. Do not invent a lag number. Compare COUNT on bronze with count on core.transactions in DBeaver. Equal right after the full load, before the simulator moves.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">03_stages_raw_tables_control.sql</div>
+  <h2 class="rise" style="--d:1">One view for <span class="grad">the whole courier.</span></h2>
+  <div class="glass code sm">
+    <div class="hd"><i></i>V_PIPELINE_HEALTH</div>
+    <pre>
+<span class="ln"><span class="kw">SELECT</span> w.table_name, w.last_watermark,</span>
+<span class="ln">  <span class="fn">timestampdiff</span>(<span class="str">'minute'</span>, w.last_watermark, <span class="fn">current_timestamp</span>()) <span class="kw">AS</span> minutes_behind_source,</span>
+<span class="ln">  l.status <span class="kw">AS</span> last_status, l.rows_extracted <span class="kw">AS</span> last_rows,</span>
+<span class="ln">  <span class="fn">timestampdiff</span>(<span class="str">'second'</span>, l.started_at, l.finished_at) <span class="kw">AS</span> last_duration_s</span>
+<span class="ln"><span class="kw">FROM</span> MERIDIAN_RAW.CONTROL.WATERMARKS w</span>
+<span class="ln"><span class="kw">LEFT JOIN</span> MERIDIAN_RAW.CONTROL.LOAD_LOG l</span>
+<span class="ln">  <span class="kw">ON</span> l.table_name = w.table_name <span class="kw">AND</span> l.batch_id = w.last_batch_id</span></pre>
+  </div>
+  <div class="metrics">
+    <div class="glass metric" data-at="1"><b>minutes_behind</b><p>How far the bookmark sits behind the clock.</p></div>
+    <div class="glass metric" data-at="2"><b>last_status</b><p>SUCCESS, NO_CHANGES, or FAILED. Replay uses its own names.</p></div>
+    <div class="glass metric" data-at="3"><b>last_rows</b><p>rows_extracted on that batch. Zero is a quiet window.</p></div>
+    <div class="glass metric" data-at="4"><b>last_duration_s</b><p>finished_at minus started_at, in seconds.</p></div>
+  </div>
+  <div class="cmd sql" style="margin-top:12px" data-at="4">
+    <pre>SELECT * FROM MERIDIAN_RAW.CONTROL.V_PIPELINE_HEALTH;
+SELECT COUNT(*) FROM MERIDIAN_RAW.POSTGRES_CORE.TRANSACTIONS;
+SELECT count(*) FROM core.transactions;  -- DBeaver, meridian_core</pre>
+    <button class="copy" data-copy="SELECT * FROM MERIDIAN_RAW.CONTROL.V_PIPELINE_HEALTH;
+SELECT COUNT(*) FROM MERIDIAN_RAW.POSTGRES_CORE.TRANSACTIONS;
+SELECT count(*) FROM core.transactions;">Copy</button>
+  </div>
+</section>
+
+<!-- 14 PANDAS RECONCILE -->
+<section class="s fit" data-ch="3" data-steps="3" data-accent="#7a5a10,#14532d" data-notes="Bronze COUNT is the row check. reconcile_with_pandas.py asks the business question: rows and posted amount by day and currency, same two-minute cutoff on both sides. Default is --days 7 --by currency. ok requires row_diff 0 and amount_diff under one cent. Exit 1 prints MISMATCH. Exit 0 prints RECONCILED. This slide does not claim either result. --record writes CONTROL.RECONCILIATION_RUNS. --by branch is the other cut.">
+  <div class="kicker rise" style="--k-c:#facc15">reconcile_with_pandas.py</div>
+  <h2 class="rise" style="--d:1">Bronze counts rows. <span class="grad-gold">pandas compares the business.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>reconcile_with_pandas.py<div class="lg" data-logo="pandas"></div></div>
+        <pre>
+<span class="ln cm"># Postgres core.transactions vs MARTS.FCT_TRANSACTIONS</span>
+<span class="ln">cutoff = datetime.now(timezone.utc) - timedelta(minutes=<span class="num">2</span>)</span>
+<span class="ln">merged = src.merge(wh, on=[<span class="str">"txn_date"</span>, <span class="str">"grp"</span>], how=<span class="str">"outer"</span>, indicator=<span class="kw">True</span>)</span>
+<span class="ln">merged[<span class="str">"row_diff"</span>] = merged[<span class="str">"wh_rows"</span>] - merged[<span class="str">"src_rows"</span>]</span>
+<span class="ln">merged[<span class="str">"amount_diff"</span>] = (merged[<span class="str">"wh_posted_amount"</span>] - merged[<span class="str">"src_posted_amount"</span>]).round(<span class="num">2</span>)</span>
+<span class="ln hl">merged[<span class="str">"ok"</span>] = (merged[<span class="str">"row_diff"</span>] == <span class="num">0</span>) &amp; (merged[<span class="str">"amount_diff"</span>].abs() &lt; <span class="num">0.01</span>)</span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>Both systems in memory</b><p>dbt can only see Snowflake. pandas can hold the bank and the mart together.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>Same grain</b><p>Default is the last 7 days, by currency. --by branch is the other cut. --days 30 widens it.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>Exit 1 on a miss</b><p>Row counts must match. Posted amounts must be within one cent. A bronze count can be higher after the simulator, because raw keeps every version.</p></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="cmd" style="margin-top:12px" data-at="3"><span class="pr">$</span><code>python 02_ingestion_python/reconcile_with_pandas.py --days 7 --by currency</code><button class="copy" data-copy="python 02_ingestion_python/reconcile_with_pandas.py --days 7 --by currency">Copy</button></div>
+</section>
+
+<!-- 15 OUTRO -->
+<section class="s" data-ch="3" data-accent="#7a2412,#0e4a5c" data-notes="Only the new rows left the laptop. Bookmark, then a 10 second gap. Parquet, then COPY. A retry leaves one answer. The health view is the scoreboard. Next, Episode 5, dbt cleans the inbox.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#60a5fa">Episode 4 complete</div>
+    <h2 class="rise" style="--d:1;font-size:60px">Only the new rows <span class="grad">left the laptop.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Bookmark, then a 10 s gap</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Parquet, then COPY</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Retry leaves one answer</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Health view is the scoreboard</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="dbt"></div><div style="text-align:left"><small>Next · Episode 5</small><b>dbt cleans the inbox</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+</body>
+</html>

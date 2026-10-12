@@ -23,3 +23,4 @@ Format (Michael Nygard, 2011): **Status · Context · Decision · Alternatives �
 | 0008 | [One owner per object type: Terraform, dbt, security SQL](0008-one-owner-per-object-type.md) | Accepted |
 | 0009 | [Omni search is a serving index, not a second search engine](0009-omni-search-is-a-serving-index.md) | Accepted |
 | 0010 | [Contracts belong at public boundaries](0010-contracts-at-public-boundaries.md) | Accepted |
+| 0011 | [Shared tables with a row-access policy; physical isolation only when a tenant requires it](0011-multitenancy-patterns.md) | Accepted |

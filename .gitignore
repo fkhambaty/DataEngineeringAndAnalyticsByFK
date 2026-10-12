@@ -21,3 +21,4 @@ __pycache__/
 .DS_Store
 Videos/
 Printouts/
+snowflake_dbt_airflow_python_byFK/

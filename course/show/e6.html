@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 6 · The star schema, for real</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.h2s{font-size:50px}
+.kicker.dbt{--k-c:#ff8a6a}
+.jn{color:#fb923c}
+
+/* DAG */
+.dag{margin-top:8px;display:grid;grid-template-columns:1.35fr .65fr;gap:22px;align-items:stretch}
+.rail{display:flex;flex-direction:column;gap:8px;position:relative;padding-left:28px}
+.rail::before{content:"";position:absolute;left:8px;top:22px;bottom:22px;width:3px;border-radius:3px;background:rgba(255,255,255,.08)}
+.rail .wire{position:absolute;left:8px;top:22px;width:3px;height:0;border-radius:3px;background:linear-gradient(180deg,#ff694b,#f5c542);box-shadow:0 0 16px rgba(255,105,75,.7);transition:height 1s var(--ease)}
+.dnode{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;padding:12px 16px;border-radius:16px;background:rgba(16,22,38,.72);border:1px solid rgba(255,255,255,.08)}
+.dnode .n{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font:900 16px var(--mono);background:rgba(255,255,255,.06)}
+.dnode b{display:block;font:700 18px var(--mono)}
+.dnode small{color:var(--mute);font-size:14px}
+.dnode .ly{font:800 11px var(--sans);letter-spacing:.14em;color:var(--c,#9fb0c8)}
+.dnode.on{border-color:color-mix(in srgb,var(--c,#4ade80) 55%,transparent);background:color-mix(in srgb,var(--c,#4ade80) 10%,rgba(16,22,38,.8))}
+.dnode.now{box-shadow:0 0 36px -8px var(--c,#ff694b);transform:translateX(6px)}
+.whybox{padding:22px 22px;display:flex;flex-direction:column;gap:14px}
+.whybox h3{margin:0;font-size:26px}
+.whybox p{margin:0;color:var(--mute);font-size:17px;line-height:1.4}
+
+/* fx */
+.fxrow{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:8px}
+.tok{padding:16px 22px;text-align:center;min-width:200px}
+.tok b{display:block;font-size:36px;font-weight:900;letter-spacing:-.03em}
+.tok small{display:block;color:var(--mute);font-size:15px;margin-top:4px}
+.op2{font-size:40px;font-weight:300;color:var(--faint)}
+.two.tight{margin-top:14px}
+
+/* versions */
+.vergrid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-top:12px}
+.unk{margin-top:12px;padding:14px 18px;display:flex;align-items:center;gap:16px}
+.unk b{font:800 22px var(--mono);color:#fde68a}
+
+/* fact keys lighting */
+.keys{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px}
+.key{padding:14px 12px;text-align:center;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(10,15,28,.5)}
+.key b{display:block;font:700 15px var(--mono);color:#7dd3fc}
+.key small{display:block;color:var(--mute);font-size:13px;margin-top:4px}
+.key.pit{border-color:rgba(245,197,66,.45)}
+.key.pit b{color:#fde68a}
+
+/* monthly */
+.stocks{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:14px}
+.stock{min-height:390px;padding:26px 28px;display:flex;flex-direction:column}
+.stock h3{margin:6px 0 8px;font-size:30px}
+.stock p{margin:0;color:var(--mute);font-size:19px;line-height:1.4}
+.stock .when{margin-top:auto;padding:14px 16px;border-radius:14px;font:700 18px var(--mono)}
+.stock.flow2 .when{background:rgba(56,189,248,.12);color:#7dd3fc}
+.stock.snap .when{background:rgba(245,197,66,.12);color:#fde68a}
+.noteq{margin-top:14px;text-align:center;font-size:20px;font-weight:700;color:#fde68a}
+
+/* deletes */
+.vs .side{min-height:430px}
+.mini2{margin-top:16px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.mini2 .r{display:grid;grid-template-columns:1.2fr .8fr;padding:12px 16px;font:650 17px var(--mono);border-top:1px solid rgba(255,255,255,.06)}
+.mini2 .r:first-child{border-top:0;font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.04)}
+.mini2 .r.stay{background:rgba(251,113,133,.12);color:#fecdd3}
+.mini2 .r.gone{background:rgba(74,222,128,.1);color:#bbf7d0;text-decoration:line-through}
+
+/* tests */
+.kinds4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:14px}
+.kind4{min-height:400px;padding:22px 20px;display:flex;flex-direction:column}
+.kind4 h3{margin:8px 0;font-size:26px}
+.kind4 p{margin:0;color:var(--mute);font-size:17px;line-height:1.4}
+.kind4 .eg{margin-top:auto;font-size:14px}
+.failnote{margin-top:14px}
+
+/* errors */
+.errs{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.err{display:grid;grid-template-columns:1.1fr 1.3fr 1.2fr;gap:18px;align-items:center;padding:18px 22px;min-height:118px}
+.err .badt{color:#fb7185;font:700 16px var(--mono)}
+.err .fixt{color:#4ade80;font:700 16px var(--mono)}
+.err b{display:block;font-size:20px;margin-bottom:4px}
+.err p{margin:0;color:var(--mute);font-size:16px}
+
+/* hands */
+.hand{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-top:10px}
+.cmds{display:flex;flex-direction:column;gap:10px}
+.cmds .cmd{padding:12px 14px 12px 16px}
+.cmds .cmd code{font-size:16px}
+.checks{display:flex;flex-direction:column;gap:12px}
+.chk{padding:16px 18px}
+.chk b{display:block;font-size:20px;margin-bottom:4px}
+.chk p{margin:0;color:var(--mute);font-size:16px;line-height:1.4}
+</style>
+</head>
+<body data-episode="e6" data-label="Episode 6" data-chapters="The order|The money|The fact|Prove it" data-chapter-colors="#f5c542|#ff694b|#38bdf8|#2dd4bf">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#7a5a10,#7a2412" data-notes="Episode 2 drew the star. This episode builds it. ref() decides the order. We will read the real models, then build production and reconcile.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;border-color:rgba(245,197,66,.45);background:rgba(245,197,66,.1);color:#fde68a"><i style="background:#f5c542;box-shadow:0 0 14px #f5c542"></i>EPISODE 6</div>
+      <h1 class="mega rise" style="--d:1">The star schema,<br><span class="grad-gold">for real</span></h1>
+      <p class="lead rise" style="--d:2">Dollars at the day's rate. A key per customer version. Facts, deletes, tests, then a check that Postgres and the warehouse agree.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>ref() order</span><span><b>02</b>FX and versions</span><span><b>03</b>Facts</span><span><b>04</b>Tests</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="sf,pandas,i-dollar,i-user,i-key,i-check" data-core="dbt" data-core-class="dbt"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s" data-ch="0" data-accent="#5c4308,#3b2a80" data-notes="Nobody types the run order. Each ref() is an arrow. dbt builds the tail of the arrow first.">
+  <div class="statement">
+    <div class="kicker" style="--k-c:#f5c542">The order is already written</div>
+    <p class="huge" data-words>ref() is the arrow. <span class="grad-gold">dbt follows it.</span></p>
+    <p class="lead rise" style="--d:8">Staging feeds the intermediate models. Snapshots feed the dimensions. The fact waits until both exist. A test waits until the fact exists.</p>
+  </div>
+</section>
+
+<!-- 03 DAG -->
+<section class="s" data-ch="0" data-steps="6" data-scene="dag" data-accent="#7a5a10,#7a2412" data-notes="Walk the light from bronze copies up to the fact. Say each ref out loud. Tests are part of dbt build, not a later favour.">
+  <div class="kicker rise" style="--k-c:#f5c542">What dbt build runs, parents first</div>
+  <h2 class="rise h2s" style="--d:1">Watch the warehouse <span class="grad-gold">light up.</span></h2>
+  <div class="dag">
+    <div class="rail" id="rail">
+      <i class="wire" id="wire"></i>
+      <div class="dnode" data-at="1" style="--c:#c9d3df"><div class="n">1</div><div><b>stg_postgres__transactions</b><small>newest typed copy of each payment</small></div><span class="ly">SILVER</span></div>
+      <div class="dnode" data-at="2" style="--c:#7dd3fc"><div class="n">2</div><div><b>int_fx_rates_daily_filled</b><small>one rate for every day, weekends carried forward</small></div><span class="ly">SILVER</span></div>
+      <div class="dnode" data-at="2" style="--c:#7dd3fc"><div class="n">2</div><div><b>int_account_primary_holder</b><small>holder_role PRIMARY, one customer per account</small></div><span class="ly">SILVER</span></div>
+      <div class="dnode" data-at="3" style="--c:#38bdf8"><div class="n">3</div><div><b>int_transactions_with_fx</b><small>local amount, that day's rate, dollars stored</small></div><span class="ly">SILVER</span></div>
+      <div class="dnode" data-at="4" style="--c:#fbbf24"><div class="n">4</div><div><b>snap_customers → dim_customer</b><small>one surrogate key per version</small></div><span class="ly">GOLD</span></div>
+      <div class="dnode" data-at="5" style="--c:#f5c542"><div class="n">5</div><div><b>fct_transactions</b><small>nine keys, amounts, and a count of 1</small></div><span class="ly">GOLD</span></div>
+      <div class="dnode" data-at="6" style="--c:#4ade80"><div class="n">6</div><div><b>tests</b><small>the build fails if a key points nowhere</small></div><span class="ly">CHECK</span></div>
+    </div>
+    <div class="glass whybox">
+      <h3>Same shape, every model</h3>
+      <p data-at="1">source() reads bronze. ref() reads a model we built.</p>
+      <p data-at="3">The FX model refs the staging payments, the filled rates, and the primary holder.</p>
+      <p data-at="5">The fact refs the FX model and every dimension. It cannot start earlier.</p>
+      <p data-at="6">dbt build runs the tests after the models they check. A red test stops the kitchen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FX -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#0f5c3a,#7a5a10" data-notes="Store rupees, the rate, and dollars on the same row. The join is the payment's own date and currency. Credits are positive. Weekend rates come from int_fx_rates_daily_filled, flagged is_forward_filled.">
+  <div class="kicker rise dbt">models/intermediate/int_transactions_with_fx.sql</div>
+  <h2 class="rise h2s" style="--d:1">Convert on the day <span class="grad-dbt">the money moved.</span></h2>
+  <div class="fxrow rise" style="--d:2">
+    <div class="glass tok"><b>amount_local</b><small>the rupees, or yen, as paid</small></div>
+    <div class="op2">×</div>
+    <div class="glass tok pulse" style="--c:#4ade80"><b style="color:#86efac">rate</b><small>fx_rate_to_reporting</small></div>
+    <div class="op2">=</div>
+    <div class="glass tok"><b style="color:#fde68a">USD</b><small>amount_reporting · stored</small></div>
+  </div>
+  <div class="two tight" style="grid-template-columns:1.25fr .75fr">
+    <div class="glass code" data-at="1"><div class="hd"><i></i>int_transactions_with_fx.sql<span class="lg" data-logo="dbt"></span></div><pre>
+<span class="ln" data-at="1"><span class="kw">left join</span> holders h</span>
+<span class="ln" data-at="1">  <span class="kw">on</span> h.account_id = t.account_id</span>
+<span class="ln" data-at="2"><span class="kw">left join</span> fx</span>
+<span class="ln" data-at="2">  <span class="kw">on</span> fx.date_day = t.transaction_date</span>
+<span class="ln" data-at="2"> <span class="kw">and</span> fx.currency_code = t.currency_code</span>
+<span class="ln hl" data-at="3"><span class="fn">round</span>(t.amount * fx.rate_to_reporting, <span class="num">2</span>)</span>
+<span class="ln" data-at="3">  <span class="kw">as</span> amount_reporting</span></pre></div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Who paid</b><p>The primary holder. Joint holders live on bridge_account_customer, not on this row.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>That day's rate</b><p>Saturday has no published rate. The filled model carries Friday forward and sets is_forward_filled.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>Sign shows direction</b><p>Deposits, transfer-in, interest, salary and refunds stay positive. Everything else is stored negative.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 DIM CUSTOMER -->
+<section class="s" data-ch="1" data-steps="4" data-accent="#3b2a80,#7a5a10" data-notes="Three details make the snapshot usable. Backdate the first version to 1900. Close the open version at 9999, not null. Add customer_key -1 so a missing holder does not drop the payment.">
+  <div class="kicker rise" style="--k-c:#a78bfa">models/marts/core/dim_customer.sql</div>
+  <h2 class="rise h2s" style="--d:1">One customer. <span class="grad-violet">A key per version.</span></h2>
+  <div class="vergrid">
+    <div class="glass code"><div class="hd"><i></i>dim_customer.sql<span class="lg" data-logo="dbt"></span></div><pre>
+<span class="ln" data-at="1">{{ <span class="fn">dbt_utils.generate_surrogate_key</span>([</span>
+<span class="ln" data-at="1">  <span class="str">'customer_id'</span>, <span class="str">'dbt_valid_from'</span>]) }}</span>
+<span class="ln" data-at="1">  <span class="kw">as</span> customer_key</span>
+<span class="ln" data-at="2"><span class="fn">iff</span>(version_number = <span class="num">1</span>,</span>
+<span class="ln" data-at="2">  <span class="str">'1900-01-01'</span>::<span class="fn">timestamp_ntz</span>,</span>
+<span class="ln" data-at="2">  dbt_valid_from) <span class="kw">as</span> valid_from</span>
+<span class="ln hl" data-at="3"><span class="fn">coalesce</span>(dbt_valid_to,</span>
+<span class="ln hl" data-at="3">  <span class="str">'9999-12-31'</span>::<span class="fn">timestamp_ntz</span>) <span class="kw">as</span> valid_to</span></pre></div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>A new key when the version starts</b><p>The hash is the id plus dbt_valid_from. Same person, different era, different customer_key.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>The first version starts in 1900</b><p>A payment older than the first snapshot still finds a row. Otherwise it would fall through.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>The open end is a real date</b><p>The snapshot stores null. The dimension stores 9999-12-31, so the same range check works on every row.</p></div></div>
+      <div class="glass unk" data-at="4"><b>'-1'</b><span>Unknown customer. Name, segment, branch: UNKNOWN. Joins keep the payment.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 FACT JOINS -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#1f4f8a,#7a5a10" data-notes="Point-in-time joins call scd2_match. coalesce to -1. customer_id stays on the fact for reconciliation and the row policy. customer_key is the historical join.">
+  <div class="kicker rise" style="--k-c:#38bdf8">models/marts/core/fct_transactions.sql</div>
+  <h2 class="rise h2s" style="--d:1">Keys in the middle. <span class="grad">Names stay outside.</span></h2>
+  <div class="glass code" style="margin-top:8px"><div class="hd"><i></i>the two versioned joins</div><pre>
+<span class="ln" data-at="1"><span class="kw">left join</span> dim_customer dc</span>
+<span class="ln" data-at="1">  <span class="kw">on</span> dc.customer_id = t.primary_customer_id</span>
+<span class="ln hl" data-at="1"> <span class="kw">and</span> {{ <span class="fn">scd2_match</span>(<span class="str">'t.transaction_ts'</span>, <span class="str">'dc'</span>) }}</span>
+<span class="ln" data-at="2"><span class="fn">coalesce</span>(dc.customer_key, <span class="str">'-1'</span>) <span class="kw">as</span> customer_key</span>
+<span class="ln" data-at="3"><span class="num">1</span> <span class="kw">as</span> transaction_count</span></pre></div>
+  <div class="keys">
+    <div class="key pit" data-at="1"><b>customer_key</b><small>SCD2 window</small></div>
+    <div class="key pit" data-at="1"><b>account_key</b><small>SCD2 window</small></div>
+    <div class="key" data-at="2"><b>date_key</b><small>yyyymmdd</small></div>
+    <div class="key" data-at="2"><b>branch_key</b><small>where</small></div>
+    <div class="key" data-at="2"><b>channel_key</b><small>how</small></div>
+    <div class="key" data-at="3"><b>product_key</b><small>from the account</small></div>
+    <div class="key" data-at="3"><b>currency_key</b><small>which money</small></div>
+    <div class="key" data-at="3"><b>type × status</b><small>junk dimension</small></div>
+    <div class="key" data-at="3"><b>employee_key</b><small>teller, if any</small></div>
+    <div class="key" data-at="3"><b>customer_id</b><small>kept for the policy</small></div>
+  </div>
+</section>
+
+<!-- 07 MEASURES -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#0f5c63,#7a3a12" data-notes="customer_id feeds reconciliation and RAP_CUSTOMER_SCOPE. customer_key feeds the historical join. inserted_at is excluded from updates and cast to timestamp_ntz because the contract forbids LTZ.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">What the fact stores besides keys</div>
+  <h2 class="rise h2s" style="--d:1">Two ids. <span class="grad">One insert time.</span></h2>
+  <div class="g3" style="margin-top:18px">
+    <div class="glass card" data-at="1" style="--c:#38bdf8;min-height:420px">
+      <div class="ico" data-logo="i-user"></div>
+      <h3>customer_id</h3>
+      <p>The bank's own number. Reconciliation matches on it. The row policy RAP_CUSTOMER_SCOPE reads it.</p>
+      <div class="eg">natural key · stays on the fact</div>
+    </div>
+    <div class="glass card" data-at="2" style="--c:#f5c542;min-height:420px">
+      <div class="ico" data-logo="i-key"></div>
+      <h3>customer_key</h3>
+      <p>The warehouse's key for one version. A March payment keeps the March version after the segment changes.</p>
+      <div class="eg">surrogate · from dim_customer</div>
+    </div>
+    <div class="glass card" data-at="3" style="--c:#4ade80;min-height:420px">
+      <div class="ico" data-logo="i-clock"></div>
+      <h3>inserted_at</h3>
+      <p>merge_exclude_columns keeps the original insert time when a later MERGE updates PENDING to POSTED.</p>
+      <div class="eg">current_timestamp()::timestamp_ntz</div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 MONTHLY -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#7a5a10,#1f4f8a" data-notes="Flows convert on the transaction date. The monthly balance converts on the month-end date. Adding converted payments does not equal converting the balance. Grain is one account at one month-end.">
+  <div class="kicker rise" style="--k-c:#fbbf24">fct_monthly_account_balance.sql</div>
+  <h2 class="rise h2s" style="--d:1">A payment is a flow. <span class="grad-gold">A balance is a photo.</span></h2>
+  <div class="stocks">
+    <div class="glass stock flow2" data-at="1">
+      <div class="num" style="color:#7dd3fc">TRANSACTION FACT</div>
+      <h3>fct_transactions</h3>
+      <p>One row per payment, latest status. Dollars use the rate on transaction_date.</p>
+      <div class="when">rate · the day the money moved</div>
+    </div>
+    <div class="glass stock snap" data-at="2">
+      <div class="num" style="color:#fde68a">PERIODIC SNAPSHOT</div>
+      <h3>fct_monthly_account_balance</h3>
+      <p>One row per account per month-end. Dollars use the rate on that month-end date.</p>
+      <div class="when">rate · the last day of the month</div>
+    </div>
+  </div>
+  <div class="noteq" data-at="2">Adding converted payments does not equal converting the month-end balance. Both numbers are stored.</div>
+</section>
+
+<!-- 09 DELETES -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#7a1f35,#0f5c3a" data-notes="MERGE only touches ids in the new batch. A hard delete never arrives, so the gold row would stay forever. The post-hook deletes ids listed in stg_postgres__deleted_records. The depends_on comment exposes that ref.">
+  <div class="kicker rise" style="--k-c:#fb7185">Deletes need their own step</div>
+  <h2 class="rise h2s" style="--d:1">MERGE cannot delete <span class="grad-red">a row it never sees.</span></h2>
+  <div class="vs">
+    <div class="glass side bad" data-at="1">
+      <div class="stampx">✗</div>
+      <h3><span class="tag2">MERGE ALONE</span></h3>
+      <div class="mini2">
+        <div class="r"><span>in the new batch</span><span>in gold</span></div>
+        <div class="r"><span>payment arrives</span><span>updated</span></div>
+        <div class="r stay"><span>deleted · not in batch</span><span>stays forever</span></div>
+      </div>
+    </div>
+    <div class="glass side good" data-at="2">
+      <div class="stampx">✓</div>
+      <h3><span class="tag2">PLUS THE HOOK</span></h3>
+      <div class="cmd sql" style="margin-top:8px"><pre>apply_hard_deletes(
+  'transactions', 'transaction_id')</pre></div>
+      <div class="mini2">
+        <div class="r"><span>delete log</span><span>in gold</span></div>
+        <div class="r gone"><span>table_name = transactions</span><span>removed</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 TESTS -->
+<section class="s" data-ch="3" data-steps="4" data-accent="#0f5c63,#3b2a80" data-notes="Four kinds. Data tests on the rows. The unit test proves PENDING then POSTED becomes one POSTED row. Contracts on dim_customer, dim_branch and fct_transactions. Singular test compares staging counts and amounts to the fact.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">Four kinds of test</div>
+  <h2 class="rise h2s" style="--d:1">The build <span class="grad">proves the rows.</span></h2>
+  <div class="kinds4">
+    <div class="glass kind4" data-at="1" style="--c:#38bdf8">
+      <div class="num">DATA</div>
+      <h3>Today's rows</h3>
+      <p>transaction_id is unique and not null. amount_local must be greater than zero.</p>
+      <div class="eg">_core__models.yml</div>
+    </div>
+    <div class="glass kind4" data-at="2" style="--c:#a78bfa">
+      <div class="num">UNIT</div>
+      <h3>Rows I wrote</h3>
+      <p>PENDING then POSTED for id 101 comes out as one POSTED row. No warehouse data needed.</p>
+      <div class="eg">3 unit tests in the project</div>
+    </div>
+    <div class="glass kind4" data-at="3" style="--c:#fbbf24">
+      <div class="num">CONTRACT</div>
+      <h3>The shape</h3>
+      <p>dim_customer, dim_branch and fct_transactions refuse a renamed column or a changed type.</p>
+      <div class="eg">contract.enforced · access public</div>
+    </div>
+    <div class="glass kind4" data-at="4" style="--c:#4ade80">
+      <div class="num">SINGULAR</div>
+      <h3>One business rule</h3>
+      <p>Staging row count and amount must match the fact. A broken version join shows up here.</p>
+      <div class="eg">assert_fct_transactions_reconciles_to_staging</div>
+    </div>
+  </div>
+  <div class="note failnote" data-at="4">Failed rows are kept in schema dq_failures. store_failures is on, so you can SELECT them.</div>
+</section>
+
+<!-- 11 THREE ERRORS -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#7a1f35,#0f5c3a" data-notes="Three failures from the production build. A ref hidden inside is_incremental. current_timestamp is LTZ and the contract wants NTZ. expression_is_true already types the column name, so the expression starts with equals.">
+  <div class="kicker rise" style="--k-c:#fb7185">Three errors from the production build</div>
+  <h2 class="rise h2s" style="--d:1">Each one teaches <span class="grad-red">how dbt parses.</span></h2>
+  <div class="errs">
+    <div class="glass err" data-at="1">
+      <div><b>Hidden ref()</b><p>The delete macro's ref sits inside is_incremental(), so dbt never saw the parent.</p></div>
+      <div class="badt">model built before the delete log</div>
+      <div class="fixt">-- depends_on: ref('stg_postgres__deleted_records')</div>
+    </div>
+    <div class="glass err" data-at="2">
+      <div><b>LTZ versus NTZ</b><p>The contract says inserted_at is timestamp_ntz. Bare current_timestamp() is LTZ.</p></div>
+      <div class="badt">contract failed the build</div>
+      <div class="fixt">current_timestamp()::timestamp_ntz</div>
+    </div>
+    <div class="glass err" data-at="3">
+      <div><b>Column name, twice</b><p>expression_is_true already writes the column, then your text. Starting with the name doubled it.</p></div>
+      <div class="badt">search_text search_text =</div>
+      <div class="fixt">= upper(search_text) and position('@' in search_text) = 0</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 PROD BUILD -->
+<section class="s" data-ch="3" data-steps="2" data-accent="#7a2412,#0e4a5c" data-notes="Same shell load as last episode, then time dbt build --target prod. Objects land in MERIDIAN_ANALYTICS.MARTS. A governance warning is expected until 06_row_level_security.sql has run. The build still succeeds.">
+  <div class="kicker rise dbt">Terminal · 04_dbt_meridian_dw · target prod</div>
+  <h2 class="rise h2s" style="--d:1">Production schemas. <span class="grad-dbt">ERROR must be zero.</span></h2>
+  <div class="hand">
+    <div class="stack">
+      <div class="cmds">
+        <div class="cmd"><span class="pr">$</span><code>set -a; source .env; set +a</code><button class="copy" data-copy="cd snowflake_dbt_airflow_python_byFK
+source .venv/bin/activate
+set -a; source .env; set +a
+cd 04_dbt_meridian_dw">Copy</button></div>
+        <div class="cmd"><span class="pr">$</span><code>cd 04_dbt_meridian_dw</code><button class="copy">Copy</button></div>
+        <div class="cmd"><span class="pr">$</span><code>time dbt build --target prod</code><button class="copy">Copy</button></div>
+      </div>
+      <div class="term" data-term data-at="1">
+        <div class="bar"><i></i><i></i><i></i><span>Terminal — 04_dbt_meridian_dw</span></div>
+        <div class="body">
+          <div><span class="ps"><b>04_dbt_meridian_dw</b> %</span> <span class="typed" data-type="time dbt build --target prod"></span><span class="caret"></span></div>
+          <div class="out">MERIDIAN_ANALYTICS.STAGING</div>
+          <div class="out">MERIDIAN_ANALYTICS.MARTS</div>
+          <div class="out ok">ERROR=0</div>
+        </div>
+      </div>
+    </div>
+    <div class="checks">
+      <div class="glass chk" data-at="1"><b>Custom schemas, no prefix</b><p>target prod uses STAGING, INTERMEDIATE, MARTS. The DBT_FK_ wall stays in dev.</p></div>
+      <div class="glass chk" data-at="1"><b>Twelve threads</b><p>profiles.yml gives prod 12 threads. Dev uses 8. Same role: MERIDIAN_TRANSFORMER.</p></div>
+      <div class="glass chk" data-at="2"><b>A warning is expected</b><p>Until 06_row_level_security.sql has run, governance logs a warning and the build still finishes.</p></div>
+      <div class="note" data-at="2">WARNING: declares governance but 06_row_level_security.sql has not run.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 RECONCILE -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#163a5c,#0f5c3a" data-notes="Run from the project folder, not from 04_dbt_meridian_dw. The script compares Postgres and FCT_TRANSACTIONS for the last 7 days, by currency, with one two-minute cutoff on both sides. RECONCILED and exit 0 means every group matched.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">02_ingestion_python/reconcile_with_pandas.py</div>
+  <h2 class="rise h2s" style="--d:1">Two systems. <span class="grad">One cutoff.</span></h2>
+  <div class="hand">
+    <div class="stack">
+      <div class="cmd"><span class="pr">$</span><code>cd snowflake_dbt_airflow_python_byFK</code><button class="copy" data-copy="cd snowflake_dbt_airflow_python_byFK
+source .venv/bin/activate
+set -a; source .env; set +a">Copy</button></div>
+      <div class="cmd"><span class="pr">$</span><code>python 02_ingestion_python/reconcile_with_pandas.py --days 7</code><button class="copy">Copy</button></div>
+      <div class="term" data-term data-at="2">
+        <div class="bar"><i></i><i></i><i></i><span>Terminal — project folder</span></div>
+        <div class="body">
+          <div><span class="ps"><b>project</b> %</span> <span class="typed" data-type="python 02_ingestion_python/reconcile_with_pandas.py --days 7"></span><span class="caret"></span></div>
+          <div class="out dim">txn_date · currency · src_rows · wh_rows · row_diff</div>
+          <div class="out ok">RECONCILED</div>
+        </div>
+      </div>
+    </div>
+    <div class="checks">
+      <div class="glass chk" data-at="1"><b>Same two-minute cutoff</b><p>Both queries ignore rows updated in the last two minutes. Lag is excluded, not explained away.</p></div>
+      <div class="glass chk" data-at="2"><b>Whole UTC days</b><p>Grouped by date and currency. POSTED amounts in local currency. Default window is 7 days.</p></div>
+      <div class="glass chk" data-at="3"><b>Match means two zeros</b><p>row_diff is 0 and the amount difference is under 0.01. The script prints RECONCILED and exits 0.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 OUTRO -->
+<section class="s" data-ch="3" data-accent="#06305f,#7a2412" data-notes="The star is built and checked. Next, Airflow runs the loader and dbt on a timer. The logo is the alarm clock.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#f5c542">Episode 6 complete</div>
+    <h2 class="rise" style="--d:1;font-size:72px">The star is <span class="grad-gold">in production.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Dollars stored that day</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>One key per version</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Deletes have a hook</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Postgres agrees</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="af"></div><div style="text-align:left"><small>Next · Episode 7</small><b>Airflow is the alarm clock</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+<script>
+Deck.scene("dag", (s, k) => {
+  const wire = s.querySelector("#wire");
+  const nodes = s.querySelectorAll(".dnode");
+  if (!wire || !nodes.length) return;
+  const lit = [...nodes].filter(n => n.classList.contains("on")).length;
+  const rail = s.querySelector("#rail");
+  const span = rail.clientHeight - 44;
+  wire.style.height = (lit <= 0 ? 0 : (lit / nodes.length) * span) + "px";
+});
+</script>
+</body>
+</html>

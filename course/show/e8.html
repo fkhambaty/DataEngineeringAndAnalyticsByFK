@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 8 · Break it, measure, fix</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.grad-lab{background:linear-gradient(92deg,#fde68a,#fbbf24 45%,#fb923c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.say .huge{font-size:80px}
+
+.beats{margin-top:28px}
+.beats .st .bub{width:108px;height:108px;font-size:40px}
+.tagchip{margin:28px auto 0;max-width:980px;padding:18px 26px;text-align:center;font:700 22px var(--mono)}
+.tagchip em{font-style:normal;color:#fde68a}
+
+.s .side{min-height:0;padding:20px 22px 18px}
+.go .meter i{transform:none}
+.card.was{opacity:.94}
+.tagchip{white-space:nowrap;font-size:20px;overflow:hidden}
+.beats{margin-top:18px}
+.metric4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.metric4 .glass{padding:16px 18px;min-height:120px}
+.metric4 b{display:block;font-size:22px}
+.metric4 span{color:var(--mute);font-size:15px}
+.habit3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.habit3 .glass{padding:28px 26px;min-height:280px;display:flex;flex-direction:column}
+.habit3 b{display:block;font-size:32px;margin-bottom:8px}
+.habit3 p{margin:0;color:var(--mute);font-size:18px;line-height:1.4}
+.habit3 .eg{margin-top:auto}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:12px}
+.pane{padding:22px 26px 24px;min-height:500px;display:flex;flex-direction:column}
+.pane h3{margin:0;font-size:32px}
+.pane .what{color:var(--mute);font-size:18px;margin:8px 0 16px;line-height:1.4}
+.bigm{height:26px;margin:8px 0 6px}
+.numline{display:flex;align-items:baseline;gap:12px;margin-top:8px}
+.numline .v{font-size:54px;font-weight:900;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1}
+.pane.bad .v{color:#fb7185}
+.pane.good .v{color:#4ade80}
+.numline small{color:var(--mute);font-size:16px}
+.chips2{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.chips2 span{padding:8px 12px;border-radius:10px;font:700 14px var(--mono);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#dbe5f3}
+
+.bars.lab{height:320px;margin-top:8px}
+.barcaps{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:18px;margin-top:12px}
+.barcaps b{display:block;font-size:20px}
+.barcaps span{color:var(--mute);font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.stat{padding:16px 18px}
+.stat .n{font-size:32px;font-weight:900;letter-spacing:-.03em;line-height:1}
+.stat .l{color:var(--mute);font-size:15px;margin-top:6px;line-height:1.35}
+
+.anti{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;margin-top:14px}
+.mini3{display:flex;flex-direction:column;gap:12px}
+.mini3 .card{min-height:0;padding:16px 18px}
+.mini3 h3{font-size:22px}
+
+.spill{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;margin-top:12px}
+.econ{padding:18px 20px;margin-top:14px}
+.econ b{font-size:20px}
+.econ p{margin:6px 0 0;color:var(--mute);font-size:16px;line-height:1.4}
+
+.mini{margin-top:12px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.mini .r{display:grid;grid-template-columns:1.1fr 1fr .6fr;padding:10px 14px;font:600 16px var(--mono);border-top:1px solid rgba(255,255,255,.06)}
+.mini .r:first-child{border-top:0;background:rgba(255,255,255,.05);font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.mini .r.dup{background:rgba(251,113,133,.14);color:#fecdd3}
+.mini .r.one{background:rgba(74,222,128,.12);color:#bbf7d0}
+.side.bad .r.dup{animation:dupflash 2.4s ease-in-out infinite}
+@keyframes dupflash{0%,100%{background:rgba(251,113,133,.08)}50%{background:rgba(251,113,133,.32)}}
+.sum{display:flex;align-items:baseline;gap:12px;margin-top:14px}
+.sum .v{font-size:52px;font-weight:900;letter-spacing:-.04em}
+.side.bad .sum .v{color:#fb7185}
+.side.good .sum .v{color:#4ade80}
+.sum small{color:var(--mute);font-size:16px}
+.fixes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.fixes .card{min-height:0;padding:14px 16px}
+.fixes h3{font-size:20px}
+
+.cachegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:16px}
+.cache{min-height:500px;padding:22px 22px 20px;display:flex;flex-direction:column}
+.cache h3{margin:0;font-size:28px}
+.cache .what{color:var(--mute);font-size:17px;margin:8px 0 14px;line-height:1.4}
+.layer{margin-top:auto;padding:14px;border-radius:14px;background:rgba(10,15,28,.5);border:1px solid rgba(255,255,255,.07);font:700 16px var(--mono);color:#eaf2ff;line-height:1.55}
+.pulsebar{height:18px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin:10px 0}
+.pulsebar i{display:block;height:100%;width:var(--w);border-radius:inherit;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--c,#fbbf24),#fb923c)}
+.cache.go .pulsebar i{transform:none;transition:transform 1.3s var(--ease)}
+
+.twoops{display:grid;grid-template-columns:1fr 80px 1fr;gap:10px;align-items:stretch;margin-top:16px}
+.op{padding:26px 28px;min-height:280px}
+.op .knd{font:800 13px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.op b{display:block;font-size:40px;margin:10px 0 6px;letter-spacing:-.03em}
+.op p{margin:0;color:var(--mute);font-size:18px;line-height:1.4}
+.vsarrow{display:grid;place-items:center;font-size:42px;color:#fde68a}
+.looks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.looks .card{min-height:0;padding:16px 18px}
+.looks h3{font-size:20px}
+
+.qrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:16px}
+.q{padding:20px 20px 18px;min-height:420px;display:flex;flex-direction:column}
+.q h3{margin:0;font-size:26px}
+.q p{color:var(--mute);font-size:17px;line-height:1.4;margin:8px 0 0}
+.queue{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.queue i{display:block;height:14px;width:var(--w,100%);border-radius:8px;background:rgba(251,113,133,.25);border:1px solid rgba(251,113,133,.4);transform:scaleX(0);transform-origin:left;transition:transform .8s var(--ease)}
+.q.go .queue i{transform:none}
+.q.go .queue i:nth-child(2){transition-delay:.08s}
+.q.go .queue i:nth-child(3){transition-delay:.16s}
+.q.go .queue i:nth-child(4){transition-delay:.24s}
+.q.go .queue i:nth-child(5){transition-delay:.32s}
+.q.good .queue i{background:rgba(74,222,128,.2);border-color:rgba(74,222,128,.45)}
+
+.map{margin-top:12px}
+.map .rr{font-size:16px;padding:9px 16px}
+
+.s.bal{display:flex;flex-direction:column}
+.s.bal>.kicker,.s.bal>h2{flex:none}
+.s.mid{display:flex;flex-direction:column}
+.s.mid .huge{font-size:88px !important}
+.s.mid .lead{font-size:26px;line-height:1.45}
+.s.mid .habit3{flex:1;min-height:0;margin-top:28px}
+.s.mid .habit3 .glass{min-height:0;height:100%;padding:32px 30px}
+.s.mid .habit3 b{font-size:40px}
+.s.mid .habit3 p{font-size:22px;line-height:1.4}
+.s.mid .habit3 .eg{margin-top:auto;font:600 18px var(--mono);padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:#dbe5f3}
+.s.outc{display:flex;align-items:center;justify-content:center;padding-top:90px;padding-bottom:90px}
+.s.outc .outro{height:auto;width:100%}
+.s.outc h2{font-size:76px}
+.s.outc .ticks{margin:32px 0 36px}
+.s.outc .ticks div{font-size:22px;padding:18px 24px}
+.s.outc .next{padding:24px 32px}
+.s.outc .next b{font-size:32px}
+
+.s.beatbig{overflow:hidden}
+.s.beatbig .beats{flex:1;min-height:0;margin-top:40px;align-content:start}
+.s.beatbig .beats::before,.s.beatbig .beats .wire{top:54px}
+.s.beatbig .beats .st .bub{width:108px;height:108px;font-size:40px}
+.s.beatbig .beats .st b{font-size:26px}
+.s.beatbig .beats .st p{font-size:18px}
+.s.beatbig .tagchip{margin:10px auto 0;font-size:21px;padding:14px 26px;white-space:normal;overflow:visible;line-height:1.35;max-width:1180px}
+.s.beatbig .metric4{margin-top:14px;gap:16px}
+.s.beatbig .metric4 .glass{min-height:104px;padding:18px 22px;display:flex;flex-direction:column;justify-content:center}
+.s.beatbig .metric4 b{font-size:28px}
+.s.beatbig .metric4 span{font-size:18px}
+
+.s.antibig .anti{flex:1;min-height:0;align-items:stretch;margin-top:10px}
+.s.antibig .stack{height:100%;justify-content:stretch;gap:16px}
+.s.antibig .code{flex:1;display:flex;flex-direction:column;min-height:0}
+.s.antibig .code pre{flex:1;display:flex;flex-direction:column;justify-content:center;font-size:19px;line-height:1.7;padding:16px 0}
+.s.antibig .mini3{height:100%;gap:16px}
+.s.antibig .mini3 .card{flex:1;padding:22px 22px;justify-content:center;min-height:0}
+.s.antibig .mini3 h3{font-size:26px}
+.s.antibig .mini3 p{font-size:18px;line-height:1.4}
+
+.s.spillbig .spill{flex:1;min-height:0;align-items:stretch;margin-top:10px}
+.s.spillbig .stack{height:100%;justify-content:stretch;gap:14px}
+.s.spillbig .stack>.glass{flex:1;display:flex;flex-direction:column;justify-content:center}
+.s.spillbig .spill .lead{font-size:18px !important;line-height:1.4}
+.s.spillbig .econ{height:100%;margin-top:0;display:flex;flex-direction:column;justify-content:center;padding:28px 26px}
+.s.spillbig .econ b{font-size:28px}
+.s.spillbig .econ p{font-size:18px;line-height:1.45}
+
+.s.harbig .two{flex:1;min-height:0;align-items:center;margin-top:8px}
+.s.harbig .stack{height:100%;justify-content:center;gap:16px}
+.s.harbig .code pre,.s.harbig .code.sm pre{font-size:18px;line-height:1.75;padding:14px 0}
+.s.harbig .map{margin-top:0}
+.s.harbig .map .rr{font-size:18px;padding:15px 18px}
+.s.harbig .map .rh{padding:14px 18px}
+.s.harbig .cmd code{font-size:17px !important}
+.s.harbig .note{font-size:18px;padding:16px 18px}
+
+.s.triage{display:flex;flex-direction:column}
+.s.triage .split{flex:1;min-height:0;display:grid;grid-template-columns:.92fr 1.08fr;gap:18px;margin-top:2px}
+.s.triage .notes2{height:100%;justify-content:space-between;gap:10px}
+.s.triage .callout{flex:1;padding:12px 16px;align-items:center}
+.s.triage .callout b{font-size:20px;margin-bottom:2px}
+.s.triage .callout p{font-size:16px;line-height:1.35}
+.s.triage .swap{position:relative;height:100%;min-height:0}
+.s.triage .sheet{position:absolute;inset:0;padding:22px 24px;display:flex;flex-direction:column;justify-content:center;gap:12px;pointer-events:none}
+.s.triage .sheet.on{pointer-events:auto}
+.s.triage .sheet h3{margin:0;font-size:28px}
+.s.triage .sheet p{margin:0;color:var(--mute);font-size:17px;line-height:1.4}
+.s.triage .sheet .code{margin:0}
+.s.triage .sheet .code pre{font-size:16px;line-height:1.5;padding:12px 0}
+.s.triage .file{font:800 13px var(--mono);letter-spacing:.08em;color:#fde68a}
+.s.decide .q{min-height:500px}
+.s.decide .q h3{font-size:26px}
+.s.decide .q p{font-size:16px}
+.s.decide .eg{margin-top:auto;font-size:14px}
+.s.harbig .map .rr{font-size:16px;padding:9px 16px}
+.s.harbig .map .rh{padding:10px 16px}
+.s.harbig .note{font-size:16px}
+</style>
+</head>
+<body data-episode="e8" data-label="Episode 8" data-chapters="Four beats|Read less|One change|The second run" data-chapter-colors="#fbbf24|#38bdf8|#fb7185|#4ade80">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#7a4a08,#9a3412" data-notes="Every lab is the same four beats. Two numbers, side by side. We change one thing. Indexes, pruning, spilling, fan-out, and the cache that lies.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;--teal:#fbbf24;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.1);color:#fde68a"><i style="background:#fbbf24;box-shadow:0 0 14px #fbbf24"></i>EPISODE 8</div>
+      <h1 class="mega rise" style="--d:1">Break it,<br><span class="grad-lab">measure, fix</span></h1>
+      <p class="lead rise" style="--d:2">Indexes, pruning, spilling, fan-out, and the cache that lies. Then one order for a query that is already slow.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Index</span><span><b>02</b>Pruning</span><span><b>03</b>Spill</span><span><b>04</b>Fan-out</span><span><b>05</b>Cache</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="pg,sf,dbt,i-gauge,i-search,i-bolt" data-core="i-gauge" data-core-class="gold"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s mid" data-ch="0" data-accent="#7a4a08,#1f4f8a" data-notes="Guessing is how warehouses get expensive. The lab folder is 06_performance_lab. Same harness every time: a query tag, then QUERY_HISTORY.">
+  <div class="kicker rise" style="--k-c:#fbbf24">The habit</div>
+  <p class="huge" data-words style="font-size:84px;line-height:1.02;letter-spacing:-.045em;font-weight:850;margin:0">Two numbers, <span class="grad-lab">side by side.</span></p>
+  <p class="lead rise" style="--d:6;margin-top:18px">Break the naive query. Read the measurement. Change one thing. Measure again. If you changed two things, you do not know which one moved the number.</p>
+  <div class="habit3">
+    <div class="glass rise" style="--d:4"><b style="color:#fb7185">Before</b><p>The naive query, or the badly shaped table. Write down the number it costs.</p><div class="eg">Seq Scan · 1,500–4,000 ms</div></div>
+    <div class="glass rise" style="--d:5"><b style="color:#38bdf8">One change</b><p>An index, a sort order, a rewrite, or a bigger warehouse. Never two at once.</p><div class="eg">one difference between the tags</div></div>
+    <div class="glass rise" style="--d:6"><b style="color:#4ade80">After</b><p>Same question. New tag. The two rows from QUERY_HISTORY sit next to each other.</p><div class="eg">perflab_02_before · perflab_02_sorted</div></div>
+  </div>
+</section>
+
+<!-- 03 FOUR BEATS -->
+<section class="s bal beatbig" data-ch="0" data-steps="4" data-accent="#9a3412,#14532d" data-notes="00_measure.sql reads QUERY_HISTORY_BY_SESSION. INFORMATION_SCHEMA is instant. ACCOUNT_USAGE lags about 45 minutes. Turn the result cache off before any timing.">
+  <div class="kicker rise" style="--k-c:#fbbf24">06_performance_lab · every file</div>
+  <h2 class="rise" style="--d:1">Four beats. <span class="grad-lab">Then stop.</span></h2>
+  <div class="steps beats" style="--n:4"><i class="wire"></i>
+    <div class="st" data-at="1" style="--c:#fb7185"><div class="bub">1</div><b>Break</b><p>Run the naive query, or build the badly shaped table.</p><span class="eg">the slow version</span></div>
+    <div class="st" data-at="2" style="--c:#fbbf24"><div class="bub">2</div><b>Measure</b><p>00_measure.sql reads elapsed, bytes, partitions, spill.</p><span class="eg">QUERY_HISTORY</span></div>
+    <div class="st" data-at="3" style="--c:#38bdf8"><div class="bub">3</div><b>Fix</b><p>Index, cluster, rewrite, or resize. One change.</p><span class="eg">only one</span></div>
+    <div class="st" data-at="4" style="--c:#4ade80"><div class="bub">4</div><b>Measure</b><p>Same question. New tag. Put the two rows together.</p><span class="eg">suffix _after</span></div>
+  </div>
+  <div class="glass tagchip" data-at="4">cache off &nbsp;·&nbsp; QUERY_TAG = <em>'perflab_02_before'</em> &nbsp;·&nbsp; then the same tag with <em>_after</em></div>
+  <div class="metric4" data-at="4">
+    <div class="glass"><b>elapsed_ms</b><span>how long it ran</span></div>
+    <div class="glass"><b>mb_scanned</b><span>bytes the query opened</span></div>
+    <div class="glass"><b>partitions</b><span>scanned against total</span></div>
+    <div class="glass"><b>mb_spilled</b><span>local, then remote</span></div>
+  </div>
+</section>
+
+<!-- 04 INDEX -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#7a1f35,#0f5c3a" data-notes="The courier asks for updated_at in a five-minute window, stopping 10 seconds ago. Without an index Postgres reads the whole table. Lab expects 1,500 to 4,000 ms before, 1 to 20 ms after. About 2,000 rows, 288 times a day.">
+  <div class="kicker rise" style="--k-c:#fb7185">01_postgres_missing_index.sql · DBeaver · meridian_core</div>
+  <h2 class="rise" style="--d:1">No index, and Postgres <span class="grad-red">reads every row.</span></h2>
+  <div class="pair">
+    <div class="glass pane bad" data-at="1" data-go>
+      <h3>Before</h3>
+      <div class="what">Seq Scan on transactions. The filter throws away almost the whole table.</div>
+      <div class="meter bigm"><i style="--w:94%;--c:#fb7185"></i></div>
+      <div class="numline"><span class="v">1,500–4,000</span><small>ms · lab expectation</small></div>
+      <div class="chips2"><span>Rows Removed ≈ 4,99x,xxx</span><span>5M rows · 1–3 s</span><span>20M rows · 10+ s</span></div>
+    </div>
+    <div class="glass pane good" data-at="2" data-go>
+      <h3>After</h3>
+      <div class="what">Index Scan using ix_transactions_updated_at. Same five-minute question.</div>
+      <div class="meter bigm"><i style="--w:8%;--c:#4ade80"></i></div>
+      <div class="numline"><span class="v">1–20</span><small>ms · lab expectation</small></div>
+      <div class="cmd" style="margin-top:16px"><span class="pr">SQL</span><code style="font-size:15px">CREATE INDEX CONCURRENTLY … (updated_at)</code><button class="copy" data-copy="CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_transactions_updated_at ON core.transactions (updated_at);">Copy</button></div>
+      <div class="chips2"><span>~2,000 rows</span><span>288 times a day</span><span>ANALYZE first</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 PRUNING -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#1f4f8a,#7a5a10" data-notes="100 million rows, about 16 MB micro-partitions. Random load: every partition holds every date, depth in the hundreds, about 1,500 or more partitions, 10 to 30 seconds, several GB. Sorted: depth about 1 to 2, partitions scanned about 1 to 2 percent, under a second, tens of MB. Building the table is about 0.3 to 0.5 credits. Drop MERIDIAN_RAW.PERF_LAB when done.">
+  <div class="kicker rise" style="--k-c:#38bdf8">02_snowflake_pruning_clustering.sql · 100,000,000 rows</div>
+  <h2 class="rise" style="--d:1">Random order, and <span class="grad">every box opens.</span></h2>
+  <div class="bars lab" data-at="1" data-go>
+    <div class="b"><i style="--h:92%;--c:#fb7185"></i></div>
+    <div class="b"><i style="--h:8%;--c:#4ade80"></i></div>
+    <div class="b"><i style="--h:88%;--c:#fb7185"></i></div>
+    <div class="b"><i style="--h:10%;--c:#4ade80"></i></div>
+  </div>
+  <div class="barcaps" data-at="1">
+    <div><b>≈ 100%</b><span>random · partitions scanned</span></div>
+    <div><b>≈ 1–2%</b><span>sorted · partitions scanned</span></div>
+    <div><b>10–30 s</b><span>random · several GB · XS</span></div>
+    <div><b>&lt; 1 s</b><span>sorted · tens of MB</span></div>
+  </div>
+  <div class="stats" data-at="2">
+    <div class="glass stat"><div class="n" data-to="100" data-suf="M">0</div><div class="l">rows from GENERATOR · ~2–4 min on XS</div></div>
+    <div class="glass stat"><div class="n">≈ 1,500+</div><div class="l">partitions when order is random</div></div>
+    <div class="glass stat"><div class="n">depth 1–2</div><div class="l">sorted. Random depth is in the hundreds.</div></div>
+    <div class="glass stat"><div class="n">0.3–0.5</div><div class="l">credits to build it. Whole lab under 10. Then drop PERF_LAB.</div></div>
+  </div>
+</section>
+
+<!-- 06 PREDICATES -->
+<section class="s bal antibig" data-ch="1" data-steps="2" data-accent="#7a3a12,#0f766e" data-notes="to_char on the timestamp stops pruning. A range on transaction_date prunes about 94 percent. SELECT star, UNION, and DISTINCT are the other three habits in 06_predicate_antipatterns.sql.">
+  <div class="kicker rise" style="--k-c:#fb923c">06_predicate_antipatterns.sql</div>
+  <h2 class="rise" style="--d:1">A function on the column <span class="grad-warm">blinds the filter.</span></h2>
+  <div class="anti">
+    <div class="stack">
+      <div class="glass code" data-at="1"><div class="hd"><i></i>full scan · to_char</div><pre>
+<span class="ln"><span class="kw">where</span> to_char(transaction_ts, <span class="str">'YYYY-MM'</span>)</span>
+<span class="ln">    = to_char(dateadd(<span class="str">'month'</span>, -<span class="num">1</span>, current_date()), <span class="str">'YYYY-MM'</span>)</span></pre></div>
+      <div class="glass code" data-at="2"><div class="hd"><i></i>range on the raw column · prunes ~94%</div><pre>
+<span class="ln"><span class="kw">where</span> transaction_date &gt;= date_trunc(<span class="str">'month'</span>, …)</span>
+<span class="ln">  <span class="kw">and</span> transaction_date &lt;  date_trunc(<span class="str">'month'</span>, current_date())</span></pre></div>
+    </div>
+    <div class="mini3">
+      <div class="glass card" data-at="1" style="--c:#fb7185"><h3>SELECT *</h3><p>Columnar storage reads the columns you name. reference_no is 16 random characters, the expensive one.</p></div>
+      <div class="glass card" data-at="2" style="--c:#fbbf24"><h3>UNION</h3><p>UNION means UNION ALL plus a DISTINCT. Two different days cannot overlap, so the distinct is waste.</p></div>
+      <div class="glass card" data-at="2" style="--c:#a78bfa"><h3>DISTINCT as a bandage</h3><p>Duplicates came from a join. DISTINCT hides the bug and sorts the whole result. EXISTS asks the real question.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 SPILL -->
+<section class="s bal spillbig" data-ch="2" data-steps="3" data-accent="#7a1f35,#1e3a8a" data-notes="A global window on 100 million rows spills on XS: minutes, gigabytes. Rewrite with PARTITION BY account_id and a 30-day filter: that prunes 95 percent, seconds, little or no spill. Medium is 4 credits an hour against 1 for XS. 60 second minimum. Bigger does not fix a sort that cannot split.">
+  <div class="kicker rise" style="--k-c:#fb7185">03_spilling_and_warehouse_size.sql</div>
+  <h2 class="rise" style="--d:1">Rewrite first. <span class="grad-red">Resize second.</span></h2>
+  <div class="spill">
+    <div class="stack">
+      <div class="glass" style="padding:18px 20px" data-at="1" data-go>
+        <b>XS · global window · perflab_03_xs_spill</b>
+        <p class="lead" style="font-size:16px;margin:6px 0 10px">ORDER BY with no PARTITION BY. One giant sort. Minutes, gigabytes spilled.</p>
+        <div class="meter bigm"><i style="--w:96%;--c:#fb7185"></i></div>
+      </div>
+      <div class="glass" style="padding:18px 20px" data-at="2" data-go>
+        <b>Same XS · partition + last 30 days</b>
+        <p class="lead" style="font-size:16px;margin:6px 0 10px">Prunes 95% of partitions. Seconds. Little or no spill. Same business answer.</p>
+        <div class="meter bigm"><i style="--w:14%;--c:#4ade80"></i></div>
+      </div>
+      <div class="glass" style="padding:18px 20px" data-at="3" data-go>
+        <b>Medium · same giant sort</b>
+        <p class="lead" style="font-size:16px;margin:6px 0 10px">Faster, less spill, still slow. A global ORDER BY cannot be split across nodes.</p>
+        <div class="meter bigm"><i style="--w:62%;--c:#fbbf24"></i></div>
+      </div>
+    </div>
+    <div class="glass econ" data-at="3">
+      <b>The bill</b>
+      <p>XS is 1 credit an hour. Medium is 4. If Medium finishes in under a quarter of the XS time, it costs less.</p>
+      <p>Billing is per second, 60 second minimum. Pruning is partitions you never open. Spill is memory after the rows are already here.</p>
+      <div class="cmd" style="margin-top:18px"><span class="pr">SQL</span><code style="font-size:16px">USE WAREHOUSE WH_TRANSFORM_M;</code><button class="copy">Copy</button></div>
+      <p style="margin-top:14px">Then suspend WH_TRANSFORM_M and go back to WH_TRANSFORM_XS.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 FAN-OUT -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#7a1f35,#0f5c3a" data-notes="Join explosion is a grain error. Join on customer_id alone multiplies every payment by the number of versions. The lab's example, not a live total: 3 versions count 3 times, so rows out is 3 times rows in. Fixes: the time window, the surrogate key, or is_current. The singular test assert_fct_transactions_reconciles_to_staging fails if scd2_match is removed.">
+  <div class="kicker rise" style="--k-c:#fb7185">04_join_explosion_scd2.sql</div>
+  <h2 class="rise" style="--d:1">Forget the window and <span class="grad-red">the money multiplies.</span></h2>
+  <div class="vs" style="margin-top:16px">
+    <div class="glass side bad" data-at="1">
+      <div class="stampx">✗</div>
+      <h3><span class="tag2">GRAIN</span> perflab_04_fanout</h3>
+      <div class="cmd sql" style="margin-top:10px"><pre>on c.customer_id = f.customer_id</pre></div>
+      <div class="mini">
+        <div class="r"><span>payment</span><span>version</span><span>count</span></div>
+        <div class="r dup"><span>one deposit</span><span>version 1</span><span>1</span></div>
+        <div class="r dup"><span>one deposit</span><span>version 2</span><span>1</span></div>
+        <div class="r dup"><span>one deposit</span><span>version 3</span><span>1</span></div>
+      </div>
+      <div class="sum"><span class="v" data-to="3" data-suf="×">0×</span><small>rows out · the file’s example: 3 versions count 3×</small></div>
+    </div>
+    <div class="glass side good" data-at="2">
+      <div class="stampx">✓</div>
+      <h3><span class="tag2">ONE MATCH</span> perflab_04_pit</h3>
+      <div class="cmd sql" style="margin-top:10px"><pre>and f.transaction_ts &gt;= c.valid_from
+and f.transaction_ts &lt;  c.valid_to</pre></div>
+      <div class="mini">
+        <div class="r"><span>payment</span><span>version</span><span>count</span></div>
+        <div class="r one"><span>one deposit</span><span>the era that contains it</span><span>1</span></div>
+      </div>
+      <div class="sum"><span class="v" data-to="1" data-suf="×">0×</span><small>rows_ matches perflab_04_truth</small></div>
+    </div>
+  </div>
+  <div class="fixes" data-at="2">
+    <div class="glass card" style="--c:#38bdf8"><h3>Time window</h3><p>valid_from ≤ time &lt; valid_to. What the fact already did at build time.</p></div>
+    <div class="glass card" style="--c:#4ade80"><h3>Surrogate key</h3><p>Join customer_key. One column. The version was chosen once, at load.</p></div>
+    <div class="glass card" style="--c:#fbbf24"><h3>Current only</h3><p>and c.is_current, when the business wants today's attributes on old payments.</p></div>
+  </div>
+</section>
+
+<!-- 09 SEARCH + MV -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#5b3fb5,#7a5a10" data-notes="reference_no is random, so min/max covers every partition: a full scan of 100 million rows, 10 to 30 seconds. Equality search optimization drops that under a second. CONTAINS needs substring optimization, not equality. Do not wrap the column in UPPER. The materialized view is for an aggregate asked 500 times a day. Enterprise edition. Both bill while they exist.">
+  <div class="kicker rise" style="--k-c:#a78bfa">07_search_optimization_and_mv.sql · Enterprise</div>
+  <h2 class="rise" style="--d:1">Clustering is for ranges. <span class="grad-violet">Needles need another tool.</span></h2>
+  <div class="pair">
+    <div class="glass pane" data-at="1" data-go style="--c:#a78bfa">
+      <h3>One reference_no</h3>
+      <div class="what">16 random characters. Every micro-partition's min/max covers it, so the filter opens all 100 million rows.</div>
+      <div class="meter bigm"><i style="--w:92%;--c:#fb7185"></i></div>
+      <div class="numline"><span class="v" style="color:#fb7185">10–30 s</span><small>before · full scan</small></div>
+      <div class="meter bigm" style="margin-top:18px"><i style="--w:8%;--c:#4ade80"></i></div>
+      <div class="numline"><span class="v">under 1 s</span><small>after EQUALITY search optimization</small></div>
+      <div class="chips2"><span>estimate cost first</span><span>wait until progress = 100</span><span>a handful of partitions</span></div>
+    </div>
+    <div class="stack">
+      <div class="glass card" data-at="2" style="--c:#fbbf24"><h3>CONTAINS is a second path</h3><p>Equality search optimization does not speed ILIKE or CONTAINS. Add SUBSTRING on reference_no, and wait for progress 100 again. Do not wrap the column in UPPER().</p><div class="eg">production: MARTS.OMNI_SEARCH</div></div>
+      <div class="glass card" data-at="2" style="--c:#38bdf8"><h3>The same total, 500 times a day</h3><p>A materialized view keeps the daily currency totals. The optimizer can rewrite the original query onto it. No joins, no windows. Richer totals stay a dbt aggregate.</p><div class="eg">MV_DAILY_CURRENCY_TOTALS</div></div>
+      <div class="note">Both features bill while they exist. Drop search optimization and the view when the lab is over.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 CACHES -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#14532d,#7a5a10" data-notes="Result cache: second identical run about 100 ms, bytes scanned 0, profile says QUERY RESULT REUSE. Local disk: same bytes, typically 2 to 5 times faster warm. Suspend the warehouse to drop that cache. Metadata answers count, min, max with no warehouse. A WHERE or count distinct becomes a real scan. Aggressive auto-suspend, for example 10 seconds, throws the disk cache away.">
+  <div class="kicker rise" style="--k-c:#4ade80">05_caching_layers.sql</div>
+  <h2 class="rise" style="--d:1">The second run <span class="grad-green">is a liar.</span></h2>
+  <div class="cachegrid">
+    <div class="glass cache" data-at="1" data-go>
+      <h3>Result cache</h3>
+      <div class="what">Same text, data unchanged. Cloud services. Zero compute.</div>
+      <div class="pulsebar"><i style="--w:18%;--c:#4ade80"></i></div>
+      <div class="layer">~100 ms<br>bytes_scanned = 0<br>QUERY RESULT REUSE</div>
+    </div>
+    <div class="glass cache" data-at="2" data-go>
+      <h3>Warehouse disk</h3>
+      <div class="what">Turn the result cache off, or you will not see this layer. Suspend, then resume, to drop it.</div>
+      <div class="pulsebar"><i style="--w:46%;--c:#38bdf8"></i></div>
+      <div class="layer">same bytes both times<br>warm is typically 2–5×<br>percentage_scanned_from_cache</div>
+    </div>
+    <div class="glass cache" data-at="3" data-go>
+      <h3>Metadata</h3>
+      <div class="what">count, min, max. Answered from micro-partition stats. No warehouse scan.</div>
+      <div class="pulsebar"><i style="--w:8%;--c:#fbbf24"></i></div>
+      <div class="layer">instant, cache off<br>a WHERE clause scans<br>count(distinct) scans</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 INCREMENTAL -->
+<section class="s" data-ch="3" data-steps="2" data-accent="#1f4f8a,#7a4a08" data-notes="The lab writes a full refresh printing CREATE TABLE in 48.2 seconds, and the incremental MERGE in 3.1 seconds. The claim to prove is 20 to 100 times. Lookback default is 2 hours. 48 hours touches more rows. 0 opens a race. Filtering on transaction_ts misses a PENDING to POSTED update.">
+  <div class="kicker rise" style="--k-c:#38bdf8">08_dbt_incremental_vs_full_refresh.md</div>
+  <h2 class="rise" style="--d:1">Rebuilding every tick <span class="grad">burns the day.</span></h2>
+  <div class="twoops">
+    <div class="glass op" data-at="1">
+      <div class="knd">full refresh · the trap</div>
+      <b style="color:#fb7185">48.2 s</b>
+      <p>The lab's printed line: CREATE TABLE AS. Every row, every five minutes, and the gap grows each day.</p>
+    </div>
+    <div class="vsarrow" data-at="2">→</div>
+    <div class="glass op" data-at="2">
+      <div class="knd">incremental · MERGE</div>
+      <b style="color:#4ade80">3.1 s</b>
+      <p>The lab's printed line. Only rows inside the lookback window. The claim to prove: 20–100×.</p>
+    </div>
+  </div>
+  <div class="looks">
+    <div class="glass card" data-at="1" style="--c:#fbbf24"><h3>Wrong filter</h3><p>Filter on _extracted_at, not transaction_ts. A PENDING to POSTED update keeps the old timestamp and would be missed.</p></div>
+    <div class="glass card" data-at="2" style="--c:#38bdf8"><h3>Lookback is 2 hours</h3><p>Set it to 48 and the MERGE touches more rows. Set it to 0 and a batch that lands while dbt is reading can be skipped.</p></div>
+    <div class="glass card" data-at="2" style="--c:#4ade80"><h3>Full refresh has a place</h3><p>After a logic fix. From the daily DAG. On a bigger warehouse. Once. Not every five minutes.</p></div>
+  </div>
+  <div class="cmd" data-at="2" style="margin-top:16px"><span class="pr">$</span><code style="font-size:18px">dbt run --select fct_transactions --target prod</code><button class="copy" data-copy="cd 04_dbt_meridian_dw
+time dbt run --select fct_transactions --full-refresh --target prod
+time dbt run --select fct_transactions --target prod">Copy</button></div>
+</section>
+
+<!-- 12 CONCURRENCY -->
+<section class="s" data-ch="3" data-steps="3" data-accent="#7a3a12,#0f5c3a" data-notes="Twenty queries at once on WH_BI_XS. The number that matters is queued_overload_time. Multi-cluster max 3, STANDARD starts a cluster as soon as a query queues. ECONOMY waits about 6 minutes. A single Medium is faster per query, and the queue returns once more than 8 run at once. Adding clusters does not change milliseconds per query. Reset size to XSMALL and max clusters to 1.">
+  <div class="kicker rise" style="--k-c:#fb923c">09_warehouse_sizing_and_concurrency.sql</div>
+  <h2 class="rise" style="--d:1">A queue wants <span class="grad-warm">more counters.</span></h2>
+  <div class="qrow">
+    <div class="glass q" data-at="1" data-go>
+      <h3>One XS</h3>
+      <p>20 dashboard queries. Each waits. queued_overload_time is the proof.</p>
+      <div class="queue"><i style="--w:100%"></i><i style="--w:100%"></i><i style="--w:92%"></i><i style="--w:80%"></i><i style="--w:70%"></i></div>
+    </div>
+    <div class="glass q good" data-at="2" data-go>
+      <h3>Three clusters</h3>
+      <p>MAX_CLUSTER_COUNT 3. STANDARD starts one as soon as a query queues. Same size, so each query is not faster. The queue collapses.</p>
+      <div class="queue"><i style="width:100%"></i><i style="width:34%"></i><i style="width:34%"></i><i style="width:34%"></i><i style="width:20%"></i></div>
+    </div>
+    <div class="glass q" data-at="3" data-go>
+      <h3>One Medium</h3>
+      <p>Each query is faster. The queue comes back once more than 8 run at once. ECONOMY waits about 6 minutes before it adds a cluster.</p>
+      <div class="queue"><i style="--w:55%;background:rgba(251,191,36,.3);border-color:rgba(251,191,36,.5)"></i><i style="--w:55%"></i><i style="--w:70%"></i><i style="--w:88%"></i><i style="--w:100%"></i></div>
+    </div>
+  </div>
+  <div class="note" data-at="3" style="display:flex;width:100%">Scale up: a bigger warehouse, one heavy query, lab 03. Scale out: more clusters for a queue, this file.</div>
+</section>
+
+<!-- 13 TRIAGE ORDER -->
+<section class="s triage" data-ch="3" data-steps="5" data-accent="#7a4a08,#1f4f8a" data-notes="Open 06_performance_lab/10_slow_query_triage_playbook.sql and follow it in order. Compare two QUERY_HISTORY rows from 00_measure.sql. Split queued_overload_time from execution_time. Cache stays off. Then GET_QUERY_OPERATOR_STATS: the operator with the highest overall_percentage, then input_rows and output_rows. Do not read a time off this slide. The numbers belong to the session.">
+  <div class="kicker rise" style="--k-c:#fbbf24">06_performance_lab/10_slow_query_triage_playbook.sql</div>
+  <h2 class="rise" style="--d:1">A slow query has <span class="grad-lab">an order.</span></h2>
+  <div class="split">
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Fast row beside the slow row</b><p>Same question, two tags. 00_measure.sql puts the latest row of each tag side by side.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>Queue, then execution</b><p>queued_overload_time against execution_time. A long queue is not a bad plan.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>Cache off, or the second run lies</b><p>USE_CACHED_RESULT = FALSE. bytes_scanned 0 and QUERY RESULT REUSE means you timed the cache.</p></div></div>
+      <div class="callout" data-at="4"><span class="k">4</span><div><b>The widest operator</b><p>GET_QUERY_OPERATOR_STATS. Sort by overall_percentage. Read operator_type.</p></div></div>
+      <div class="callout" data-at="5"><span class="k">5</span><div><b>Rows in, rows out</b><p>input_rows and output_rows. A join whose ratio is above one is a grain problem.</p></div></div>
+    </div>
+    <div class="swap">
+      <div class="glass sheet" data-at="1" data-until="2">
+        <div class="file">00_measure.sql · side by side</div>
+        <h3>Two tags. No times on this slide.</h3>
+        <p>Change the prefix to the experiment you just ran. Your session prints the milliseconds.</p>
+        <div class="glass code sm"><pre>
+<span class="ln"><span class="kw">where</span> query_tag <span class="kw">like</span> <span class="str">'perflab_02_%'</span></span>
+<span class="ln"><span class="kw">qualify</span> row_number() <span class="kw">over</span> (</span>
+<span class="ln">  <span class="kw">partition by</span> query_tag <span class="kw">order by</span> start_time <span class="kw">desc</span>) = <span class="num">1</span></span></pre></div>
+      </div>
+      <div class="glass sheet" data-at="2" data-until="3">
+        <div class="file">00_measure.sql · then lab 09 if the wait is the queue</div>
+        <h3>Waiting is not working.</h3>
+        <p>total_elapsed_time includes the line. execution_time does not. Open 09 only after the queue is the large column.</p>
+        <div class="glass code sm"><pre>
+<span class="ln">execution_time          <span class="kw">as</span> exec_ms</span>
+<span class="ln hl">queued_overload_time    <span class="kw">as</span> queued_ms</span></pre></div>
+      </div>
+      <div class="glass sheet" data-at="3" data-until="4">
+        <div class="file">00_measure.sql · 05_caching_layers.sql</div>
+        <h3>Turn the result cache off first.</h3>
+        <p>Suspend the warehouse when you need the disk cache gone too. INFORMATION_SCHEMA is instant. ACCOUNT_USAGE lags about 45 minutes.</p>
+        <div class="cmd" style="margin:0"><span class="pr">SQL</span><code style="font-size:16px">ALTER SESSION SET USE_CACHED_RESULT = FALSE;</code><button class="copy" data-copy="ALTER SESSION SET USE_CACHED_RESULT = FALSE;">Copy</button></div>
+      </div>
+      <div class="glass sheet" data-at="4" data-until="5">
+        <div class="file">10_slow_query_triage_playbook.sql · profile</div>
+        <h3>One operator owns the time.</h3>
+        <p>Last 14 days of completed queries. Sort by share of time. Do not guess the operator from the SQL text.</p>
+        <div class="glass code sm"><pre>
+<span class="ln"><span class="kw">set</span> qid = last_query_id();</span>
+<span class="ln"><span class="kw">select</span> operator_type</span>
+<span class="ln"><span class="kw">from</span> <span class="kw">table</span>(get_query_operator_stats($qid))</span>
+<span class="ln hl"><span class="kw">order by</span> execution_time_breakdown:overall_percentage::<span class="kw">float</span> <span class="kw">desc</span></span></pre></div>
+      </div>
+      <div class="glass sheet" data-at="5">
+        <div class="file">same profile · then the next slide</div>
+        <h3>Count the rows the operator moved.</h3>
+        <p>output_rows divided by input_rows. Above one on a Join is the explosion. Take that to lab 04. The ratio on this slide is the expression, not a result.</p>
+        <div class="glass code sm"><pre>
+<span class="ln">operator_statistics:input_rows</span>
+<span class="ln">operator_statistics:output_rows</span>
+<span class="ln hl">output_rows / input_rows  <span class="cm">-- Join only</span></span></pre></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 NAME THE PROBLEM -->
+<section class="s decide" data-ch="3" data-steps="3" data-accent="#9a3412,#14532d" data-notes="After the profile, open one lab. High partitions_scanned over partitions_total is pruning: labs 02 and 06. Spill bytes after a prune is memory: lab 03. A join row multiple above one is a grain error: lab 04, whose example is 3 versions counting 3 times. Scale up is a larger warehouse for one heavy query. Scale out is more clusters for queued_overload_time. Lab 09 says milliseconds per query stay the same size.">
+  <div class="kicker rise" style="--k-c:#fb923c">10_slow_query_triage_playbook.sql · pick one file</div>
+  <h2 class="rise" style="--d:1">Name it. <span class="grad-warm">Then open one lab.</span></h2>
+  <div class="qrow">
+    <div class="glass q" data-at="1" data-go style="--c:#38bdf8">
+      <h3>Pruning, or spill</h3>
+      <p>partitions_scanned near partitions_total means the filter never closed the boxes. Open 02 and 06.</p>
+      <p>Spill bytes, with partitions already low, means the rows are in memory. Open 03. Resizing does not prune.</p>
+      <div class="meter bigm" style="margin-top:auto"><i style="--w:92%;--c:#38bdf8"></i></div>
+      <div class="eg">pct scanned · then mb spilled</div>
+    </div>
+    <div class="glass q" data-at="2" data-go style="--c:#fb7185">
+      <h3>A join explosion</h3>
+      <p>Grain error. Rows out grew because the predicate was missing. Open 04_join_explosion_scd2.sql.</p>
+      <p>The file’s example, not a live total: 3 customer versions count 3 times. The point-in-time predicate brings the multiplier back to one.</p>
+      <div class="meter bigm" style="margin-top:auto"><i style="--w:100%;--c:#fb7185"></i></div>
+      <div class="eg">output_rows / input_rows · Join</div>
+    </div>
+    <div class="glass q" data-at="3" data-go style="--c:#4ade80">
+      <h3>Scale up, or scale out</h3>
+      <p>Up: one memory-heavy query. Lab 03, WH_TRANSFORM_M. A global ORDER BY still cannot split across nodes.</p>
+      <p>Out: many queries waiting. Lab 09, MAX_CLUSTER_COUNT. The queue falls. Milliseconds per query stay the size you already had.</p>
+      <div class="meter bigm" style="margin-top:auto"><i style="--w:34%;--c:#4ade80"></i></div>
+      <div class="eg">queued_ms · not a new elapsed time</div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 HARNESS -->
+<section class="s bal harbig" data-ch="3" data-steps="2" data-accent="#1f4f8a,#7a4a08" data-notes="Open 01 in DBeaver on meridian_core. Snowflake labs: set the tag, run, then 00_measure.sql. Cache stays off. ACCOUNT_USAGE lags about 45 minutes, so use INFORMATION_SCHEMA. Drop MERIDIAN_RAW.PERF_LAB at the end. fct_transactions is already clustered on transaction_date, which is why the lab table is the random one.">
+  <div class="kicker rise" style="--k-c:#38bdf8">00_measure.sql · read the row back</div>
+  <h2 class="rise" style="--d:1">Tag it. Run it. <span class="grad">Read the history.</span></h2>
+  <div class="two" style="grid-template-columns:.9fr 1.1fr;margin-top:12px">
+    <div class="stack">
+      <div class="glass code sm" data-at="1"><div class="hd"><i></i>before every Snowflake timing</div><pre>
+<span class="ln">USE WAREHOUSE WH_TRANSFORM_XS;</span>
+<span class="ln">ALTER SESSION SET USE_CACHED_RESULT = FALSE;</span>
+<span class="ln">ALTER SESSION SET QUERY_TAG = <span class="str">'perflab_02_random'</span>;</span></pre></div>
+      <div class="cmd" data-at="1"><span class="pr">SQL</span><code style="font-size:15px">ALTER SESSION SET USE_CACHED_RESULT = FALSE;</code><button class="copy">Copy</button></div>
+      <div class="note" data-at="2">Start at 10_slow_query_triage_playbook.sql. INFORMATION_SCHEMA is instant. ACCOUNT_USAGE lags ~45 min. Then drop PERF_LAB.</div>
+    </div>
+    <div class="res t map" data-rows="90" data-at="2" style="--cols:46px 1.3fr 1.15fr .9fr">
+      <div class="rh"><span>#</span><span>File</span><span>Role</span><span>Watch</span></div>
+      <div class="rr"><span>00</span><span>measure</span><span class="b">TRANSFORMER</span><span>the two rows</span></div>
+      <div class="rr"><span>01</span><span>missing index</span><span class="y">meridian_core</span><span>EXPLAIN time</span></div>
+      <div class="rr"><span>02</span><span>pruning</span><span class="b">LOADER</span><span>partitions</span></div>
+      <div class="rr"><span>03</span><span>spilling</span><span class="b">LOADER</span><span>mb spilled</span></div>
+      <div class="rr"><span>04</span><span>SCD2 fan-out</span><span class="b">TRANSFORMER</span><span>row count</span></div>
+      <div class="rr"><span>05</span><span>caches</span><span class="b">LOADER</span><span>ms and bytes</span></div>
+      <div class="rr"><span>06</span><span>predicates</span><span class="b">LOADER</span><span>bytes scanned</span></div>
+      <div class="rr"><span>07</span><span>search and MV</span><span class="b">LOADER</span><span>Enterprise</span></div>
+      <div class="rr"><span>08</span><span>incremental</span><span class="g">dbt prod</span><span>seconds</span></div>
+      <div class="rr"><span>09</span><span>concurrency</span><span class="y">ACCOUNTADMIN</span><span>queued ms</span></div>
+      <div class="rr"><span>10</span><span>triage order</span><span class="g">this order</span><span>then one lab</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 OUTRO -->
+<section class="s outc" data-ch="3" data-accent="#fbbf24,#166534" data-notes="The habit is the lesson. Next episode: tests, reconciliation, freshness, CI, cost, and the runbook.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#fbbf24">Episode 8 complete</div>
+    <h2 class="rise" style="--d:1;font-size:72px">Change one thing. <span class="grad-lab">Read it twice.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Fast row beside slow</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Queue, then the operator</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Pruning is not spill</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Scale up is not scale out</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="i-check"></div><div style="text-align:left"><small>Next · Episode 9</small><b>Quality, CI, cost, runbook</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+</body>
+</html>

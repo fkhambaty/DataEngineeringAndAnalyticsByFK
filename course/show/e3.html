@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 3 · Snowflake: rooms, keys, empty shelves</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.orbit .core.sf{background:radial-gradient(circle at 35% 30%,#9be7ff,#29b5e8 55%,#0b4a66);box-shadow:0 0 120px 20px rgba(41,181,232,.5),inset 0 -20px 50px rgba(0,0,0,.5),inset 0 10px 30px rgba(255,255,255,.25)}
+.statement.fill{justify-content:flex-start;padding-top:6px;height:100%}
+.statement.fill .huge{font-size:80px}
+
+.stay{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:auto}
+.stay .card{min-height:280px;padding:28px}
+.badge{display:inline-flex;align-items:center;gap:8px;margin-top:auto;padding:8px 14px;border-radius:999px;font:800 13px var(--sans);letter-spacing:.14em}
+.badge.on{background:rgba(74,222,128,.16);color:#4ade80}
+.badge.off{background:rgba(251,191,36,.16);color:#fbbf24}
+.flip{position:relative;height:36px;margin-top:auto}
+.flip .badge{position:absolute;left:0;bottom:0;margin:0}
+.flip .on{animation:blinkon 4.2s ease-in-out infinite}
+.flip .off{animation:blinkoff 4.2s ease-in-out infinite}
+@keyframes blinkon{0%,42%{opacity:1}52%,92%{opacity:0}100%{opacity:1}}
+@keyframes blinkoff{0%,42%{opacity:0}52%,92%{opacity:1}100%{opacity:0}}
+
+.split3{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px;align-items:center;height:680px}
+.split3 .hero3d{height:620px}
+.split3 .logo3d{width:300px;height:300px}
+.bands{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+.band{padding:18px 22px;display:flex;align-items:center;gap:16px}
+.band b{display:block;font-size:26px}
+.band small{display:block;color:var(--mute);font-size:16px;margin-top:2px}
+.band .pills{margin-left:auto}
+
+.whs{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:22px}
+.wh{min-height:500px;padding:22px 20px}
+.wh h3{font-family:var(--mono);font-size:22px}
+.wh .sz{font:900 54px/1 var(--mono);letter-spacing:-.04em;margin-top:8px}
+.wh .sz span{display:block;font:700 14px var(--sans);letter-spacing:.12em;color:var(--mute);margin-top:6px}
+.light{width:14px;height:14px;border-radius:50%;background:#4ade80;box-shadow:0 0 14px #4ade80;animation:doze 4.2s ease-in-out infinite}
+@keyframes doze{0%,40%{background:#4ade80;box-shadow:0 0 14px #4ade80}55%,90%{background:#fbbf24;box-shadow:0 0 14px #fbbf24}100%{background:#4ade80}}
+
+.gauge{margin-top:28px;position:relative;padding:28px 32px 24px}
+.marks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.mark{padding:18px 18px 16px}
+.mark b{display:block;font-size:28px}
+.mark p{margin:6px 0 0;color:var(--mute);font-size:16px}
+
+.roles{margin-top:16px}
+.roles .rr{font-size:18px;padding:11px 20px}
+.roles .rr b{font-family:var(--mono);color:#eaf2ff}
+
+.keys{display:grid;grid-template-columns:1fr 70px 1fr;align-items:stretch;margin-top:24px}
+.keys .arrow{align-self:center;width:48px;height:8px;background:linear-gradient(90deg,rgba(253,224,71,.2),#fde047);box-shadow:0 0 16px rgba(253,224,71,.55)}
+.vs.tall .side{min-height:560px}
+.keycard{min-height:460px;padding:28px}
+.keycard h3{font-size:32px}
+.robots{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.robots div{padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font:600 16px var(--mono)}
+
+.term.tall .body{min-height:220px;font-size:16px}
+.cmd.wrap code{white-space:normal;font-size:16px;line-height:1.45}
+
+.dbs{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}
+.db{min-height:500px;padding:26px}
+.db h3{font-family:var(--mono);font-size:28px}
+.schemas{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+
+.cols5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:16px}
+.colbox{padding:16px 14px 14px;min-height:280px;display:flex;flex-direction:column}
+.colbox b{font-family:var(--mono);font-size:16px}
+.colbox small{color:var(--mute);font-size:14px;margin-top:6px}
+.slots{margin-top:12px;display:flex;flex-direction:column;gap:8px;flex:1}
+.slot{height:28px;border-radius:8px;border:1px dashed rgba(255,255,255,.16);background:rgba(255,255,255,.03)}
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.countbox{padding:16px 18px;display:flex;align-items:baseline;gap:14px}
+.countbox .n{font-size:48px;font-weight:900;letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:#7dd3fc}
+.countbox small{color:var(--mute);font-size:16px}
+
+.ctrl{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}
+.ctrl .card{min-height:500px}
+.ctrl h3{font-family:var(--mono);font-size:22px}
+
+.s.grow{display:flex;flex-direction:column}
+.s.keyslide .two{flex:1;align-items:stretch;margin-top:16px;min-height:0}
+.s.keyslide > .stack{flex:none}
+.s.keyslide .term{display:flex;flex-direction:column;height:100%;min-height:0}
+.s.keyslide .term .body{flex:1;font-size:18px;min-height:0}
+.s.keyslide .two > .stack{height:100%}
+.s.keyslide .callout{flex:1}
+.s.keyslide .callout b{font-size:22px}
+.s.keyslide .callout p{font-size:18px}
+.cmd.wrap code{font-size:18px}
+.s.shelves .cols5{flex:1;min-height:0;margin-top:18px}
+.s.shelves .colbox{min-height:0;height:100%;padding:22px 16px 18px}
+.s.shelves .colbox b{font-size:18px}
+.s.shelves .colbox small{font-size:18px;line-height:1.35}
+.s.shelves .slots{flex:1}
+.s.shelves .slot{flex:1;height:auto;min-height:32px}
+.s.shelves .countbox{padding:22px 24px}
+.s.shelves .countbox .n{font-size:64px}
+.s.shelves .countbox small{font-size:18px}
+.s.loose .vs{flex:1;margin-top:20px;min-height:0}
+.s.loose .side{min-height:0;height:100%;display:flex;flex-direction:column}
+.s.loose .side p{font-size:22px}
+.s.loose .side .eg{margin-top:auto;font-size:18px}
+.s.demo .g2{flex:1;margin-top:16px;min-height:0}
+.s.demo .g2 .card{min-height:0;height:100%}
+.s.demo .g2 p{font-size:20px}
+.s.demo .g2 h3{font-size:36px}
+.s.demo .code{margin-top:auto}
+.s.demo .code.sm pre{font-size:18px}
+
+.s.keylaw{display:flex;flex-direction:column}
+.s.keylaw .law{flex:1;min-height:0;display:grid;grid-template-columns:.96fr 1.04fr;gap:22px;margin-top:4px}
+.s.keylaw .notes2{height:100%;justify-content:space-between;gap:12px}
+.s.keylaw .callout{flex:1;align-items:center}
+.s.keylaw .callout b{font-size:22px}
+.s.keylaw .callout p{font-size:17px}
+.s.keylaw .swap{position:relative;height:100%;min-height:0}
+.s.keylaw .swap .code{position:absolute;inset:0;margin:0;display:flex;flex-direction:column;pointer-events:none}
+.s.keylaw .swap .code.on{pointer-events:auto}
+.s.keylaw .swap .code pre{flex:1;font-size:17px;line-height:1.5;display:flex;flex-direction:column;justify-content:center}
+.s.demo .paths{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:4px}
+.s.demo .paths .card{height:100%;min-height:0;padding:18px 16px 16px;gap:10px}
+.s.demo .paths h3{font-size:30px}
+.s.demo .paths p{font-size:17px;line-height:1.4}
+.s.demo .paths .code.sm pre{font-size:15px;line-height:1.45;padding:8px 0}
+.s.demo .paths .eg{font-size:14px;padding:10px 12px}
+</style>
+</head>
+<body data-episode="e3" data-label="Episode 3" data-chapters="The computer|The locks|Empty shelves" data-chapter-colors="#29B5E8|#a78bfa|#fbbf24">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#0b4a66,#3b2a80" data-notes="Snowflake from an empty account. Storage stays. Compute is rented by the second. Then roles, a key, and empty bronze tables.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;--teal:#29b5e8;border-color:rgba(41,181,232,.45);background:rgba(41,181,232,.1);color:#7dd3fc"><i style="background:#29b5e8;box-shadow:0 0 14px #29b5e8"></i>EPISODE 3</div>
+      <h1 class="mega rise" style="--d:1;font-size:84px">Rooms, keys,<br><span class="grad-sf">empty shelves</span></h1>
+      <p class="lead rise" style="--d:2">Storage versus compute. Roles. A key pair. A declared key is only a label. Then bronze tables with nothing in them yet.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Warehouses</span><span><b>02</b>Roles</span><span><b>03</b>Key pair</span><span><b>04</b>Bronze</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="i-cloud,i-cpu,i-key,i-lock,i-db,i-shield" data-core="sf" data-core-class="sf"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s" data-ch="0" data-accent="#0b4a66,#7a5a10" data-notes="Data sits in storage. A warehouse is a computer you rent by the second. Pause the computer and the data is still there.">
+  <div class="statement fill">
+    <div class="kicker rise" style="--k-c:#29b5e8">The one idea</div>
+    <p class="huge" data-words>The data stays.<br><span class="grad-sf">The computer is rented</span><br>by the second.</p>
+    <p class="lead rise" style="--d:5">Pause the warehouse and the tables are still there. You pay for the computer only while it runs.</p>
+    <div class="stay">
+      <div class="glass card scan" style="--c:#29b5e8">
+        <div class="tile sm" data-logo="i-db"></div>
+        <h3>Storage</h3>
+        <p>Databases, schemas, the raw tables. Still here when every warehouse is suspended.</p>
+        <span class="badge on">ALWAYS HERE</span>
+      </div>
+      <div class="glass card" style="--c:#fbbf24">
+        <div class="tile sm" data-logo="i-cpu"></div>
+        <h3>A warehouse</h3>
+        <p>Just a computer. Extra-small for the daily work. It wakes for a query and goes back to sleep.</p>
+        <div class="flip"><span class="badge on">RUNNING</span><span class="badge off">PAUSED</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 THREE LAYERS + 3D -->
+<section class="s" data-ch="0" data-steps="3" data-accent="#0e7490,#5b3fb5" data-notes="Three layers. Cloud services handle logins, plans and policies. Warehouses are the computers. Storage holds MERIDIAN_RAW and MERIDIAN_ANALYTICS.">
+  <div class="split3">
+    <div class="hero3d">
+      <div class="halo"></div><div class="ringx b"></div><div class="ringx"></div><div class="floor"></div>
+      <div class="logo3d" data-logo3d="sf" data-color="#29B5E8"></div>
+    </div>
+    <div>
+      <div class="kicker rise" style="--k-c:#29b5e8">Snowflake, in three layers</div>
+      <h2 class="rise" style="--d:1;font-size:52px">One logo. <span class="grad-sf">Three different bills.</span></h2>
+      <div class="bands">
+        <div class="glass band" data-at="1"><div class="ico sm" data-logo="i-cloud"></div><div><b>Cloud services</b><small>Logins, query plans, policies. Always on.</small></div></div>
+        <div class="glass band" data-at="2"><div class="ico sm" data-logo="i-cpu"></div><div><b>Warehouses</b><small>The computers. Separate, so one job cannot slow another.</small></div><div class="pills"><span class="pl c" style="--c:#29b5e8">WH_INGEST_XS</span><span class="pl">WH_TRANSFORM_XS</span></div></div>
+        <div class="glass band" data-at="3"><div class="ico sm" data-logo="i-db"></div><div><b>Storage</b><small>MERIDIAN_RAW and MERIDIAN_ANALYTICS. Untouched when a warehouse pauses.</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FOUR WAREHOUSES -->
+<section class="s" data-ch="0" data-steps="4" data-accent="#0e7490,#7a5a10" data-notes="Four warehouses. Ingest, transform and the medium lab pause after 60 seconds. Dashboards pause after 120 so the cache stays warm. Separate computers, separate spend.">
+  <div class="kicker rise" style="--k-c:#29b5e8">03_snowflake/01_account_setup_rbac.sql</div>
+  <h2 class="rise" style="--d:1">Four computers. <span class="grad-sf">Four jobs.</span></h2>
+  <div class="whs">
+    <div class="glass wh card" data-at="1" style="--c:#29b5e8">
+      <div class="light"></div>
+      <h3>WH_INGEST_XS</h3>
+      <div class="sz">XS<span>pause 60s</span></div>
+      <p>COPY into raw. The loader cannot queue behind a dashboard.</p>
+      <div class="eg">MERIDIAN_LOADER</div>
+    </div>
+    <div class="glass wh card" data-at="2" style="--c:#38bdf8">
+      <div class="light"></div>
+      <h3>WH_TRANSFORM_XS</h3>
+      <div class="sz">XS<span>pause 60s</span></div>
+      <p>dbt’s default. It runs often, so it has to be small.</p>
+      <div class="eg">MERIDIAN_TRANSFORMER</div>
+    </div>
+    <div class="glass wh card" data-at="3" style="--c:#a78bfa">
+      <div class="light"></div>
+      <h3>WH_TRANSFORM_M</h3>
+      <div class="sz">M<span>pause 60s</span></div>
+      <p>The performance lab. Bigger, and only when a job needs it.</p>
+      <div class="eg">MERIDIAN_TRANSFORMER</div>
+    </div>
+    <div class="glass wh card" data-at="4" style="--c:#fbbf24">
+      <div class="light" style="animation-duration:6s"></div>
+      <h3>WH_BI_XS</h3>
+      <div class="sz">XS<span>pause 120s</span></div>
+      <p>Dashboards. A longer pause keeps the local cache warm.</p>
+      <div class="eg">analysts and the app</div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 MONITOR -->
+<section class="s" data-ch="0" data-steps="3" data-accent="#7a5a10,#7a1f35" data-notes="RM_MERIDIAN_TRIAL. Monthly quota 100 credits. Notify at 75 percent, suspend at 90, suspend immediately at 100. All four warehouses use it.">
+  <div class="kicker rise" style="--k-c:#fbbf24">The spend guard</div>
+  <h2 class="rise" style="--d:1">100 credits a month. <span class="grad-gold">Then it stops.</span></h2>
+  <div class="glass gauge">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <b style="font-size:28px">RM_MERIDIAN_TRIAL</b>
+      <span class="mute">monthly · all four warehouses</span>
+    </div>
+    <div class="meter mt2" data-go data-at="1" style="height:22px"><i style="--w:100%;--c:#fb7185"></i></div>
+    <div class="marks">
+      <div class="glass mark" data-at="1" style="--c:#fde047"><b style="color:#fde047">75%</b><p>NOTIFY. A warning. The computers keep running.</p></div>
+      <div class="glass mark" data-at="2" style="--c:#fb923c"><b style="color:#fb923c">90%</b><p>SUSPEND. Running queries finish. New ones wait.</p></div>
+      <div class="glass mark" data-at="3" style="--c:#fb7185"><b style="color:#fb7185">100%</b><p>SUSPEND_IMMEDIATE. The computers stop now.</p></div>
+    </div>
+  </div>
+  <div class="note" data-at="3">The data is still in storage. Only the rented computers stop.</div>
+  <div class="g4 mt2" data-at="3">
+    <div class="glass card" style="min-height:168px;padding:22px 20px"><h3 style="font-family:var(--mono);font-size:18px">WH_INGEST_XS</h3><p>Pauses after 60 seconds.</p></div>
+    <div class="glass card" style="min-height:168px;padding:22px 20px"><h3 style="font-family:var(--mono);font-size:18px">WH_TRANSFORM_XS</h3><p>Pauses after 60 seconds.</p></div>
+    <div class="glass card" style="min-height:168px;padding:22px 20px"><h3 style="font-family:var(--mono);font-size:18px">WH_TRANSFORM_M</h3><p>Pauses after 60 seconds.</p></div>
+    <div class="glass card" style="min-height:168px;padding:22px 20px"><h3 style="font-family:var(--mono);font-size:18px">WH_BI_XS</h3><p>Pauses after 120 seconds.</p></div>
+  </div>
+</section>
+
+<!-- 06 ROLES PRINCIPLE -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#7a1f35,#0f5c3a" data-notes="People and robots get roles. Roles get permissions. Nobody gets permissions directly.">
+  <div class="kicker rise" style="--k-c:#a78bfa">Least privilege</div>
+  <h2 class="rise" style="--d:1">A person gets a role. <span class="grad-violet">The role gets the keys.</span></h2>
+  <div class="vs tall">
+    <div class="glass side bad" data-at="1">
+      <div class="stampx">✗</div>
+      <h3><span class="tag2">WRONG</span></h3>
+      <p>Hand SELECT to a person. The next table is invisible, and you cannot see who was supposed to have access.</p>
+      <div class="cmd sql"><pre>GRANT SELECT ON TABLE … TO USER &lt;a person&gt;</pre></div>
+    </div>
+    <div class="glass side good" data-at="2">
+      <div class="stampx">✓</div>
+      <h3><span class="tag2">RIGHT</span></h3>
+      <p>Hand the role to the person. Hand the permission to the role. You can see who is allowed to do the job.</p>
+      <div class="cmd sql"><pre>GRANT ROLE MERIDIAN_ANALYST TO USER &lt;your_user&gt;;
+GRANT SELECT ON … TO ROLE MERIDIAN_ANALYST;</pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 NINE ROLES -->
+<section class="s" data-ch="1" data-steps="1" data-accent="#5b3fb5,#0e7490" data-notes="Nine MERIDIAN_ roles. Five do a job. Four are the people in the English demo. Row access, not the role name, decides which rows come back.">
+  <div class="kicker rise" style="--k-c:#a78bfa">SHOW ROLES LIKE 'MERIDIAN%'</div>
+  <h2 class="rise" style="--d:1">Nine roles. <span class="grad-violet">Two kinds.</span></h2>
+  <div class="res t roles" data-rows="90" data-at="1" style="--cols:340px 1fr 1.1fr">
+    <div class="rh"><span>Role</span><span>Job</span><span>Computer</span></div>
+    <div class="rr"><b>MERIDIAN_LOADER</b><span>PUT and COPY into raw</span><span class="b">WH_INGEST_XS</span></div>
+    <div class="rr"><b>MERIDIAN_TRANSFORMER</b><span>dbt builds analytics</span><span class="b">WH_TRANSFORM_XS and _M</span></div>
+    <div class="rr"><b>MERIDIAN_ANALYST</b><span>reads MARTS, whole bank</span><span class="b">WH_BI_XS</span></div>
+    <div class="rr"><b>MERIDIAN_ML</b><span>reads gold, writes RAW.ML</span><span class="b">WH_TRANSFORM_XS</span></div>
+    <div class="rr"><b>MERIDIAN_APP</b><span>owns the Streamlit app</span><span class="b">WH_BI_XS</span></div>
+    <div class="rr hl"><b>MERIDIAN_CEO</b><span>persona · whole bank</span><span>row policy on the user</span></div>
+    <div class="rr hl"><b>MERIDIAN_BRANCH_MANAGER</b><span>persona · one branch</span><span>row policy on the user</span></div>
+    <div class="rr hl"><b>MERIDIAN_STAFF</b><span>persona · one branch, PII masked</span><span>row policy on the user</span></div>
+    <div class="rr hl"><b>MERIDIAN_CUSTOMER</b><span>persona · own rows</span><span>row policy on the user</span></div>
+  </div>
+</section>
+
+<!-- 08 KEY PAIR -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#7a1f35,#0e7490" data-notes="Robots log in with a key, not a password. The public key is the lock on the Snowflake user. The private key stays on the laptop. One pair serves three service users.">
+  <div class="kicker rise" style="--k-c:#fbbf24">Key pair, not a password</div>
+  <h2 class="rise" style="--d:1">The lock goes to Snowflake. <span class="grad-gold">The key stays here.</span></h2>
+  <div class="keys">
+    <div class="glass keycard" data-at="1" style="border-color:rgba(251,113,133,.4)">
+      <div class="tile" data-logo="i-key"></div>
+      <h3>Private key</h3>
+      <p>On your Mac. Never share it. Never commit it. Never paste it into Snowsight.</p>
+      <div class="eg">~/.ssh/meridian_rsa_key.p8</div>
+    </div>
+    <div class="arrow" data-at="2"></div>
+    <div class="glass keycard" data-at="2">
+      <div class="tile" data-logo="i-lock"></div>
+      <h3>Public key</h3>
+      <p>The matching lock, set on each robot. TYPE = SERVICE. One pair, three users.</p>
+      <div class="robots">
+        <div>MERIDIAN_LOADER_SVC · WH_INGEST_XS</div>
+        <div>MERIDIAN_DBT_SVC · WH_TRANSFORM_XS</div>
+        <div>MERIDIAN_ML_SVC · WH_TRANSFORM_XS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 MAKE THE KEY -->
+<section class="s grow keyslide" data-ch="1" data-steps="2" data-accent="#0e7490,#1f4f8a" data-notes="Generate the key on the Mac. grep drops the BEGIN and END lines. tr joins the rest into one line. The sample MIIBIjANBgkqh in the SQL file is not a key.">
+  <div class="kicker rise" style="--k-c:#29b5e8">On your Mac, once</div>
+  <h2 class="rise" style="--d:1">Make the key. <span class="grad-sf">Print one line.</span></h2>
+  <div class="stack" style="margin-top:18px">
+    <div class="cmd wrap rise" style="--d:2"><span class="pr">$</span><code>openssl genrsa 2048 | openssl pkcs8 -topk8 -inform PEM -out ~/.ssh/meridian_rsa_key.p8 -nocrypt</code><button class="copy" data-copy="openssl genrsa 2048 | openssl pkcs8 -topk8 -inform PEM -out ~/.ssh/meridian_rsa_key.p8 -nocrypt">Copy</button></div>
+    <div class="cmd wrap" data-at="1"><span class="pr">$</span><code>openssl rsa -in ~/.ssh/meridian_rsa_key.p8 -pubout -out ~/.ssh/meridian_rsa_key.pub</code><button class="copy" data-copy="openssl rsa -in ~/.ssh/meridian_rsa_key.p8 -pubout -out ~/.ssh/meridian_rsa_key.pub">Copy</button></div>
+  </div>
+  <div class="two" data-at="2" style="grid-template-columns:1.15fr .85fr;margin-top:18px">
+    <div class="term" data-term>
+      <div class="bar"><i></i><i></i><i></i><span>zsh · snowflake_dbt_airflow_python_byFK</span></div>
+      <div class="body">
+        <div><span class="ps">%</span> <span class="typed" data-type="grep -v &quot;PUBLIC KEY&quot; ~/.ssh/meridian_rsa_key.pub | tr -d '\n'"></span><span class="caret"></span></div>
+        <div class="out">one line, header and footer removed</div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="callout"><span class="k">!</span><div><b>MIIBIjANBgkqh… is not a key</b><p>That text in the SQL file is a placeholder. Paste your own one line.</p></div></div>
+      <div class="callout"><span class="k">!</span><div><b>Never paste the .p8</b><p>The private key does not go in Snowsight, git, or a slide.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 ATTACH THE LOCK -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#0e7490,#0f5c3a" data-notes="Snowsight, as ACCOUNTADMIN. Replace PASTE with the one line. DESC USER shows RSA_PUBLIC_KEY_FP when it worked. Same line on all three robots.">
+  <div class="kicker rise" style="--k-c:#4ade80">Snowsight · ACCOUNTADMIN</div>
+  <h2 class="rise" style="--d:1">Hang the lock <span class="grad-green">on three robots.</span></h2>
+  <div class="glass code" data-at="1" style="margin-top:16px"><div class="hd"><i></i>replace PASTE with the one line<span class="lg" data-logo="sf"></span></div><pre>
+<span class="ln"><span class="kw">ALTER USER</span> MERIDIAN_LOADER_SVC <span class="kw">SET</span> RSA_PUBLIC_KEY = <span class="str">'PASTE'</span>;</span>
+<span class="ln"><span class="kw">ALTER USER</span> MERIDIAN_DBT_SVC    <span class="kw">SET</span> RSA_PUBLIC_KEY = <span class="str">'PASTE'</span>;</span>
+<span class="ln"><span class="kw">ALTER USER</span> MERIDIAN_ML_SVC     <span class="kw">SET</span> RSA_PUBLIC_KEY = <span class="str">'PASTE'</span>;</span>
+<span class="ln hl" data-at="2"><span class="kw">DESC USER</span> MERIDIAN_LOADER_SVC;</span></pre></div>
+  <div class="res t mt2" data-rows="120" data-at="2" style="--cols:280px 1fr">
+    <div class="rh"><span>Property</span><span>What you should see</span></div>
+    <div class="rr"><b>RSA_PUBLIC_KEY_FP</b><span class="g">a fingerprint · the lock is on</span></div>
+  </div>
+  <div class="g3 mt2" data-at="2">
+    <div class="glass card" style="min-height:120px;padding:16px 18px"><h3 style="font-size:20px">Same line, three times</h3><p>One public key on LOADER, DBT and ML.</p></div>
+    <div class="glass card" style="min-height:120px;padding:16px 18px"><h3 style="font-size:20px">Fingerprint, not the key</h3><p>DESC shows RSA_PUBLIC_KEY_FP. The .p8 stays on the Mac.</p></div>
+    <div class="cmd sql" style="margin:0"><pre>DESC USER MERIDIAN_LOADER_SVC;</pre><button class="copy" data-copy="DESC USER MERIDIAN_LOADER_SVC;">Copy</button></div>
+  </div>
+</section>
+
+<!-- 11 SCRIPT 01 -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#0e7490,#7a3a12" data-notes="Run script 01 top to bottom as ACCOUNTADMIN. It creates the roles, four warehouses, three robot users and the resource monitor. The GRANT to your own user is commented out. Without it, script 03 fails on USE ROLE MERIDIAN_LOADER.">
+  <div class="kicker rise" style="--k-c:#29b5e8">03_snowflake/01_account_setup_rbac.sql</div>
+  <h2 class="rise" style="--d:1">Run it as <span class="grad-sf">ACCOUNTADMIN.</span></h2>
+  <div class="two" style="grid-template-columns:1.2fr .8fr">
+    <div class="glass code sm rise" style="--d:2"><div class="hd"><i></i>the line that is commented out</div><pre>
+<span class="ln"><span class="kw">USE ROLE</span> ACCOUNTADMIN;</span>
+<span class="ln cm">-- uncomment, and put your login here:</span>
+<span class="ln hl"><span class="kw">GRANT ROLE</span> MERIDIAN_LOADER, MERIDIAN_TRANSFORMER,</span>
+<span class="ln hl">  MERIDIAN_ANALYST, MERIDIAN_ML, MERIDIAN_APP</span>
+<span class="ln hl">  <span class="kw">TO USER</span> &lt;your_user&gt;;</span></pre></div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>The file builds the rooms</b><p>9 roles, 4 warehouses, 3 robot users, and RM_MERIDIAN_TRIAL.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>Your login is not included</b><p>Leave the GRANT commented and script 03 stops on USE ROLE MERIDIAN_LOADER.</p></div></div>
+    </div>
+  </div>
+  <div class="cmd sql" data-at="2" style="margin-top:16px"><pre>SHOW ROLES LIKE 'MERIDIAN%';
+SHOW WAREHOUSES LIKE 'WH_%';</pre><button class="copy" data-copy="SHOW ROLES LIKE 'MERIDIAN%';&#10;SHOW WAREHOUSES LIKE 'WH_%';">Copy</button></div>
+</section>
+
+<!-- 12 DATABASES -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#0e7490,#7a5a10" data-notes="Script 02 creates MERIDIAN_RAW and MERIDIAN_ANALYTICS. The loader owns raw. dbt owns analytics. Raw keeps 7 days of Time Travel. Analysts do not get a future grant on every table.">
+  <div class="kicker rise" style="--k-c:#fbbf24">03_snowflake/02_databases_schemas_grants.sql</div>
+  <h2 class="rise" style="--d:1">Two databases. <span class="grad-gold">Two owners.</span></h2>
+  <div class="dbs">
+    <div class="glass db card" data-at="1" style="--c:#d08b4f">
+      <div class="num">OWNED BY MERIDIAN_LOADER</div>
+      <h3>MERIDIAN_RAW</h3>
+      <p>The inbox. Append-only. Time Travel kept for 7 days.</p>
+      <div class="schemas">
+        <span class="pl c" style="--c:#d08b4f">POSTGRES_CORE</span>
+        <span class="pl c" style="--c:#d08b4f">POSTGRES_REF</span>
+        <span class="pl c" style="--c:#d08b4f">POSTGRES_CDC</span>
+        <span class="pl">CONTROL</span>
+        <span class="pl">PERF_LAB</span>
+      </div>
+      <p>The transformer may read future tables here. That is how dbt sees a new raw table without a new grant.</p>
+      <div class="eg">landing zone · nothing modelled</div>
+    </div>
+    <div class="glass db card" data-at="2" style="--c:#f5c542">
+      <div class="num">OWNED BY MERIDIAN_TRANSFORMER</div>
+      <h3>MERIDIAN_ANALYTICS</h3>
+      <p>dbt creates the floors: staging, intermediate, marts, snapshots.</p>
+      <div class="schemas">
+        <span class="pl c" style="--c:#c9d3df">STAGING</span>
+        <span class="pl c" style="--c:#c9d3df">INTERMEDIATE</span>
+        <span class="pl c" style="--c:#f5c542">MARTS</span>
+        <span class="pl">SNAPSHOTS</span>
+      </div>
+      <p>Analysts get into the database. They do not get every future table. A future grant would expose staging, including email and phone.</p>
+      <div class="eg">SELECT arrives with each mart</div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 EMPTY SHELVES -->
+<section class="s grow shelves" data-ch="2" data-steps="2" data-accent="#d08b4f,#0e7490" data-notes="Script 03 runs as MERIDIAN_LOADER. Every raw table has the same five columns and starts empty. 11 core, 8 reference, 1 delete log. Transactions are clustered on _extracted_at.">
+  <div class="kicker rise" style="--k-c:#d08b4f">03_snowflake/03_stages_raw_tables_control.sql</div>
+  <h2 class="rise" style="--d:1">Empty shelves. <span class="grad-gold">Five columns.</span></h2>
+  <div class="cols5" data-at="1">
+    <div class="glass colbox scan"><b>record</b><small>VARIANT · the whole source row</small><div class="slots"><i class="slot"></i><i class="slot"></i><i class="slot"></i></div></div>
+    <div class="glass colbox"><b>_extracted_at</b><small>when the courier read it</small><div class="slots"><i class="slot"></i><i class="slot"></i><i class="slot"></i></div></div>
+    <div class="glass colbox"><b>_batch_id</b><small>which run carried it</small><div class="slots"><i class="slot"></i><i class="slot"></i><i class="slot"></i></div></div>
+    <div class="glass colbox"><b>_source_file</b><small>which Parquet file</small><div class="slots"><i class="slot"></i><i class="slot"></i><i class="slot"></i></div></div>
+    <div class="glass colbox"><b>_loaded_at</b><small>when Snowflake stored it</small><div class="slots"><i class="slot"></i><i class="slot"></i><i class="slot"></i></div></div>
+  </div>
+  <div class="counts" data-at="2">
+    <div class="glass countbox"><span class="n" data-to="11">0</span><small>POSTGRES_CORE</small></div>
+    <div class="glass countbox"><span class="n" data-to="8">0</span><small>POSTGRES_REF</small></div>
+    <div class="glass countbox"><span class="n" data-to="1">0</span><small>POSTGRES_CDC · deletes</small></div>
+  </div>
+</section>
+
+<!-- 14 CONTROL -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#0f5c63,#7a5a10" data-notes="WATERMARKS is the bookmark per table. LOAD_LOG is one row per table per batch. V_PIPELINE_HEALTH shows minutes behind. Also a Parquet file format and one stage per source schema.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">The courier’s notebook</div>
+  <h2 class="rise" style="--d:1">Bookmarks, a log, <span class="grad">a health view.</span></h2>
+  <div class="ctrl">
+    <div class="glass card" data-at="1" style="--c:#38bdf8">
+      <div class="ico" data-logo="i-file"></div>
+      <h3>WATERMARKS</h3>
+      <p>One row per table. The newest updated_at already copied.</p>
+      <div class="eg">table_name · last_watermark</div>
+    </div>
+    <div class="glass card" data-at="2" style="--c:#fbbf24">
+      <div class="ico" data-logo="i-clock"></div>
+      <h3>LOAD_LOG</h3>
+      <p>One row per table per batch. Rows, files, seconds, and a status.</p>
+      <div class="eg">SUCCESS · NO_CHANGES · FAILED</div>
+    </div>
+    <div class="glass card" data-at="3" style="--c:#4ade80">
+      <div class="ico" data-logo="i-gauge"></div>
+      <h3>V_PIPELINE_HEALTH</h3>
+      <p>How many minutes each table sits behind the bank.</p>
+      <div class="eg">minutes_behind_source</div>
+    </div>
+  </div>
+  <div class="note" data-at="3">File format FF_PARQUET · three stages named PG_STAGE · transactions clustered on _extracted_at</div>
+</section>
+
+<!-- 15 WHY VARIANT -->
+<section class="s grow loose" data-ch="2" data-steps="2" data-accent="#d08b4f,#1f4f8a" data-notes="VARIANT and append-only. A new Postgres column lands without a DDL change. Every version is kept. Typing happens later in dbt. A typed landing table would be faster to query and brittle.">
+  <div class="kicker rise" style="--k-c:#d08b4f">Why the shelf is loose</div>
+  <h2 class="rise" style="--d:1">Keep the whole row. <span class="grad-gold">Type it later.</span></h2>
+  <div class="vs">
+    <div class="glass side bad" data-at="1">
+      <div class="stampx">✗</div>
+      <h3><span class="tag2">BRITTLE</span> Typed landing</h3>
+      <p>Faster to query. A new column in Postgres tomorrow breaks the copy, or the new column is dropped on the floor.</p>
+      <div class="eg">one typed column per source field</div>
+    </div>
+    <div class="glass side good" data-at="2">
+      <div class="stampx">✓</div>
+      <h3><span class="tag2">CHOSEN</span> VARIANT, append-only</h3>
+      <p>The copy never breaks. Every version stays, so we can rebuild history. dbt decides when a field becomes a column.</p>
+      <div class="eg">CHANGE_TRACKING = TRUE on every raw table</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 KEYS ARE LABELS -->
+<section class="s grow keylaw" data-ch="2" data-steps="4" data-accent="#7a1f35,#0e7490" data-notes="Snowflake stores PRIMARY KEY and FOREIGN KEY and does not enforce them. NOT NULL is enforced. dbt unique, not_null, and relationships fail the build and skip downstream models; they do not roll back a MERGE that already committed. Open stg_postgres__transactions.sql: QUALIFY keeps one row per transaction_id before that MERGE. The unit test transaction_status_update_keeps_the_latest_version is a fixture, id 101, not a live warehouse count.">
+  <div class="kicker rise" style="--k-c:#fb7185">_core__models.yml · stg_postgres__transactions.sql</div>
+  <h2 class="rise" style="--d:1">A key is a label. <span class="grad-red">The test is the lock.</span></h2>
+  <div class="law">
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Primary and foreign keys</b><p>Snowflake records them. A second key still loads. A dangling reference still loads.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>NOT NULL is enforced</b><p>A null in that column fails the write. The primary-key label on the same column does not.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>dbt tests enforce the key</b><p>unique, not_null, relationships. A contract checks names and types. A failed test skips downstream models.</p></div></div>
+      <div class="callout" data-at="4"><span class="k">4</span><div><b>Dedupe the batch, then MERGE</b><p>Two source rows for one key abort the MERGE. QUALIFY keeps the newest before that statement.</p></div></div>
+    </div>
+    <div class="swap">
+      <div class="glass code" data-at="1" data-until="2"><div class="hd"><i></i>04_streams_tasks_dynamic_tables_demo.sql · informational</div><pre>
+<span class="ln">transaction_id  NUMBER  <span class="kw">PRIMARY KEY</span></span>
+<span class="ln cm">-- dim_branch.branch_key in _core__models.yml</span>
+<span class="ln">constraints: [not_null, primary_key]</span>
+<span class="ln hl">a second key is still inserted</span></pre></div>
+      <div class="glass code" data-at="2" data-until="3"><div class="hd"><i></i>_core__models.yml · dim_branch</div><pre>
+<span class="ln">branch_key:</span>
+<span class="ln">  constraints: [<span class="kw">not_null</span>, primary_key]</span>
+<span class="ln">branch_id:</span>
+<span class="ln hl">  constraints: [<span class="kw">not_null</span>]</span>
+<span class="ln cm">-- null fails the write; the key label does not</span></pre></div>
+      <div class="glass code" data-at="3" data-until="4"><div class="hd"><i></i>_postgres__models.yml · stg_postgres__transactions</div><pre>
+<span class="ln">transaction_id:</span>
+<span class="ln hl">  data_tests: [<span class="kw">unique</span>, <span class="kw">not_null</span>]</span>
+<span class="ln">transaction_type:</span>
+<span class="ln">  relationships → transaction_type_mapping</span>
+<span class="ln cm">-- fct_transactions contract checks the column list</span></pre></div>
+      <div class="glass code" data-at="4"><div class="hd"><i></i>stg_postgres__transactions.sql · before MERGE</div><pre>
+<span class="ln"><span class="kw">qualify</span> row_number() <span class="kw">over</span> (</span>
+<span class="ln">  <span class="kw">partition by</span> transaction_id</span>
+<span class="ln">  <span class="kw">order by</span> updated_at <span class="kw">desc</span>, _extracted_at <span class="kw">desc</span></span>
+<span class="ln hl">) = <span class="num">1</span></span>
+<span class="ln cm">-- unit fixture 101: PENDING then POSTED → one row</span></pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 NATIVE DEMO IS NOT THE PATH -->
+<section class="s grow demo" data-ch="2" data-steps="3" data-accent="#7a1f35,#0e7490" data-notes="File 04 is the interview answer for one-minute latency inside Snowflake. It resumes a 1-minute task and a dynamic table with a 2-minute lag on WH_INGEST_XS. The WHEN clause skips the warehouse when the stream is empty. Suspend both at the end. The working path is dbt, called by meridian_microbatch_ingest and meridian_daily_batch. Those DAGs do not create the stream, the task, or the dynamic table.">
+  <div class="kicker rise" style="--k-c:#fb7185">03_snowflake/04_streams_tasks_dynamic_tables_demo.sql</div>
+  <h2 class="rise" style="--d:1">A demo file. <span class="grad-red">Not the working path.</span></h2>
+  <div class="paths">
+    <div class="glass card" data-at="1" style="--c:#fb7185">
+      <div class="num">NATIVE · STREAM + TASK</div>
+      <h3>Every 1 minute</h3>
+      <p>STR_RAW_TRANSACTIONS watches bronze. The task merges into ODS. The warehouse wakes only when the stream has data. QUALIFY runs before that MERGE too.</p>
+      <div class="glass code sm"><pre>
+<span class="ln">SCHEDULE = <span class="str">'1 MINUTE'</span></span>
+<span class="ln hl">WHEN SYSTEM$STREAM_HAS_DATA(…)</span>
+<span class="ln"><span class="kw">ALTER TASK</span> … <span class="kw">RESUME</span>;</span></pre></div>
+      <div class="eg">suspend the task when you finish</div>
+    </div>
+    <div class="glass card" data-at="2" style="--c:#fbbf24">
+      <div class="num">NATIVE · DYNAMIC TABLE</div>
+      <h3>Lag of 2 minutes</h3>
+      <p>DT_BRANCH_ACTIVITY_LAST_HOUR stays fresh on WH_INGEST_XS. Snowflake chooses the refresh. This schema is ODS, away from dbt.</p>
+      <div class="glass code sm"><pre>
+<span class="ln">TARGET_LAG = <span class="str">'2 minutes'</span></span>
+<span class="ln">WAREHOUSE = WH_INGEST_XS</span>
+<span class="ln cm">-- MERIDIAN_RAW.ODS</span></pre></div>
+      <div class="eg">suspend the dynamic table too</div>
+    </div>
+    <div class="glass card" data-at="3" style="--c:#4ade80">
+      <div class="num">WORKING PATH · DBT + AIRFLOW</div>
+      <h3>dbt writes. Airflow calls it.</h3>
+      <p>The models, tests, and contracts live in 04_dbt_meridian_dw. The DAGs never create the stream, the task, or the dynamic table.</p>
+      <div class="glass code sm"><pre>
+<span class="ln">meridian_microbatch_ingest</span>
+<span class="ln hl">dbt build --selector microbatch</span>
+<span class="ln">meridian_daily_batch · selector daily</span></pre></div>
+      <div class="eg">05_airflow/dags · leave file 04 suspended</div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 OUTRO -->
+<section class="s" data-ch="2" data-accent="#0e7490,#3776ab" data-notes="The rooms exist and the shelves are empty. Next, the Python a beginner needs before the courier runs.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#29b5e8">Episode 3 complete</div>
+    <h2 class="rise" style="--d:1;font-size:72px">The shelves are built. <span class="grad-sf">They are empty.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Storage vs compute</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>A key pair for robots</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>A PK is a label</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Streams stay a demo</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="py"></div><div style="text-align:left"><small>Next · Python · P0</small><b>Python foundations for this pipeline</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+</body>
+</html>

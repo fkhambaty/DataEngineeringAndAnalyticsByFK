@@ -1,0 +1,129 @@
+{
+  "notes": "Editable thumbnail source. Change badge, hook, tech, accent, or motif, then run python3 build_thumbnails.py. Keep the same badge, hook, and tech in catalog.json. The E1 badge must stay EPISODE 1. The P0 badge must stay PYTHON PRIMER. Hooks are 2 to 5 words and unique. Canvas is 1280x720. No network, no photos, no faces.",
+  "canvas": {
+    "width": 1280,
+    "height": 720
+  },
+  "releases": [
+    {
+      "id": "E0",
+      "badge": "EPISODE 0",
+      "hook": "Picture before tools",
+      "tech": "Architecture",
+      "accent": "#2dd4bf",
+      "motif": "rooms"
+    },
+    {
+      "id": "E1",
+      "badge": "EPISODE 1",
+      "hook": "The bank wakes up",
+      "tech": "PostgreSQL",
+      "accent": "#5b9bd5",
+      "motif": "layers"
+    },
+    {
+      "id": "E2",
+      "badge": "EPISODE 2",
+      "hook": "Draw the star first",
+      "tech": "Kimball",
+      "accent": "#a78bfa",
+      "motif": "star"
+    },
+    {
+      "id": "E3",
+      "badge": "EPISODE 3",
+      "hook": "Rooms, then shelves",
+      "tech": "Snowflake",
+      "accent": "#22d3ee",
+      "motif": "shelves"
+    },
+    {
+      "id": "P0",
+      "badge": "PYTHON PRIMER",
+      "hook": "Read the Python",
+      "tech": "Python",
+      "accent": "#facc15",
+      "motif": "python"
+    },
+    {
+      "id": "E4",
+      "badge": "EPISODE 4",
+      "hook": "Only what changed",
+      "tech": "Watermark CDC",
+      "accent": "#60a5fa",
+      "motif": "delta"
+    },
+    {
+      "id": "E5",
+      "badge": "EPISODE 5",
+      "hook": "Clean the inbox",
+      "tech": "dbt staging",
+      "accent": "#ff7a5c",
+      "motif": "inbox"
+    },
+    {
+      "id": "E6",
+      "badge": "EPISODE 6",
+      "hook": "The star, for real",
+      "tech": "dbt marts",
+      "accent": "#ff7a5c",
+      "motif": "fact"
+    },
+    {
+      "id": "E7",
+      "badge": "EPISODE 7",
+      "hook": "Airflow rings the clock",
+      "tech": "Airflow",
+      "accent": "#38bdf8",
+      "motif": "clock"
+    },
+    {
+      "id": "E8",
+      "badge": "EPISODE 8",
+      "hook": "Measure, then fix",
+      "tech": "Performance lab",
+      "accent": "#fbbf24",
+      "motif": "measure"
+    },
+    {
+      "id": "E9",
+      "badge": "EPISODE 9",
+      "hook": "Green is not enough",
+      "tech": "Quality and CI",
+      "accent": "#4ade80",
+      "motif": "checks"
+    },
+    {
+      "id": "E10",
+      "badge": "EPISODE 10",
+      "hook": "Score, then decide",
+      "tech": "scikit-learn",
+      "accent": "#fbbf24",
+      "motif": "gate"
+    },
+    {
+      "id": "E11",
+      "badge": "EPISODE 11",
+      "hook": "Ask in English",
+      "tech": "Cortex Analyst",
+      "accent": "#a78bfa",
+      "motif": "personas"
+    },
+    {
+      "id": "E12",
+      "badge": "EPISODE 12",
+      "hook": "Rules that survive",
+      "tech": "Terraform",
+      "accent": "#a8a29e",
+      "motif": "rebuild"
+    },
+    {
+      "id": "E13",
+      "badge": "EPISODE 13",
+      "hook": "Say it in two minutes",
+      "tech": "The interview",
+      "accent": "#4ade80",
+      "motif": "pitch"
+    }
+  ]
+}

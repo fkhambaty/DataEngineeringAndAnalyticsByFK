@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" style="--k: 0.9033333333333333; --accent-a: #7a2412; --accent-b: #0f5c3a;"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 5 · dbt cleans the inbox</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.h2s{font-size:52px}
+.kicker.dbt{--k-c:#ff8a6a}
+.statement.fit{height:auto;justify-content:flex-start;padding-top:28px}
+.lower3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.lower3 .glass{padding:28px 28px 26px;min-height:300px;display:flex;flex-direction:column;gap:12px}
+.lower3 b{font-size:34px}
+.lower3 span{color:var(--mute);font-size:21px;line-height:1.45}
+.lower3 em{margin-top:auto;font-style:normal;font:700 17px var(--mono);color:#ffb199;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.04)}
+
+/* what dbt does */
+.split3{display:grid;grid-template-columns:1.05fr .9fr;gap:28px;align-items:center;margin-top:8px}
+.pipe{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.pipe .fbox{text-align:left;min-width:0;padding:22px 26px;border-radius:22px}
+.pipe .fbox .tile{width:48px;height:48px;border-radius:14px;margin:0 0 10px}
+.pipe .fbox .tile svg{width:28px;height:28px}
+.pipe .fbox b{font-size:28px}
+.pipe .fbox small{font-size:17px;margin-top:6px}
+.pipe .arrow.v{height:36px}
+.side3d{height:540px}
+.side3d .logo3d{width:250px;height:250px}
+.side3d .halo{width:400px;height:400px}
+.side3d .floor{width:300px;bottom:48px}
+.side3d .ringx{width:360px;height:86px;bottom:58px}
+.side3d .ringx.b{width:440px;height:108px;bottom:46px}
+.never{margin-top:16px;font-size:18px}
+
+/* floors */
+.floors{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}
+.floor{min-height:248px;padding:24px 28px 22px;display:flex;flex-direction:column}
+.floor .num{font:800 13px var(--mono);letter-spacing:.16em;color:var(--c,#ff8a6a)}
+.floor .n{font-size:78px;font-weight:900;letter-spacing:-.05em;line-height:.9;margin-top:8px;font-variant-numeric:tabular-nums}
+.floor h3{margin:8px 0 0;font-size:26px}
+.floor p{margin:8px 0 0;color:var(--mute);font-size:18px;line-height:1.35}
+.floor .tag{margin-top:auto;padding-top:12px;font:700 15px var(--mono);color:#dbe5f3}
+.testsline{margin-top:16px;display:flex;gap:14px;align-items:center}
+.testsline span{font-size:18px}
+
+/* variant + newest */
+.casts{display:flex;gap:16px;margin-top:16px}
+.cast{flex:1;padding:16px 18px;border-radius:16px;background:rgba(10,15,28,.55);border:1px solid rgba(255,255,255,.08)}
+.cast small{display:block;font:800 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.cast b{display:block;margin-top:6px;font:700 18px var(--mono);color:#7dd3fc}
+.cast em{display:block;margin-top:4px;font-style:normal;font:700 16px var(--mono);color:#86efac}
+
+.pair2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:16px}
+.slip{border-radius:22px;padding:22px 24px;min-height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.slip .when{font:700 14px var(--mono);color:var(--faint);letter-spacing:.08em}
+.slip .json{margin-top:14px;font:600 20px/1.55 var(--mono);color:#dbe5f3}
+.slip .json i{font-style:normal;color:#fde68a}
+.slip .verdict{margin-top:auto;font:800 16px var(--mono);letter-spacing:.08em}
+.slip.old{opacity:.55;filter:saturate(.6)}
+.slip.keep{border-color:rgba(74,222,128,.55);box-shadow:0 0 50px -12px rgba(74,222,128,.55)}
+.slip.keep .verdict{color:#4ade80}
+.slip.old .verdict{color:#fb7185}
+.expect{margin-top:16px;display:flex;align-items:center;gap:18px;padding:16px 22px}
+.expect b{font-size:22px}
+.expect span{color:var(--mute);font-size:18px}
+
+/* incremental window */
+.win{margin-top:20px;height:170px;border-radius:22px;position:relative;overflow:hidden;background:rgba(10,15,28,.55);border:1px solid rgba(255,255,255,.08);display:flex}
+.win .blk{flex:1;border-right:1px solid rgba(255,255,255,.05);position:relative}
+.win .blk:last-child{border-right:0}
+.win .blk i{position:absolute;left:18%;top:36px;width:18px;height:18px;border-radius:5px;background:#d08b4f;box-shadow:0 0 12px #d08b4f}
+.win .blk:nth-child(odd) i{left:55%;top:84px;background:#8a5a32}
+.win .tail{position:absolute;right:0;top:0;bottom:0;width:22%;background:linear-gradient(90deg,transparent,rgba(255,105,75,.28));border-left:2px solid #ff694b;box-shadow:inset 0 0 40px rgba(255,105,75,.25)}
+.win .lbl{position:absolute;left:18px;bottom:14px;font:700 16px var(--mono);color:var(--faint)}
+.win .lbl2{position:absolute;right:18px;bottom:14px;font:800 16px var(--mono);color:#ffb199}
+.modes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px}
+.mode{min-height:420px;padding:28px 26px 24px;display:flex;flex-direction:column}
+.mode h3{margin:10px 0;font-size:31px}
+.mode p{margin:0;color:var(--mute);font-size:20px;line-height:1.45}
+.mode .eg{margin-top:auto;font-size:17px}
+
+/* camera */
+.cam{display:grid;grid-template-columns:280px 1fr;gap:28px;margin-top:16px;align-items:center}
+.lens{height:600px;border-radius:36px;background:radial-gradient(circle at 50% 42%,#2a3348,#121826 62%);border:1px solid rgba(255,255,255,.1);position:relative;display:grid;place-items:center;overflow:hidden}
+.lens .glassring{width:210px;height:210px;border-radius:50%;border:10px solid #1b2333;box-shadow:0 0 0 8px rgba(255,105,75,.25),inset 0 0 40px rgba(0,0,0,.6);display:grid;place-items:center;background:radial-gradient(circle at 40% 35%,#3a465e,#0e1422 70%)}
+.iris{width:92px;height:92px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ffb199,#ff694b 40%,#1a0a06 72%);box-shadow:0 0 40px rgba(255,105,75,.7)}
+.lens.go .iris{animation:blink2 2.8s ease-in-out infinite}
+@keyframes blink2{0%,100%{transform:scale(1)}8%{transform:scale(.15)}16%{transform:scale(1)}}
+.lens .cap{position:absolute;left:24px;top:22px;font:800 12px var(--mono);letter-spacing:.16em;color:#ffb199}
+.film{display:flex;flex-direction:column;gap:20px}
+.film .lead{font-size:22px}
+.frame{padding:26px 30px;display:grid;grid-template-columns:170px 180px 1fr;gap:18px;align-items:center;min-height:178px}
+.frame b{font:800 26px var(--mono)}
+.frame .seg{font:800 26px var(--mono)}
+.frame span{font:600 19px/1.5 var(--mono);color:#dbe5f3}
+.frame .open{color:#4ade80}
+.snaps{display:flex;gap:12px;margin-top:4px}
+.snaps .pl{font-size:17px}
+
+/* strategies */
+.strats{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:16px}
+.strat{min-height:490px;padding:26px 28px;display:flex;flex-direction:column}
+.strat h3{margin:8px 0;font-size:30px}
+.strat p{margin:0;color:var(--mute);font-size:19px;line-height:1.4}
+.pills{margin-top:16px}
+.why{margin-top:auto;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.04);font-size:17px;color:#dbe5f3;line-height:1.4}
+
+/* schema wall */
+.wall{display:grid;grid-template-columns:1fr 70px 1fr;gap:8px;margin-top:18px;align-items:stretch}
+.room{min-height:460px;padding:24px 26px;display:flex;flex-direction:column;gap:12px}
+.room h3{margin:0;font-size:28px}
+.room .sub{color:var(--mute);font-size:17px;margin:0 0 6px}
+.schip{padding:14px 16px;border-radius:14px;background:rgba(10,15,28,.5);border:1px solid rgba(255,255,255,.08);font:700 20px var(--mono);display:flex;justify-content:space-between;align-items:center}
+.schip em{font-style:normal;font-size:13px;letter-spacing:.12em;color:var(--faint)}
+.room.prod .schip{border-color:rgba(56,189,248,.35);color:#bae6fd}
+.room.dev .schip{border-color:rgba(255,105,75,.4);color:#ffd0c2}
+.divider{display:flex;align-items:center;justify-content:center}
+.divider i{width:4px;height:78%;border-radius:4px;background:repeating-linear-gradient(180deg,#fbbf24 0 10px,transparent 10px 18px);box-shadow:0 0 18px rgba(251,191,36,.45)}
+
+/* 30 days */
+.days{margin-top:18px;display:grid;grid-template-columns:280px 1fr;gap:22px}
+.big30{min-height:460px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.big30 .n{font-size:160px;font-weight:900;letter-spacing:-.06em;line-height:.85;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#fff,#ffb199);-webkit-background-clip:text;background-clip:text;color:transparent}
+.big30 small{color:var(--mute);font-size:18px;margin-top:8px}
+.rules{display:flex;flex-direction:column;gap:14px}
+.rule{padding:20px 22px;min-height:100px}
+.rule b{display:block;font-size:22px;margin-bottom:6px}
+.rule p{margin:0;color:var(--mute);font-size:18px;line-height:1.4}
+.cal{display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:16px;border:1px dashed rgba(251,191,36,.45);background:rgba(251,191,36,.06)}
+.cal .d{font:800 20px var(--mono);color:#fde68a}
+.cal span{color:#dbe5f3;font-size:17px}
+
+/* hands */
+.hand{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;margin-top:12px}
+.cmds{display:flex;flex-direction:column;gap:10px}
+.cmds .cmd{padding:12px 14px 12px 16px}
+.cmds .cmd code{font-size:17px}
+.term .body{min-height:210px}
+.build13 .term .body{min-height:330px;font-size:19px}
+.build13 .cmd{padding:22px 22px 22px 26px}
+.build13 .callout{padding:24px 24px;min-height:150px;align-items:center}
+.build13 .callout b{font-size:22px}
+.build13 .callout p{font-size:18px}
+.build13 .schip{font-size:22px;padding:18px 20px}
+.trap{padding:16px 18px;border-radius:16px;border:1px solid rgba(251,113,133,.4);background:rgba(251,113,133,.08);color:#fecdd3;font-size:17px;line-height:1.4}
+.trap b{color:#fff}
+
+.jn{color:#fb923c}
+</style>
+</head>
+<body data-episode="e5" data-label="Episode 5" data-chapters="The kitchen|Clean rows|A camera|Sandbox" data-chapter-colors="#ff694b|#38bdf8|#fbbf24|#4ade80"><div class="bg"><i class="orb o1"></i><i class="orb o2"></i><i class="grid"></i></div><canvas id="fx" width="1600" height="813" style="width: 1600px; height: 813px;"></canvas>
+<div id="viewport"><div id="stage"><div class="chapters"><span class="ep"><i></i>Episode 5</span><span class="sep"></span><span class="c" data-c="0" style="--chap:#ff694b">The kitchen</span><span class="sep"></span><span class="c" data-c="1" style="--chap:#38bdf8">Clean rows</span><span class="sep"></span><span class="c" data-c="2" style="--chap:#fbbf24">A camera</span><span class="sep"></span><span class="c on" data-c="3" style="--chap:#4ade80">Sandbox</span></div><div class="count" id="count">13 / 14</div><div class="progress"><i id="prog" style="width: 97.6744%;"></i></div>
+
+<!-- 01 TITLE -->
+<section class="s past" data-ch="0" data-accent="#7a2412,#0e4a5c" data-notes="dbt only talks to Snowflake. Bronze is already loaded. Today we turn JSON copies into one typed row, keep history, and build in a sandbox.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;border-color:rgba(255,105,75,.45);background:rgba(255,105,75,.1);color:#ffb199"><i style="background:#ff694b;box-shadow:0 0 14px #ff694b"></i>EPISODE 5</div>
+      <h1 class="mega rise" style="--d:1">dbt cleans<br><span class="grad-dbt">the inbox</span></h1>
+      <p class="lead rise" style="--d:2">JSON becomes typed columns. Only the newest copy of a payment stays. History is photographed. Dev cannot touch production.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Staging</span><span><b>02</b>Incremental</span><span><b>03</b>Snapshots</span><span><b>04</b>Dev sandbox</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="sf,vscode,i-layers,i-refresh,i-folder,i-clock" data-core="dbt" data-core-class="dbt"><div class="ring r1"></div><div class="ring r2"></div><div class="core dbt"><svg fill="#ffffff" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="sat" style="transform: translate(-65.6481px, -77.5993px) scale(0.724801); z-index: 1; opacity: 0.556752;"><div class="tile"><svg fill="#29B5E8" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 3.459c0 .646-.418 1.18-1.141 1.18-.723 0-1.142-.534-1.142-1.18 0-.647.419-1.18 1.142-1.18.723 0 1.141.533 1.141 1.18zm-.228 0c0-.533-.38-.951-.913-.951s-.913.38-.913.95c0 .533.38.952.913.952.57 0 .913-.419.913-.951zm-1.37-.533h.495c.266 0 .456.152.456.38 0 .153-.076.229-.19.305l.19.266v.038h-.266l-.19-.266h-.229v.266h-.266zm.495.228h-.229v.267h.229c.114 0 .152-.038.152-.114.038-.077-.038-.153-.152-.153zM7.602 12.4c.038-.151.076-.304.076-.456 0-.114-.038-.228-.038-.342-.114-.343-.304-.647-.646-.838l-4.87-2.777c-.685-.38-1.56-.152-1.94.533-.381.685-.153 1.56.532 1.94l2.701 1.56-2.701 1.56c-.685.38-.913 1.256-.533 1.94.38.685 1.256.914 1.94.533l4.832-2.777c.343-.267.571-.533.647-.876zm1.332 2.626c-.266-.038-.57.038-.837.19l-4.832 2.777c-.685.38-.913 1.256-.532 1.94.38.686 1.255.914 1.94.533l2.701-1.56v3.12c0 .8.647 1.408 1.446 1.408.799 0 1.407-.647 1.407-1.408v-5.592c0-.761-.57-1.37-1.293-1.408zm4.946-6.088c.266.038.57-.038.837-.19l4.832-2.777c.685-.38.913-1.256.532-1.94-.38-.686-1.255-.914-1.94-.533l-2.701 1.56V1.975c0-.799-.647-1.408-1.446-1.408-.799 0-1.446.609-1.446 1.408V7.53c0 .76.609 1.37 1.332 1.407zM3.265 5.97l4.832 2.777c.266.152.533.19.837.19.723-.038 1.331-.684 1.331-1.407V1.975c0-.799-.646-1.408-1.407-1.408-.799 0-1.446.647-1.446 1.408v3.12l-2.701-1.56c-.685-.38-1.56-.152-1.94.533-.419.646-.19 1.521.494 1.902zm9.093 6.011a.412.412 0 00-.114-.266l-.57-.571a.346.346 0 00-.267-.114.412.412 0 00-.266.114l-.571.57a.411.411 0 00-.114.267c0 .076.038.19.114.267l.57.57a.345.345 0 00.267.114c.076 0 .19-.038.266-.114l.571-.57a.412.412 0 00.114-.267zm1.598.533L11.94 14.53c-.039.038-.153.114-.229.114h-.608a.411.411 0 01-.267-.114L8.82 12.514a.408.408 0 01-.076-.229v-.608c0-.076.038-.19.114-.267l2.016-2.016a.41.41 0 01.267-.114h.608a.41.41 0 01.267.114l2.016 2.016a.347.347 0 01.114.267v.608c-.076.077-.114.19-.19.229zm5.593 5.44l-4.832-2.777c-.266-.152-.57-.19-.837-.152-.723.038-1.332.684-1.332 1.408v5.554c0 .8.647 1.408 1.408 1.408.799 0 1.446-.647 1.446-1.408v-3.12l2.7 1.56c.686.38 1.561.152 1.941-.533.419-.646.19-1.521-.494-1.94zm2.549-7.533l-2.701 1.56 2.7 1.56c.686.38.914 1.256.533 1.94-.38.685-1.255.913-1.94.533l-4.832-2.778a1.644 1.644 0 01-.647-.798c-.037-.153-.076-.305-.076-.457 0-.114.039-.228.039-.342.114-.343.342-.647.646-.837l4.832-2.778c.685-.38 1.56-.152 1.94.533.457.609.19 1.484-.494 1.864"></path></svg></div></div><div class="sat" style="transform: translate(193.986px, -55.6449px) scale(0.76871); z-index: 1; opacity: 0.618499;"><div class="tile"><svg viewBox="0 0 24 24" fill="#007ACC"><path d="M23.15 2.587 18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"></path></svg></div></div><div class="sat" style="transform: translate(259.634px, 21.9543px) scale(0.923909); z-index: 3; opacity: 0.836747;"><div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"></path><path d="m3 13 9 5 9-5"></path></svg></div></div><div class="sat" style="transform: translate(65.6481px, 77.5993px) scale(1.0352); z-index: 3; opacity: 0.993248;"><div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"></path></svg></div></div><div class="sat" style="transform: translate(-193.986px, 55.6449px) scale(0.99129); z-index: 3; opacity: 0.931501;"><div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></div></div><div class="sat" style="transform: translate(-259.634px, -21.9543px) scale(0.836091); z-index: 1; opacity: 0.713253;"><div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></div></div></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s past" data-ch="0" data-accent="#5c1a10,#0f3d4a" data-notes="dbt compiles SQL and Snowflake runs it. The courier already copied Postgres into bronze. dbt never connects to the bank's database.">
+  <div class="statement fit">
+    <div class="kicker dbt">Inside Snowflake only</div>
+    <p class="huge" data-words=""><span class="w" style="--i: 0;">A</span> <span class="w" style="--i: 1;">SELECT</span> <span class="w" style="--i: 2;">goes</span> <span class="w" style="--i: 3;">in.</span> <span class="grad-dbt w" style="--i: 4;">A table comes out.</span></p>
+    <p class="lead rise" style="--d:8">dbt works out the order from <b style="color:#eaf2ff">ref()</b>. Snowflake runs the compiled SQL on its own warehouse. Postgres is never opened.</p>
+    <div class="lower3">
+      <div class="glass rise" style="--d:10"><b>Bronze</b><span>MERIDIAN_RAW keeps every copy the courier delivered.</span><em>MERIDIAN_RAW.POSTGRES_CORE</em></div>
+      <div class="glass rise" style="--d:11"><b>Silver</b><span>Staging keeps one typed row, the newest updated_at.</span><em>MERIDIAN_ANALYTICS.STAGING</em></div>
+      <div class="glass rise" style="--d:12"><b>Gold</b><span>Marts are the tables a question is allowed to touch.</span><em>MERIDIAN_ANALYTICS.MARTS</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 WHAT DBT DOES + 3D -->
+<section class="s past" data-ch="0" data-steps="3" data-accent="#7a2412,#164e63" data-notes="Three hops. We write SQL with ref and source. dbt compiles plain SQL. Snowflake creates the table. Point at the logo: dbt is the chef, Snowflake is the kitchen.">
+  <div class="kicker rise dbt">What dbt actually is</div>
+  <h2 class="rise h2s" style="--d:1">Three hops. <span class="grad-dbt">None of them is Postgres.</span></h2>
+  <div class="split3">
+    <div class="pipe">
+      <div class="glass fbox" data-at="1" style="--c:#ff694b"><div class="tile" data-logo="vscode"><svg viewBox="0 0 24 24" fill="#007ACC"><path d="M23.15 2.587 18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"></path></svg></div><b>You write a SELECT</b><small>ref() points at another model. source() points at bronze.</small></div>
+      <div class="arrow v" data-at="2"></div>
+      <div class="glass fbox" data-at="2" style="--c:#fb923c"><div class="tile" data-logo="dbt"><svg fill="#FF694B" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><b>dbt compiles it</b><small>Jinja becomes ordinary SQL, in parent-before-child order.</small></div>
+      <div class="arrow v" data-at="3"></div>
+      <div class="glass fbox" data-at="3" style="--c:#38bdf8"><div class="tile" data-logo="sf"><svg fill="#29B5E8" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 3.459c0 .646-.418 1.18-1.141 1.18-.723 0-1.142-.534-1.142-1.18 0-.647.419-1.18 1.142-1.18.723 0 1.141.533 1.141 1.18zm-.228 0c0-.533-.38-.951-.913-.951s-.913.38-.913.95c0 .533.38.952.913.952.57 0 .913-.419.913-.951zm-1.37-.533h.495c.266 0 .456.152.456.38 0 .153-.076.229-.19.305l.19.266v.038h-.266l-.19-.266h-.229v.266h-.266zm.495.228h-.229v.267h.229c.114 0 .152-.038.152-.114.038-.077-.038-.153-.152-.153zM7.602 12.4c.038-.151.076-.304.076-.456 0-.114-.038-.228-.038-.342-.114-.343-.304-.647-.646-.838l-4.87-2.777c-.685-.38-1.56-.152-1.94.533-.381.685-.153 1.56.532 1.94l2.701 1.56-2.701 1.56c-.685.38-.913 1.256-.533 1.94.38.685 1.256.914 1.94.533l4.832-2.777c.343-.267.571-.533.647-.876zm1.332 2.626c-.266-.038-.57.038-.837.19l-4.832 2.777c-.685.38-.913 1.256-.532 1.94.38.686 1.255.914 1.94.533l2.701-1.56v3.12c0 .8.647 1.408 1.446 1.408.799 0 1.407-.647 1.407-1.408v-5.592c0-.761-.57-1.37-1.293-1.408zm4.946-6.088c.266.038.57-.038.837-.19l4.832-2.777c.685-.38.913-1.256.532-1.94-.38-.686-1.255-.914-1.94-.533l-2.701 1.56V1.975c0-.799-.647-1.408-1.446-1.408-.799 0-1.446.609-1.446 1.408V7.53c0 .76.609 1.37 1.332 1.407zM3.265 5.97l4.832 2.777c.266.152.533.19.837.19.723-.038 1.331-.684 1.331-1.407V1.975c0-.799-.646-1.408-1.407-1.408-.799 0-1.446.647-1.446 1.408v3.12l-2.701-1.56c-.685-.38-1.56-.152-1.94.533-.419.646-.19 1.521.494 1.902zm9.093 6.011a.412.412 0 00-.114-.266l-.57-.571a.346.346 0 00-.267-.114.412.412 0 00-.266.114l-.571.57a.411.411 0 00-.114.267c0 .076.038.19.114.267l.57.57a.345.345 0 00.267.114c.076 0 .19-.038.266-.114l.571-.57a.412.412 0 00.114-.267zm1.598.533L11.94 14.53c-.039.038-.153.114-.229.114h-.608a.411.411 0 01-.267-.114L8.82 12.514a.408.408 0 01-.076-.229v-.608c0-.076.038-.19.114-.267l2.016-2.016a.41.41 0 01.267-.114h.608a.41.41 0 01.267.114l2.016 2.016a.347.347 0 01.114.267v.608c-.076.077-.114.19-.19.229zm5.593 5.44l-4.832-2.777c-.266-.152-.57-.19-.837-.152-.723.038-1.332.684-1.332 1.408v5.554c0 .8.647 1.408 1.408 1.408.799 0 1.446-.647 1.446-1.408v-3.12l2.7 1.56c.686.38 1.561.152 1.941-.533.419-.646.19-1.521-.494-1.94zm2.549-7.533l-2.701 1.56 2.7 1.56c.686.38.914 1.256.533 1.94-.38.685-1.255.913-1.94.533l-4.832-2.778a1.644 1.644 0 01-.647-.798c-.037-.153-.076-.305-.076-.457 0-.114.039-.228.039-.342.114-.343.342-.647.646-.837l4.832-2.778c.685-.38 1.56-.152 1.94.533.457.609.19 1.484-.494 1.864"></path></svg></div><b>Snowflake builds the table</b><small>CREATE TABLE AS, on WH_TRANSFORM_XS. dbt stores nothing itself.</small></div>
+    </div>
+    <div class="hero3d side3d">
+      <div class="halo" style="background: radial-gradient(circle, rgba(255, 105, 75, 0.45), transparent 62%);"></div>
+      <div class="logo3d" data-logo3d="dbt" data-color="#FF694B" data-depth="22"><div class="layer" style="transform: translateZ(-30.8px);"><svg viewBox="0 0 24 24" fill="rgb(8,14,30)" stroke="rgb(8,14,30)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-29.4px);"><svg viewBox="0 0 24 24" fill="rgb(14,16,31)" stroke="rgb(14,16,31)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-28px);"><svg viewBox="0 0 24 24" fill="rgb(20,18,31)" stroke="rgb(20,18,31)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-26.6px);"><svg viewBox="0 0 24 24" fill="rgb(26,20,32)" stroke="rgb(26,20,32)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-25.2px);"><svg viewBox="0 0 24 24" fill="rgb(32,22,32)" stroke="rgb(32,22,32)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-23.8px);"><svg viewBox="0 0 24 24" fill="rgb(38,24,33)" stroke="rgb(38,24,33)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-22.4px);"><svg viewBox="0 0 24 24" fill="rgb(44,26,33)" stroke="rgb(44,26,33)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-21px);"><svg viewBox="0 0 24 24" fill="rgb(50,28,34)" stroke="rgb(50,28,34)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-19.6px);"><svg viewBox="0 0 24 24" fill="rgb(56,30,34)" stroke="rgb(56,30,34)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-18.2px);"><svg viewBox="0 0 24 24" fill="rgb(62,32,35)" stroke="rgb(62,32,35)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-16.8px);"><svg viewBox="0 0 24 24" fill="rgb(68,34,35)" stroke="rgb(68,34,35)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-15.4px);"><svg viewBox="0 0 24 24" fill="rgb(74,36,36)" stroke="rgb(74,36,36)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-14px);"><svg viewBox="0 0 24 24" fill="rgb(80,38,36)" stroke="rgb(80,38,36)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-12.6px);"><svg viewBox="0 0 24 24" fill="rgb(86,40,37)" stroke="rgb(86,40,37)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-11.2px);"><svg viewBox="0 0 24 24" fill="rgb(92,42,37)" stroke="rgb(92,42,37)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-9.8px);"><svg viewBox="0 0 24 24" fill="rgb(98,44,38)" stroke="rgb(98,44,38)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-8.4px);"><svg viewBox="0 0 24 24" fill="rgb(104,46,38)" stroke="rgb(104,46,38)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-7px);"><svg viewBox="0 0 24 24" fill="rgb(110,48,39)" stroke="rgb(110,48,39)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-5.6px);"><svg viewBox="0 0 24 24" fill="rgb(116,50,39)" stroke="rgb(116,50,39)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-4.2px);"><svg viewBox="0 0 24 24" fill="rgb(122,52,40)" stroke="rgb(122,52,40)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-2.8px);"><svg viewBox="0 0 24 24" fill="rgb(128,54,40)" stroke="rgb(128,54,40)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer" style="transform: translateZ(-1.4px);"><svg viewBox="0 0 24 24" fill="rgb(134,56,41)" stroke="rgb(134,56,41)" stroke-width=".35"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div class="layer face" style="filter: drop-shadow(rgba(255, 105, 75, 0.6) 0px 0px 26px);"><svg fill="#FF694B" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div></div>
+      <div class="ringx"></div>
+      <div class="ringx b"></div>
+      <div class="floor"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FOLDERS -->
+<section class="s past" data-ch="1" data-steps="4" data-accent="#1f4f8a,#7a2412" data-notes="Staging is silver. Marts are gold. Transactions is the only incremental staging model. Everything else in staging is a view.">
+  <div class="kicker rise" style="--k-c:#38bdf8">04_dbt_meridian_dw</div>
+  <h2 class="rise h2s" style="--d:1">Folders are floors. <span class="grad">Counts are real.</span></h2>
+  <div class="floors">
+    <div class="glass floor" data-at="1" style="--c:#c9d3df">
+      <div class="num">SILVER · VIEWS</div>
+      <div class="n" data-to="21">0</div>
+      <h3>models/staging</h3>
+      <p>Rename, cast, keep the newest row. No joins between business tables.</p>
+      <div class="tag">transactions is the one incremental model</div>
+    </div>
+    <div class="glass floor" data-at="2" style="--c:#7dd3fc">
+      <div class="num">SILVER · VIEWS</div>
+      <div class="n" data-to="3">0</div>
+      <h3>models/intermediate</h3>
+      <p>Shared logic: the day's FX rate, and the primary holder of an account.</p>
+      <div class="tag">int_fx · int_account_primary_holder · int_transactions_with_fx</div>
+    </div>
+    <div class="glass floor" data-at="3" style="--c:#fbbf24">
+      <div class="num">SILVER · HISTORY</div>
+      <div class="n" data-to="3">0</div>
+      <h3>snapshots</h3>
+      <p>A camera. When a tracked value changes, the old row stays, with dates.</p>
+      <div class="tag">snap_customers · snap_accounts · snap_branches</div>
+    </div>
+    <div class="glass floor" data-at="4" style="--c:#f5c542">
+      <div class="num">GOLD · TABLES</div>
+      <div class="n" data-to="27">0</div>
+      <h3>models/marts</h3>
+      <p>Facts and dimensions people query. Some of them are incremental.</p>
+      <div class="tag">schema MARTS · tag marts</div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 VARIANT -->
+<section class="s past" data-ch="1" data-steps="3" data-accent="#7a3a12,#1f4f8a" data-notes="Bronze column is record, a VARIANT. Staging pulls fields out and types them. Money is number(18,2), never a float.">
+  <div class="kicker rise" style="--k-c:#fb923c">models/staging/postgres/stg_postgres__transactions.sql</div>
+  <h2 class="rise h2s" style="--d:1">One JSON blob. <span class="grad-warm">Typed columns.</span></h2>
+  <div class="two" style="grid-template-columns:1.2fr .8fr;margin-top:16px">
+    <div class="glass code rise" style="--d:2"><div class="hd"><i></i>stg_postgres__transactions.sql</div><pre><span class="ln" data-at="1"><span class="kw">from</span> {{ <span class="fn">source</span>(<span class="str">'postgres_core'</span>, <span class="str">'transactions'</span>) }}</span>
+<span class="ln" data-at="2">record:transaction_id::<span class="fn">number</span> <span class="kw">as</span> transaction_id</span>
+<span class="ln" data-at="2">record:amount::<span class="fn">number</span>(<span class="num">18</span>,<span class="num">2</span>) <span class="kw">as</span> amount</span>
+<span class="ln" data-at="2">record:status::<span class="fn">string</span> <span class="kw">as</span> status</span>
+<span class="ln" data-at="3">record:transaction_ts::<span class="fn">timestamp_ntz</span> <span class="kw">as</span> transaction_ts</span></pre></div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Bronze, not Postgres</b><p>source() is MERIDIAN_RAW.POSTGRES_CORE.TRANSACTIONS. The column is record, a VARIANT.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>Pull a field, give it a type</b><p>The colon reads one JSON key. Amount is an exact decimal. A float would drift paise.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>Timestamps land as NTZ</b><p>No time zone on the column. The courier already stored UTC.</p></div></div>
+    </div>
+  </div>
+  <div class="casts" data-at="3">
+    <div class="cast"><small>in the inbox</small><b>{"amount": 2400}</b></div>
+    <div class="cast"><small>after staging</small><b>amount</b><em>number(18,2)</em></div>
+    <div class="cast"><small>same row</small><b>status</b><em>string</em></div>
+    <div class="cast"><small>same row</small><b>transaction_ts</b><em>timestamp_ntz</em></div>
+  </div>
+</section>
+
+<!-- 06 NEWEST -->
+<section class="s past" data-ch="1" data-steps="2" data-accent="#0f5c3a,#7a1f35" data-notes="The unit test sends PENDING then POSTED for transaction 101. QUALIFY keeps one row: status POSTED, updated_at 10:04, batch second.">
+  <div class="kicker rise" style="--k-c:#4ade80">Newest copy only</div>
+  <h2 class="rise h2s" style="--d:1">Two arrivals. <span class="grad-green">One row leaves.</span></h2>
+  <div class="pair2">
+    <div class="glass slip old" data-at="1">
+      <div class="when">UNIT TEST · updated_at 10:00 · batch first</div>
+      <div class="json">{ id: <i>101</i>, status: <i>"PENDING"</i>, amount: <i>100.00</i> }</div>
+      <div class="verdict">older copy · dropped by QUALIFY</div>
+    </div>
+    <div class="glass slip keep pulse" data-at="2" style="--c:#4ade80">
+      <div class="when">UNIT TEST · updated_at 10:04 · batch second</div>
+      <div class="json">{ id: <i>101</i>, status: <i>"POSTED"</i>, amount: <i>100.00</i> }</div>
+      <div class="verdict">kept · row_number = 1</div>
+    </div>
+  </div>
+  <div class="glass code" data-at="2" style="margin-top:16px"><div class="hd"><i></i>qualify · partition by transaction_id</div><pre><span class="ln hl"><span class="kw">qualify</span> <span class="fn">row_number</span>() <span class="kw">over</span> (</span>
+<span class="ln hl">  <span class="kw">partition by</span> transaction_id</span>
+<span class="ln hl">  <span class="kw">order by</span> updated_at <span class="kw">desc</span>, _extracted_at <span class="kw">desc</span>) = <span class="num">1</span></span></pre></div>
+</section>
+
+<!-- 07 INCREMENTAL -->
+<section class="s past" data-ch="1" data-steps="3" data-accent="#7a2412,#0f5c63" data-notes="First run reads all of bronze and creates the table. Later runs re-read two hours of arrivals and MERGE on transaction_id. The post-hook then deletes ids from the delete log. SUCCESS counts statements.">
+  <div class="kicker rise dbt">Incremental · the only one in staging</div>
+  <h2 class="rise h2s" style="--d:1">First run reads everything. <span class="grad-dbt">Later runs, a window.</span></h2>
+  <div class="glass win rise" style="--d:2">
+    <div class="blk"><i></i></div><div class="blk"><i></i></div><div class="blk"><i></i></div><div class="blk"><i></i></div><div class="blk"><i></i></div>
+    <div class="tail" data-at="2"></div>
+    <div class="lbl">bronze · every copy, append-only</div>
+    <div class="lbl2" data-at="2">lookback · 2 hours</div>
+  </div>
+  <div class="modes">
+    <div class="glass mode" data-at="1" style="--c:#38bdf8">
+      <div class="num">FIRST BUILD</div>
+      <h3>Create the table</h3>
+      <p>is_incremental() is false, so the date filter is off. Every bronze copy is parsed.</p>
+      <div class="eg">SUCCESS counts statements, not rows</div>
+    </div>
+    <div class="glass mode" data-at="2" style="--c:#ff694b">
+      <div class="num">EVERY RUN AFTER</div>
+      <h3>MERGE on the id</h3>
+      <p>Re-read _extracted_at newer than the max we stored, minus incremental_lookback_hours.</p>
+      <div class="eg">unique_key = transaction_id · PENDING becomes POSTED</div>
+    </div>
+    <div class="glass mode" data-at="3" style="--c:#fbbf24">
+      <div class="num">THEN THE HOOK</div>
+      <h3>Apply hard deletes</h3>
+      <p>A deleted payment never arrives in the batch, so MERGE cannot see it.</p>
+      <div class="eg">apply_hard_deletes('transactions', 'transaction_id')</div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 SNAPSHOT CAMERA -->
+<section class="s past" data-ch="2" data-steps="2" data-scene="camera" data-accent="#7a5a10,#3b2a80" data-notes="snap_customers uses strategy timestamp on updated_at. The Postgres trigger bumps updated_at. The open version has dbt_valid_to null. hard_deletes invalidate closes a customer who disappears.">
+  <div class="kicker rise" style="--k-c:#fbbf24">snapshots/snap_customers.sql</div>
+  <h2 class="rise h2s" style="--d:1">A camera on the table. <span class="grad-gold">Old rows stay.</span></h2>
+  <div class="cam">
+    <div class="lens" data-go="">
+      <div class="cap">TIMESTAMP</div>
+      <div class="glassring"><div class="iris" id="iris"></div></div>
+    </div>
+    <div class="film">
+      <div class="glass frame" data-at="1">
+        <b>version 1</b><div class="seg">RETAIL</div><span>valid_from is that updated_at.<br>valid_to closes when it moves.</span>
+      </div>
+      <div class="glass frame" data-at="2" id="ver2">
+        <b style="color:#fde68a">version 2</b><div class="seg" style="color:#fde68a">PREMIUM</div><span class="open">valid_from is the new updated_at.<br>valid_to is still null. This row is open.</span>
+      </div>
+      <p class="lead" style="font-size:20px">strategy is timestamp. A new version is written only when updated_at moves forward. The open row has no end yet.</p>
+      <div class="snaps">
+        <span class="pl c" style="--c:#fbbf24">unique_key customer_id</span>
+        <span class="pl c" style="--c:#38bdf8">hard_deletes invalidate</span>
+        <span class="pl c" style="--c:#a78bfa">selector daily</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 TWO STRATEGIES -->
+<section class="s past" data-ch="2" data-steps="2" data-accent="#7a3a12,#0f5c63" data-notes="Accounts must not use timestamp. Every payment bumps accounts.updated_at, which would mint a version per payment. check_cols ignores the balance. Branches are snapped, but dim_branch is still type 1.">
+  <div class="kicker rise" style="--k-c:#fb923c">Why accounts are different</div>
+  <h2 class="rise h2s" style="--d:1">Timestamp for people. <span class="grad-warm">Check for accounts.</span></h2>
+  <div class="strats">
+    <div class="glass strat" data-at="1" style="--c:#fbbf24">
+      <div class="num">snap_customers · snap_branches</div>
+      <h3>strategy = timestamp</h3>
+      <p>updated_at is the signal. The Postgres trigger bumps it on a real change, so a new segment opens a new version.</p>
+      <div class="why">snap_branches keeps rename history. dim_branch is still type 1, built from staging. The snapshot is the insurance.</div>
+    </div>
+    <div class="glass strat" data-at="2" style="--c:#38bdf8">
+      <div class="num">snap_accounts</div>
+      <h3>strategy = check</h3>
+      <p>Every payment bumps accounts.updated_at. A timestamp strategy would store a version per payment.</p>
+      <div class="pills">
+        <span class="pl">product_id</span><span class="pl">branch_id</span><span class="pl">currency_code</span><span class="pl">account_status</span><span class="pl">closed_date</span><span class="pl">credit_limit</span><span class="pl">interest_rate</span>
+      </div>
+      <div class="why">The balance is not in that list. Balances are measures. They belong on a fact, not as another version of the account.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 SCHEMA MACRO -->
+<section class="s past" data-ch="3" data-steps="2" data-accent="#0f5c3a,#7a2412" data-notes="prod and dev_clone use the custom schema name alone. Any other target prefixes target.schema, which profiles set to dbt_fk. So dev lands in DBT_FK_STAGING and so on.">
+  <div class="kicker rise" style="--k-c:#4ade80">macros/generate_schema_name.sql</div>
+  <h2 class="rise h2s" style="--d:1">Dev and prod <span class="grad-green">never share a schema.</span></h2>
+  <div class="wall">
+    <div class="glass room prod" data-at="1">
+      <h3>prod · dev_clone</h3>
+      <p class="sub">custom schema name, unchanged</p>
+      <div class="schip">STAGING <em>SILVER</em></div>
+      <div class="schip">INTERMEDIATE <em>SILVER</em></div>
+      <div class="schip">MARTS <em>GOLD</em></div>
+      <div class="schip">SNAPSHOTS <em>HISTORY</em></div>
+    </div>
+    <div class="divider"><i></i></div>
+    <div class="glass room dev" data-at="2">
+      <h3>dev · anything else</h3>
+      <p class="sub">target.schema + underscore + name</p>
+      <div class="schip">DBT_FK_STAGING <em>SANDBOX</em></div>
+      <div class="schip">DBT_FK_INTERMEDIATE <em>SANDBOX</em></div>
+      <div class="schip">DBT_FK_MARTS <em>SANDBOX</em></div>
+      <div class="schip">DBT_FK_SNAPSHOTS <em>SANDBOX</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 30 DAYS -->
+<section class="s past" data-ch="3" data-steps="3" data-accent="#7a5a10,#1f4f8a" data-notes="dev_days_of_history is 30. limit_in_dev adds the filter when the target is not prod. It skips unit tests, because the transaction fixture is dated 1 September 2026.">
+  <div class="kicker rise" style="--k-c:#fbbf24">macros/helpers.sql · limit_in_dev</div>
+  <h2 class="rise h2s" style="--d:1">Practice on <span class="grad-gold">thirty days</span>, not the whole bank.</h2>
+  <div class="days">
+    <div class="glass big30 rise" style="--d:2">
+      <div class="n" data-to="30">0</div>
+      <small>dev_days_of_history</small>
+    </div>
+    <div class="rules">
+      <div class="glass rule" data-at="1"><b>Not prod</b><p>The filter is added only when target.name is not prod. Production still builds the full history.</p></div>
+      <div class="glass rule" data-at="2"><b>On the payment's own timestamp</b><p>limit_in_dev('record:transaction_ts::timestamp_ntz') keeps the last 30 days of arrivals.</p></div>
+      <div class="glass rule" data-at="3"><b>Unit tests are exempt</b><p>The macro stops when resource_type is unit_test. Fixed dates in a fixture must survive.</p></div>
+      <div class="cal" data-at="3"><div class="d">2026-09-01</div><span>The transaction unit test uses this day. A 30-day filter would drop it. The skip keeps the row.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 CONNECT -->
+<section class="s past" data-ch="3" data-steps="2" data-accent="#0e4a5c,#7a2412" data-notes="dbt reads the shell, not the .env file. cp -n writes profiles.yml once. debug must pass for dev and for prod. The trap is skipping set -a.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">Terminal · 04_dbt_meridian_dw</div>
+  <h2 class="rise h2s" style="--d:1">Load the shell. <span class="grad">Then both logins.</span></h2>
+  <div class="hand">
+    <div class="stack">
+      <div class="cmds">
+        <div class="cmd"><span class="pr">$</span><code>source .venv/bin/activate</code><button class="copy" data-copy="cd snowflake_dbt_airflow_python_byFK
+source .venv/bin/activate">Copy</button></div>
+        <div class="cmd"><span class="pr">$</span><code>set -a; source .env; set +a</code><button class="copy">Copy</button></div>
+        <div class="cmd"><span class="pr">$</span><code>cd 04_dbt_meridian_dw</code><button class="copy">Copy</button></div>
+        <div class="cmd"><span class="pr">$</span><code>cp -n profiles.yml.example profiles.yml</code><button class="copy">Copy</button></div>
+      </div>
+      <div class="term" data-term="" data-at="1">
+        <div class="bar"><i></i><i></i><i></i><span>Terminal — snowflake_dbt_airflow_python_byFK</span></div>
+        <div class="body">
+          <div><span class="ps"><b>04_dbt_meridian_dw</b> %</span> <span class="typed" data-type="dbt debug --target dev"></span><span class="caret"></span></div>
+          <div class="out ok">All checks passed!</div>
+          <div><span class="ps"><b>04_dbt_meridian_dw</b> %</span> <span class="typed" data-type="dbt debug --target prod"></span></div>
+          <div class="out ok">All checks passed!</div>
+        </div>
+      </div>
+    </div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>dbt never reads .env</b><p>set -a exports every line into the shell. profiles.yml only calls env_var().</p></div></div>
+      <div class="callout" data-at="1"><span class="k">2</span><div><b>Stand next to the project file</b><p>dbt looks for dbt_project.yml in the current folder. cp -n will not overwrite a profiles.yml you already have.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">3</span><div><b>Role and warehouse</b><p>MERIDIAN_TRANSFORMER on WH_TRANSFORM_XS, database MERIDIAN_ANALYTICS. Prod signs in as MERIDIAN_DBT_SVC.</p></div></div>
+      <div class="trap" data-at="2"><b>If debug says the account variable is not set</b><br>set -a was skipped in this terminal. Source .env again, then retry.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 BUILD -->
+<section class="s active" data-ch="3" data-steps="3" data-accent="#7a2412,#0f5c3a" data-notes="deps installs dbt_utils and dbt_expectations from packages.yml. The dev build must end ERROR=0. New objects land in DBT_FK_ schemas, not STAGING or MARTS.">
+  <div class="kicker rise dbt">Same folder · target dev</div>
+  <h2 class="rise h2s" style="--d:1">Install packages. <span class="grad-dbt">Build where it is safe.</span></h2>
+  <div class="hand build13">
+    <div class="stack">
+      <div class="cmd"><span class="pr">$</span><code>dbt deps</code><button class="copy">Copy</button></div>
+      <div class="cmd"><span class="pr">$</span><code>time dbt build --target dev</code><button class="copy">Copy</button></div>
+      <div class="term on was" data-term="" data-at="2">
+        <div class="bar"><i></i><i></i><i></i><span>Terminal — 04_dbt_meridian_dw</span></div>
+        <div class="body">
+          <div><span class="ps"><b>04_dbt_meridian_dw</b> %</span> <span class="typed" data-type="time dbt build --target dev">time dbt build --target dev</span><span class="caret"></span></div>
+          <div class="out dim show">models, snapshots, seeds, tests — parents first</div>
+          <div class="out ok show">ERROR=0</div>
+        </div>
+      </div>
+    </div>
+    <div class="notes2">
+      <div class="callout on was" data-at="1"><span class="k">1</span><div><b>Two packages</b><p>packages.yml asks for dbt-labs/dbt_utils and metaplane/dbt_expectations. deps downloads them once.</p></div></div>
+      <div class="callout on was" data-at="2"><span class="k">2</span><div><b>build is the whole kitchen</b><p>Models, snapshots, seeds and tests, in dependency order. One command.</p></div></div>
+      <div class="callout on now" data-at="3"><span class="k">3</span><div><b>Look for these schemas</b><p>DBT_FK_STAGING and DBT_FK_MARTS appear. Production STAGING and MARTS stay untouched.</p></div></div>
+      <div class="glass schip on now" data-at="3" style="color:#ffd0c2">DBT_FK_STAGING · DBT_FK_MARTS</div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 OUTRO -->
+<section class="s" data-ch="3" data-accent="#7a2412,#5b3fb5" data-notes="The inbox is clean and the sandbox held. Next episode builds the star for real: rates, versions, the fact, then a check against Postgres.">
+  <div class="outro"><div>
+    <div class="kicker rise dbt" style="justify-content:center">Episode 5 complete</div>
+    <h2 class="rise" style="--d:1;font-size:78px">The inbox is <span class="grad-dbt">a typed table.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Newest copy only</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Two-hour overlap</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Snapshots on a timer</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Dev stays in DBT_FK_</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="dbt"><svg fill="#FF694B" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"></path></svg></div><div style="text-align:left"><small>Next · Episode 6</small><b>The star schema, for real</b></div></div>
+  </div></div>
+</section>
+
+</div></div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+<script>
+Deck.scene("camera", (s, k, entering, api) => {
+  const iris = s.querySelector("#iris");
+  const row = s.querySelector("#ver2");
+  if (!iris || !row) return;
+  iris.style.transform = k >= 1 ? "scale(1)" : "scale(.2)";
+  if (k >= 2) row.style.boxShadow = "0 0 40px -8px rgba(251,191,36,.65)";
+  else row.style.boxShadow = "";
+});
+</script>
+
+
+<div id="notes">deps installs dbt_utils and dbt_expectations from packages.yml. The dev build must end ERROR=0. New objects land in DBT_FK_ schemas, not STAGING or MARTS.</div><div class="nav"><button id="bk" aria-label="Back">←</button><button id="fw" aria-label="Next">→</button></div></body></html>

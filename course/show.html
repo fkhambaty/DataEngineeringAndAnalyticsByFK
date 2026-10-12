@@ -93,6 +93,8 @@ body.player-open #player{opacity:1;visibility:visible;transform:none;transition:
 .finish-card h2{font-size:44px;margin:10px 0}.finish-card p{color:var(--muted);font-size:18px;line-height:1.5}.finish-actions{display:flex;justify-content:center;gap:12px;margin-top:28px}
 
 body.single-deck #phase-walk,body.single-deck #phase-tech{display:none}
+body.single-deck .bar,body.clean .bar,body.single-deck .corner-next,body.clean .corner-next{display:none}
+body.single-deck #frame,body.clean #frame{top:0;height:100%}
 @media(max-width:1100px){.hero{grid-template-columns:1fr}.episodes{grid-template-columns:repeat(3,1fr)}.keys{display:none}}
 @media(max-width:720px){#home{padding:24px}.hero{margin-top:42px}.hero h1{font-size:48px}.episodes{grid-template-columns:1fr}.finale{grid-column:auto}.phases .txt{display:none}.bar{grid-template-columns:auto 1fr auto;padding:0 10px}.phase{padding:9px}.now .title{max-width:170px}}
 </style>
@@ -110,7 +112,6 @@ body.single-deck #phase-walk,body.single-deck #phase-tech{display:none}
     <div>
       <div class="eyebrow">The only screen for the video</div>
       <h1>Picture first. <span class="grad">Then the code.</span></h1>
-      <p class="lead">Share this page. Each episode opens with the picture, then switches to the SQL and Python you run. The private study notes stay in teach.html.</p>
       <div class="actions">
         <button class="primary" id="watch-intro">▶ Watch the main opening</button>
         <button class="secondary" id="start-course">Start Episode 0 →</button>
@@ -130,10 +131,10 @@ body.single-deck #phase-walk,body.single-deck #phase-tech{display:none}
   </section>
 
   <section class="catalog">
-    <div class="catalog-head"><div><div class="eyebrow">Recording order</div><h2>Choose an episode</h2></div><p>Picture, then the code for that episode</p></div>
+    <div class="catalog-head"><div><div class="eyebrow">Recording order</div><h2>Choose an episode</h2></div><p>One cinematic deck: picture, proof, then the exact file to run</p></div>
     <div class="episodes" id="episodes"></div>
   </section>
-  <div class="section-note"><i class="mark"></i><span><b>On camera:</b> reveal one idea per click. Switch to the code only after the picture is clear. Home returns to this list.</span></div>
+  <div class="section-note"><i class="mark"></i><span><b>Recording:</b> reveal one idea per click. Every practical claim names the exact project file. Home returns to this list.</span></div>
 </main>
 
 <section id="player" aria-hidden="true">
@@ -162,21 +163,21 @@ body.single-deck #phase-walk,body.single-deck #phase-tech{display:none}
 
 <script>
 const EPISODES = [
-  {id:"e0",code:"E0",title:"The problem, then the picture",mins:"45 min",color:"#2dd4bf",tech:8,desc:"Five promises, six rooms, the language/IDE map, grain and the design we rejected."},
+  {id:"e0",code:"E0",title:"The problem, then the picture",mins:"45 min",color:"#2dd4bf",deck:"show/e0.html",scenes:14,desc:"Five promises, six rooms, the language/IDE map, grain and the design we rejected."},
   {id:"e1",code:"E1",title:"The bank comes alive",mins:"55 min",color:"#5b9bd5",deck:"show/e1.html",scenes:16,desc:"Medallion in one payment, the complete toolkit, PostgreSQL in Docker, twenty tables and a moving bank."},
-  {id:"e2",code:"E2",title:"Draw the warehouse first",mins:"45 min",color:"#a78bfa",tech:9,desc:"Grain, facts, dimensions, SCD2, fan-out and the bus matrix."},
-  {id:"e3",code:"E3",title:"Snowflake: rooms, keys, shelves",mins:"40 min",color:"#22d3ee",tech:8,desc:"Storage versus compute, roles, key-pair auth and empty bronze tables."},
-  {id:"py0",code:"P0",title:"Python foundations for this pipeline",mins:"35 min",color:"#facc15",tech:8,desc:"Run Python, read the syntax, understand the libraries, then reconcile two tiny systems."},
-  {id:"e4",code:"E4",title:"Python carries only what changed",mins:"40 min",color:"#60a5fa",tech:10,desc:"Watermarks, Parquet, retries, the first load and the pipeline health view."},
-  {id:"e5",code:"E5",title:"dbt cleans the inbox",mins:"45 min",color:"#ff7a5c",tech:9,desc:"VARIANT to typed rows, incremental builds, snapshots and a safe dev sandbox."},
-  {id:"e6",code:"E6",title:"The star schema, for real",mins:"50 min",color:"#ff7a5c",tech:9,desc:"FX at the day's rate, customer versions, facts, deletes, tests and reconciliation."},
-  {id:"e7",code:"E7",title:"Airflow is the alarm clock",mins:"30 min",color:"#38bdf8",tech:9,desc:"The five-minute DAG, nightly DAG, Docker paths, pools, retries and alerts."},
-  {id:"e8",code:"E8",title:"Break it, measure, fix",mins:"45 min",color:"#fbbf24",tech:7,desc:"Indexes, pruning, spilling, fan-out and the cache that lies."},
-  {id:"e9",code:"E9",title:"Quality, CI, cost, runbook",mins:"30 min",color:"#4ade80",tech:4,desc:"Reconciliation, completeness, freshness, slim CI, cost and the 2 a.m. playbook."},
-  {id:"e10",code:"E10",title:"Cards: score, then offer",mins:"40 min",color:"#fbbf24",tech:4,desc:"Four models, a 0.70 holdout gate, scores as data and the next best offer."},
-  {id:"e11",code:"E11",title:"Ask in English",mins:"45 min",color:"#a78bfa",tech:8,desc:"Semantic view, Cortex SQL, four personas, row policies and masked columns."},
-  {id:"e12",code:"E12",title:"The rules survive a rebuild",mins:"45 min",color:"#a8a29e",tech:3,desc:"One owner per object, contracts that fail and access history that proves."},
-  {id:"e13",code:"E13",title:"Say it in two minutes",mins:"20 min",color:"#4ade80",tech:2,desc:"The interview pitch—and one real failure that proves you built it."}
+  {id:"e2",code:"E2",title:"Draw the warehouse first",mins:"45 min",color:"#a78bfa",deck:"show/e2.html",scenes:14,desc:"Grain, facts, dimensions, SCD2, fan-out and the bus matrix."},
+  {id:"e3",code:"E3",title:"Snowflake: rooms, keys, shelves",mins:"40 min",color:"#22d3ee",deck:"show/e3.html",scenes:18,desc:"Storage, roles, key-pair auth, empty bronze tables, and the truth about Snowflake keys."},
+  {id:"py0",code:"P0",title:"Python foundations for this pipeline",mins:"35 min",color:"#facc15",deck:"show/py0.html",scenes:17,desc:"Run Python, read the syntax, understand the libraries, then reconcile two tiny systems."},
+  {id:"e4",code:"E4",title:"Python carries only what changed",mins:"40 min",color:"#60a5fa",deck:"show/e4.html",scenes:15,desc:"Watermarks, Parquet, retries, the first load and the pipeline health view."},
+  {id:"e5",code:"E5",title:"dbt cleans the inbox",mins:"45 min",color:"#ff7a5c",deck:"show/e5.html",scenes:14,desc:"VARIANT to typed rows, incremental builds, snapshots and a safe dev sandbox."},
+  {id:"e6",code:"E6",title:"The star schema, for real",mins:"50 min",color:"#ff7a5c",deck:"show/e6.html",scenes:14,desc:"FX at the day's rate, customer versions, facts, deletes, tests and reconciliation."},
+  {id:"e7",code:"E7",title:"Airflow is the alarm clock",mins:"30 min",color:"#38bdf8",deck:"show/e7.html",scenes:14,desc:"The five-minute DAG, nightly DAG, Docker paths, pools, retries and alerts."},
+  {id:"e8",code:"E8",title:"Break it, measure, fix",mins:"45 min",color:"#fbbf24",deck:"show/e8.html",scenes:16,desc:"Ordered triage, pruning, spilling, fan-out, concurrency and the cache that lies."},
+  {id:"e9",code:"E9",title:"Quality, CI, cost, runbook",mins:"30 min",color:"#4ade80",deck:"show/e9.html",scenes:18,desc:"Pipeline tests, published-mart integrity, quarantine, reconciliation, CI, cost and the 2 a.m. playbook."},
+  {id:"e10",code:"E10",title:"Cards: score, then offer",mins:"40 min",color:"#fbbf24",deck:"show/e10.html",scenes:15,desc:"Four models, a 0.70 holdout gate, scores as data and the next best offer."},
+  {id:"e11",code:"E11",title:"Ask in English",mins:"45 min",color:"#a78bfa",deck:"show/e11.html",scenes:18,desc:"Semantic view, Cortex SQL, four personas, country scope, row policies and masked columns."},
+  {id:"e12",code:"E12",title:"The rules survive a rebuild",mins:"45 min",color:"#a8a29e",deck:"show/e12.html",scenes:16,desc:"One owner per object, contracts that fail and access history that proves."},
+  {id:"e13",code:"E13",title:"Say it in two minutes",mins:"20 min",color:"#4ade80",deck:"show/e13.html",scenes:19,desc:"The interview pitch, tenancy trade-offs, the customer-health case, and one real failure."}
 ];
 const episodes = document.getElementById("episodes");
 episodes.innerHTML = EPISODES.map((e,i)=>`<button class="ep${e.id==="e13"?" finale":""}" style="--c:${e.color}" data-id="${e.id}">
@@ -200,9 +201,7 @@ function setMeta(){
 }
 function source(){
   if(phase==="intro") return "show/opening.html?embed=1#1";
-  if(current.deck) return `${current.deck}?embed=1`;
-  if(phase==="walk") return `show/pictures.html?embed=1#${current.id}-0`;
-  return `show/code.html?embed=1#${current.id}-0`;
+  return `${current.deck}?embed=1`;
 }
 function transition(label,cb){
   document.getElementById("veil-word").textContent=label;
@@ -253,6 +252,7 @@ else if (byId(opened)) openPlayer(opened);
 addEventListener("keydown",e=>{
   if(e.key==="Escape"&&document.body.classList.contains("player-open"))closePlayer();
   if((e.key==="f"||e.key==="F")&&!document.fullscreenElement)document.documentElement.requestFullscreen();
+  if(e.key==="c"||e.key==="C")document.body.classList.toggle("clean");
 });
 
 /* screenshot-safe ambient network */

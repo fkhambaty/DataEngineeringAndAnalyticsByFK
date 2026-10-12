@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 12 · The rules survive a rebuild</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.own .card{min-height:500px;padding:22px 18px 18px}
+.own .card h3{font-size:24px}
+.own .card p{font-size:16px}
+.own .card .eg{font-size:14px}
+.fight .side{min-height:480px}
+.tfgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;margin-top:18px}
+.wh{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wh .card{min-height:0;padding:16px 16px 14px;gap:4px}
+.wh .card h3{font-size:18px}
+.wh .card p{font-size:15px}
+.mon{padding:22px 24px;min-height:100%}
+.mon h3{margin:0 0 8px;font-size:26px}
+.mon .rowm{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-top:1px solid rgba(255,255,255,.08);font-size:18px}
+.mon .rowm b{font:800 28px var(--mono)}
+.pills2{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.cols15{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.cols15 span{font:700 15px var(--mono);padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+.cols15 span.bad{background:rgba(251,113,133,.16);border-color:rgba(251,113,133,.55);color:#fecdd3;animation:shake .6s 1.2s both}
+.when{display:grid;grid-template-columns:1fr 80px 1fr;gap:10px;align-items:stretch;margin-top:20px}
+.when .card{min-height:420px}
+.when .mid{display:flex;align-items:center;justify-content:center;font-size:42px;color:var(--faint)}
+.ut{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+.ut .card{min-height:500px}
+.week2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+.day2{padding:10px 8px;text-align:center;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.day2 b{display:block;font-size:14px}
+.day2 em{display:block;margin-top:4px;font:800 13px var(--mono);font-style:normal;color:#7dd3fc}
+.day2.ff em{color:#fbbf24}
+.taps{display:flex;gap:6px;margin-top:8px}
+.taps i{flex:1;height:64px;border-radius:10px;display:grid;place-items:center;font:800 13px var(--mono);background:rgba(74,222,128,.12);color:#86efac;font-style:normal}
+.taps i.hot{background:rgba(251,113,133,.2);color:#fecdd3}
+.doorwrap{display:grid;grid-template-columns:1fr 460px 1fr;gap:22px;margin-top:18px;align-items:center}
+.door{height:460px;border-radius:28px;border:1px solid rgba(255,255,255,.12);background:
+  linear-gradient(180deg,rgba(36,48,74,.9),rgba(16,22,36,.95));
+  box-shadow:inset 0 0 0 10px rgba(255,255,255,.04),0 40px 80px -40px #000;
+  position:relative;display:grid;place-items:center;overflow:hidden}
+.door .slab{position:absolute;inset:28px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(160deg,#1c2740,#121826)}
+.lockbit{position:relative;z-index:2;width:140px;height:140px;border-radius:36px;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#44403c,#1c1917 60%,#0c0a09);border:1px solid rgba(251,191,36,.45);box-shadow:0 0 40px rgba(251,191,36,.25)}
+.lockbit svg{width:72px;height:72px}
+.lockbit.fall{animation:falloff .9s var(--ease) both}
+.lockbit.back{animation:hang .9s var(--spring) both}
+@keyframes falloff{0%{transform:none;opacity:1}100%{transform:translateY(210px) rotate(28deg);opacity:.25}}
+@keyframes hang{0%{transform:translateY(-180px) rotate(-18deg);opacity:0}100%{transform:none;opacity:1}}
+.door .cap{position:absolute;left:24px;right:24px;bottom:22px;z-index:2;text-align:center;font:700 15px var(--mono);color:#fde68a}
+.sidebit{padding:22px;min-height:200px}
+.sidebit h3{margin:8px 0;font-size:26px}
+.sidebit p{margin:0;color:var(--mute);font-size:17px;line-height:1.4}
+.aud{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;margin-top:16px;align-items:start}
+.lag{height:18px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:16px}
+.lag i{display:block;height:100%;width:0;background:linear-gradient(90deg,#fbbf24,#fb7185);animation:lag 3.2s var(--ease) infinite}
+@keyframes lag{0%{width:0}80%,100%{width:100%}}
+</style>
+</head>
+<body data-episode="e12" data-label="Episode 12" data-chapters="One owner|The contract|Still locked|The proof" data-chapter-colors="#a8a29e|#fb923c|#2dd4bf|#fbbf24">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#44403c,#14532d" data-notes="Everything works. This episode is what keeps it working when the table is rebuilt and ten people change the project.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;--teal:#a8a29e;border-color:rgba(168,162,158,.45);background:rgba(168,162,158,.1);color:#e7e5e4"><i style="background:#a8a29e;box-shadow:0 0 14px #a8a29e"></i>EPISODE 12</div>
+      <h1 class="mega rise" style="--d:1">The rules<br><span class="grad-green">survive.</span></h1>
+      <p class="lead rise" style="--d:2">One owner per kind of object. A contract that fails the build. An audit that shows who read the column.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Ownership</span><span><b>02</b>Contracts</span><span><b>03</b>The lock returns</span><span><b>04</b>Access history</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="tf,dbt,sf,i-lock,i-file,i-shield" data-core="i-refresh" data-core-class="green"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s" data-ch="0" data-accent="#292524,#14532d" data-notes="CREATE OR REPLACE throws the policy away with the old table. If nobody hangs it back, the next reader sees every row.">
+  <div class="statement">
+    <div class="kicker rise" style="--k-c:#a8a29e">After a rebuild</div>
+    <p class="huge" data-words>A new table <span class="grad-green">arrives unlocked.</span></p>
+    <p class="lead rise" style="--d:6">Security writes what the lock allows. dbt may only hang that same lock back on the door. An engineer does not get to change the rule.</p>
+  </div>
+</section>
+
+<!-- 03 OWNERS -->
+<section class="s" data-ch="0" data-steps="5" data-accent="#44403c,#1e3a8a" data-notes="ADR 0008. Two tools managing one grant undo each other. In a real account, run the platform SQL or Terraform, not both.">
+  <div class="kicker rise" style="--k-c:#a8a29e">ADR 0008</div>
+  <h2 class="rise" style="--d:1">One owner <span class="grad">per kind of thing.</span></h2>
+  <div class="g5 own mt1">
+    <div class="glass card" data-at="1" style="--c:#7dd3fc"><div class="ico" data-logo="tf"></div><h3>Terraform</h3><p>Roles, warehouses, the resource monitor, databases, raw schemas, and those grants.</p><div class="eg">11_platform_terraform</div></div>
+    <div class="glass card" data-at="2" style="--c:#ff694b"><div class="ico" data-logo="dbt"></div><h3>dbt</h3><p>Analytics tables and views, SELECT grants on marts, tests, and contracts.</p><div class="eg">grants: in the project</div></div>
+    <div class="glass card" data-at="3" style="--c:#fbbf24"><div class="ico" data-logo="i-lock"></div><h3>Security</h3><p>Row policies, masking policies, the PII tag, and APP_USER.</p><div class="eg">06_row_level_security.sql</div></div>
+    <div class="glass card" data-at="4" style="--c:#38bdf8"><div class="ico" data-logo="i-folder"></div><h3>Ingestion</h3><p>Raw tables, stages, and file formats. The loader role owns the raw database.</p><div class="eg">03_stages_raw_tables_control.sql</div></div>
+    <div class="glass card" data-at="5" style="--c:#a8a29e"><div class="ico" data-logo="i-user"></div><h3>Identity</h3><p>Human users, through SCIM. They are not created as code in this project.</p><div class="eg">not in the repo</div></div>
+  </div>
+</section>
+
+<!-- 04 FIGHT -->
+<section class="s" data-ch="0" data-steps="2" data-accent="#9f1239,#14532d" data-notes="The old database-wide future grant handed staging, including contact columns, to anyone with the analyst role. Grants now sit on the mart, in the same change as the model.">
+  <div class="kicker rise" style="--k-c:#fb7185">Two tools, one grant</div>
+  <h2 class="rise" style="--d:1">They undo <span class="grad-red">each other.</span></h2>
+  <div class="vs fight">
+    <div class="glass side bad" data-at="1">
+      <div class="stampx">✗</div>
+      <h3><span class="tag2">GONE</span></h3>
+      <p>A database-wide future grant. Every new table, including staging, was readable by analysts. Contact columns included.</p>
+      <div class="cmd sql" style="margin-top:16px"><pre>GRANT SELECT ON FUTURE TABLES
+  TO ROLE MERIDIAN_ANALYST;</pre></div>
+    </div>
+    <div class="glass side good" data-at="2">
+      <div class="stampx">✓</div>
+      <h3><span class="tag2">KEPT</span></h3>
+      <p>dbt grants SELECT on each mart, and re-grants it after every replace. Schema usage opens only prod MARTS. Staging stays shut.</p>
+      <div class="cmd sql" style="margin-top:16px"><pre>grants:
+  select: [MERIDIAN_ANALYST, ...]</pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 TERRAFORM MAP -->
+<section class="s" data-ch="0" data-steps="2" data-accent="#1e3a8a,#44403c" data-notes="Same objects as the account-setup SQL, written as maps. Credentials are environment variables and a key file path, never a secret in the file. The monitor warns at 75, suspends at 90, and stops immediately at 100.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">11_platform_terraform/main.tf</div>
+  <h2 class="rise" style="--d:1">The rooms, <span class="grad">as code.</span></h2>
+  <div class="tfgrid">
+    <div>
+      <div class="wh" data-at="1">
+        <div class="glass card" style="--c:#38bdf8"><h3>WH_INGEST_XS</h3><p>XSMALL · sleeps at 60s · COPY into raw</p></div>
+        <div class="glass card" style="--c:#38bdf8"><h3>WH_TRANSFORM_XS</h3><p>XSMALL · sleeps at 60s · dbt default</p></div>
+        <div class="glass card" style="--c:#a78bfa"><h3>WH_TRANSFORM_M</h3><p>MEDIUM · sleeps at 60s · scale-up lab</p></div>
+        <div class="glass card" style="--c:#2dd4bf"><h3>WH_BI_XS</h3><p>XSMALL · sleeps at 120s · the app</p></div>
+      </div>
+      <div class="pills2" data-at="1">
+        <span class="pl">MERIDIAN_LOADER</span><span class="pl">MERIDIAN_TRANSFORMER</span><span class="pl">MERIDIAN_ANALYST</span><span class="pl">MERIDIAN_ML</span><span class="pl">MERIDIAN_APP</span>
+        <span class="pl c" style="--c:#fbbf24">MERIDIAN_CEO</span><span class="pl c" style="--c:#38bdf8">MERIDIAN_BRANCH_MANAGER</span><span class="pl c" style="--c:#fb7185">MERIDIAN_STAFF</span><span class="pl c" style="--c:#4ade80">MERIDIAN_CUSTOMER</span>
+      </div>
+    </div>
+    <div class="glass mon" data-at="2">
+      <div class="ico sm" data-logo="i-gauge"></div>
+      <h3>RM_MERIDIAN_TRIAL</h3>
+      <div class="rowm"><span>quota</span><b>100</b></div>
+      <div class="rowm"><span>notify</span><b style="color:#fde68a">75%</b></div>
+      <div class="rowm"><span>suspend</span><b style="color:#fb923c">90%</b></div>
+      <div class="rowm"><span>stop now</span><b style="color:#fb7185">100%</b></div>
+      <p style="color:var(--mute);font-size:16px;margin:12px 0 0">Monthly. Loader owns MERIDIAN_RAW. Transformer owns MERIDIAN_ANALYTICS.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 TERRAFORM COMMANDS -->
+<section class="s" data-ch="0" data-steps="3" data-accent="#1e3a8a,#14532d" data-notes="validate needs no account. plan needs the Snowflake env vars and a private key path. Apply only when the diff is the change you meant. A nightly empty plan means nobody edited production by hand.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">Plan is the product</div>
+  <h2 class="rise" style="--d:1">See the change <span class="grad">before it lands.</span></h2>
+  <div class="two" style="grid-template-columns:1.15fr .85fr;margin-top:18px">
+    <div class="stack">
+      <div class="cmd" data-at="1"><span class="pr">$</span><code>terraform init -backend=false</code><button class="copy">Copy</button></div>
+      <div class="cmd" data-at="1"><span class="pr">$</span><code>terraform validate</code><button class="copy">Copy</button></div>
+      <div class="cmd" data-at="2"><span class="pr">$</span><code>terraform plan</code><button class="copy">Copy</button></div>
+      <div class="term" data-term data-at="2">
+        <div class="bar"><i></i><i></i><i></i><span>11_platform_terraform</span></div>
+        <div class="body">
+          <div><span class="ps">$</span> <span class="typed" data-type="terraform validate"></span><i class="caret"></i></div>
+          <div class="out">no Snowflake account required</div>
+          <div class="out" data-wait="500"><span class="ps">$</span> terraform plan</div>
+          <div class="out ok">the diff is the review. apply only if you mean it.</div>
+        </div>
+      </div>
+    </div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Check the file, offline</b><p>init without a backend, then validate. Continuous integration does this with no account.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>Plan needs a login</b><p>Organization, account, user, JWT, and the private-key path come from the environment. Nothing secret sits in the file.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>SQL or Terraform</b><p>03_snowflake/01 and 02 create the same rooms, so the course can read every statement. A real account runs one of them.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 CONTRACTS -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#9a3412,#44403c" data-notes="ADR 0010. Three public models are contracted: dim_branch, dim_customer, fct_transactions. Raw stays permissive. A warning test watches the keys staging needs.">
+  <div class="kicker rise" style="--k-c:#fb923c">ADR 0010 · public boundaries</div>
+  <h2 class="rise" style="--d:1">Three promises. <span class="grad-warm">The build keeps them.</span></h2>
+  <div class="g3 mt2">
+    <div class="glass card" data-at="1" style="--c:#fb923c"><div class="num">15 COLUMNS</div><h3>dim_branch</h3><p>Every fact, the semantic view, and the branch policy depend on this shape. branch_key is not null and the primary key.</p><div class="eg">contract: enforced: true</div></div>
+    <div class="glass card" data-at="2" style="--c:#a78bfa"><div class="num">PUBLIC</div><h3>dim_customer</h3><p>The SCD2 customer. Names, types, and the version window are part of the promise. Contact columns are also tagged PII.</p><div class="eg">access: public</div></div>
+    <div class="glass card" data-at="3" style="--c:#38bdf8"><div class="num">PUBLIC</div><h3>fct_transactions</h3><p>The payment interface. A contract proves names and types. It does not prove an amount is sensible. Tests still do that.</p><div class="eg">one row, one payment</div></div>
+  </div>
+  <div class="note" data-at="3">Raw stays a VARIANT. assert_raw_transactions_required_keys warns, at severity warn, when a recent payload drops a key staging needs.</div>
+</section>
+
+<!-- 08 BREAK IT -->
+<section class="s" data-ch="1" data-steps="3" data-scene="breakcol" data-accent="#9f1239,#14532d" data-notes="On dev, on purpose. Rename branch_id, build, read the refusal, rename it back. The documented refusal starts: This model has an enforced contract that failed.">
+  <div class="kicker rise" style="--k-c:#fb7185">dim_branch · on dev</div>
+  <h2 class="rise" style="--d:1">Rename one column. <span class="grad-red">The build stops.</span></h2>
+  <div class="cols15" id="colrow">
+    <span>branch_key</span><span class="key" id="bid">branch_id</span><span>branch_code</span><span>branch_name</span><span>branch_type</span><span>branch_status</span><span>city</span><span>state_region</span><span>country_code</span><span>country_name</span><span>region</span><span>local_currency_code</span><span>local_timezone</span><span>opened_date</span><span>branch_age_years</span>
+  </div>
+  <div class="two" style="grid-template-columns:1.1fr .9fr;margin-top:22px">
+    <div class="stack">
+      <div class="cmd" data-at="2"><span class="pr">$</span><code>dbt build -s dim_branch --target dev</code><button class="copy">Copy</button></div>
+      <div class="term" data-term data-at="2">
+        <div class="bar"><i></i><i></i><i></i><span>04_dbt_meridian_dw · dev</span></div>
+        <div class="body">
+          <div><span class="ps">$</span> <span class="typed" data-type="dbt build -s dim_branch --target dev"></span><i class="caret"></i></div>
+          <div class="out" style="color:#fb7185">This model has an enforced contract that failed</div>
+          <div class="out">put the column name back, then build again</div>
+        </div>
+      </div>
+    </div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>Fifteen names, fifteen types</b><p>branch_id is a number, not null. The contract is checked before the table is replaced.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>Downstream never sees the break</b><p>Facts, the semantic view, and the branch policy still expect branch_id. The build refuses first.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>Then undo it</b><p>A real change of shape is a reviewed edit of the contract in the same change. This demo puts the name back.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 CONTRACT VS TEST -->
+<section class="s" data-ch="1" data-steps="2" data-accent="#9a3412,#0f766e" data-notes="A test runs after the table exists and speaks about the rows. A contract runs before the build and speaks about the shape. You want both. Do not contract every private intermediate model.">
+  <div class="kicker rise" style="--k-c:#fb923c">Both, for different jobs</div>
+  <h2 class="rise" style="--d:1">Shape first. <span class="grad-warm">Contents after.</span></h2>
+  <div class="when">
+    <div class="glass card" data-at="1" style="--c:#fb7185">
+      <div class="num">BEFORE THE BUILD</div>
+      <h3>Contract</h3>
+      <p>Column names and types. A rename, a drop, or a type change stops dim_branch, dim_customer, or fct_transactions before consumers break.</p>
+      <div class="eg">enforced: true · access: public</div>
+    </div>
+    <div class="mid">→</div>
+    <div class="glass card" data-at="2" style="--c:#4ade80">
+      <div class="num">AFTER THE BUILD</div>
+      <h3>Test</h3>
+      <p>The rows. A typed table can still hold a duplicate key, a missing rate, or a wrong amount. Data tests catch that. They cannot stop a column disappearing.</p>
+      <div class="eg">unique · not null · relationships</div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 UNIT TESTS -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#0f766e,#9a3412" data-notes="Unit tests use rows written by hand. They run inside dbt build, or alone with dbt test --select test_type:unit. The numbers on this slide are the expected rows in the YAML.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">dbt test --select test_type:unit</div>
+  <h2 class="rise" style="--d:1">Logic, on rows <span class="grad">you wrote.</span></h2>
+  <div class="ut">
+    <div class="glass card" data-at="1" style="--c:#38bdf8">
+      <div class="num">fx_forward_fills_the_weekend</div>
+      <h3>Friday’s rate covers the weekend</h3>
+      <div class="week2">
+        <div class="day2"><b>Fri 2 Jan</b><em>0.012000</em></div>
+        <div class="day2 ff"><b>Sat</b><em>filled</em></div>
+        <div class="day2 ff"><b>Sun</b><em>filled</em></div>
+        <div class="day2"><b>Mon 5 Jan</b><em>0.012100</em></div>
+      </div>
+      <p>INR. Saturday and Sunday keep Friday’s rate, is_forward_filled true. USD is 1 every day.</p>
+    </div>
+    <div class="glass card" data-at="2" style="--c:#fb7185">
+      <div class="num">fraud_rules_fire_on_the_right_tap</div>
+      <h3>The fourth tap, then the trip</h3>
+      <div class="taps"><i>1</i><i>2</i><i>3</i><i class="hot">4</i><i class="hot">geo</i></div>
+      <p>Four ₹1 taps a minute apart. Only the fourth is velocity and card-testing. One online US charge on an Indian customer is a geo mismatch.</p>
+    </div>
+    <div class="glass card" data-at="3" style="--c:#4ade80">
+      <div class="num">keeps_the_latest_version</div>
+      <h3>PENDING, then POSTED</h3>
+      <p>Transaction 101 arrives twice. Staging keeps one row: status POSTED, updated_at 2026-09-01 10:04, batch second.</p>
+      <div class="eg">stg_postgres__transactions</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 GRANTS -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#14532d,#1e3a8a" data-notes="mart_readers is the full list. Four models drop MERIDIAN_CUSTOMER. The governance folder grants select to nobody, so the entitlement lookup is not a public table.">
+  <div class="kicker rise" style="--k-c:#4ade80">Grants travel with the model</div>
+  <h2 class="rise" style="--d:1">The customer never <span class="grad-green">gets the staff list.</span></h2>
+  <div class="g3 mt2">
+    <div class="glass card" data-at="1" style="--c:#38bdf8"><div class="ico" data-logo="i-users"></div><h3>Every mart, seven readers</h3><p>Analyst, ML, the app, and the four persona roles. dbt re-applies the grant after CREATE OR REPLACE. Schema usage opens only prod MARTS.</p><div class="eg">var mart_readers</div></div>
+    <div class="glass card" data-at="2" style="--c:#fbbf24"><div class="ico" data-logo="i-eyeoff"></div><h3>Four models leave the customer out</h3><p>Employees, accounts, month-end balances, and the branch daily aggregate. The policy is a second lock. The missing grant is the first.</p><div class="eg">no MERIDIAN_CUSTOMER</div></div>
+    <div class="glass card" data-at="3" style="--c:#fb7185"><div class="ico" data-logo="i-lock"></div><h3>The lookup grants nobody</h3><p>ent_customer_branch lives under governance with an empty select list. Personas never need to read it. The policy owner reads it for them.</p><div class="eg">select: []</div></div>
+  </div>
+</section>
+
+<!-- 12 THE LOCK RETURNS -->
+<section class="s" data-ch="2" data-steps="3" data-scene="relock" data-accent="#14532d,#92400e" data-notes="Show the fall, then the hook. The post-hook runs only on prod, and only for tables and incrementals. Rebuild dim_customer on prod and the policy is back on customer_id.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">CREATE OR REPLACE drops policies</div>
+  <h2 class="rise" style="--d:1">The lock falls. <span class="grad">dbt hangs it back.</span></h2>
+  <div class="doorwrap">
+    <div class="glass sidebit" data-at="1" style="--c:#fb7185">
+      <div class="num">STEP 1</div>
+      <h3>Replace</h3>
+      <p>A prod rebuild of dim_customer builds a new table. The row policy that was on the old one is gone.</p>
+    </div>
+    <div class="door" id="door">
+      <div class="slab"></div>
+      <div class="lockbit" id="lock"><span data-logo="i-lock"></span></div>
+      <div class="cap" id="doorcap">RAP_CUSTOMER_SCOPE</div>
+    </div>
+    <div class="glass sidebit" data-at="2" style="--c:#4ade80">
+      <div class="num">STEP 2</div>
+      <h3>Post-hook</h3>
+      <p>apply_governance drops any leftover policy, adds the one in the model metadata, and sets the PII tags again.</p>
+    </div>
+  </div>
+  <div class="note" data-at="3">Same policy name, same column: customer_id. Views are skipped. Dev never runs this hook.</div>
+</section>
+
+<!-- 13 THE MACRO -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#0f766e,#44403c" data-notes="dbt has APPLY, not ownership. Security changes the body with ALTER SET BODY, because an attached policy cannot be replaced. If 06 has not run, the hook warns and does nothing.">
+  <div class="kicker rise" style="--k-c:#2dd4bf">macros/governance.sql</div>
+  <h2 class="rise" style="--d:1">Hang it. <span class="grad">Do not edit it.</span></h2>
+  <div class="two" style="grid-template-columns:1.2fr .8fr;margin-top:16px">
+    <div class="glass code sm rise" style="--d:2"><div class="hd"><i></i>apply_governance · prod only<span class="lg" data-logo="dbt"></span></div><pre>
+<span class="ln" data-at="1"><span class="cm">-- drop, then add the declared policy</span></span>
+<span class="ln" data-at="1">alter table ... drop all row access policies</span>
+<span class="ln" data-at="1">alter table ... add row access policy</span>
+<span class="ln" data-at="1">  ...RAP_CUSTOMER_SCOPE on (customer_id)</span>
+<span class="ln" data-at="2"><span class="cm">-- the tag brings the mask with it</span></span>
+<span class="ln" data-at="2">alter table ... modify column email</span>
+<span class="ln" data-at="2">  set tag ...PII = <span class="str">'contact'</span></span>
+<span class="ln" data-at="3"><span class="cm">-- or, without a rebuild:</span></span>
+<span class="ln hl" data-at="3">dbt run-operation apply_governance_all --target prod</span></pre></div>
+    <div class="notes2">
+      <div class="callout" data-at="1"><span class="k">1</span><div><b>APPLY, not ownership</b><p>The transformer may attach RAP_CUSTOMER_SCOPE, RAP_BRANCH_SCOPE, and RAP_BRANCH_INTERNAL. Only security changes what they allow.</p></div></div>
+      <div class="callout" data-at="2"><span class="k">2</span><div><b>ALTER … SET BODY</b><p>CREATE IF NOT EXISTS will not edit a policy that is already attached. The security script updates the body in place.</p></div></div>
+      <div class="callout" data-at="3"><span class="k">3</span><div><b>One tag, three masks</b><p>STRING becomes ***. DATE and NUMBER(18,2) become NULL. A new PII column is one line of metadata.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 FAIL CLOSED -->
+<section class="s" data-ch="2" data-steps="2" data-accent="#9f1239,#14532d" data-notes="If governance is not installed, the hook logs a warning and builds the table anyway. Personas still cannot read it: there is no entitlement and the grant is not an open door by itself. The run-operation refuses until 06 has been run.">
+  <div class="kicker rise" style="--k-c:#fb7185">Missing lock, closed door</div>
+  <h2 class="rise" style="--d:1">No policy yet. <span class="grad-red">Still no leak.</span></h2>
+  <div class="vs">
+    <div class="glass side bad" data-at="1" style="min-height:440px">
+      <div class="stampx">!</div>
+      <h3><span class="tag2">WARN</span> First prod build</h3>
+      <p>The hook looks for RAP_CUSTOMER_SCOPE. If the security script has not run, it logs a warning and leaves the table without a policy.</p>
+      <div class="cmd sql" style="margin-top:14px"><pre>declares governance but
+06_row_level_security.sql has not run</pre></div>
+    </div>
+    <div class="glass side good" data-at="2" style="min-height:440px">
+      <div class="stampx">✓</div>
+      <h3><span class="tag2">CLOSED</span> Personas still see nothing</h3>
+      <p>There is no APP_USER row working for them until that script finishes. apply_governance_all refuses outright until the policy exists.</p>
+      <div class="cmd sql" style="margin-top:14px"><pre>Run 03_snowflake/06_row_level_security.sql
+first.</pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 ACCESS HISTORY -->
+<section class="s" data-ch="3" data-steps="2" data-accent="#92400e,#1e3a8a" data-notes="Enterprise edition. The view can lag about three hours. Ask it after the English demo for MERIDIAN_CEO. Do not invent a row that has not landed yet.">
+  <div class="kicker rise" style="--k-c:#fbbf24">SNOWFLAKE.ACCOUNT_USAGE.ACCESS_HISTORY</div>
+  <h2 class="rise" style="--d:1">Who read <span class="grad-gold">which columns.</span></h2>
+  <div class="aud">
+    <div class="glass code" data-at="1"><div class="hd"><i></i>end of 06_row_level_security.sql</div><pre>
+<span class="ln">SELECT user_name, query_start_time,</span>
+<span class="ln">       direct_objects_accessed</span>
+<span class="ln">FROM SNOWFLAKE.ACCOUNT_USAGE.ACCESS_HISTORY</span>
+<span class="ln">WHERE user_name LIKE <span class="str">'MERIDIAN_%'</span></span>
+<span class="ln">ORDER BY query_start_time DESC</span>
+<span class="ln">LIMIT <span class="num">50</span>;</span></pre></div>
+    <div class="stack">
+      <div class="glass card" data-at="1" style="--c:#fbbf24;min-height:0">
+        <h3>The auditor’s question</h3>
+        <p>Which user touched which objects. Run it after the four logins. The row is the proof, not the app’s word.</p>
+      </div>
+      <div class="glass card" data-at="2" style="--c:#fb7185;min-height:0">
+        <h3>About three hours late</h3>
+        <p>Enterprise edition. The history view lags. An empty answer in the same minute is the lag, not a missing policy.</p>
+        <div class="lag"><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 OUTRO -->
+<section class="s" data-ch="3" data-accent="#14532d,#44403c" data-notes="One owner, a contract that fails, a lock that comes back, and a history that proves the read. Next is the two-minute telling of the whole system.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#4ade80">Episode 12 complete</div>
+    <h2 class="rise" style="--d:1;font-size:72px">The rules <span class="grad-green">are still on the door.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>One owner each</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Contract refused</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Lock hung back</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Reads recorded</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="i-message"></div><div style="text-align:left"><small>Next · Episode 13</small><b>Say it in two minutes</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+<script>
+Deck.scene("breakcol", (s, k) => {
+  const bid = s.querySelector("#bid");
+  if (!bid) return;
+  bid.classList.toggle("bad", k >= 1);
+  bid.textContent = k >= 1 && k < 3 ? "branch_id → renamed" : "branch_id";
+});
+Deck.scene("relock", (s, k, entering, api) => {
+  const lock = s.querySelector("#lock");
+  const cap = s.querySelector("#doorcap");
+  lock.classList.remove("fall", "back");
+  if (k === 1) {
+    cap.textContent = "no policy on the new table";
+    api.later(() => lock.classList.add("fall"), 280);
+  } else if (k >= 2) {
+    cap.textContent = "RAP_CUSTOMER_SCOPE · on customer_id";
+    api.later(() => lock.classList.add("back"), 80);
+  } else {
+    cap.textContent = "RAP_CUSTOMER_SCOPE";
+  }
+});
+</script>
+</body>
+</html>

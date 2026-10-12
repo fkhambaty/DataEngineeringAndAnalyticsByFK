@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Episode 0 · The problem, then the picture</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+/* 02 the question */
+.ask{justify-content:flex-start;max-width:none;padding-top:4px}
+.ask .huge{font-size:86px}
+.ask .lead{margin-top:26px}
+.who4{margin-top:auto}
+.who4 .card{min-height:214px;gap:10px}
+.who4 .card h3{font-size:30px}
+.who4 .scope{color:var(--mute);font-size:18px}
+.who4 .role{margin-top:auto;font:700 17px var(--mono);color:#eaf2ff}
+.who4 .card .ico{animation:bob 4s ease-in-out infinite}
+.who4 .card:nth-child(2) .ico{animation-delay:-1s}.who4 .card:nth-child(3) .ico{animation-delay:-2s}.who4 .card:nth-child(4) .ico{animation-delay:-3s}
+
+/* 03 till vs warehouse */
+.tillwh{grid-template-columns:1fr 70px 1fr;gap:0;margin-top:34px;align-items:stretch}
+.tillwh .side{min-height:400px;display:flex;flex-direction:column;gap:12px}
+.tillwh .side h3{margin:6px 0 0}
+.tillwh .side .eg{margin-top:auto;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font:600 16px var(--mono);color:#dbe5f3}
+.tillwh .wh{border-color:rgba(41,181,232,.45)}
+.vsx{align-self:center;text-align:center;font:900 18px var(--mono);letter-spacing:.2em;color:var(--faint)}
+.queue{height:48px;overflow:hidden;margin-top:6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.queue .tr{display:flex;gap:10px;width:max-content;animation:qmove 9s linear infinite}
+.queue span{padding:11px 15px;border-radius:12px;background:rgba(91,155,213,.14);border:1px solid rgba(125,211,252,.3);font:700 16px var(--mono);color:#dbeafe;white-space:nowrap}
+@keyframes qmove{to{transform:translateX(-50%)}}
+.wh .bars{height:110px;gap:12px;padding:0 4px}
+.wh .bars .b i{border-radius:8px 8px 3px 3px}
+.bigline{display:flex;align-items:baseline;gap:22px;margin-top:26px}
+.bigline .n{font-size:84px;font-weight:900;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums;color:#fde68a}
+.bigline span:last-child{color:var(--mute);font-size:20px}
+
+/* 04 promises */
+.prom5{min-height:548px}
+.prom5 h3{font-size:30px}
+.prom5 p{font-size:18px}
+.prom5 .kpi{margin-top:18px;font:900 72px/1 var(--mono);letter-spacing:-.04em;color:var(--c)}
+.prom5 .kl{font:800 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);line-height:1.4}
+
+/* 05 rooms */
+.rooms{margin-top:44px}
+.rooms .st p{font-size:16px}
+.rooms .st b{font-size:23px}
+.alarm{display:flex;align-items:center;gap:24px;margin-top:62px;padding:24px 28px}
+.alarm b{display:block;font-size:26px}
+.alarm p{margin:4px 0 0;color:var(--mute);font-size:18px}
+.alarm .tile{animation:bob 4s ease-in-out infinite}
+
+/* 06 medallion */
+.med.e0med{margin-top:34px}
+.e0med .pillar{min-height:500px}
+.e0med .tag.bz{background:rgba(251,191,36,.15);color:#fbbf24}
+.e0med .tag.gn{background:rgba(74,222,128,.14);color:#4ade80}
+.e0med .analogy{margin-top:auto;padding-top:18px}
+.e0med .analogy .ico{flex:none}
+
+/* 07 language map */
+.lang{min-height:262px;gap:12px;padding:24px 22px 22px}
+.lang .hd2{display:flex;align-items:center;gap:14px}
+.lang h3{font-size:25px}
+.lang p{font-size:16.5px}
+.lang .eg{font-size:14.5px;padding:10px 12px}
+
+/* 08 file, runtime, editor */
+.fre{min-height:540px}
+.fre .viz{height:150px;border-radius:16px;background:rgba(10,15,28,.6);border:1px solid rgba(255,255,255,.07);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:12px;padding:16px}
+.colstore i{width:44px;height:100%;border-radius:8px;background:repeating-linear-gradient(180deg,var(--cc) 0 12px,transparent 12px 18px);opacity:.75;transform-origin:bottom;animation:colrise 3.6s var(--ease) infinite}
+.colstore i:nth-child(2){animation-delay:.2s}.colstore i:nth-child(3){animation-delay:.4s}.colstore i:nth-child(4){animation-delay:.6s}.colstore i:nth-child(5){animation-delay:.8s}
+@keyframes colrise{0%{transform:scaleY(.15);opacity:.2}40%,80%{transform:none;opacity:.85}100%{transform:none;opacity:.2}}
+.box{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:14px;border:2px dashed rgba(36,150,237,.55);background:rgba(36,150,237,.08);font:700 18px var(--mono);color:#dbeafe}
+.box .dotg{width:14px;height:14px;border-radius:50%;background:#4ade80;animation:ping3 1.6s infinite}
+.edlines{flex-direction:column;align-items:stretch;justify-content:center;gap:9px}
+.edlines span{display:block;height:12px;border-radius:6px;background:linear-gradient(90deg,var(--lc),transparent);width:var(--lw);animation:typeline 4s steps(12) infinite}
+.edlines span:nth-child(2){animation-delay:.5s}.edlines span:nth-child(3){animation-delay:1s}.edlines span:nth-child(4){animation-delay:1.5s}
+@keyframes typeline{0%{width:0}50%,100%{width:var(--lw)}}
+
+/* 09 three places */
+.places{display:grid;grid-template-columns:1fr 56px 1fr 56px 1fr;align-items:center;margin-top:34px}
+.places .arrow{width:46px;margin:0 auto}
+.place{min-height:500px}
+.place .hd2{display:flex;align-items:center;gap:16px}
+.place ul{margin:6px 0 0;padding-left:20px;color:#dbe5f3;font-size:18px;line-height:1.55}
+.place li{margin-bottom:6px}
+.place li code{font:600 16px var(--mono);color:#7dd3fc}
+
+/* 10 grain */
+.gq{margin-top:26px;padding:22px 30px;font-size:28px;line-height:1.4;font-weight:700;letter-spacing:-.01em}
+.gq em{font-style:normal;color:#fde68a}
+.kinds3{margin-top:22px}
+.kind{min-height:330px;padding:22px 22px 20px;gap:12px}
+.kind h3{font-size:26px}
+.kind .tbl{margin-top:auto;font:700 16px var(--mono);color:#7dd3fc}
+.receipt{height:150px;border-radius:14px;background:rgba(10,15,28,.6);border:1px solid rgba(255,255,255,.07);overflow:hidden}
+.receipt .r2{display:flex;justify-content:space-between;padding:8px 14px;font:600 15px var(--mono);border-bottom:1px dashed rgba(255,255,255,.08);color:#dbe5f3}
+.kind.go .receipt .feed{animation:feed 6s linear infinite}
+@keyframes feed{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.photo{height:150px;display:flex;align-items:flex-end;gap:10px;padding:14px;border-radius:14px;background:rgba(10,15,28,.6);border:1px solid rgba(255,255,255,.07);position:relative}
+.photo i{flex:1;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,#a78bfa,#4c3a8f);height:var(--h);transform:scaleY(0);transform-origin:bottom;transition:transform .9s var(--spring)}
+.kind.go .photo i{transform:none}
+.photo i:nth-child(2){transition-delay:.12s}.photo i:nth-child(3){transition-delay:.24s}.photo i:nth-child(4){transition-delay:.36s}.photo i:nth-child(5){transition-delay:.48s}
+.photo .flashbulb{position:absolute;inset:0;border-radius:inherit;background:#fff;opacity:0}
+.kind.go .photo .flashbulb{animation:bulb 3s ease-out infinite 1.2s}
+@keyframes bulb{0%{opacity:.5}20%,100%{opacity:0}}
+.story{height:150px;border-radius:14px;background:rgba(10,15,28,.6);border:1px solid rgba(255,255,255,.07);padding:18px 16px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.story .track{position:relative;height:4px;background:rgba(255,255,255,.08);border-radius:4px}
+.story .track i{position:absolute;left:0;top:0;height:100%;border-radius:4px;background:linear-gradient(90deg,#2dd4bf,#4ade80);width:0}
+.kind.go .story .track i{animation:prog 5s var(--ease) infinite}
+@keyframes prog{0%{width:0}80%,100%{width:100%}}
+.story .ms{display:flex;justify-content:space-between;font:700 12px var(--mono);color:var(--mute)}
+.story .ms span{display:flex;flex-direction:column;align-items:center;gap:6px}
+.story .ms span::before{content:"";width:12px;height:12px;border-radius:50%;background:#2dd4bf;box-shadow:0 0 12px #2dd4bf}
+
+/* 11 contracts */
+.grains{margin-top:30px}
+.grains .rr{font-size:19px;padding:15px 24px}
+.grains .rr b{font-family:var(--mono);color:#eaf2ff;font-weight:700}
+.grains .rr span:last-child{color:#c9d6ea}
+.lie{margin-top:22px;align-items:center}
+.lie .ico{flex:none}
+
+/* 12 ADR */
+.adrvs{margin-top:30px}
+.adrvs .side{min-height:330px}
+.adrvs .side .stampx{top:22px;bottom:auto;right:24px;width:72px;height:72px;font-size:40px}
+.adrvs .side p{padding-right:84px}
+.adrvs .cmd.sql{padding:16px 20px}
+.adrvs .cmd.sql pre{font-size:18px}
+.adrvs .cap2{margin-top:10px;color:var(--mute);font-size:16px}
+.adrs{margin-top:24px;padding:18px 22px}
+.adrs .hd3{font:800 13px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+.adrs .pl{font-size:14.5px;padding:8px 12px}
+
+/* 13 triggers */
+.trg{margin-top:30px}
+.trg .card{min-height:264px}
+.trg h3{font-family:var(--mono);font-size:26px}
+.stampy{display:inline-flex;align-self:flex-start;padding:7px 12px;border-radius:10px;font:700 15px var(--mono);background:rgba(251,191,36,.12);color:#fbbf24;animation:stampf 3s ease-in-out infinite}
+@keyframes stampf{0%,40%{background:rgba(251,191,36,.08)}50%{background:rgba(251,191,36,.35)}70%,100%{background:rgba(251,191,36,.08)}}
+.gonex{display:inline-flex;align-self:flex-start;padding:7px 12px;border-radius:10px;font:700 15px var(--mono);background:rgba(251,113,133,.12);color:#fda4af;animation:gonex 4s var(--ease) infinite}
+@keyframes gonex{0%,35%{opacity:1;transform:none}60%,100%{opacity:0;transform:translateX(60px)}}
+.misses{margin-top:24px}
+
+/* 14 outro */
+.reads{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 auto 34px;max-width:1260px}
+.reads .pl{font-size:15px}
+.readlbl{font:800 13px var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+</style>
+</head>
+<body data-episode="e0" data-label="Episode 0" data-chapters="The question|Promises|The map|The grain" data-chapter-colors="#2dd4bf|#fbbf24|#a78bfa|#fb923c">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#0f5c63,#5b3fb5" data-notes="Nothing is installed or run today. First the question the bank needs answered, then five promises, six rooms, the language and editor map, grain, and one design we rejected.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0"><i></i>EPISODE 0</div>
+      <h1 class="mega rise" style="--d:1">The problem,<br><span class="grad">then the picture</span></h1>
+      <p class="lead rise" style="--d:2">Five promises. Six rooms. The language and the editor. Then grain, and the design we rejected.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Promises</span><span><b>02</b>Rooms</span><span><b>03</b>Languages</span><span><b>04</b>Grain</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="pg,py,sf,dbt,af,st" data-core="i-layers" data-core-class="violet"></div>
+  </div>
+</section>
+
+<!-- 02 THE QUESTION -->
+<section class="s" data-ch="0" data-accent="#0f5c63,#3b2a80" data-notes="One business question drives the whole course. It needs a total, a currency, a time window, and a rule about who may see the answer. Four Snowflake users prove that rule later.">
+  <div class="statement ask">
+    <div class="kicker rise">Before any tool</div>
+    <p class="huge" data-words>How much did Mumbai customers spend on Amazon, <span class="grad">in dollars?</span></p>
+    <p class="lead rise" style="--d:6">During the sale. And which person is allowed to see that number.</p>
+    <div class="g4 who4">
+      <div class="glass card rise" style="--d:7;--c:#7dd3fc"><div class="ico sm" data-logo="i-globe"></div><h3>CEO</h3><span class="scope">every row in the bank</span><span class="role">MERIDIAN_CEO</span></div>
+      <div class="glass card rise" style="--d:8;--c:#fb923c"><div class="ico sm" data-logo="i-branch"></div><h3>Branch manager</h3><span class="scope">customers of one branch</span><span class="role">MERIDIAN_BM_MUMBAI</span></div>
+      <div class="glass card rise" style="--d:9;--c:#2dd4bf"><div class="ico sm" data-logo="i-user"></div><h3>Staff</h3><span class="scope">same rows, contact fields masked</span><span class="role">MERIDIAN_STAFF_MUMBAI</span></div>
+      <div class="glass card hot rise" style="--d:10;--c:#a78bfa"><div class="ico sm" data-logo="i-lock"></div><h3>Customer</h3><span class="scope">only their own rows</span><span class="role">MERIDIAN_CUSTOMER</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 TILL VS WAREHOUSE -->
+<section class="s" data-ch="0" data-steps="2" data-accent="#1f4f8a,#0e7490" data-notes="Why not ask PostgreSQL directly? It is the till. It serves one customer at a time and must stay fast. Adding up millions of payments belongs on a separate computer: the warehouse.">
+  <div class="kicker rise" style="--k-c:#38bdf8">Why not ask the till</div>
+  <h2 class="rise" style="--d:1">The till is not <span class="grad">the calculator.</span></h2>
+  <div class="vs tillwh">
+    <div class="glass side till" data-at="1">
+      <div class="ico" data-logo="pg"></div>
+      <h3>PostgreSQL · the till</h3>
+      <p>One account. One payment. Fast, and it must stay fast. A long report here makes the next customer wait.</p>
+      <div class="queue" data-overflow-ok><div class="tr"><span>₹2,400 UPI</span><span>₹899 POS</span><span>₹5,000 ATM</span><span>₹150 UPI</span><span>₹12,000 MOBILE</span><span>₹2,400 UPI</span><span>₹899 POS</span><span>₹5,000 ATM</span><span>₹150 UPI</span><span>₹12,000 MOBILE</span></div></div>
+      <div class="eg">OLTP · row by row · port 5432</div>
+    </div>
+    <div class="vsx">VS</div>
+    <div class="glass side wh" data-at="2">
+      <div class="ico" data-logo="sf"></div>
+      <h3>A warehouse</h3>
+      <p>Adds up millions of payments, in dollars, and shows each person only their rows. A different computer, so the till keeps working.</p>
+      <div class="bars" data-go><div class="b" style="--c:#29b5e8"><i style="--h:40%"></i></div><div class="b" style="--c:#29b5e8"><i style="--h:62%"></i></div><div class="b" style="--c:#38bdf8"><i style="--h:48%"></i></div><div class="b" style="--c:#38bdf8"><i style="--h:82%"></i></div><div class="b" style="--c:#7dd3fc"><i style="--h:70%"></i></div><div class="b" style="--c:#7dd3fc"><i style="--h:95%"></i></div></div>
+      <div class="eg">OLAP · columns · a separate computer</div>
+    </div>
+  </div>
+  <div class="bigline rise" style="--d:3"><span class="n" data-to="5000000">0</span><span>payments seeded in the bank · core.transactions</span></div>
+</section>
+
+<!-- 04 FIVE PROMISES -->
+<section class="s" data-ch="1" data-steps="5" data-accent="#7a5a10,#0f5c63" data-notes="Done is defined before any tool. Fresh: hot facts within fifteen minutes at p95, from a five-minute load. Correct: warehouse totals reconcile to the bank within one cent. History: customers keep their versions. Private: four people, four views. Cheap: warehouses pause after sixty idle seconds and a monitor caps the trial at one hundred credits.">
+  <div class="kicker rise" style="--k-c:#fbbf24">What done means</div>
+  <h2 class="rise" style="--d:1">Five promises. <span class="grad-gold">Before any tool.</span></h2>
+  <div class="g5 mt2">
+    <div class="glass card prom5" data-at="1" style="--c:#38bdf8"><div class="ico sm" data-logo="i-clock"></div><h3>Fresh</h3><p>Hot facts land within 15 minutes of the bank.</p><div class="kpi" data-to="15" data-ms="1200">0</div><div class="kl">minutes · p95, source to mart</div><div class="eg">load every 5 min · warn at 15</div></div>
+    <div class="glass card prom5" data-at="2" style="--c:#4ade80"><div class="ico sm" data-logo="i-check"></div><h3>Correct</h3><p>Warehouse totals equal the bank's totals.</p><div class="kpi">$0.01</div><div class="kl">largest gap · after a 2-minute cutoff</div><div class="eg">reconcile_with_pandas.py</div></div>
+    <div class="glass card prom5" data-at="3" style="--c:#a78bfa"><div class="ico sm" data-logo="i-layers"></div><h3>History</h3><p>A customer's past is kept when they change.</p><div class="kpi">SCD2</div><div class="kl">versions, not an overwrite</div><div class="eg">snapshots · SCD2 dimensions</div></div>
+    <div class="glass card prom5" data-at="4" style="--c:#fbbf24"><div class="ico sm" data-logo="i-shield"></div><h3>Private</h3><p>Each person sees only their rows.</p><div class="kpi" data-to="4" data-ms="900">0</div><div class="kl">people · four different views</div><div class="eg">row access · masking</div></div>
+    <div class="glass card prom5" data-at="5" style="--c:#2dd4bf"><div class="ico sm" data-logo="i-coin"></div><h3>Cheap</h3><p>A free trial can run the whole path.</p><div class="kpi" data-to="60" data-suf="s" data-ms="1200">0s</div><div class="kl">idle, then the computer pauses</div><div class="eg">100 credits · suspend at 90%</div></div>
+  </div>
+</section>
+
+<!-- 05 SIX ROOMS -->
+<section class="s" data-ch="1" data-steps="6" data-accent="#3b2a80,#0f5c63" data-notes="Follow one payment through six rooms. The till takes it. The courier copies only what changed. The inbox keeps every copy. The kitchen cleans it. The shelf holds facts and dimensions. The front desk answers in English. Airflow is only the alarm clock.">
+  <div class="kicker rise" style="--k-c:#a78bfa">Six rooms</div>
+  <h2 class="rise" style="--d:1">One payment. <span class="grad-violet">Six handoffs.</span></h2>
+  <div class="steps rooms" style="--n:6"><i class="wire"></i>
+    <div class="st" data-at="1" style="--c:#5b9bd5"><div class="bub">1</div><b>Till</b><p>PostgreSQL in Docker. Takes the payment.</p><span class="eg">the bank</span></div>
+    <div class="st" data-at="2" style="--c:#3776ab"><div class="bub">2</div><b>Courier</b><p>Python. Copies only the rows that changed.</p><span class="eg">Parquet</span></div>
+    <div class="st" data-at="3" style="--c:#d08b4f"><div class="bub">3</div><b>Inbox</b><p>MERIDIAN_RAW. Keeps every copy. Bronze.</p><span class="eg">as it arrived</span></div>
+    <div class="st" data-at="4" style="--c:#c9d3df"><div class="bub">4</div><b>Kitchen</b><p>dbt. Cleans and joins. Silver.</p><span class="eg">typed columns</span></div>
+    <div class="st" data-at="5" style="--c:#f5c542"><div class="bub">5</div><b>Shelf</b><p>Marts. Facts and dimensions. Gold.</p><span class="eg">what people query</span></div>
+    <div class="st" data-at="6" style="--c:#fb7185"><div class="bub">6</div><b>Front desk</b><p>Streamlit and Cortex. English becomes SQL.</p><span class="eg">scoped rows</span></div>
+  </div>
+  <div class="glass alarm" data-at="6"><div class="tile" data-logo="af"></div><div><b>Airflow is the alarm clock</b><p>It starts the courier and the kitchen on a timer: every 5 minutes on the hot path. It does not cook the data.</p></div></div>
+</section>
+
+<!-- 06 BRONZE SILVER GOLD -->
+<section class="s" data-ch="1" data-steps="3" data-accent="#8a5a20,#5b3fb5" data-notes="Three forms of the same payment. Bronze keeps the record exactly as it arrived, plus when and in which batch. Silver is typed and keeps the newest copy. Gold is the shelf: dollars stored, and the customer version that was true that day.">
+  <div class="kicker rise" style="--k-c:#fbbf24">Three forms of the same payment</div>
+  <h2 class="rise" style="--d:1">Inbox. Kitchen. <span class="grad-gold">Shelf.</span></h2>
+  <div class="med e0med">
+    <div class="pillar p-b" data-at="1">
+      <div class="cap"><h3>BRONZE</h3><p>exactly as it arrived</p></div>
+      <div class="rows">
+        <div class="row">record<span class="tag bz">VARIANT</span></div>
+        <div class="row">_extracted_at<span class="tag bz">WHEN READ</span></div>
+        <div class="row">_batch_id<span class="tag bz">WHICH RUN</span></div>
+        <div class="row">_source_file<span class="tag bz">WHICH PARCEL</span></div>
+      </div>
+      <div class="analogy"><span class="ico sm" data-logo="i-folder"></span>the inbox keeps every copy</div>
+    </div>
+    <div class="pillar p-s" data-at="2">
+      <div class="cap"><h3>SILVER</h3><p>cleaned, one row per payment</p></div>
+      <div class="rows merge">
+        <div class="row">amount<span class="tag gn">A REAL NUMBER</span></div>
+        <div class="row">status<span class="tag gn">NEWEST COPY</span></div>
+        <div class="row">currency_code<span class="tag gn">TYPED</span></div>
+        <div class="row">deleted rows<span class="tag gn">REMOVED</span></div>
+      </div>
+      <div class="analogy"><span class="ico sm" data-logo="dbt"></span>the kitchen, inside Snowflake</div>
+    </div>
+    <div class="pillar p-g" data-at="3">
+      <div class="cap"><h3>GOLD</h3><p>the shelf people query</p></div>
+      <div class="rows merge">
+        <div class="row">amount_reporting<span class="tag gn">USD, STORED</span></div>
+        <div class="row">customer_key<span class="tag gn">THAT DAY'S VERSION</span></div>
+        <div class="row">fct_transactions<span class="tag gn">ONE ROW</span></div>
+      </div>
+      <div class="analogy"><span class="ico sm" data-logo="i-chart"></span>facts and dimensions</div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 LANGUAGE MAP -->
+<section class="s" data-ch="2" data-steps="1" data-accent="#3b2a80,#1f4f8a" data-notes="Each tool: the language you type, where you type it, and what comes out. The editor is VS Code throughout. DBeaver and Snowsight are places to run SQL, not languages.">
+  <div class="kicker rise" style="--k-c:#a78bfa">Technology, language, working surface</div>
+  <h2 class="rise" style="--d:1">What we type. Where. <span class="grad-violet">What comes out.</span></h2>
+  <div class="g4 mt2 rise" style="--d:2">
+    <div class="glass card lang"><div class="hd2"><div class="ico sm" data-logo="pg"></div><h3>PostgreSQL</h3></div><p>SQL and PL/pgSQL · DBeaver. Docker runs the server.</p><div class="eg">bank rows</div></div>
+    <div class="glass card lang"><div class="hd2"><div class="ico sm" data-logo="py"></div><h3>Python</h3></div><p>Python · VS Code and Terminal.</p><div class="eg">Parquet and control rows</div></div>
+    <div class="glass card lang"><div class="hd2"><div class="ico sm" data-logo="sf"></div><h3>Snowflake</h3></div><p>SQL · Snowsight.</p><div class="eg">raw tables, policies, queries</div></div>
+    <div class="glass card lang"><div class="hd2"><div class="ico sm" data-logo="dbt"></div><h3>dbt</h3></div><p>SQL, Jinja and YAML · VS Code and the dbt CLI.</p><div class="eg">tested facts and docs</div></div>
+  </div>
+  <div class="g4" data-at="1" style="margin-top:22px">
+    <div class="glass card lang"><div class="hd2"><div class="ico sm" data-logo="af"></div><h3>Airflow</h3></div><p>Python · VS Code and the Airflow UI.</p><div class="eg">schedules, retries, alerts</div></div>
+    <div class="glass card lang"><div class="hd2"><div class="ico sm" data-logo="st"></div><h3>Streamlit</h3></div><p>Python · VS Code, or Streamlit in Snowflake.</p><div class="eg">the governed app</div></div>
+    <div class="glass card lang"><div class="hd2"><div class="ico sm" data-logo="tf"></div><h3>Terraform</h3></div><p>HCL · VS Code and the Terraform CLI.</p><div class="eg">roles, warehouses, guardrails</div></div>
+    <div class="glass card lang"><div class="hd2"><div class="ico sm" data-logo="gha"></div><h3>GitHub Actions</h3></div><p>YAML · GitHub.</p><div class="eg">checks on every change</div></div>
+  </div>
+</section>
+
+<!-- 08 FILE RUNTIME EDITOR -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#7a3a12,#1f4f8a" data-notes="Three words people mix up. Parquet is a file format; you never program in it. Docker is a runtime; it runs the bank and later Airflow. VS Code is the editor where SQL, Python, YAML and HCL are typed.">
+  <div class="kicker rise" style="--k-c:#fb923c">Three words people mix up</div>
+  <h2 class="rise" style="--d:1">A file. A runtime. <span class="grad-warm">An editor.</span></h2>
+  <div class="g3 mt2">
+    <div class="glass card fre" data-at="1" style="--c:#50abf1"><div class="ico lg" data-logo="pq"></div><h3>Parquet</h3><p>A file format. The courier writes one file per chunk. You do not program in Parquet.</p>
+      <div class="viz colstore"><i style="--cc:#50abf1"></i><i style="--cc:#7dd3fc"></i><i style="--cc:#a78bfa"></i><i style="--cc:#fbbf24"></i><i style="--cc:#4ade80"></i></div>
+      <div class="eg">pyarrow writes the file</div></div>
+    <div class="glass card fre" data-at="2" style="--c:#2496ed"><div class="ico lg" data-logo="dk"></div><h3>Docker</h3><p>A runtime. It runs the bank, and later Airflow. It is not a language.</p>
+      <div class="viz"><div class="box"><span class="dotg"></span>meridian_postgres · :5432</div></div>
+      <div class="eg">postgres:16 in a container</div></div>
+    <div class="glass card fre" data-at="3" style="--c:#007acc"><div class="ico lg" data-logo="vscode"></div><h3>VS Code</h3><p>The editor. SQL, Python, YAML and HCL are what we type. The editor is where.</p>
+      <div class="viz edlines"><span style="--lc:#c4b5fd;--lw:70%"></span><span style="--lc:#7dd3fc;--lw:88%"></span><span style="--lc:#86efac;--lw:55%"></span><span style="--lc:#fbbf24;--lw:76%"></span></div>
+      <div class="eg">DBeaver and Snowsight are places</div></div>
+  </div>
+</section>
+
+<!-- 09 THREE PLACES -->
+<section class="s" data-ch="2" data-steps="3" data-accent="#0f5c63,#3b2a80" data-notes="Code runs in three places. Your laptop has the keyboard, the Python loader, dbt commands, DBeaver and the private key. Docker on the laptop runs PostgreSQL and later Airflow; inside a container, localhost means the container, so Airflow reaches PostgreSQL at host.docker.internal. Snowflake holds the data, the warehouses and the policies.">
+  <div class="kicker rise">Where the code actually runs</div>
+  <h2 class="rise" style="--d:1">Three places. <span class="grad">Know which one you are in.</span></h2>
+  <div class="places">
+    <div class="glass card place" data-at="1" style="--c:#7dd3fc"><div class="hd2"><div class="ico" data-logo="i-terminal"></div><h3>Your laptop</h3></div>
+      <ul><li>Python loader and dbt commands</li><li>DBeaver, VS Code, Streamlit</li><li>Private key in <code>~/.ssh</code>, never in the repo</li></ul>
+      <div class="eg">the keyboard is here</div></div>
+    <i class="arrow" data-at="2"></i>
+    <div class="glass card place" data-at="2" style="--c:#2496ed"><div class="hd2"><div class="ico" data-logo="dk"></div><h3>Docker on the laptop</h3></div>
+      <ul><li><code>meridian_postgres</code> · port 5432</li><li>Airflow, via <code>astro dev start</code></li><li>Inside a container, localhost is the container</li></ul>
+      <div class="eg">PG_HOST=host.docker.internal</div></div>
+    <i class="arrow" data-at="3"></i>
+    <div class="glass card place" data-at="3" style="--c:#29b5e8"><div class="hd2"><div class="ico" data-logo="sf"></div><h3>Snowflake cloud</h3></div>
+      <ul><li><code>MERIDIAN_RAW</code> and <code>MERIDIAN_ANALYTICS</code></li><li>Warehouses and row policies</li><li>Cortex, for the English question</li></ul>
+      <div class="eg">the data lives here</div></div>
+  </div>
+</section>
+
+<!-- 10 GRAIN -->
+<section class="s" data-ch="3" data-steps="1" data-accent="#7a5a10,#1f4f8a" data-notes="Grain is the one sentence that says what a row is. Read the bus matrix sentence aloud. Then the three shapes of fact table: a receipt, a photograph, and a story.">
+  <div class="kicker rise" style="--k-c:#fbbf24">Grain</div>
+  <h2 class="rise" style="--d:1">Say what <span class="grad-gold">one row</span> is.</h2>
+  <div class="glass gq rise" style="--d:2">“One row in <em>fct_transactions</em> is one money movement on one account, at its latest known status.”</div>
+  <div class="note rise" style="--d:3">If you cannot say that sentence, a total can count the same payment twice.</div>
+  <div class="g3 kinds3" data-at="1">
+    <div class="glass card kind" data-go style="--c:#38bdf8"><h3>A receipt</h3><p>One row per event.</p>
+      <div class="receipt"><div class="feed">
+        <div class="r2"><span>48213 · UPI</span><span>2,400.00</span></div><div class="r2"><span>48214 · ATM</span><span>5,000.00</span></div><div class="r2"><span>48215 · POS</span><span>899.00</span></div><div class="r2"><span>48216 · MOBILE</span><span>12,000.00</span></div>
+        <div class="r2"><span>48213 · UPI</span><span>2,400.00</span></div><div class="r2"><span>48214 · ATM</span><span>5,000.00</span></div><div class="r2"><span>48215 · POS</span><span>899.00</span></div><div class="r2"><span>48216 · MOBILE</span><span>12,000.00</span></div>
+      </div></div>
+      <div class="tbl">fct_transactions</div></div>
+    <div class="glass card kind" data-go style="--c:#a78bfa"><h3>A photograph</h3><p>One account at one month-end.</p>
+      <div class="photo"><i style="--h:40%"></i><i style="--h:58%"></i><i style="--h:50%"></i><i style="--h:74%"></i><i style="--h:88%"></i><div class="flashbulb"></div></div>
+      <div class="tbl">fct_monthly_account_balance</div></div>
+    <div class="glass card kind" data-go style="--c:#2dd4bf"><h3>A story</h3><p>One loan, updated as it moves.</p>
+      <div class="story"><div class="track"><i></i></div><div class="ms"><span>applied</span><span>reviewed</span><span>decided</span><span>closed</span></div></div>
+      <div class="tbl">fct_loan_applications</div></div>
+  </div>
+</section>
+
+<!-- 11 FIVE SENTENCES -->
+<section class="s" data-ch="3" data-steps="1" data-accent="#0e7490,#3b2a80" data-notes="Every public table gets its sentence. Customer has one row per version, so a join without the time window matches every version and the total grows. Next best offer has no row for a suppressed customer.">
+  <div class="kicker rise" style="--k-c:#38bdf8">The contract for each table</div>
+  <h2 class="rise" style="--d:1">Five tables. <span class="grad">Five sentences.</span></h2>
+  <div class="res t grains rise" style="--d:2;--cols:1fr 1.25fr" data-rows="160">
+    <div class="rh"><span>table</span><span>one row is</span></div>
+    <div class="rr"><b>fct_transactions</b><span>one money movement, newest status</span></div>
+    <div class="rr"><b>dim_customer</b><span>one version of one customer</span></div>
+    <div class="rr"><b>fct_monthly_account_balance</b><span>one account at one month-end</span></div>
+    <div class="rr"><b>fct_loan_applications</b><span>one application, updated as it moves</span></div>
+    <div class="rr"><b>fct_next_best_offer</b><span>one offer per customer, or no row</span></div>
+  </div>
+  <div class="callout lie" data-at="1"><div class="ico sm" data-logo="i-alert"></div><div><b>Say the sentence, or the total lies.</b><p>dim_customer keeps every version. Join a payment without the time window and it matches all of them.</p></div></div>
+</section>
+
+<!-- 12 ADR 0001 -->
+<section class="s" data-ch="3" data-steps="2" data-accent="#0f5c3a,#7a1f35" data-notes="ADR 0001. We chose a watermark: the newest updated_at already copied. Log-based CDC such as Debezium reads every change from the database log, and needs more moving parts. It is the upgrade when freshness must drop below about a minute. Every decision record names the option it refused.">
+  <div class="kicker rise" style="--k-c:#fb7185">00_architecture/adr/0001</div>
+  <h2 class="rise" style="--d:1">Name the option <span class="grad-red">we rejected.</span></h2>
+  <div class="vs adrvs">
+    <div class="glass side good" data-at="1">
+      <div class="stampx">✓</div>
+      <h3><span class="tag2">CHOSEN</span>Watermark</h3>
+      <p>A bookmark: the newest updated_at already copied. The next run asks for rows after it.</p>
+      <div class="cmd sql"><pre>updated_at &gt; last watermark
+every 5 minutes</pre></div>
+      <div class="cap2">two triggers make the holes smaller</div>
+    </div>
+    <div class="glass side bad" data-at="2">
+      <div class="stampx">✗</div>
+      <h3><span class="tag2">NOT NOW</span>Log-based CDC</h3>
+      <p>Debezium reads the database log. It sees every change, deletes included, and adds a pipeline to run.</p>
+      <div class="cmd sql"><pre>wal_level=logical
+Debezium → Kafka → Snowpipe Streaming</pre></div>
+      <div class="cap2">the upgrade below about a minute</div>
+    </div>
+  </div>
+  <div class="glass adrs" data-at="2">
+    <div class="hd3">00_architecture/adr/ · one decision per file, each with the option it refused</div>
+    <div class="pills">
+      <span class="pl c" style="--c:#4ade80">0001 watermark CDC</span><span class="pl">0002 append-only VARIANT</span><span class="pl">0003 Kimball star</span><span class="pl">0004 dbt + Airflow</span><span class="pl">0005 scores in the warehouse</span><span class="pl">0006 row access by user</span>
+      <span class="pl">0007 Iceberg deferred</span><span class="pl">0008 one owner per object</span><span class="pl">0009 search is an index</span><span class="pl">0010 contracts at boundaries</span><span class="pl">0011 shared tables + policy</span>
+    </div>
+  </div>
+</section>
+
+<!-- 13 TRIGGERS -->
+<section class="s" data-ch="3" data-steps="2" data-accent="#0e7490,#7a1f35" data-notes="Two triggers keep the bookmark honest. Before every update, set_updated_at stamps the row. After every delete, log_delete writes the key to cdc.deleted_records. A ten-second lag window catches late commits, and reconciliation is the safety net.">
+  <div class="kicker rise">01_source_postgres/04_cdc_triggers.sql</div>
+  <h2 class="rise" style="--d:1">Two triggers <span class="grad">keep the bookmark honest.</span></h2>
+  <div class="g2 trg">
+    <div class="glass card" data-at="1" style="--c:#38bdf8"><div class="num">TRIGGER 1</div><h3>cdc.set_updated_at()</h3><p>Before every update, stamp the row. The bookmark only sees a change that moves updated_at.</p><span class="stampy">updated_at → now()</span><div class="eg">trg_set_updated_at · BEFORE UPDATE</div></div>
+    <div class="glass card" data-at="2" style="--c:#fb7185"><div class="num">TRIGGER 2</div><h3>cdc.log_delete()</h3><p>After every delete, write the key to cdc.deleted_records. A vanished row cannot move a bookmark.</p><span class="gonex">core.accounts row → gone</span><div class="eg">trg_log_delete · AFTER DELETE</div></div>
+  </div>
+  <div class="glass code misses" data-at="2"><div class="hd"><i></i>what the bookmark still has to handle</div><pre>
+<span class="ln">late commit        → INGEST_LAG_SECONDS = 10 re-reads the edge</span>
+<span class="ln">two changes, 1 run → only the latest version lands</span>
+<span class="ln">hard delete        → only cdc.deleted_records remembers it</span>
+<span class="ln hl">safety net         → 02_ingestion_python/reconcile_with_pandas.py</span></pre></div>
+</section>
+
+<!-- 14 OUTRO -->
+<section class="s" data-ch="3" data-accent="#0f5c63,#5b3fb5" data-notes="Before Episode 1, read the architecture process and design doc, render the four diagrams, read the decision records and the bus matrix. Next episode: Docker, PostgreSQL and five million payments.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center">Episode 0 complete</div>
+    <h2 class="rise" style="--d:1;font-size:80px">The picture comes <span class="grad">before the tools.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Five promises</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Six rooms</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Language and editor</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>Grain, and the no</div>
+    </div>
+    <div class="readlbl rise" style="--d:6">Read in VS Code before Episode 1 · nothing to install today</div>
+    <div class="reads rise" style="--d:7">
+      <span class="pl">00_architecture/ARCHITECTURE_PROCESS.md</span><span class="pl">00_architecture/DESIGN_DOC.md</span><span class="pl">00_architecture/diagrams/01–04 .mmd</span><span class="pl">00_architecture/adr/0001–0011</span><span class="pl">07_data_modelling/BUS_MATRIX.md</span>
+    </div>
+    <div class="glass next rise" style="--d:8"><div class="tile sm" data-logo="pg"></div><div style="text-align:left"><small>Next · Episode 1</small><b>The bank comes alive</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+</body>
+</html>

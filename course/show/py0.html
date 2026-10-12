@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · P0 · Python foundations for this pipeline</title>
+<link rel="stylesheet" href="deck/deck.css">
+<style>
+.s h2{font-size:48px;margin-bottom:8px}
+.s .kicker{margin-bottom:10px}
+.fit{display:flex;flex-direction:column;min-height:0}
+.fit .body{flex:1;min-height:0;display:flex;flex-direction:column}
+.split{display:grid;grid-template-columns:1.18fr .82fr;gap:18px;flex:1;min-height:0;align-items:start}
+.split .code{height:auto;align-self:start}
+.notes2{display:flex;flex-direction:column;gap:10px;min-height:0}
+.notes2 .callout{flex:1}
+.callout{padding:14px 16px}
+.callout b{font-size:18px}
+.callout p{font-size:15px}
+.code pre{font-size:16px;line-height:1.48}
+.code.sm pre{font-size:15px;line-height:1.42}
+.vs{margin-top:18px;flex:1}
+.vs .side{min-height:0;height:100%;display:flex;flex-direction:column}
+.vs .side p{font-size:20px}
+.pills{margin-top:16px}
+.steps{margin-top:28px;--n:5}
+.st p{font-size:16px}
+.ribbon{margin-top:auto;padding:16px 28px;border-radius:999px;background:#f4efe4;color:#1c1408;font:800 20px var(--mono);text-align:center;letter-spacing:-.01em}
+.term .body{font-size:16px;min-height:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.term .out{white-space:pre-wrap}
+.term .out.bad{color:#fb7185}
+.term .out.gold{color:#fde047}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.metric{padding:20px 24px 18px}
+.metric .k{font:800 13px var(--sans);letter-spacing:.16em;color:var(--mute)}
+.metric .n{font:900 68px/1 var(--mono);letter-spacing:-.05em;margin:6px 0 4px}
+.metric p{margin:0;color:var(--mute);font-size:16px}
+.trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px}
+.trio .card{min-height:0;padding:22px}
+.trio h3{font-size:24px}
+.sheet{padding:8px 8px 10px;margin-top:6px}
+.sheet .rh,.sheet .rr{display:grid;grid-template-columns:190px 1.25fr 1fr;gap:16px;align-items:center;padding:12px 20px}
+.sheet .rh{font:800 12px var(--sans);letter-spacing:.16em;color:var(--faint)}
+.sheet .rr{border-top:1px solid rgba(255,255,255,.06);font-size:18px}
+.sheet .rr b{font-family:var(--mono)}
+.sheet .rr code{font-size:16px;color:#dbe7f8}
+.libs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px;flex:1}
+.lib{padding:20px 18px 16px;min-height:0;display:flex;flex-direction:column}
+.lib h3{font-family:var(--mono);font-size:26px;margin:10px 0 6px}
+.lib p{font-size:16px}
+.lib .eg{margin-top:auto;font-size:14px}
+.cmds{display:flex;flex-direction:column;gap:10px}
+.cmds .cmd{padding:12px 14px 12px 20px}
+.cmds .cmd code{font-size:17px}
+.foot{margin-top:12px;padding:12px 18px;border-radius:16px;background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.28);color:#fde68a;font-size:16px}
+.pair{display:grid;grid-template-columns:.9fr .9fr 1.15fr;gap:14px}
+.pair .card{padding:18px 18px 16px;min-height:0}
+.pair .n{font:900 36px/1 var(--mono);margin:8px 0}
+.pair .n em{font-style:normal;color:var(--mute);font-size:22px}
+.exitbar{display:grid;grid-template-columns:160px 1fr;gap:18px;align-items:center;margin-top:16px;padding:18px 26px}
+.exitbar .big{font:900 84px/.8 var(--mono);color:#fb7185}
+.exitbar p{margin:0;font-size:18px;color:#dbe5f3}
+.importbox{margin-top:12px}
+</style>
+</head>
+<body data-episode="py0" data-label="Python · P0" data-chapters="Where it runs|The language|Toolboxes|Prove it" data-chapter-colors="#facc15|#7dd3fc|#c4b5fd|#4ade80">
+<div id="stage">
+
+<!-- 01 TITLE -->
+<section class="s" data-ch="0" data-accent="#3b2a08,#163a5c" data-notes="Python before the extractor. Four files in 02_ingestion_python/00_python_foundations. No database. The first three exit 0. The fourth exits 1 on purpose.">
+  <div class="title">
+    <div>
+      <div class="ep-pill rise" style="--d:0;--teal:#facc15;border-color:rgba(250,204,21,.45);background:rgba(250,204,21,.1);color:#fde68a"><i style="background:#facc15;box-shadow:0 0 14px #facc15"></i>PYTHON · P0</div>
+      <h1 class="mega rise" style="--d:1;font-size:92px">Python, then<br><span class="grad-py">the pipeline</span></h1>
+      <p class="lead rise" style="--d:2">Run Python, read the syntax, understand the libraries, then reconcile two tiny systems.</p>
+      <div class="chips rise" style="--d:3"><span><b>01</b>Values</span><span><b>02</b>Loops</span><span><b>03</b>Libraries</span><span><b>04</b>Reconcile</span></div>
+    </div>
+    <div class="orbit rise" style="--d:2" data-orbit="vscode,i-terminal,sf,pg,pq,pandas" data-core="py" data-core-class="py"></div>
+  </div>
+</section>
+
+<!-- 02 STATEMENT -->
+<section class="s" data-ch="0" data-accent="#3b2a08,#0e4a5c" data-notes="Programiz and Python Tutor are for the first five minutes. Meridian runs in the local .venv, Python 3.12. A browser cannot see Docker Postgres, the key, or Snowflake.">
+  <div class="statement">
+    <div class="kicker rise" style="--k-c:#facc15">Before the extractor</div>
+    <p class="huge" data-words style="font-size:78px">A browser teaches syntax.<br><span class="grad-py">The laptop runs the bank.</span></p>
+    <p class="lead rise" style="--d:5">Python 3.12, VS Code and a virtual environment. That is the runtime that can see files, Docker Postgres and Snowflake.</p>
+  </div>
+</section>
+
+<!-- 03 TWO RUNTIMES -->
+<section class="s fit" data-ch="0" data-steps="2" data-accent="#7a1f35,#14532d" data-notes="Warm-up in a browser. Build in the project. The four foundation files use only the standard library. psycopg2, pandas, pyarrow and snowflake-connector wait until the real extractor.">
+  <div class="kicker rise" style="--k-c:#facc15">Two places to run Python</div>
+  <h2 class="rise" style="--d:1">Practise in a browser. <span class="grad-py">Build on the laptop.</span></h2>
+  <div class="vs">
+    <div class="side bad" data-at="1">
+      <h3><span class="tag2">WARM-UP</span> Programiz · Python Tutor</h3>
+      <p>No installation. Good for <b style="color:#fff">print</b>, <b style="color:#fff">if</b>, loops, and watching one value change.</p>
+      <div class="pills"><span class="pl">print</span><span class="pl">if</span><span class="pl">for</span><span class="pl">one idea</span></div>
+      <p>A browser cannot open Docker Postgres, a private key, or Snowflake.</p>
+      <div class="stampx">×</div>
+    </div>
+    <div class="side good" data-at="2">
+      <h3><span class="tag2">THE PROJECT</span> VS Code · Terminal · .venv</h3>
+      <p>Python <b style="color:#fff">3.12</b>. Libraries, local files, the database in Docker, and command-line flags.</p>
+      <div class="pills"><span class="pl c" style="--c:#4ade80">Python 3.12</span><span class="pl">.venv</span><span class="pl">--limit</span><span class="pl">--tables</span></div>
+      <p>Four small files first. They use only the standard library.</p>
+      <div class="stampx">✓</div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FIVE IDEAS -->
+<section class="s fit" data-ch="1" data-steps="5" data-accent="#7a5a10,#14532d" data-notes="Five ideas, then the extractor. The path through the folder is 01 values, 02 loops, 03 paths, 04 a tiny reconciliation. Each file is runnable. Nothing here opens a database.">
+  <div class="kicker rise" style="--k-c:#facc15">The minimum language</div>
+  <h2 class="rise" style="--d:1">Five ideas, then <span class="grad-py">the extractor.</span></h2>
+  <div class="steps" style="--n:5">
+    <div class="wire"></div>
+    <div class="st" data-at="1" style="--c:#facc15"><div class="bub">1</div><b>Values</b><p>Name a thing. Show it. Turn text into a number.</p><div class="eg">print · int · float</div></div>
+    <div class="st" data-at="2" style="--c:#38bdf8"><div class="bub">2</div><b>Decisions</b><p>Exactly one branch runs.</p><div class="eg">if · else</div></div>
+    <div class="st" data-at="3" style="--c:#2dd4bf"><div class="bub">3</div><b>Repeat</b><p>Once per table, or while a counter allows it.</p><div class="eg">for · while</div></div>
+    <div class="st" data-at="4" style="--c:#a78bfa"><div class="bub">4</div><b>Name a job</b><p>Inputs in. One answer out.</p><div class="eg">def · return · main</div></div>
+    <div class="st" data-at="5" style="--c:#4ade80"><div class="bub">5</div><b>Borrow tools</b><p>Lists, dictionaries, imports, and a safety net.</p><div class="eg">Path · try · finally</div></div>
+  </div>
+  <div class="ribbon" data-at="5">01 values → 02 loops → 03 paths → 04 a tiny reconciliation</div>
+</section>
+
+<!-- 05 VALUES -->
+<section class="s fit" data-ch="1" data-steps="4" data-accent="#0e4a5c,#7a5a10" data-notes="File 01_values_and_decisions.py. The strings are the lesson, not a live warehouse. int() for counts. float() for amounts and for the 0.01 threshold. One if. This file prints FAILED and still exits 0.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">01_values_and_decisions.py</div>
+  <h2 class="rise" style="--d:1">Text in. <span class="grad">Numbers, then a decision.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>00_python_foundations/01_values_and_decisions.py<div class="lg" data-logo="py"></div></div>
+        <pre>
+<span class="ln"><span class="var">source_rows_text</span> = <span class="str">"100000"</span></span>
+<span class="ln"><span class="var">warehouse_rows_text</span> = <span class="str">"99998"</span></span>
+<span class="ln"><span class="var">source_amount_text</span> = <span class="str">"250000.00"</span></span>
+<span class="ln"><span class="var">warehouse_amount_text</span> = <span class="str">"247500.00"</span></span>
+<span class="ln"><span class="var">source_rows</span> = <span class="fn">int</span>(source_rows_text)</span>
+<span class="ln"><span class="var">warehouse_rows</span> = <span class="fn">int</span>(warehouse_rows_text)</span>
+<span class="ln"><span class="var">source_amount</span> = <span class="fn">float</span>(source_amount_text)</span>
+<span class="ln"><span class="var">warehouse_amount</span> = <span class="fn">float</span>(warehouse_amount_text)</span>
+<span class="ln"><span class="var">amount_threshold</span> = <span class="fn">float</span>(<span class="str">"0.01"</span>)</span>
+<span class="ln"><span class="var">row_difference</span> = warehouse_rows - source_rows</span>
+<span class="ln"><span class="var">amount_difference</span> = warehouse_amount - source_amount</span>
+<span class="ln hl"><span class="kw">if</span> row_difference == <span class="num">0</span> <span class="kw">and</span> <span class="fn">abs</span>(amount_difference) &lt; amount_threshold:</span>
+<span class="ln">    status = <span class="str">"PASSED"</span></span>
+<span class="ln"><span class="kw">else</span>:</span>
+<span class="ln">    status = <span class="str">"FAILED — rows or posted amounts disagree"</span></span>
+<span class="ln"><span class="fn">print</span>(<span class="str">"Reconciliation:"</span>, status)</span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>Quotes make text</b><p>An environment variable arrives as text, even when it looks like a number.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>Cast before arithmetic</b><p>int() for counts. float() for amounts and for the 0.01 threshold.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>How far apart</b><p>Warehouse minus source. Negative means the warehouse is short.</p></div></div>
+        <div class="callout" data-at="4"><div class="k">4</div><div><b>Exactly one branch</b><p>Rows must match, and the amount gap must be under one hundredth. print shows the result.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 FILE 01 RESULT -->
+<section class="s fit" data-ch="1" data-steps="2" data-accent="#7a1f35,#7a5a10" data-notes="Run 01_values_and_decisions.py from the repo root. Printed FAILED is the lesson. The process exit is still 0. The fourth file is the one that exits 1. Do not treat these 100000 and 99998 figures as a live bank.">
+  <div class="kicker rise" style="--k-c:#fb7185">Ran on the laptop</div>
+  <h2 class="rise" style="--d:1">The numbers disagree. <span class="grad-red">The process still exits 0.</span></h2>
+  <div class="glass term" data-term>
+    <div class="bar"><i></i><i></i><i></i><span>Terminal — repo root</span></div>
+    <div class="body">
+      <div><span class="ps">%</span> <span class="typed" data-type="python 02_ingestion_python/00_python_foundations/01_values_and_decisions.py"></span><i class="caret"></i></div>
+      <div class="out">Source rows: 100000 int</div>
+      <div class="out">Warehouse rows: 99998 int</div>
+      <div class="out">Row difference: -2</div>
+      <div class="out">Amount difference: -2500.0</div>
+      <div class="out bad">Reconciliation: FAILED — rows or posted amounts disagree</div>
+    </div>
+  </div>
+  <div class="metrics">
+    <div class="glass metric" data-at="1">
+      <div class="k">ROW DIFFERENCE</div>
+      <div class="n" style="color:#fb7185">-2</div>
+      <p>99998 − 100000. Two rows short.</p>
+    </div>
+    <div class="glass metric" data-at="2">
+      <div class="k">AMOUNT DIFFERENCE</div>
+      <div class="n" style="color:#facc15">-2,500.0</div>
+      <p>Printed FAILED. This file still exits 0. The fourth file is the one that exits 1.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 IF FOR WHILE -->
+<section class="s fit" data-ch="1" data-steps="3" data-accent="#0e4a5c,#5b3fb5" data-notes="The if is file 01. The for and while are file 02, tables_to_load with hot_only=True. customers is in the list and is dropped. The while stops at 3. The extractor loops only when you pass --loop.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">01 and 02 · decisions and repetition</div>
+  <h2 class="rise" style="--d:1"><span class="grad">if</span> chooses. <span class="grad-violet">for</span> and <span class="grad">while</span> repeat.</h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>02_loops_and_functions.py<div class="lg" data-logo="py"></div></div>
+        <pre>
+<span class="ln cm"># 01_values_and_decisions.py</span>
+<span class="ln"><span class="kw">if</span> row_difference == <span class="num">0</span> <span class="kw">and</span> <span class="fn">abs</span>(amount_difference) &lt; amount_threshold:</span>
+<span class="ln">    status = <span class="str">"PASSED"</span></span>
+<span class="ln"><span class="kw">else</span>:</span>
+<span class="ln">    status = <span class="str">"FAILED — rows or posted amounts disagree"</span></span>
+<span class="ln cm"># 02_loops_and_functions.py</span>
+<span class="ln"><span class="kw">for</span> table <span class="kw">in</span> tables_to_load(tables, hot_only=<span class="kw">True</span>):</span>
+<span class="ln">    <span class="fn">print</span>(describe_batch(<span class="num">1</span>, table))</span>
+<span class="ln hl"><span class="var">run_number</span> = <span class="num">1</span></span>
+<span class="ln"><span class="kw">while</span> run_number &lt;= <span class="num">3</span>:</span>
+<span class="ln">    <span class="fn">print</span>(<span class="str">f"micro-batch heartbeat {run_number}"</span>)</span>
+<span class="ln">    run_number += <span class="num">1</span></span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>One branch</b><p>PASSED or FAILED. Never both. The real loader uses the same shape for a quiet table versus a load.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>Once per selected table</b><p>customers is in the list. hot_only keeps transactions and card_authorizations.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>Change the counter</b><p>This while stops at 3. The extractor loops forever only when you pass --loop. Without += 1, a while never ends.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 FUNCTIONS -->
+<section class="s fit" data-ch="1" data-steps="4" data-accent="#4c1d95,#0e4a5c" data-notes="tables_to_load and main are the real functions in 02_loops_and_functions.py. The arrow annotations are labels for the reader. __name__ == __main__ means running the file calls main(). Importing it does not.">
+  <div class="kicker rise" style="--k-c:#c4b5fd">02_loops_and_functions.py</div>
+  <h2 class="rise" style="--d:1">A function is a job <span class="grad-violet">with a name.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>02_loops_and_functions.py<div class="lg" data-logo="py"></div></div>
+        <pre>
+<span class="ln"><span class="kw">def</span> <span class="fn">tables_to_load</span>(all_tables: <span class="fn">list</span>[<span class="fn">str</span>], hot_only: <span class="fn">bool</span>) -&gt; <span class="fn">list</span>[<span class="fn">str</span>]:</span>
+<span class="ln">    <span class="kw">if</span> hot_only:</span>
+<span class="ln">        <span class="kw">return</span> [name <span class="kw">for</span> name <span class="kw">in</span> all_tables <span class="kw">if</span> name <span class="kw">in</span> {<span class="str">"transactions"</span>,</span>
+<span class="ln">            <span class="str">"card_authorizations"</span>}]</span>
+<span class="ln">    <span class="kw">return</span> all_tables</span>
+<span class="ln"><span class="kw">def</span> <span class="fn">main</span>() -&gt; <span class="kw">None</span>:</span>
+<span class="ln">    tables = [<span class="str">"customers"</span>, <span class="str">"transactions"</span>, <span class="str">"card_authorizations"</span>]</span>
+<span class="ln">    <span class="kw">for</span> table <span class="kw">in</span> tables_to_load(tables, hot_only=<span class="kw">True</span>):</span>
+<span class="ln">        <span class="fn">print</span>(describe_batch(<span class="num">1</span>, table))</span>
+<span class="ln hl"><span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:</span>
+<span class="ln">    main()</span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>Inputs in the parentheses</b><p>all_tables and hot_only. The arrow is a label for readers, not a command.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>return sends one answer</b><p>A shorter list, or every table. The caller prints that answer.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>main is the front door</b><p>Read main() first in the extractor too. The jobs sit in named functions underneath.</p></div></div>
+        <div class="callout" data-at="4"><div class="k">4</div><div><b>Run only when executed</b><p>Importing the file does not call main(). Running the file does.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 FILE 02 RESULT -->
+<section class="s fit" data-ch="1" data-steps="2" data-accent="#0e4a5c,#4c1d95" data-notes="Exact print from 02_loops_and_functions.py. Two hot tables, then three heartbeats, then exit 0. customers never prints because hot_only is true. You do not have to stop this file.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">Ran on the laptop</div>
+  <h2 class="rise" style="--d:1">Two hot tables. <span class="grad">Three heartbeats.</span> Then stop.</h2>
+  <div class="glass term" data-term>
+    <div class="bar"><i></i><i></i><i></i><span>Terminal — repo root</span></div>
+    <div class="body">
+      <div><span class="ps">%</span> <span class="typed" data-type="python 02_ingestion_python/00_python_foundations/02_loops_and_functions.py"></span><i class="caret"></i></div>
+      <div class="out">batch 1: loading transactions</div>
+      <div class="out">batch 1: loading card_authorizations</div>
+      <div class="out gold">micro-batch heartbeat 1</div>
+      <div class="out gold">micro-batch heartbeat 2</div>
+      <div class="out gold">micro-batch heartbeat 3</div>
+    </div>
+  </div>
+  <div class="trio">
+    <div class="glass card" data-at="1"><h3>customers never prints</h3><p>It is in the list. tables_to_load drops it when hot_only is true.</p></div>
+    <div class="glass card" data-at="1" style="--c:#7dd3fc"><h3>The five-minute pair</h3><p>transactions and card_authorizations. The file comment names this the five-minute path.</p></div>
+    <div class="glass card" data-at="2" style="--c:#a78bfa"><h3>Bounded on purpose</h3><p>Three heartbeats, then exit 0. You do not have to stop it.</p></div>
+  </div>
+</section>
+
+<!-- 10 COLLECTIONS -->
+<section class="s fit" data-ch="2" data-steps="5" data-accent="#4c1d95,#0e4a5c" data-notes="A list keeps order. A dictionary looks up by name. pathlib ships with Python. pandas is installed. config.py is our file. The import block at the bottom is the real start of pg_to_snowflake.py.">
+  <div class="kicker rise" style="--k-c:#c4b5fd">Collections and imports</div>
+  <h2 class="rise" style="--d:1">Order, names, and <span class="grad-violet">borrowed toolboxes.</span></h2>
+  <div class="glass sheet">
+    <div class="rh"><span>SHAPE</span><span>IN THIS PROJECT</span><span>MEANING</span></div>
+    <div class="rr" data-at="1"><b style="color:#7dd3fc">list</b><code>rows = [ {…}, {…}, {…} ]</code><span>ordered. Parquet files are a list too</span></div>
+    <div class="rr" data-at="2"><b style="color:#facc15">dictionary</b><code>settings["table"], settings["limit"]</code><span>look up a value by name</span></div>
+    <div class="rr" data-at="3"><b>standard library</b><code>from pathlib import Path</code><span>ships with Python</span></div>
+    <div class="rr" data-at="4"><b style="color:#4ade80">third-party</b><code>import pandas as pd</code><span>installed from requirements.txt</span></div>
+    <div class="rr" data-at="5"><b style="color:#67e8f9">local module</b><code>from config import INGEST, PG, SF, TABLES</code><span>our own file, config.py</span></div>
+  </div>
+  <div class="glass code sm importbox" data-at="5">
+    <div class="hd"><i></i>pg_to_snowflake.py · the import you will meet next</div>
+    <pre>
+<span class="ln"><span class="kw">import</span> pandas <span class="kw">as</span> pd</span>
+<span class="ln"><span class="kw">import</span> pyarrow.parquet <span class="kw">as</span> pq</span>
+<span class="ln"><span class="kw">from</span> config <span class="kw">import</span> INGEST, PG, SF, TABLES, SourceTable</span></pre>
+  </div>
+</section>
+
+<!-- 11 PATHS FLAGS FINALLY -->
+<section class="s fit" data-ch="2" data-steps="3" data-accent="#0e4a5c,#14532d" data-notes="03_collections_paths_libraries.py. --limit is type=int, default 3. Path(__file__).resolve().parents[2] is the repo root. KeyError and TypeError are named. finally runs either way. raise keeps the failure visible.">
+  <div class="kicker rise" style="--k-c:#7dd3fc">03_collections_paths_libraries.py</div>
+  <h2 class="rise" style="--d:1">Find the folder. Read the flag. <span class="grad">Always tidy up.</span></h2>
+  <div class="body">
+    <div class="split">
+      <div class="glass code sm">
+        <div class="hd"><i></i>03_collections_paths_libraries.py<div class="lg" data-logo="py"></div></div>
+        <pre>
+<span class="ln">parser.add_argument(<span class="str">"--table"</span>, default=<span class="str">"transactions"</span>)</span>
+<span class="ln">parser.add_argument(<span class="str">"--limit"</span>, type=<span class="fn">int</span>, default=<span class="num">3</span>)</span>
+<span class="ln">project_root = Path(__file__).resolve().parents[<span class="num">2</span>]</span>
+<span class="ln">settings = {<span class="str">"table"</span>: args.table, <span class="str">"limit"</span>: args.limit, <span class="str">"root"</span>: project_root}</span>
+<span class="ln"><span class="kw">for</span> row <span class="kw">in</span> rows[: args.limit]:</span>
+<span class="ln">    <span class="fn">print</span>(row[<span class="str">"transaction_id"</span>], <span class="str">"→"</span>, row[<span class="str">"amount"</span>])</span>
+<span class="ln hl"><span class="kw">except</span> (KeyError, TypeError) <span class="kw">as</span> exc:</span>
+<span class="ln">    <span class="fn">print</span>(<span class="str">"The row did not have the shape we expected:"</span>, exc)</span>
+<span class="ln">    <span class="kw">raise</span></span>
+<span class="ln"><span class="kw">finally</span>:</span>
+<span class="ln">    <span class="fn">print</span>(<span class="str">"A finally block runs whether the work passed or failed."</span>)</span></pre>
+      </div>
+      <div class="notes2">
+        <div class="callout" data-at="1"><div class="k">1</div><div><b>A flag becomes a value</b><p>--limit 2 is an int. The default is 3. The path is computed from the file, not typed by hand.</p></div></div>
+        <div class="callout" data-at="2"><div class="k">2</div><div><b>A dictionary, then a slice</b><p>settings holds table, limit and root. rows[:limit] prints only the first rows.</p></div></div>
+        <div class="callout" data-at="3"><div class="k">3</div><div><b>Name the failure, then leave</b><p>KeyError and TypeError are expected shapes. finally runs either way. raise keeps the failure visible.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 FILE 03 RESULT -->
+<section class="s fit" data-ch="2" data-steps="2" data-accent="#14532d,#0e4a5c" data-notes="Ran with --limit 2. Prints 101 and 102. Row 103, amount 61.25, stays in the file and is not printed. finally still speaks. Exit code 0. The PosixPath is this clone, from parents[2].">
+  <div class="kicker rise" style="--k-c:#c4b5fd">Ran with --limit 2</div>
+  <h2 class="rise" style="--d:1">Two rows. <span class="grad-violet">finally</span> still speaks.</h2>
+  <div class="glass term" data-term>
+    <div class="bar"><i></i><i></i><i></i><span>Terminal — repo root</span></div>
+    <div class="body">
+      <div><span class="ps">%</span> <span class="typed" data-type="python 02_ingestion_python/00_python_foundations/03_collections_paths_libraries.py --limit 2"></span><i class="caret"></i></div>
+      <div class="out">Settings: {'table': 'transactions', 'limit': 2, 'root': PosixPath('/path/to/snowflake_dbt_airflow_python_byFK')}</div>
+      <div class="out gold">101 → 25.5</div>
+      <div class="out gold">102 → 14.0</div>
+      <div class="out">A finally block runs whether the work passed or failed.</div>
+      <div class="out">Libraries are reusable toolboxes:</div>
+      <div class="out">pandas = tables in memory; pyarrow = typed Parquet; connectors = database cables</div>
+    </div>
+  </div>
+  <div class="metrics">
+    <div class="glass metric" data-at="1">
+      <div class="k">NOT THREE ROWS</div>
+      <p style="font-size:18px;color:#dbe5f3;margin-top:10px">The file holds 101, 102 and 103. 103 is 61.25 and stays unprinted. Amounts print 25.5 and 14.0.</p>
+    </div>
+    <div class="glass metric" data-at="2" style="border-color:rgba(74,222,128,.45);box-shadow:0 0 40px -12px rgba(74,222,128,.45)">
+      <div class="k" style="color:#4ade80">EXIT CODE 0</div>
+      <p style="font-size:18px;color:#dbe5f3;margin-top:10px">The work passed, and finally ran anyway. That is the point of finally. The root is the project folder, two levels above this file.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 13 FOUR LIBRARIES -->
+<section class="s fit" data-ch="2" data-steps="4" data-accent="#0e4a5c,#163a5c" data-notes="Four libraries, one job each. Install from requirements.txt with pytest. The one-line import check prints libraries ready only if the venv can see them. Do not learn the whole manual.">
+  <div class="kicker rise" style="--k-c:#facc15">Four toolboxes</div>
+  <h2 class="rise" style="--d:1">Know the job. <span class="grad-py">Not the whole manual.</span></h2>
+  <div class="libs">
+    <div class="glass lib card" data-at="1" style="--c:#7dd3fc"><div class="tile sm" data-logo="pg"></div><h3>psycopg2</h3><p>Opens Postgres and streams source rows.</p><div class="eg">import psycopg2</div></div>
+    <div class="glass lib card" data-at="2" style="--c:#facc15"><div class="tile sm" data-logo="pandas"></div><h3>pandas</h3><p>Holds rows as a DataFrame and compares aggregates.</p><div class="eg">import pandas as pd</div></div>
+    <div class="glass lib card" data-at="3" style="--c:#38bdf8"><div class="tile sm" data-logo="pq"></div><h3>pyarrow</h3><p>Gives columns types and writes compressed Parquet.</p><div class="eg">import pyarrow.parquet as pq</div></div>
+    <div class="glass lib card" data-at="4" style="--c:#7dd3fc"><div class="tile sm" data-logo="sf"></div><h3>snowflake-connector</h3><p>Logs in, uploads files, runs COPY, reads control tables.</p><div class="eg">import snowflake.connector</div></div>
+  </div>
+  <div class="cmds" style="margin-top:12px">
+    <div class="cmd alt" data-at="4"><span class="pr">$</span><code>pip install -r requirements.txt pytest</code><button class="copy" data-copy="pip install -r requirements.txt pytest">Copy</button></div>
+    <div class="cmd" data-at="4"><span class="pr">$</span><code>python -c "import pandas, pyarrow, psycopg2, snowflake.connector; print('libraries ready')"</code><button class="copy" data-copy="python -c &quot;import pandas, pyarrow, psycopg2, snowflake.connector; print('libraries ready')&quot;">Copy</button></div>
+  </div>
+</section>
+
+<!-- 14 MINI RECONCILE -->
+<section class="s fit" data-ch="3" data-steps="3" data-accent="#7a1f35,#14532d" data-notes="04_mini_reconciliation.py. Same question on both sides: count and amount by date and currency. Tolerance default is 0.001 on the amount ratio. USD matches, so it is absent from the mismatch list. INR is 100 versus 98. return 1, then SystemExit. The figures are the file, not a live bank.">
+  <div class="kicker rise" style="--k-c:#fb7185">04_mini_reconciliation.py</div>
+  <h2 class="rise" style="--d:1">Same question, both sides. <span class="grad-red">Fail if they differ.</span></h2>
+  <div class="body">
+    <div class="split" style="grid-template-columns:1.15fr .85fr">
+      <div class="glass code sm">
+        <div class="hd"><i></i>04_mini_reconciliation.py<div class="lg" data-logo="py"></div></div>
+        <pre>
+<span class="ln">source = {</span>
+<span class="ln">    (<span class="str">"2026-10-09"</span>, <span class="str">"INR"</span>): (<span class="num">100</span>, <span class="num">250_000.0</span>),</span>
+<span class="ln">    (<span class="str">"2026-10-09"</span>, <span class="str">"USD"</span>): (<span class="num">20</span>, <span class="num">8_000.0</span>),</span>
+<span class="ln">}</span>
+<span class="ln">warehouse = {</span>
+<span class="ln">    (<span class="str">"2026-10-09"</span>, <span class="str">"INR"</span>): (<span class="num">98</span>, <span class="num">247_500.0</span>),</span>
+<span class="ln">    (<span class="str">"2026-10-09"</span>, <span class="str">"USD"</span>): (<span class="num">20</span>, <span class="num">8_000.0</span>),</span>
+<span class="ln">}</span>
+<span class="ln hl"><span class="kw">if</span> mismatches:</span>
+<span class="ln">    <span class="fn">print</span>(<span class="str">"FAILED: source and warehouse disagree"</span>)</span>
+<span class="ln">    <span class="kw">for</span> mismatch <span class="kw">in</span> mismatches:</span>
+<span class="ln">        <span class="fn">print</span>(mismatch)</span>
+<span class="ln">    <span class="kw">return</span> <span class="num">1</span></span>
+<span class="ln cm"># if __name__ == "__main__":</span>
+<span class="ln"><span class="kw">raise</span> SystemExit(main())</span></pre>
+      </div>
+      <div class="stack" style="display:flex;flex-direction:column;gap:12px">
+        <div class="pair" style="grid-template-columns:1fr 1fr">
+          <div class="glass card" data-at="1" style="--c:#fb7185"><div class="num">INR · 2026-10-09</div><div class="n"><span style="color:#fb7185">100</span> <em>→</em> <span style="color:#fb7185">98</span></div><p>250000.0 → 247500.0 · reported</p></div>
+          <div class="glass card" data-at="2" style="--c:#4ade80"><div class="num">USD · 2026-10-09</div><div class="n" style="color:#4ade80">20 <em style="color:#4ade80">→</em> 20</div><p>8000.0 on both sides · silent</p></div>
+        </div>
+        <div class="callout" data-at="3"><div class="k">1</div><div><b>A mismatch is an exit code</b><p>return 1, then SystemExit. Airflow reads that code and marks the task failed. Tolerance on the amount ratio is 0.001.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 FILE 04 RESULT -->
+<section class="s fit" data-ch="3" data-steps="1" data-accent="#7a1f35,#3b2a08" data-notes="Exact stdout from 04_mini_reconciliation.py. Only the INR key is printed. USD matched, so it is absent. echo $? is 1. The || true on the next slide is only so a chained shell keeps moving. The script itself fails on purpose. tests/test_python_foundations.py asserts this INR pair and a matching pair that returns no mismatches.">
+  <div class="kicker rise" style="--k-c:#fb7185">Ran on the laptop · exit 1</div>
+  <h2 class="rise" style="--d:1">Two missing rows. <span class="grad-red">The machine can see it.</span></h2>
+  <div class="glass term" data-term>
+    <div class="bar"><i></i><i></i><i></i><span>Terminal — repo root</span></div>
+    <div class="body">
+      <div><span class="ps">%</span> <span class="typed" data-type="python 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py"></span><i class="caret"></i></div>
+      <div class="out bad">FAILED: source and warehouse disagree</div>
+      <div class="out">{'date_currency': ('2026-10-09', 'INR'), 'source_count': 100, 'warehouse_count': 98, 'source_amount': 250000.0, 'warehouse_amount': 247500.0}</div>
+    </div>
+  </div>
+  <div class="glass exitbar" data-at="1">
+    <div><div class="k" style="font:800 13px var(--sans);letter-spacing:.16em;color:var(--mute)">EXIT CODE</div><div class="big">1</div></div>
+    <p>USD matched, so it is absent. INR is the only mismatch: 100 rows against 98. <b>|| true</b> on the teaching line only keeps the shell moving. The script itself fails on purpose.</p>
+  </div>
+</section>
+
+<!-- 16 RUN ORDER -->
+<section class="s fit" data-ch="3" data-steps="5" data-accent="#14532d,#7a5a10" data-notes="From the repo root with the virtual environment on. First three finish cleanly. The fourth exits 1, so the teaching line uses || true. Then pytest -q tests/test_python_foundations.py. Next, read config.py, then main() in pg_to_snowflake.py.">
+  <div class="kicker rise" style="--k-c:#facc15">Project folder · virtual environment on</div>
+  <h2 class="rise" style="--d:1">Four files, <span class="grad-py">in order.</span></h2>
+  <div class="cmds">
+    <div class="cmd" data-at="1"><span class="pr">$</span><code>source .venv/bin/activate</code><button class="copy" data-copy="source .venv/bin/activate">Copy</button></div>
+    <div class="cmd" data-at="2"><span class="pr">$</span><code>python 02_ingestion_python/00_python_foundations/01_values_and_decisions.py</code><button class="copy" data-copy="python 02_ingestion_python/00_python_foundations/01_values_and_decisions.py">Copy</button></div>
+    <div class="cmd" data-at="3"><span class="pr">$</span><code>python 02_ingestion_python/00_python_foundations/02_loops_and_functions.py</code><button class="copy" data-copy="python 02_ingestion_python/00_python_foundations/02_loops_and_functions.py">Copy</button></div>
+    <div class="cmd" data-at="4"><span class="pr">$</span><code>python 02_ingestion_python/00_python_foundations/03_collections_paths_libraries.py --limit 2</code><button class="copy" data-copy="python 02_ingestion_python/00_python_foundations/03_collections_paths_libraries.py --limit 2">Copy</button></div>
+    <div class="cmd" data-at="5"><span class="pr">$</span><code>python 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py || true</code><button class="copy" data-copy="python 02_ingestion_python/00_python_foundations/04_mini_reconciliation.py || true">Copy</button></div>
+  </div>
+  <div class="foot" data-at="5">The first three finish cleanly. The fourth exits 1. That is the lesson. Next, read config.py, then main() in pg_to_snowflake.py.</div>
+</section>
+
+<!-- 17 OUTRO -->
+<section class="s" data-ch="3" data-accent="#14532d,#7a5a10" data-notes="You can read what the loader does. Text becomes numbers. Loops stay bounded. Four libraries, one job each. A mismatch exits 1. Next is Episode 4, the real courier.">
+  <div class="outro"><div>
+    <div class="kicker rise" style="justify-content:center;--k-c:#facc15">Python foundations complete</div>
+    <h2 class="rise" style="--d:1;font-size:64px">You can read <span class="grad-py">what the loader does.</span></h2>
+    <div class="ticks">
+      <div class="glass rise" style="--d:2"><i>✓</i>Text becomes numbers</div>
+      <div class="glass rise" style="--d:3"><i>✓</i>Loops stay bounded</div>
+      <div class="glass rise" style="--d:4"><i>✓</i>Four libraries, one job each</div>
+      <div class="glass rise" style="--d:5"><i>✓</i>A mismatch exits 1</div>
+    </div>
+    <div class="glass next rise" style="--d:6"><div class="tile sm" data-logo="py"></div><div style="text-align:left"><small>Next · Episode 4</small><b>Python carries only what changed</b></div></div>
+  </div></div>
+</section>
+
+</div>
+<script src="deck/logos.js"></script>
+<script src="deck/deck.js"></script>
+</body>
+</html>
